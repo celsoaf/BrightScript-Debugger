@@ -27,18 +27,12 @@
 #define PERSIST
 
 using System;
-using System.IO;
-using System.Text;
-using System.Globalization;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using BrightScriptTools.GPlex.Parser;
 
-using QUT.GplexBuffers;
-using System.Collections;
-using QUT.Gplex.Parser;
-
-namespace QUT.Gplex.Lexer
+namespace BrightScriptTools.GPlex.Lexer
 {   
     /// <summary>
     /// Summary Canonical example of GPLEX automaton

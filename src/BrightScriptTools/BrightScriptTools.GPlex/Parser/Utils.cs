@@ -8,10 +8,10 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
 using System.Globalization;
+using System.Runtime.Serialization;
 
-namespace QUT.Gplex.Parser
+namespace BrightScriptTools.GPlex.Parser
 {
 
     /// <summary>

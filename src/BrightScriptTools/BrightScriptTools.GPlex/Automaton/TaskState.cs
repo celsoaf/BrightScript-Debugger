@@ -3,16 +3,13 @@
 // (see accompanying GPLEXcopyright.rtf)
 
 using System;
-using System.IO;
-using System.Xml;
-using System.Reflection;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
-using QUT.Gplex.Parser;
-using QUT.GplexBuffers;
+using System.IO;
+using System.Reflection;
+using BrightScriptTools.GPlex.Lexer;
+using BrightScriptTools.GPlex.Parser;
 
-namespace QUT.Gplex.Automaton
+namespace BrightScriptTools.GPlex.Automaton
 {
 	internal enum OptionState { clear, needUsage, needCodepageHelp, inconsistent, alphabetLocked, errors};
 
@@ -96,8 +93,8 @@ namespace QUT.Gplex.Automaton
 
 		internal AAST aast;
         internal ErrorHandler handler;
-        internal QUT.Gplex.Parser.Parser parser;
-        internal QUT.Gplex.Lexer.Scanner scanner;
+        internal Parser.Parser parser;
+        internal Scanner scanner;
 
 		internal TaskState() 
         {
@@ -558,8 +555,8 @@ namespace QUT.Gplex.Automaton
                 try
                 {
                     handler = new ErrorHandler();
-                    scanner = new QUT.Gplex.Lexer.Scanner(inputFile);
-                    parser = new QUT.Gplex.Parser.Parser(scanner);
+                    scanner = new Scanner(inputFile);
+                    parser = new Parser.Parser(scanner);
                     scanner.yyhdlr = handler;
                     parser.Initialize(this, scanner, handler, new OptionParser2(ParseOption));
                     aast = parser.Aast;

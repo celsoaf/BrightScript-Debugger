@@ -3,14 +3,12 @@
 // (see accompanying GPLEXcopyright.rtf)
 
 using System;
-using System.IO;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
-using QUT.Gplex.Parser;
+using System.IO;
+using BrightScriptTools.GPlex.Parser;
 
-namespace QUT.Gplex.Automaton
+namespace BrightScriptTools.GPlex.Automaton
 {
     /// <summary>
     /// Represents a SET of DFSA. There is a separate DFSA 

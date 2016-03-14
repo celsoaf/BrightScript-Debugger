@@ -4,22 +4,23 @@
 
 
 using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.IO;
+using System.Runtime.Serialization;
 using System.Text;
-using QUT.Gplex;
+using BrightScriptTools.GPlex.Automaton;
+using BrightScriptTools.GPlex.Lexer;
 
-namespace QUT.Gplex.Parser {
+namespace BrightScriptTools.GPlex.Parser {
     /// <summary>
     /// This class represents the Attributed Abstract Syntax Tree
     /// corresponding to an input LEX file.
     /// </summary>
     internal sealed class AAST {
-        internal QUT.Gplex.Lexer.Scanner scanner;
+        internal Scanner scanner;
         internal ErrorHandler hdlr;
 
         private List<LexSpan> prolog = new List<LexSpan>();   // Verbatim declarations for scanning routine
@@ -42,16 +43,16 @@ namespace QUT.Gplex.Parser {
         internal Dictionary<string, StartState> startStates = new Dictionary<string, StartState>();
         private List<StartState> inclStates = new List<StartState>();
 
-        Automaton.TaskState task;
+        TaskState task;
 
-        internal Automaton.TaskState Task { get { return task; } }
+        internal TaskState Task { get { return task; } }
         internal int CodePage { get { return task.CodePage; } }
         internal bool IsVerbose { get { return task.Verbose; } }
         internal bool HasPredicates { get { return lexCatsWithPredicates.Count > 0; } }
 
         internal enum Destination { scanProlog, scanEpilog, codeIncl }
 
-        internal AAST( Automaton.TaskState t ) {
+        internal AAST( TaskState t ) {
             task = t;
             startStates.Add( StartState.initState.Name, StartState.initState );
             startStates.Add( StartState.allState.Name, StartState.allState );
@@ -238,7 +239,7 @@ namespace QUT.Gplex.Parser {
                 foreach (Type type in types) {
                     if (type.FullName.Equals( clsName, StringComparison.OrdinalIgnoreCase ) ||
                         type.Name.Equals( clsName, StringComparison.OrdinalIgnoreCase )) {
-                        QUT.Gplex.ICharTestFactory factory =
+                        ICharTestFactory factory =
                             (ICharTestFactory)System.Activator.CreateInstance( type );
 
                         if (factory != null) {
@@ -1278,9 +1279,9 @@ namespace QUT.Gplex.Parser {
             int j = 0;
             int codepage = aast.CodePage;
             if (max > 256 ||
-                codepage == Automaton.TaskState.rawCP ||
-                codepage == Automaton.TaskState.guessCP) {
-                if (max <= 256 && codepage == Automaton.TaskState.guessCP)
+                codepage == TaskState.rawCP ||
+                codepage == TaskState.guessCP) {
+                if (max <= 256 && codepage == TaskState.guessCP)
                     aast.hdlr.ListError( aast.AtStart, 93 );
                 //
                 // We are generating a set of numeric code points with
@@ -1342,7 +1343,7 @@ namespace QUT.Gplex.Parser {
                 }
             }
             if (aast.IsVerbose) {
-                Console.WriteLine( "GPLEX: Generating [:{0}:], {1}", name, Gplex.Automaton.TaskState.ElapsedTime( begin ) );
+                Console.WriteLine( "GPLEX: Generating [:{0}:], {1}", name, TaskState.ElapsedTime( begin ) );
             }
         }
     }

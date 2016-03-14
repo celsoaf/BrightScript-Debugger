@@ -3,13 +3,12 @@
 // (see accompanying GPLEXcopyright.rtf)
 
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text;
-using QUT.GplexBuffers;
 
-namespace QUT.Gplex.Parser
+namespace BrightScriptTools.GPlex.Parser
 {
     internal class Error : IComparable<Error>
     {

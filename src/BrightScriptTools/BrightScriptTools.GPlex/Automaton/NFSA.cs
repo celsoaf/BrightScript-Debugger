@@ -5,10 +5,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using QUT.Gplex.Parser;
+using BrightScriptTools.GPlex.Parser;
 
-namespace QUT.Gplex.Automaton
+namespace BrightScriptTools.GPlex.Automaton
 {
     class NFSA
     {

@@ -5,12 +5,11 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using BrightScriptTools.GPlex.Parser;
 
-namespace QUT.Gplex
+namespace BrightScriptTools.GPlex
 {
 
     public interface ICharTestFactory
@@ -120,7 +119,7 @@ namespace QUT.Gplex
                     else
                         rKid.InsertNewNode(node);
                 }
-                else throw new Parser.GplexInternalException("Invalid range overlap");
+                else throw new GplexInternalException("Invalid range overlap");
             }
         }
         // ==========================================================
@@ -132,7 +131,7 @@ namespace QUT.Gplex
         {
             get
             {
-                if (root == null) throw new Parser.GplexInternalException("Map not initialized");
+                if (root == null) throw new GplexInternalException("Map not initialized");
                 return root.Lookup(theChar);
             }
         }
@@ -147,12 +146,12 @@ namespace QUT.Gplex
         /// map from a GPLEX.Parser.Partition.
         /// </summary>
         /// <param name="part">The Partition to use</param>
-        internal CharClassMap(Parser.Partition part)
+        internal CharClassMap(Partition part)
         {
 
-            foreach (Parser.PartitionElement pElem in part.elements)
+            foreach (PartitionElement pElem in part.elements)
             {
-                foreach (Parser.CharRange range in pElem.list.Ranges)
+                foreach (CharRange range in pElem.list.Ranges)
                 {
                     count++; 
                     TreeNode node = new TreeNode(range.minChr, range.maxChr, pElem.ord);

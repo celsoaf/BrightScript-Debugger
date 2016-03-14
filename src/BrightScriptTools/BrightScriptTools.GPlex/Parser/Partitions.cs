@@ -3,13 +3,11 @@
 // (see accompanying GPLEXcopyright.rtf)
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
-using QUT.Gplex.Automaton;
+using BrightScriptTools.GPlex.Automaton;
 
-namespace QUT.Gplex.Parser
+namespace BrightScriptTools.GPlex.Parser
 {
     /// <summary>
     /// Partition is the class that represents a 

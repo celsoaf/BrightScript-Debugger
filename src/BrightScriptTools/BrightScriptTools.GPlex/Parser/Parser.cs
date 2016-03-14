@@ -10,15 +10,11 @@
 
 // options: no-lines gplex
 
-using System;
-using System.Collections.Generic;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
-using QUT.Gppg;
-using System.Collections;
 
-namespace QUT.Gplex.Parser
+namespace BrightScriptTools.GPlex.Parser
 {
 internal enum Tokens {error=2,EOF=3,csKeyword=4,csIdent=5,csNumber=6,
     csLitstr=7,csVerbstr=8,csLitchr=9,csOp=10,csBar=11,csDot=12,
@@ -32,7 +28,7 @@ internal enum Tokens {error=2,EOF=3,csKeyword=4,csIdent=5,csNumber=6,
     csCommentL=55,errTok=56,repErr=57};
 
 // Abstract base class for GPLEX scanners
-[GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.5.2")]
+[GeneratedCode( "Gardens Point Parser Generator", "1.5.2")]
 internal abstract class ScanBase : AbstractScanner<int,LexSpan> {
   private LexSpan __yylloc = new LexSpan();
   public override LexSpan yylloc { get { return __yylloc; } set { __yylloc = value; } }
@@ -40,7 +36,7 @@ internal abstract class ScanBase : AbstractScanner<int,LexSpan> {
 }
 
 // Utility class for encapsulating token information
-[GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.5.2")]
+[GeneratedCode( "Gardens Point Parser Generator", "1.5.2")]
 internal class ScanObj {
   public int token;
   public int yylval;
@@ -50,7 +46,7 @@ internal class ScanObj {
   }
 }
 
-[GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.5.2")]
+[GeneratedCode( "Gardens Point Parser Generator", "1.5.2")]
 internal partial class Parser: ShiftReduceParser<int, LexSpan>
 {
 #pragma warning disable 649

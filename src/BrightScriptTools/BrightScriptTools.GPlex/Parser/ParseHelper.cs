@@ -7,16 +7,16 @@
 //
 
 using System;
-using System.IO;
 using System.Collections.Generic;
-using QUT.Gplex.Lexer;
-using QUT.GplexBuffers;
+using System.IO;
+using BrightScriptTools.GPlex.Automaton;
+using BrightScriptTools.GPlex.Lexer;
 
-namespace QUT.Gplex.Parser
+namespace BrightScriptTools.GPlex.Parser
 {
-    internal delegate QUT.Gplex.Automaton.OptionState OptionParser2(string s);
+    internal delegate OptionState OptionParser2(string s);
 
-    internal class LexSpan : QUT.Gppg.IMerge<LexSpan>
+    internal class LexSpan : IMerge<LexSpan>
     {
         internal int startLine;       // start line of span
         internal int startColumn;     // start column of span
@@ -111,7 +111,7 @@ namespace QUT.Gplex.Parser
         /// </summary>
         /// <param name="scnr"></param>
         /// <param name="hdlr"></param>
-        internal void Initialize(QUT.Gplex.Automaton.TaskState t, Scanner scnr, ErrorHandler hdlr, OptionParser2 dlgt)
+        internal void Initialize(TaskState t, Scanner scnr, ErrorHandler hdlr, OptionParser2 dlgt)
         {
             this.handler = hdlr;
             this.aast = new AAST(t);
@@ -181,18 +181,18 @@ namespace QUT.Gplex.Parser
             string[] cmds = strn.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
             foreach (string s in cmds)
             {
-                Automaton.OptionState rslt = this.processOption2(s);
+                OptionState rslt = this.processOption2(s);
                 switch (rslt)
                 {
-                    case Automaton.OptionState.clear:
+                    case OptionState.clear:
                         break;
-                    case Automaton.OptionState.errors:
+                    case OptionState.errors:
                         handler.ListError(l, 74, s);
                         break;
-                    case Automaton.OptionState.inconsistent:
+                    case OptionState.inconsistent:
                         handler.ListError(l, 84, s);
                         break;
-                    case Automaton.OptionState.alphabetLocked:
+                    case OptionState.alphabetLocked:
                         handler.ListError(l, 83, s);
                         break;
                     default:

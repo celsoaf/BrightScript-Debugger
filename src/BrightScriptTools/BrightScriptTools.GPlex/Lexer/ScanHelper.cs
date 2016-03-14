@@ -6,13 +6,9 @@
 //  kjg 08 September 2008 2006
 //
 
-using System;
-using System.IO;
-using System.Text;
-using System.Collections.Generic;
-using QUT.Gplex.Parser;
+using BrightScriptTools.GPlex.Parser;
 
-namespace QUT.Gplex.Lexer
+namespace BrightScriptTools.GPlex.Lexer
 {
     internal partial class Scanner
     {
@@ -129,28 +125,28 @@ namespace QUT.Gplex.Lexer
             switch (str)
             {
                 case "%x":
-                    yy_push_state(NMLST); return Tokens.exclTag;
+                    yy_push_state(Scanner.NMLST); return Tokens.exclTag;
                 case "%s":
-                    yy_push_state(NMLST); return Tokens.inclTag;
+                    yy_push_state(Scanner.NMLST); return Tokens.inclTag;
                 case "%using":
-                    yy_push_state(LCODE); return Tokens.usingTag;
+                    yy_push_state(Scanner.LCODE); return Tokens.usingTag;
                 case "%scanbasetype":
-                    yy_push_state(LCODE); return Tokens.scanbaseTag;
+                    yy_push_state(Scanner.LCODE); return Tokens.scanbaseTag;
                 case "%tokentype":
-                    yy_push_state(LCODE); return Tokens.tokentypeTag;
+                    yy_push_state(Scanner.LCODE); return Tokens.tokentypeTag;
                 case "%scannertype":
-                    yy_push_state(LCODE); return Tokens.scannertypeTag;
+                    yy_push_state(Scanner.LCODE); return Tokens.scannertypeTag;
                 case "%namespace":
-                    yy_push_state(LCODE); return Tokens.namespaceTag;
+                    yy_push_state(Scanner.LCODE); return Tokens.namespaceTag;
                 case "%option":
-                    yy_push_state(VRBTM); return Tokens.optionTag;
+                    yy_push_state(Scanner.VRBTM); return Tokens.optionTag;
                 case "%charSetPredicate":
                 case "%charClassPredicate":
-                    yy_push_state(NMLST); return Tokens.charSetPredTag;
+                    yy_push_state(Scanner.NMLST); return Tokens.charSetPredTag;
                 case "%userCharPredicate":
-                    yy_push_state(LCODE); return Tokens.userCharPredTag;
+                    yy_push_state(Scanner.LCODE); return Tokens.userCharPredTag;
                 case "%visibility":
-                    yy_push_state(LCODE); return Tokens.visibilityTag;
+                    yy_push_state(Scanner.LCODE); return Tokens.visibilityTag;
                 default:
                     Error(77, TokenSpan()); return Tokens.repErr;
             }
@@ -172,7 +168,7 @@ namespace QUT.Gplex.Lexer
             Error(79, s); 
             badCount++;
             if (badCount >= 3)
-                yy_push_state(SKIP);
+                yy_push_state(Scanner.SKIP);
         }
 
         internal LexSpan TokenSpan()

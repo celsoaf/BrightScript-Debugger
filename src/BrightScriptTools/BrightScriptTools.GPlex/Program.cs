@@ -7,8 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using QUT.Gplex.Automaton;
-using QUT.Gplex.Parser;
+using BrightScriptTools.GPlex.Automaton;
+using BrightScriptTools.GPlex.Parser;
 
 namespace BrightScriptTools.GPlex
 {

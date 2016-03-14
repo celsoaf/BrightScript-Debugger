@@ -3,11 +3,9 @@
 // (see accompanying GPPGcopyright.rtf)
 
 
-using System;
 using System.Collections.Generic;
 
-
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
 	internal class Transition
 	{

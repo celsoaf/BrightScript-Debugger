@@ -3,17 +3,16 @@
 // (see accompanying GPPGcopyright.rtf)
 
 using System;
-using System.IO;
-using System.Collections;
-using System.Globalization;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using QUT.GPGen.Lexers;
-using QUT.GplexBuffers;
+using BrightScriptTools.Gppg.GPGen.Lexers;
+using Scanner = BrightScriptTools.Gppg.GPGen.Lexers.Scanner;
 
 
-namespace QUT.GPGen.Parser
+namespace BrightScriptTools.Gppg.GPGen.Parser
 {
     internal partial class Parser
     {
@@ -392,7 +391,7 @@ namespace QUT.GPGen.Parser
     /// The fields record both line:column information and also 
     /// file position data and buffer object identity.
     /// </summary>
-    internal class LexSpan : QUT.Gppg.IMerge<LexSpan>
+    internal class LexSpan : IMerge<LexSpan>
     {
         internal int startLine;     // start line of span
         internal int startColumn;   // start column of span

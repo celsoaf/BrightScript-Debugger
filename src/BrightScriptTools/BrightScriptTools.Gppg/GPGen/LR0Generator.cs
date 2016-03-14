@@ -7,8 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
 	internal class LR0Generator
 	{

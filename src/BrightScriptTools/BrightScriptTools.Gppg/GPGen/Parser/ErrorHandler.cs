@@ -4,13 +4,12 @@
 // This file author: John Gough, borrowed from GPLEX
 
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Text;
-using QUT.GplexBuffers;
 
-namespace QUT.GPGen.Parser
+namespace BrightScriptTools.Gppg.GPGen.Parser
 {
     internal class Error : IComparable<Error>
     {

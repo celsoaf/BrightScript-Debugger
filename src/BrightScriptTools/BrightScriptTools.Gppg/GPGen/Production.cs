@@ -3,12 +3,11 @@
 // (see accompanying GPPGcopyright.rtf)
 
 
-using System;
-using System.Text;
 using System.Collections.Generic;
+using System.Text;
+using BrightScriptTools.Gppg.GPGen.Parser;
 
-
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
 	internal class Production
 	{
@@ -17,7 +16,7 @@ namespace QUT.GPGen
 		internal List<Symbol> rhs = new List<Symbol>();
 		internal SemanticAction semanticAction;
 		internal Precedence prec;
-        internal Parser.LexSpan precSpan;
+        internal LexSpan precSpan;
 
 
 		internal Production(NonTerminal lhs)

@@ -10,15 +10,11 @@
 
 // options: no-lines gplex
 
-using System;
-using System.Collections.Generic;
 using System.CodeDom.Compiler;
+using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
-using QUT.Gppg;
-using System.Collections;
 
-namespace QUT.GPGen.Parser
+namespace BrightScriptTools.Gppg.GPGen.Parser
 {
 internal enum Token {
     error=127,EOF=128,codeStart=129,codeEnd=130,ident=131,anchoredSymbol=132,
@@ -38,7 +34,7 @@ internal partial struct ValueType
          public ActionProxy proxy;
        }
 // Abstract base class for GPLEX scanners
-[GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.5.2")]
+[GeneratedCode( "Gardens Point Parser Generator", "1.5.2")]
 internal abstract class ScanBase : AbstractScanner<ValueType,LexSpan> {
   private LexSpan __yylloc = new LexSpan();
   public override LexSpan yylloc { get { return __yylloc; } set { __yylloc = value; } }
@@ -46,7 +42,7 @@ internal abstract class ScanBase : AbstractScanner<ValueType,LexSpan> {
 }
 
 // Utility class for encapsulating token information
-[GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.5.2")]
+[GeneratedCode( "Gardens Point Parser Generator", "1.5.2")]
 internal class ScanObj {
   public int token;
   public ValueType yylval;
@@ -56,7 +52,7 @@ internal class ScanObj {
   }
 }
 
-[GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.5.2")]
+[GeneratedCode( "Gardens Point Parser Generator", "1.5.2")]
 internal partial class Parser: ShiftReduceParser<ValueType, LexSpan>
 {
   // Verbatim content from gppg.y - 12/01/2016 22:33:53

@@ -27,17 +27,12 @@
 #define BYTEMODE
 
 using System;
-using System.IO;
-using System.Text;
-using System.Globalization;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using BrightScriptTools.Gppg.GPGen.Parser;
 
-using QUT.GplexBuffers;
-using QUT.GPGen.Parser;
-
-namespace QUT.GPGen.Lexers
+namespace BrightScriptTools.Gppg.GPGen.Lexers
 {   
     /// <summary>
     /// Summary Canonical example of GPLEX automaton

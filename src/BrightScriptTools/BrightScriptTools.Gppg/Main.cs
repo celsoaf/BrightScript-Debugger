@@ -4,15 +4,17 @@
 
 
 using System;
-using System.Reflection;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using QUT.GPGen.Parser;
-using QUT.GPGen.Lexers;
+using System.Reflection;
+using BrightScriptTools.Gppg.GPGen;
+using BrightScriptTools.Gppg.GPGen.Lexers;
+using BrightScriptTools.Gppg.GPGen.Parser;
+using Parser = BrightScriptTools.Gppg.GPGen.Parser.Parser;
 
 [assembly: CLSCompliant( true )]
-namespace QUT.GPGen {
+namespace BrightScriptTools.Gppg {
     class GPCG {
         // Main return codes
         const int MC_OK = 0;
@@ -47,8 +49,8 @@ namespace QUT.GPGen {
             Grammar grammar = null;
             ErrorHandler handler = new ErrorHandler();
             string inputFileInfo = null;  // Filename plus revision time.
-            Lexers.Scanner scanner = null;
-            Parser.Parser parser = null;
+            Scanner scanner = null;
+            Parser parser = null;
             Assembly assm = Assembly.GetExecutingAssembly();
             object info = Attribute.GetCustomAttribute( assm, typeof( AssemblyFileVersionAttribute ) );
             versionInfo = ((AssemblyFileVersionAttribute)info).Version;
@@ -78,10 +80,10 @@ namespace QUT.GPGen {
                     return MC_FILEERROR;
                 }
 
-                scanner = new Lexers.Scanner( inputFile );
+                scanner = new Scanner( inputFile );
                 scanner.SetHandler( handler );
 
-                parser = new Parser.Parser( filename, inputFileInfo, scanner, handler );
+                parser = new Parser( filename, inputFileInfo, scanner, handler );
                 // 
                 // If the parse is successful, then process the grammar.
                 // Otherwise just report the errors that have been listed.

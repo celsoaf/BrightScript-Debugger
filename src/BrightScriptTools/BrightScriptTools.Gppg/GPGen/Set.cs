@@ -3,13 +3,11 @@
 // (see accompanying GPPGcopyright.rtf)
 
 
-
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
 	public class SetCollection<T>: IEnumerable<T>
 	{

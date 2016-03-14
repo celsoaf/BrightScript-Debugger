@@ -6,9 +6,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
     public delegate TOut Mapper<TOut,TIn>(TIn input);
 

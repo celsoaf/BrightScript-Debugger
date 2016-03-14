@@ -3,14 +3,11 @@
 // (see accompanying GPPGcopyright.rtf)
 
 
-
 using System;
 using System.Text;
-using QUT.GPGen.Parser;
-using System.Globalization;
+using BrightScriptTools.Gppg.GPGen.Parser;
 
-
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
     internal class SemanticAction
     {

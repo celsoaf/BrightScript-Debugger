@@ -3,13 +3,10 @@
 // (see accompanying GPPGcopyright.rtf)
 
 
-
-using System;
 using System.Collections.Generic;
 using System.Text;
 
-
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
 	internal class ProductionItem
 	{

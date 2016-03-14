@@ -7,12 +7,12 @@
 //
 
 using System;
-using System.Text;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
 using System.Globalization;
+using System.Runtime.Serialization;
+using System.Text;
 
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
 
     /// <summary>

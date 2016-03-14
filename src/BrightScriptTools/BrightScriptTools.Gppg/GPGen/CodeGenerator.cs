@@ -4,15 +4,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO;
-using System.Text;
 using System.Globalization;
-using QUT.GPGen.Parser;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using BrightScriptTools.Gppg.GPGen.Parser;
 
-
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
     internal class CodeGenerator
     {

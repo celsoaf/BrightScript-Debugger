@@ -3,10 +3,7 @@
 // (see accompanying GPPGcopyright.rtf)
 
 
-using System;
-
-
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
 	internal abstract class ParserAction
 	{

@@ -5,11 +5,9 @@
 
 
 using System;
-using System.Text;
 using System.Collections.Generic;
 
-
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
     [Serializable]
 	internal abstract class Symbol

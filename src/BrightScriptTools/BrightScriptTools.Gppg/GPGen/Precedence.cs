@@ -5,8 +5,7 @@
 
 using System;
 
-
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
 	internal enum PrecType { left, right, nonassoc, token };
  

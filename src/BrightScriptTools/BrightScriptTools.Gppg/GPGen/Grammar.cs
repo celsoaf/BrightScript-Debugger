@@ -3,16 +3,13 @@
 // (see accompanying GPPGcopyright.rtf)
 
 
-
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
-using QUT.GPGen.Lexers;
-using QUT.GPGen.Parser;
+using System.IO;
+using BrightScriptTools.Gppg.GPGen.Parser;
 
-
-namespace QUT.GPGen
+namespace BrightScriptTools.Gppg.GPGen
 {
 	internal class Grammar
 	{

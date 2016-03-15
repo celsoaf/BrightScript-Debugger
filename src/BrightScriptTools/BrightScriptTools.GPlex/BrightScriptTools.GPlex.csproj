@@ -68,8 +68,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="SpecFiles\BrightScript.lex">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="SpecFiles\GenerateAll.bat" />
+    <None Include="SpecFiles\gplex.lex" />
+    <None Include="SpecFiles\gplex.y" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="SpecFiles\gplex.lst" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="IncludeResources\Content.resx">
       <Generator>ResXFileCodeGenerator</Generator>

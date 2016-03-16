@@ -20,13 +20,51 @@ Number          [0-9]+
 
 DotChr			[^\r\n]
 
-OneLineCmnt		'{DotChr}*
+OneLineCmnt		\'{DotChr}*
 
 
 // =============================================================
 %%  // Start of rules
 // =============================================================
 
-function		{ return (int)Tokens.function; }
+INVALID  		|
+FOR  			|
+POS 			|
+AND  			|
+PRINT  			|
+LINE_NUM 		|
+OR  			|
+GOTO  			|
+REM 			|
+EACH  			|
+IF  			|
+RETURN 			|
+NEXT  			|
+NOT  			|
+STEP 			|
+DIM  			|
+THEN  			|
+STOP 			|
+ELSE  			|
+TO 				|
+TAB				|
+END 			|
+ENDFOR 			|
+OBJFUN			|
+TYPE 			|
+RND 			|
+TRUE			|
+FALSE 			|
+CREATEOBJECT	| 
+WHILE			|
+ENDWHILE 		|
+EXITWHILE 		|
+ENDSUB			|
+SUB 			|
+FUNCTION 		|
+EACH			|
+EXIT			|
+ENDFUNCTION		|
+ENDIF			{ return (int)Tokens.keyword; }
 {Ident}			{ return (int)Tokens.ident; }
 {Number}		{ return (int)Tokens.number; }

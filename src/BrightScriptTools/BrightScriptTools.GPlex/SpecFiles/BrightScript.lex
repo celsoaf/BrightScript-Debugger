@@ -4,7 +4,7 @@
 %using System.Collections;
 %using BrightScriptTools.GPlex.Parser;
 
-%namespace BrightScriptTools.GPlex.Lexer
+%namespace BrightScriptTools.Compiler
 
 %visibility public
 

@@ -6,7 +6,6 @@
 
 %namespace BrightScriptTools.Compiler
 
-%tokentype TokenEnum
 %visibility public
 
 %option babel, caseinsensitive, stack, classes, minimize, parser, summary, unicode, verbose, persistbuffer, noembedbuffers, out:..\..\SpecFiles\Scanner.cs

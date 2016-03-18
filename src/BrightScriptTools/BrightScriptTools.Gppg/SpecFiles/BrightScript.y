@@ -2,13 +2,14 @@
 %output=..\..\SpecFiles\Parser.cs
  
 %using System.Collections;
+%using BrightScriptTools.GPlex;
+%using BrightScriptTools.GPlex.Parser;
 
 %namespace BrightScriptTools.Compiler
 
-%scannertype Scanner
 %scanbasetype ScanBase
-%tokentype TokenEnum
 %visibility public
+%partial
 
 %YYLTYPE LexSpan
 
@@ -16,6 +17,7 @@
        bar "|", dot ".", semi ";", star "*", lt "<", gt ">", 
        comma ",", slash "/", lBrac "[", rBrac "]", lPar "(",
        rPar ")", lBrace "{", rBrace "}"
+%token sub "Sub", function "Function"
 %token comment "'"
 
 %token maxParseToken EOL comment errTok repErr
@@ -23,6 +25,13 @@
 %%
 
 Program
-    : DefinitionSection Rules
-    | DefinitionSection RulesSection UserCodeSection
+    : SubSection 
+    | error
     ;
+
+SubSection
+	: sub
+	| error 
+	;
+
+%%

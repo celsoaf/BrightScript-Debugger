@@ -16,7 +16,7 @@ namespace BrightScriptTools.GPlex.Parser
 {
     internal delegate OptionState OptionParser2(string s);
 
-    internal class LexSpan : IMerge<LexSpan>
+    public class LexSpan : IMerge<LexSpan>
     {
         internal int startLine;       // start line of span
         internal int startColumn;     // start column of span

@@ -46,11 +46,18 @@
     <Compile Include="..\BrightScriptTools.GPlex\SpecFiles\Scanner.cs">
       <Link>Scanner.cs</Link>
     </Compile>
+    <Compile Include="..\BrightScriptTools.Gppg\SpecFiles\Parser.cs">
+      <Link>Parser.cs</Link>
+    </Compile>
+    <Compile Include="ParserExtension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Main.brs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrightScriptTools.GPlex\BrightScriptTools.GPlex.csproj">

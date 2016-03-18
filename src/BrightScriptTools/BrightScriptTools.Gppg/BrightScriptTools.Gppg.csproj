@@ -71,6 +71,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="SpecFiles\BrightScript.y">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="SpecFiles\GenerateAll.bat" />
     <None Include="SpecFiles\gppg.lex" />
     <None Include="SpecFiles\gppg.y" />

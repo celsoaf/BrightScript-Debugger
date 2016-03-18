@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.0.0.0
 //  Machine:  OSTLT0248323
-//  DateTime: 16/03/2016 22:04:54
+//  DateTime: 17/03/2016 23:54:47
 //  UserName: CFE05
-//  GPLEX input file <SpecFiles\BrightScript.lex - 16/03/2016 22:04:51>
+//  GPLEX input file <SpecFiles\BrightScript.lex - 17/03/2016 23:54:25>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize
@@ -50,7 +50,7 @@ namespace BrightScriptTools.Compiler
     // If you declare /noparser, or %option noparser then you get this.
     //
 
-     public enum TokenEnum
+     public enum Tokens
     { 
       EOF = 0, maxParseToken = int.MaxValue 
       // must have at least these two, values are almost arbitrary
@@ -120,7 +120,7 @@ namespace BrightScriptTools.Compiler
         public ScanBuff Buffer { get { return buffer; } }
         
         private static int GetMaxParseToken() {
-     System.Reflection.FieldInfo f = typeof(TokenEnum).GetField("maxParseToken");
+     System.Reflection.FieldInfo f = typeof(Tokens).GetField("maxParseToken");
             return (f == null ? int.MaxValue : (int)f.GetValue(null));
         }
         
@@ -668,11 +668,11 @@ int NextState() {
         //
         public int GetNext(ref int state, out int start, out int end)
         {
-                TokenEnum next;
+                Tokens next;
             int s, e;
             s = state;        // state at start
             EolState = state;
-                next = (TokenEnum)Scan();
+                next = (Tokens)Scan();
             state = EolState;
             e = state;       // state at end;
             start = tokPos;
@@ -862,7 +862,7 @@ int NextState() {
     {
         case eofNum:
             if (yywrap())
-                return (int)TokenEnum.EOF;
+                return (int)Tokens.EOF;
             break;
         case 1: // Recognized '{Ident}',	Shortest string "A"
         case 2: // Recognized '{Ident}',	Shortest string "N"

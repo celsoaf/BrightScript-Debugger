@@ -33,6 +33,8 @@ MathFuns		(S(in|qr|gn)|C(sng|dbl|os)|Tan|Int|Exp|Fix|Log|A(tn|bs))
 
 DotChr			[^\r\n]
 
+Opr				\(|\)|\[|\]|\{|\}|=|>=|<zz|>|<|<>|\+|-|\*|\/|\^|&|\b(?i:(And|Not|Or))\\b
+
 Number			{Num}|{Real}
 Cmnt			\'{DotChr}*
 Str				\"{DotChr}*\"
@@ -43,13 +45,10 @@ Funcs			{BuiltInFuncs}|{GlobalFuncs}|{StringFuncs}|{MathFuns}
 %%  // Start of rules
 // =============================================================
 
-AND  			|
 FALSE 			|
 LINE_NUM 		|
 M				|
 NEXT  			|
-NOT  			|
-OR  			|
 OBJFUN			|
 POS 			|
 RND 			|
@@ -63,3 +62,4 @@ TRUE			{ return (int)Tokens.reserved; }
 {Funcs}			{ return (int)Tokens.funcs; }
 {Number}		{ return (int)Tokens.number; }
 {Ident}			{ return (int)Tokens.ident; }
+{Opr}			{ return (int)Tokens.opr; }

@@ -22,6 +22,9 @@ Real			([0-9]+"."[0-9]*)|([0-9]*"."[0-9]+)
 // BrightScript Type.txt
 Typs			(string|in(te(rface|ger)|valid)|object|double|float|b(oolean|rsub)|void)
 
+// BrightScript Statements.txt
+Keywords		(s(t(op|ep)|ub)|i(n|f)|t(hen|o)|dim|print|e(nd(if|(sub|f(or|unction)|while))?|lse(if)?|xit(for|while)?|ach)|f(or|unction)|as|while|re(turn|m)|goto)
+
 DotChr			[^\r\n]
 
 Number			{Num}|{Real}
@@ -77,6 +80,7 @@ TYPE 			|
 VOID			|
 WHILE			{ return (int)Tokens.keyword; }
 {Cmnt}			{ return (int)Tokens.cmnt; }
+{Keywords}		{ return (int)Tokens.keyword; }
 {Typs}			{ return (int)Tokens.type; }
 {Ident}			{ return (int)Tokens.ident; }
 {Number}		{ return (int)Tokens.number; }

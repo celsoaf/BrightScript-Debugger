@@ -19,6 +19,9 @@ Ident           [a-zA-Z_][a-zA-Z0-9_]*
 Num				[0-9]+
 Real			([0-9]+"."[0-9]*)|([0-9]*"."[0-9]+)
 
+// BrightScript Type.txt
+Typs			(string|in(te(rface|ger)|valid)|object|double|float|b(oolean|rsub)|void)
+
 DotChr			[^\r\n]
 
 Number			{Num}|{Real}
@@ -74,5 +77,6 @@ TYPE 			|
 VOID			|
 WHILE			{ return (int)Tokens.keyword; }
 {Cmnt}			{ return (int)Tokens.cmnt; }
+{Typs}			{ return (int)Tokens.type; }
 {Ident}			{ return (int)Tokens.ident; }
 {Number}		{ return (int)Tokens.number; }

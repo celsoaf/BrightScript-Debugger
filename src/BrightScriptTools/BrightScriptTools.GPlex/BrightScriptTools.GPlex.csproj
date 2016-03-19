@@ -76,6 +76,13 @@
     <None Include="SpecFiles\gplex.y" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="SpecFiles\BrightScript\BrightScript Core Objects.txt" />
+    <Content Include="SpecFiles\BrightScript\BrightScript Folding Markers.txt" />
+    <Content Include="SpecFiles\BrightScript\BrightScript Functions.txt" />
+    <Content Include="SpecFiles\BrightScript\BrightScript Keywords.txt" />
+    <Content Include="SpecFiles\BrightScript\BrightScript Statements.txt" />
+    <Content Include="SpecFiles\BrightScript\BrightScript Type.txt" />
+    <Content Include="SpecFiles\BrightScript\BrightSign Objects.txt" />
     <Content Include="SpecFiles\gplex.lst" />
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +91,7 @@
       <LastGenOutput>Content.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

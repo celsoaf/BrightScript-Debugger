@@ -21,8 +21,8 @@ Real			([0-9]+"."[0-9]*)|([0-9]*"."[0-9]+)
 
 DotChr			[^\r\n]
 
-OneLineCmnt		\'{DotChr}*
 Number			{Num}|{Real}
+Cmnt			\'{DotChr}*
 
 
 // =============================================================
@@ -73,5 +73,6 @@ TRUE			|
 TYPE 			|
 VOID			|
 WHILE			{ return (int)Tokens.keyword; }
+{Cmnt}			{ return (int)Tokens.cmnt; }
 {Ident}			{ return (int)Tokens.ident; }
 {Number}		{ return (int)Tokens.number; }

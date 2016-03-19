@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  OSTLT0248323
-// DateTime: 17/03/2016 23:57:32
+// DateTime: 19/03/2016 08:42:14
 // UserName: CFE05
-// Input file <SpecFiles\BrightScript.y - 17/03/2016 23:56:03>
+// Input file <SpecFiles\BrightScript.y - 19/03/2016 08:42:08>
 
 // options: babel lines diagnose & report gplex
 
@@ -23,10 +23,11 @@ using BrightScriptTools.GPlex.Parser;
 namespace BrightScriptTools.Compiler
 {
 public enum Tokens {error=2,EOF=3,keyword=4,ident=5,number=6,
-    bar=7,dot=8,semi=9,star=10,lt=11,gt=12,
-    comma=13,slash=14,lBrac=15,rBrac=16,lPar=17,rPar=18,
-    lBrace=19,rBrace=20,sub=21,function=22,comment=23,maxParseToken=24,
-    EOL=25,errTok=26,repErr=27};
+    str=7,cmnt=8,type=9,funcs=10,reserved=11,bar=12,
+    dot=13,semi=14,star=15,lt=16,gt=17,comma=18,
+    slash=19,lBrac=20,rBrac=21,lPar=22,rPar=23,lBrace=24,
+    rBrace=25,sub=26,function=27,comment=28,maxParseToken=29,EOL=30,
+    errTok=31,repErr=32};
 
 // Abstract base class for GPLEX scanners
 [GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.0.0.0")]
@@ -72,7 +73,7 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
       "Program", "$accept", "SubSection", };
 
   static Parser() {
-    states[0] = new State(new int[]{21,4,2,5},new int[]{-1,1,-3,3});
+    states[0] = new State(new int[]{26,4,2,5},new int[]{-1,1,-3,3});
     states[1] = new State(new int[]{3,2});
     states[2] = new State(-1);
     states[3] = new State(-2);
@@ -84,27 +85,27 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
     rules[1] = new Rule(-2, new int[]{-1,3});
     rules[2] = new Rule(-1, new int[]{-3});
     rules[3] = new Rule(-1, new int[]{2});
-    rules[4] = new Rule(-3, new int[]{21});
+    rules[4] = new Rule(-3, new int[]{26});
     rules[5] = new Rule(-3, new int[]{2});
 
     aliases = new Dictionary<int, string>();
-    aliases.Add(7, "|");
-    aliases.Add(8, ".");
-    aliases.Add(9, ";");
-    aliases.Add(10, "*");
-    aliases.Add(11, "<");
-    aliases.Add(12, ">");
-    aliases.Add(13, ",");
-    aliases.Add(14, "/");
-    aliases.Add(15, "[");
-    aliases.Add(16, "]");
-    aliases.Add(17, "(");
-    aliases.Add(18, ")");
-    aliases.Add(19, "{");
-    aliases.Add(20, "}");
-    aliases.Add(21, "Sub");
-    aliases.Add(22, "Function");
-    aliases.Add(23, "'");
+    aliases.Add(12, "|");
+    aliases.Add(13, ".");
+    aliases.Add(14, ";");
+    aliases.Add(15, "*");
+    aliases.Add(16, "<");
+    aliases.Add(17, ">");
+    aliases.Add(18, ",");
+    aliases.Add(19, "/");
+    aliases.Add(20, "[");
+    aliases.Add(21, "]");
+    aliases.Add(22, "(");
+    aliases.Add(23, ")");
+    aliases.Add(24, "{");
+    aliases.Add(25, "}");
+    aliases.Add(26, "Sub");
+    aliases.Add(27, "Function");
+    aliases.Add(28, "'");
   }
 
   protected override void Initialize() {

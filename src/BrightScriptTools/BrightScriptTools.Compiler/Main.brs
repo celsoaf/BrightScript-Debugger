@@ -1,5 +1,10 @@
 ﻿
 function Test() as Object
+	
+	if 0 > 1.2
+		print "Oooo"
+	end if
+	
 	return {
 		num: 3.2
 		ttt: "rrr"

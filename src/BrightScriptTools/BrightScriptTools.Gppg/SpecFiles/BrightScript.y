@@ -13,7 +13,7 @@
 
 %YYLTYPE LexSpan
 
-%token keyword ident number str cmnt type funcs reserved 
+%token keyword ident number str cmnt type funcs reserved opr
        bar "|", dot ".", semi ";", star "*", lt "<", gt ">", 
        comma ",", slash "/", lBrac "[", rBrac "]", lPar "(",
        rPar ")", lBrace "{", rBrace "}"

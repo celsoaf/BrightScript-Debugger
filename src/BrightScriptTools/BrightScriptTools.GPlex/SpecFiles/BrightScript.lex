@@ -25,10 +25,17 @@ Typs			(string|in(te(rface|ger)|valid)|object|double|float|b(oolean|rsub)|void)
 // BrightScript Statements.txt
 Keywords		(s(t(op|ep)|ub)|i(n|f)|t(hen|o)|dim|print|e(nd(if|(sub|f(or|unction)|while))?|lse(if)?|xit(for|while)?|ach)|f(or|unction)|as|while|re(turn|m)|goto)
 
+// BrightScript Functions.txt
+BuiltInFuncs	(GetLastRun(RuntimeError|CompileError)|R(nd|un)|Box|Type)
+GlobalFuncs		(Re(adAsciiFile|bootSystem)|GetInterface|MatchFiles|Sleep|C(opyFile|reate(Directory|Object))|Delete(Directory|File)|UpTime|FormatDrive|ListDir|W(ait|riteAsciiFile))
+StringFuncs		(Right|Mid|Str(i(ng(i)?)?)?|Chr|Instr|UCase|Val|Asc|L(Case|e(n|ft)))
+MathFuns		(S(in|qr|gn)|C(sng|dbl|os)|Tan|Int|Exp|Fix|Log|A(tn|bs))
+
 DotChr			[^\r\n]
 
 Number			{Num}|{Real}
 Cmnt			\'{DotChr}*
+Funcs			{BuiltInFuncs}|{GlobalFuncs}|{StringFuncs}|{MathFuns}
 
 
 // =============================================================
@@ -82,5 +89,6 @@ WHILE			{ return (int)Tokens.keyword; }
 {Cmnt}			{ return (int)Tokens.cmnt; }
 {Keywords}		{ return (int)Tokens.keyword; }
 {Typs}			{ return (int)Tokens.type; }
+{Funcs}			{ return (int)Tokens.funcs; }
 {Ident}			{ return (int)Tokens.ident; }
 {Number}		{ return (int)Tokens.number; }

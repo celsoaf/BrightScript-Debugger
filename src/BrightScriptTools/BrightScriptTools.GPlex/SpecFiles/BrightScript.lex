@@ -16,11 +16,13 @@
 Eol             (\r\n?|\n)
 Space           [ \t]
 Ident           [a-zA-Z_][a-zA-Z0-9_]*
-Number          [0-9]+
+Num				[0-9]+
+Real			([0-9]+"."[0-9]*)|([0-9]*"."[0-9]+)
 
 DotChr			[^\r\n]
 
 OneLineCmnt		\'{DotChr}*
+Number			{Num}|{Real}
 
 
 // =============================================================

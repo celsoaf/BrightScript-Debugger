@@ -35,6 +35,7 @@ DotChr			[^\r\n]
 
 Number			{Num}|{Real}
 Cmnt			\'{DotChr}*
+Str				\"{DotChr}*\"
 Funcs			{BuiltInFuncs}|{GlobalFuncs}|{StringFuncs}|{MathFuns}
 
 
@@ -89,6 +90,7 @@ WHILE			{ return (int)Tokens.keyword; }
 {Cmnt}			{ return (int)Tokens.cmnt; }
 {Keywords}		{ return (int)Tokens.keyword; }
 {Typs}			{ return (int)Tokens.type; }
+{Str}			{ return (int)Tokens.str; }
 {Funcs}			{ return (int)Tokens.funcs; }
 {Ident}			{ return (int)Tokens.ident; }
 {Number}		{ return (int)Tokens.number; }

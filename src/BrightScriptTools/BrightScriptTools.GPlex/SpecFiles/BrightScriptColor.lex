@@ -7,8 +7,10 @@
 %namespace BrightScriptTools.Compiler
 
 %visibility public
+%scannertype ScannerColor
+%tokentype TokensColor
 
-%option babel, caseinsensitive, stack, classes, minimize, parser, summary, unicode, verbose, persistbuffer, noembedbuffers, out:..\..\SpecFiles\Scanner.cs
+%option babel, caseinsensitive, stack, classes, minimize, parser, summary, unicode, verbose, persistbuffer, noembedbuffers, out:..\..\SpecFiles\ScannerColor.cs
 
 // =============================================================
 // =============================================================
@@ -53,13 +55,13 @@ OBJFUN			|
 POS 			|
 RND 			|
 TAB				|
-TRUE			{ return (int)Tokens.reserved; }
+TRUE			{ return (int)TokensColor.reserved; }
 
-{Cmnt}			{ return (int)Tokens.cmnt; }
-{Keywords}		{ return (int)Tokens.keyword; }
-{Typs}			{ return (int)Tokens.type; }
-{Str}			{ return (int)Tokens.str; }
-{Funcs}			{ return (int)Tokens.funcs; }
-{Number}		{ return (int)Tokens.number; }
-{Ident}			{ return (int)Tokens.ident; }
-{Opr}			{ return (int)Tokens.opr; }
+{Cmnt}			{ return (int)TokensColor.cmnt; }
+{Keywords}		{ return (int)TokensColor.keyword; }
+{Typs}			{ return (int)TokensColor.type; }
+{Str}			{ return (int)TokensColor.str; }
+{Funcs}			{ return (int)TokensColor.funcs; }
+{Number}		{ return (int)TokensColor.number; }
+{Ident}			{ return (int)TokensColor.ident; }
+{Opr}			{ return (int)TokensColor.opr; }

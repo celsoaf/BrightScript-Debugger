@@ -71,7 +71,7 @@
     <None Include="SpecFiles\BrightScriptLexer.lex">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SpecFiles\BrightScript.lex">
+    <None Include="SpecFiles\BrightScriptColor.lex">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="SpecFiles\GenerateAll.bat" />
@@ -92,6 +92,7 @@
     <EmbeddedResource Include="IncludeResources\Content.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Content.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

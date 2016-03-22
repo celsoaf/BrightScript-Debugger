@@ -12,14 +12,16 @@ namespace BrightScriptTools.Compiler
     {
         static void Main(string[] args)
         {
-            TestScanner();
+            TestScanner(@"TestData\TestColor.brs");
 
-            TestParser();
+            TestParser(@"TestData\TestParser.brs");
+
+            Console.ReadLine();
         }
 
-        private static void TestParser()
+        private static void TestParser(string path)
         {
-            using (Stream file = File.Open("Main.brs", FileMode.Open, FileAccess.Read))
+            using (Stream file = File.Open(path, FileMode.Open, FileAccess.Read))
             {
                 // parse input args, and open input file
                 Scanner scanner = new Scanner(file);
@@ -27,16 +29,14 @@ namespace BrightScriptTools.Compiler
                 Parser parser = new Parser(scanner);
                 parser.Parse();
             }
-
-            Console.ReadLine();
         }
 
-        private static void TestScanner()
+        private static void TestScanner(string path)
         {
-            using (Stream file = File.Open("Main.brs", FileMode.Open, FileAccess.Read))
+            using (Stream file = File.Open(path, FileMode.Open, FileAccess.Read))
             {
                 // parse input args, and open input file
-                Scanner scanner = new Scanner(file);
+                var scanner = new ScannerColor(file);
                 Tokens token;
                 do
                 {

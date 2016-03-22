@@ -13,25 +13,54 @@
 
 %YYLTYPE LexSpan
 
-%token keyword ident number str cmnt type funcs reserved opr
-       bar "|", dot ".", semi ";", star "*", lt "<", gt ">", 
-       comma ",", slash "/", lBrac "[", rBrac "]", lPar "(",
-       rPar ")", lBrace "{", rBrace "}"
-%token sub "Sub", function "Function"
-%token comment "'"
+%token	bar dot semi star lt gt comma slash lBrac rBrac lPar rPar lBrace rBrace
+
+%token bsIdent bsNumber bsStr bsCmnt bsFuncs bsType bsAs
+%token bsSub, bsFunction, bsEnd
 
 %token maxParseToken EOL comment errTok repErr
 
 %%
 
 Program
-    : SubSection 
-    | error
+    : FunctionLst EOF
     ;
 
+FunctionLst
+	: FunctionImpl FunctionLst
+	| /* Empty */
+	;
+
+FunctionImpl
+	: SubSection 
+	| FunctionSection
+	;
+
+FunctionSection
+	: bsFunction bsIdent lPar ParamLst rPar AsBlock bsEnd bsFunction
+	;
+
 SubSection
-	: sub
-	| error 
+	: bsSub bsIdent lPar ParamLst rPar bsEnd bsSub 
+	;
+
+ParamLst
+	: Param ResParam
+	| /* Empty */
+	;
+
+ResParam
+	: comma Param ResParam
+	| /* Empty */
+	;
+
+Param
+	: bsIdent AsBlock
+	;
+
+AsBlock
+	: bsAs bsType
+	| /* Empty */
 	;
 
 %%

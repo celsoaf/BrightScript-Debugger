@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  OSTLT0248323
-// DateTime: 19/03/2016 22:53:18
+// DateTime: 22/03/2016 00:30:33
 // UserName: CFE05
-// Input file <SpecFiles\BrightScript.y - 19/03/2016 22:53:11>
+// Input file <SpecFiles\BrightScript.y - 22/03/2016 00:30:28>
 
 // options: babel lines diagnose & report gplex
 
@@ -22,12 +22,12 @@ using BrightScriptTools.GPlex.Parser;
 
 namespace BrightScriptTools.Compiler
 {
-public enum Tokens {error=2,EOF=3,keyword=4,ident=5,number=6,
-    str=7,cmnt=8,type=9,funcs=10,reserved=11,opr=12,
-    bar=13,dot=14,semi=15,star=16,lt=17,gt=18,
-    comma=19,slash=20,lBrac=21,rBrac=22,lPar=23,rPar=24,
-    lBrace=25,rBrace=26,sub=27,function=28,comment=29,maxParseToken=30,
-    EOL=31,errTok=32,repErr=33};
+public enum Tokens {error=2,EOF=3,bar=4,dot=5,semi=6,
+    star=7,lt=8,gt=9,comma=10,slash=11,lBrac=12,
+    rBrac=13,lPar=14,rPar=15,lBrace=16,rBrace=17,bsIdent=18,
+    bsNumber=19,bsStr=20,bsCmnt=21,bsFuncs=22,bsType=23,bsAs=24,
+    bsSub=25,bsFunction=26,bsEnd=27,maxParseToken=28,EOL=29,comment=30,
+    errTok=31,repErr=32};
 
 // Abstract base class for GPLEX scanners
 [GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.0.0.0")]
@@ -67,45 +67,64 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
 #pragma warning disable 649
   private static Dictionary<int, string> aliases;
 #pragma warning restore 649
-  private static Rule[] rules = new Rule[6];
-  private static State[] states = new State[6];
+  private static Rule[] rules = new Rule[16];
+  private static State[] states = new State[33];
   private static string[] nonTerms = new string[] {
-      "Program", "$accept", "SubSection", };
+      "Program", "$accept", "FunctionLst", "FunctionImpl", "SubSection", "FunctionSection", 
+      "ParamLst", "AsBlock", "Param", "ResParam", };
 
   static Parser() {
-    states[0] = new State(new int[]{27,4,2,5},new int[]{-1,1,-3,3});
+    states[0] = new State(new int[]{25,8,26,25,3,-4},new int[]{-1,1,-3,3,-4,5,-5,7,-6,24});
     states[1] = new State(new int[]{3,2});
     states[2] = new State(-1);
-    states[3] = new State(-2);
-    states[4] = new State(-4);
-    states[5] = new State(-3);
+    states[3] = new State(new int[]{3,4});
+    states[4] = new State(-2);
+    states[5] = new State(new int[]{25,8,26,25,3,-4},new int[]{-3,6,-4,5,-5,7,-6,24});
+    states[6] = new State(-3);
+    states[7] = new State(-5);
+    states[8] = new State(new int[]{18,9});
+    states[9] = new State(new int[]{14,10});
+    states[10] = new State(new int[]{18,20,15,-10},new int[]{-7,11,-9,15});
+    states[11] = new State(new int[]{15,12});
+    states[12] = new State(new int[]{27,13});
+    states[13] = new State(new int[]{25,14});
+    states[14] = new State(-8);
+    states[15] = new State(new int[]{10,17,15,-12},new int[]{-10,16});
+    states[16] = new State(-9);
+    states[17] = new State(new int[]{18,20},new int[]{-9,18});
+    states[18] = new State(new int[]{10,17,15,-12},new int[]{-10,19});
+    states[19] = new State(-11);
+    states[20] = new State(new int[]{24,22,10,-15,15,-15},new int[]{-8,21});
+    states[21] = new State(-13);
+    states[22] = new State(new int[]{23,23});
+    states[23] = new State(-14);
+    states[24] = new State(-6);
+    states[25] = new State(new int[]{18,26});
+    states[26] = new State(new int[]{14,27});
+    states[27] = new State(new int[]{18,20,15,-10},new int[]{-7,28,-9,15});
+    states[28] = new State(new int[]{15,29});
+    states[29] = new State(new int[]{24,22,27,-15},new int[]{-8,30});
+    states[30] = new State(new int[]{27,31});
+    states[31] = new State(new int[]{26,32});
+    states[32] = new State(-7);
 
     for (int sNo = 0; sNo < states.Length; sNo++) states[sNo].number = sNo;
 
     rules[1] = new Rule(-2, new int[]{-1,3});
-    rules[2] = new Rule(-1, new int[]{-3});
-    rules[3] = new Rule(-1, new int[]{2});
-    rules[4] = new Rule(-3, new int[]{27});
-    rules[5] = new Rule(-3, new int[]{2});
-
-    aliases = new Dictionary<int, string>();
-    aliases.Add(13, "|");
-    aliases.Add(14, ".");
-    aliases.Add(15, ";");
-    aliases.Add(16, "*");
-    aliases.Add(17, "<");
-    aliases.Add(18, ">");
-    aliases.Add(19, ",");
-    aliases.Add(20, "/");
-    aliases.Add(21, "[");
-    aliases.Add(22, "]");
-    aliases.Add(23, "(");
-    aliases.Add(24, ")");
-    aliases.Add(25, "{");
-    aliases.Add(26, "}");
-    aliases.Add(27, "Sub");
-    aliases.Add(28, "Function");
-    aliases.Add(29, "'");
+    rules[2] = new Rule(-1, new int[]{-3,3});
+    rules[3] = new Rule(-3, new int[]{-4,-3});
+    rules[4] = new Rule(-3, new int[]{});
+    rules[5] = new Rule(-4, new int[]{-5});
+    rules[6] = new Rule(-4, new int[]{-6});
+    rules[7] = new Rule(-6, new int[]{26,18,14,-7,15,-8,27,26});
+    rules[8] = new Rule(-5, new int[]{25,18,14,-7,15,27,25});
+    rules[9] = new Rule(-7, new int[]{-9,-10});
+    rules[10] = new Rule(-7, new int[]{});
+    rules[11] = new Rule(-10, new int[]{10,-9,-10});
+    rules[12] = new Rule(-10, new int[]{});
+    rules[13] = new Rule(-9, new int[]{18,-8});
+    rules[14] = new Rule(-8, new int[]{24,23});
+    rules[15] = new Rule(-8, new int[]{});
   }
 
   protected override void Initialize() {
@@ -134,7 +153,7 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
         return CharToString((char)terminal);
   }
 
-#line 37 "SpecFiles\BrightScript.y"
+#line 66 "SpecFiles\BrightScript.y"
  #line default
 }
 }

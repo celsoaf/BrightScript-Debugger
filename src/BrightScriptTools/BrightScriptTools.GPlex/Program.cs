@@ -18,6 +18,15 @@ namespace BrightScriptTools.GPlex
 
         static void Main(string[] args)
         {
+            var colorArgs = new string[] { "/verbose", "/version", "/unicode", "/noparser", "SpecFiles\\BrightScriptColor" };
+            GenerateScanner(colorArgs);
+
+            var lexerArgs = new string[] { "/verbose", "/version", "/unicode", "SpecFiles\\BrightScriptLexer" };
+            GenerateScanner(lexerArgs);
+        }
+
+        private static void GenerateScanner(string[] args)
+        {
             bool fileArg = false;
             TaskState task = new TaskState();
             OptionState opResult = OptionState.clear;
@@ -48,7 +57,7 @@ namespace BrightScriptTools.GPlex
             else if (!fileArg)
                 Usage("No filename");
             else if (opResult == OptionState.needUsage)
-                Usage();     // print usage but do not abort
+                Usage(); // print usage but do not abort
             try
             {
                 task.Process(args[args.Length - 1]);

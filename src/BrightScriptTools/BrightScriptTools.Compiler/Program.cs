@@ -27,6 +27,8 @@ namespace BrightScriptTools.Compiler
                 Parser parser = new Parser(scanner);
                 parser.Parse();
             }
+
+            Console.ReadLine();
         }
 
         private static void TestScanner()

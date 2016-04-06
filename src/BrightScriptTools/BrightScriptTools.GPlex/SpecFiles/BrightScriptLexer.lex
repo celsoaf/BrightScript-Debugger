@@ -49,6 +49,19 @@ rPar			\)
 lBrace			\{	
 rBrace			\}
 
+bsIf			if
+bsElse			else
+bsFor			for
+bsTo			to
+bsEach			each
+bsStep			step
+bsIn			in
+bsWhile			while
+bsNot			not
+bsTrue			true
+bsFalse			false
+bsInvalid		invalid
+
 Number			{Num}|{Real}
 Cmnt			\'{DotChr}*
 Str				\"{DotChr}*\"
@@ -94,6 +107,18 @@ AS				{ return (int)Tokens.bsAs; }
 {rBrace}		{ return (int)Tokens.rBrace; }
 
 //{Keywords}		{ return (int)Tokens.keyword; }
+
+{bsIf}			{ return (int)Tokens.bsIf;}
+{bsElse}		{ return (int)Tokens.bsElse;}
+{bsFor}			{ return (int)Tokens.bsFor;}
+{bsTo}			{ return (int)Tokens.bsTo;}
+{bsEach}		{ return (int)Tokens.bsEach;}
+{bsStep}		{ return (int)Tokens.bsStep;}
+{bsIn}			{ return (int)Tokens.bsIn;}
+{bsWhile}		{ return (int)Tokens.bsWhile;}
+{bsNot}			{ return (int)Tokens.bsNot;}
+
+//{Keywords}	{ return (int)Tokens.keyword; }
 {Typs}			{ return (int)Tokens.bsType; }
 {Str}			{ return (int)Tokens.bsStr; }
 {Funcs}			{ return (int)Tokens.bsFuncs; }

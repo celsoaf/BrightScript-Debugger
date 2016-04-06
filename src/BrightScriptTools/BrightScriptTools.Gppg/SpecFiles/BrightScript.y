@@ -31,7 +31,7 @@ Program
 
 FunctionSeq
 	: EolOpt FunctionElem FunctionSeq 
-	| /* Empty */
+	| EolOpt /* Empty */
 	;
 
 FunctionElem

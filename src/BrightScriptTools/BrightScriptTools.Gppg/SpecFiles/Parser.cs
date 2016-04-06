@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  OSTLT0248323
-// DateTime: 06/04/2016 20:34:37
+// DateTime: 06/04/2016 20:45:35
 // UserName: CFE05
-// Input file <SpecFiles\BrightScript.y - 06/04/2016 20:34:34>
+// Input file <SpecFiles\BrightScript.y - 06/04/2016 20:45:27>
 
 // options: babel lines diagnose & report gplex
 
@@ -78,15 +78,15 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
       "Operand", };
 
   static Parser() {
-    states[0] = new State(new int[]{18,8,41,-17,42,-17,3,-4},new int[]{-1,1,-3,3,-4,5});
+    states[0] = new State(new int[]{18,8,41,-17,42,-17,3,-17},new int[]{-1,1,-3,3,-4,5});
     states[1] = new State(new int[]{3,2});
     states[2] = new State(-1);
     states[3] = new State(new int[]{3,4});
     states[4] = new State(-2);
-    states[5] = new State(new int[]{41,11,42,88},new int[]{-5,6,-6,10,-7,87});
-    states[6] = new State(new int[]{18,8,41,-17,42,-17,3,-4},new int[]{-3,7,-4,5});
+    states[5] = new State(new int[]{41,11,42,88,3,-4},new int[]{-5,6,-6,10,-7,87});
+    states[6] = new State(new int[]{18,8,41,-17,42,-17,3,-17},new int[]{-3,7,-4,5});
     states[7] = new State(-3);
-    states[8] = new State(new int[]{18,8,41,-17,42,-17,22,-17,33,-17,35,-17,40,-17,32,-17,14,-17,21,-17,23,-17,24,-17,29,-17,30,-17,31,-17,43,-17,34,-17},new int[]{-4,9});
+    states[8] = new State(new int[]{18,8,41,-17,42,-17,3,-17,22,-17,33,-17,35,-17,40,-17,32,-17,14,-17,21,-17,23,-17,24,-17,29,-17,30,-17,31,-17,43,-17,34,-17},new int[]{-4,9});
     states[9] = new State(-16);
     states[10] = new State(-5);
     states[11] = new State(new int[]{22,12});
@@ -181,7 +181,7 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
     rules[1] = new Rule(-2, new int[]{-1,3});
     rules[2] = new Rule(-1, new int[]{-3,3});
     rules[3] = new Rule(-3, new int[]{-4,-5,-3});
-    rules[4] = new Rule(-3, new int[]{});
+    rules[4] = new Rule(-3, new int[]{-4});
     rules[5] = new Rule(-5, new int[]{-6});
     rules[6] = new Rule(-5, new int[]{-7});
     rules[7] = new Rule(-7, new int[]{42,22,14,-8,15,-9,-10,43,42});

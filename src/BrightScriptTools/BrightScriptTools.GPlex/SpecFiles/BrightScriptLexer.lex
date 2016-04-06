@@ -8,7 +8,7 @@
 
 %visibility public
 
-%option caseinsensitive, stack, classes, minimize, parser, summary, unicode, verbose, persistbuffer, noembedbuffers, out:..\..\SpecFiles\Scanner.cs
+%option babel, caseinsensitive, stack, classes, minimize, parser, summary, unicode, verbose, persistbuffer, noembedbuffers, out:..\..\SpecFiles\Scanner.cs
 
 // =============================================================
 // =============================================================
@@ -20,7 +20,7 @@ Num				[0-9]+
 Real			([0-9]+"."[0-9]*)|([0-9]*"."[0-9]+)
 
 // BrightScript Type.txt
-Typs			(string|in(te(rface|ger)|valid)|object|double|float|b(oolean|rsub)|void)
+Typs			(string|inte(rface|ger)|object|double|float|b(oolean|rsub)|void)
 
 // BrightScript Statements.txt
 // Keywords		(s(t(op|ep)|ub)|i(n|f)|t(hen|o)|dim|print|e(nd(if|(sub|f(or|unction)|while))?|lse(if)?|xit(for|while)?|ach)|f(or|unction)|as|while|re(turn|m)|goto)
@@ -48,6 +48,9 @@ lPar			\(
 rPar			\) 
 lBrace			\{	
 rBrace			\}
+equal			=
+plus			\+
+minus			-
 
 bsIf			if
 bsElse			else
@@ -73,15 +76,13 @@ Funcs			{BuiltInFuncs}|{GlobalFuncs}|{StringFuncs}|{MathFuns}
 // =============================================================
 
 /*
-FALSE 			|
 LINE_NUM 		|
 M				|
 NEXT  			|
 OBJFUN			|
 POS 			|
 RND 			|
-TAB				|
-TRUE			{ return (int)Tokens.reserved; }
+TAB				{ return (int)Tokens.reserved; }
 */
 
 {Cmnt}			{ return (int)Tokens.bsCmnt; }
@@ -105,8 +106,14 @@ AS				{ return (int)Tokens.bsAs; }
 {rPar}			{ return (int)Tokens.rPar; }
 {lBrace}		{ return (int)Tokens.lBrace; }
 {rBrace}		{ return (int)Tokens.rBrace; }
+{Eol}			{ return (int)Tokens.Eol;}
+{equal}			{ return (int)Tokens.equal;}
+{plus}			{ return (int)Tokens.plus;}
+{minus}			{ return (int)Tokens.minus;}
 
-//{Keywords}		{ return (int)Tokens.keyword; }
+{bsTrue}		{ return (int)Tokens.bsTrue;}
+{bsFalse}		{ return (int)Tokens.bsFalse;}
+{bsInvalid}		{ return (int)Tokens.bsInvalid;}
 
 {bsIf}			{ return (int)Tokens.bsIf;}
 {bsElse}		{ return (int)Tokens.bsElse;}

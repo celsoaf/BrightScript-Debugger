@@ -156,6 +156,9 @@ namespace BrightScriptTools.Gppg {
                     if (listStream != null)
                         handler.MakeListing( scanner.Buffer, listStream, parser.SourceFileInfo, versionInfo );
                 }
+
+                Console.WriteLine("Press any enter to close");
+                Console.ReadLine();
             }
             return MC_OK;
         }

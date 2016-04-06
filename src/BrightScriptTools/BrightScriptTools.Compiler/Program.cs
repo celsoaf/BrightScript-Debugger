@@ -12,7 +12,7 @@ namespace BrightScriptTools.Compiler
     {
         static void Main(string[] args)
         {
-            TestScanner(@"TestData\TestColor.brs");
+            //TestScanner(@"TestData\TestColor.brs");
 
             TestParser(@"TestData\TestParser.brs");
 

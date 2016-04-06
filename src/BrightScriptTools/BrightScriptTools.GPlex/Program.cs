@@ -19,10 +19,12 @@ namespace BrightScriptTools.GPlex
         static void Main(string[] args)
         {
             var colorArgs = new string[] { "/verbose", "/version", "/unicode", "/noparser", "SpecFiles\\BrightScriptColor" };
-            GenerateScanner(colorArgs);
+            //GenerateScanner(colorArgs);
 
             var lexerArgs = new string[] { "/verbose", "/version", "/unicode", "SpecFiles\\BrightScriptLexer" };
             GenerateScanner(lexerArgs);
+
+            Console.ReadLine();
         }
 
         private static void GenerateScanner(string[] args)
@@ -79,10 +81,6 @@ namespace BrightScriptTools.GPlex
                     task.Msg.WriteLine("GPLEX <" + task.FileName + "> Completed successfully");
                 task.Dispose();
             }
-            if (task.ErrNum > 0)
-                Environment.Exit(1);
-            else
-                Environment.Exit(0);
         }
 
         static void BadOption(string arg, OptionState rslt)

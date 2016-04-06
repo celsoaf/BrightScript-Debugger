@@ -13,9 +13,12 @@
 
 %YYLTYPE LexSpan
 
-%token	bar dot semi star lt gt comma slash lBrac rBrac lPar rPar lBrace rBrace
+%token	bar, dot, semi, star, lt, gt, comma, slash, lBrac, rBrac, lPar, rPar, lBrace, rBrace, Eol, equal, plus, minus
 
-%token bsIdent bsNumber bsStr bsCmnt bsFuncs bsType bsAs
+%token bsIdent, bsNumber, bsStr, bsCmnt, bsFuncs, bsType, bsAs, bsTrue, bsFalse, bsInvalid, bsNot
+
+%token bsIf, bsElse, bsFor, bsTo, bsEach, bsStep, bsIn, bsWhile
+
 %token bsSub, bsFunction, bsEnd
 
 %token maxParseToken EOL comment errTok repErr
@@ -23,34 +26,34 @@
 %%
 
 Program
-    : FunctionLst EOF
+    : FunctionSeq EOF
     ;
 
-FunctionLst
-	: FunctionImpl FunctionLst
+FunctionSeq
+	: EolOpt FunctionElem FunctionSeq 
 	| /* Empty */
 	;
 
-FunctionImpl
-	: SubSection 
-	| FunctionSection
+FunctionElem
+	: Sub 
+	| Function
 	;
 
-FunctionSection
-	: bsFunction bsIdent lPar ParamLst rPar AsBlock bsEnd bsFunction
+Function
+	: bsFunction bsIdent lPar ParamSeq rPar AsBlock StatementSeq bsEnd bsFunction
 	;
 
-SubSection
-	: bsSub bsIdent lPar ParamLst rPar bsEnd bsSub 
+Sub
+	: bsSub bsIdent lPar ParamSeq rPar StatementSeq bsEnd bsSub 
 	;
 
-ParamLst
-	: Param ResParam
+ParamSeq
+	: Param ParamTail
 	| /* Empty */
 	;
 
-ResParam
-	: comma Param ResParam
+ParamTail
+	: comma Param ParamTail
 	| /* Empty */
 	;
 
@@ -62,5 +65,88 @@ AsBlock
 	: bsAs bsType
 	| /* Empty */
 	;
+
+EolOpt
+	: Eol EolOpt
+	| /* Empty */
+	;
+
+StatementSeq
+	: EolOpt Statement StatementSeq
+	| EolOpt /* Empty */
+	;
+
+Statement
+	: StAssign
+	| StIf
+	| StFor
+	| StWhile
+	| Expression
+	;
+
+StAssign
+	: bsIdent equal Expression
+	| bsIdent lBrac Expression rBrac equal Expression
+	;
+
+StIf
+	: bsIf Expression StatementSeq bsEnd bsIf
+	| bsIf Expression StatementSeq bsElse StatementSeq bsEnd bsIf
+	;
+
+StFor
+	: bsFor Expression bsTo Expression StatementSeq bsEnd bsFor
+	| bsFor bsEach Expression bsIn Expression StatementSeq bsEnd bsFor
+	;
+
+StWhile
+	: bsWhile Expression StatementSeq bsEnd bsWhile
+	;
+	
+Expression
+	: UnaryExpression 
+	//| BinaryExpression
+	| Operand
+	;
+
+UnaryExpression
+	: bsNot Expression
+	| lPar Expression rPar 
+	| minus Expression
+	;
+
+Operand
+	: bsIdent
+	| bsNumber
+	| bsStr
+	| bsTrue
+	| bsFalse
+	| bsInvalid
+	;
+
+/*
+BinaryExpression
+	: LeftOperand Operator RightOperand
+	;
+
+LeftOperand
+	: Operand
+	| Expression
+	;
+
+RightOperand
+	: Operand
+	| Expression
+	;
+
+Operator
+	: lt
+	| gt
+	| slash
+	| star
+	| minus
+	| plus 
+	;
+*/
 
 %%

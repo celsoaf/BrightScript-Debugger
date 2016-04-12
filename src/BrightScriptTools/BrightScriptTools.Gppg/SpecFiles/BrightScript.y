@@ -13,7 +13,7 @@
 
 %YYLTYPE LexSpan
 
-%token	bar, dot, semi, star, lt, gt, comma, slash, lBrac, rBrac, lPar, rPar, lBrace, rBrace, Eol, equal, plus, minus
+%token	bar, dot, semi, star, lt, gt, ltEqual, gtEqual, notEqual, comma, slash, lBrac, rBrac, lPar, rPar, lBrace, rBrace, Eol, equal, plus, minus
 
 %token bsIdent, bsNumber, bsStr, bsCmnt, bsFuncs, bsType, bsAs, bsTrue, bsFalse, bsInvalid, bsNot
 
@@ -90,8 +90,8 @@ StAssign
 	;
 
 StIf
-	: bsIf Expression StatementSeq bsEnd bsIf
-	| bsIf Expression StatementSeq bsElse StatementSeq bsEnd bsIf
+	: bsIf BooleanExpression StatementSeq bsEnd bsIf
+	| bsIf BooleanExpression StatementSeq bsElse StatementSeq bsEnd bsIf
 	;
 
 StFor
@@ -100,7 +100,7 @@ StFor
 	;
 
 StWhile
-	: bsWhile Expression StatementSeq bsEnd bsWhile
+	: bsWhile BooleanExpression StatementSeq bsEnd bsWhile
 	;
 	
 Expression
@@ -108,6 +108,16 @@ Expression
 	//| BinaryExpression
 	| Operand
 	;
+
+BooleanExpression
+	: bsTrue
+	| bsFalse
+	| Expression BooleanOperator Expression
+	;
+
+//CallExpression
+//	:
+//	;
 
 UnaryExpression
 	: bsNot Expression
@@ -122,6 +132,15 @@ Operand
 	| bsTrue
 	| bsFalse
 	| bsInvalid
+	;
+
+BooleanOperator
+	: lt
+	| ltEqual
+	| gt
+	| gtEqual
+	| equal
+	| notEqual
 	;
 
 /*

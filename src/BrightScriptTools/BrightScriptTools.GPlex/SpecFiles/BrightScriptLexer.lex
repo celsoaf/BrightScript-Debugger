@@ -40,6 +40,9 @@ semi			;
 star			\* 
 lt				< 
 gt				> 
+ltEqual			<= 
+gtEqual			>=
+notEqual		<> 
 comma			\, 
 slash			\/ 
 lBrac			\[ 
@@ -98,6 +101,9 @@ AS				{ return (int)Tokens.bsAs; }
 {star}			{ return (int)Tokens.star; }
 {lt}			{ return (int)Tokens.lt; }
 {gt}			{ return (int)Tokens.gt; }
+{ltEqual}		{ return (int)Tokens.ltEqual; }
+{gtEqual}		{ return (int)Tokens.gtEqual; }
+{notEqual}		{ return (int)Tokens.notEqual; }
 {comma}			{ return (int)Tokens.comma; }
 {slash}			{ return (int)Tokens.slash; }
 {lBrac}			{ return (int)Tokens.lBrac; }

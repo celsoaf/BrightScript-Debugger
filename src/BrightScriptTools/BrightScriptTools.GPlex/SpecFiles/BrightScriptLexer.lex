@@ -54,6 +54,7 @@ rBrace			\}
 equal			=
 plus			\+
 minus			-
+questionMark	\?
 
 bsIf			if
 bsElse			else
@@ -70,6 +71,7 @@ bsInvalid		invalid
 bsM				m
 bsStop			stop
 bsReturn		return
+print			print 
 
 Number			{Num}|{Real}
 Cmnt			\'{DotChr}*
@@ -135,6 +137,9 @@ AS				{ return (int)Tokens.bsAs; }
 {bsIn}			{ return (int)Tokens.bsIn;}
 {bsWhile}		{ return (int)Tokens.bsWhile;}
 {bsNot}			{ return (int)Tokens.bsNot;}
+
+{print}			{ return (int)Tokens.bsPrint; }
+{questionMark}	{ return (int)Tokens.questionMark; }
 
 //{Keywords}	{ return (int)Tokens.keyword; }
 {Typs}			{ return (int)Tokens.bsType; }

@@ -13,9 +13,9 @@
 
 %YYLTYPE LexSpan
 
-%token	bar, dot, semi, star, lt, gt, ltEqual, gtEqual, notEqual, comma, slash, lBrac, rBrac, lPar, rPar, lBrace, rBrace, Eol, equal, plus, minus
+%token	bar, dot, semi, star, lt, gt, ltEqual, gtEqual, notEqual, comma, slash, lBrac, rBrac, lPar, rPar, lBrace, rBrace, Eol, equal, plus, minus, questionMark
 
-%token bsIdent, bsNumber, bsStr, bsCmnt, bsFuncs, bsType, bsAs, bsTrue, bsFalse, bsInvalid, bsNot, bsM, bsStop, bsReturn
+%token bsIdent, bsNumber, bsStr, bsCmnt, bsFuncs, bsType, bsAs, bsTrue, bsFalse, bsInvalid, bsNot, bsM, bsStop, bsReturn, bsPrint
 
 %token bsIf, bsElse, bsFor, bsTo, bsEach, bsStep, bsIn, bsWhile
 
@@ -83,6 +83,7 @@ Statement
 	| IterationStatement
 	| ReturnStatement
 	| DebuggerStatement
+	| PrintStatement
 	| SingleExpression
 	;
 
@@ -108,6 +109,11 @@ ReturnStatement
 
 DebuggerStatement
 	: bsStop
+	;
+
+PrintStatement
+	: bsPrint SingleExpression
+	| questionMark SingleExpression
 	;
 	
 SingleExpression

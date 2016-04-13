@@ -87,8 +87,7 @@ Statement
 	;
 
 AssignStatement
-	: Identifier equal SingleExpression
-	| Identifier lBrac SingleExpression rBrac equal SingleExpression
+	: MemberExpression equal SingleExpression
 	;
 
 IfStatement
@@ -133,18 +132,10 @@ UnaryExpression
 	| minus SingleExpression
 	;
 
-Identifier
+MemberExpression
 	: bsIdent
-	| bsIdent dot Identifier
-	;
-
-Operand
-	: bsIdent
-	| bsNumber
-	| bsStr
-	| bsTrue
-	| bsFalse
-	| bsInvalid
+	| bsIdent dot MemberExpression
+	| bsIdent lBrac MemberExpression rBrac
 	;
 
 BooleanOperator
@@ -179,30 +170,5 @@ StringLiteral
 NumericLiteral
 	: bsNumber
 	;
-
-/*
-BinaryExpression
-	: LeftOperand Operator RightOperand
-	;
-
-LeftOperand
-	: Operand
-	| Expression
-	;
-
-RightOperand
-	: Operand
-	| Expression
-	;
-
-Operator
-	: lt
-	| gt
-	| slash
-	| star
-	| minus
-	| plus 
-	;
-*/
 
 %%

@@ -112,8 +112,9 @@ DebuggerStatement
 	
 SingleExpression
 	: UnaryExpression 
+	| CallExpression
 	//| BinaryExpression
-	| Operand
+	| Literal
 	;
 
 BooleanExpression
@@ -122,9 +123,15 @@ BooleanExpression
 	| SingleExpression BooleanOperator SingleExpression
 	;
 
-//CallExpression
-//	:
-//	;
+CallExpression
+	: MemberExpression lPar Arguments rPar
+	| bsFuncs lPar Arguments rPar
+	;
+
+Arguments
+	: SingleExpression Arguments
+	| /* Empty */
+	;
 
 UnaryExpression
 	: bsNot SingleExpression

@@ -37,6 +37,7 @@ DotChr			[^\r\n]
 bar				\| 
 dot				\. 
 semi			; 
+colon			:
 star			\* 
 lt				< 
 gt				> 
@@ -102,6 +103,7 @@ AS				{ return (int)Tokens.bsAs; }
 {bar}			{ return (int)Tokens.bar; }
 {dot}			{ return (int)Tokens.dot; }
 {semi}			{ return (int)Tokens.semi; }
+{colon}			{ return (int)Tokens.colon; }
 {star}			{ return (int)Tokens.star; }
 {lt}			{ return (int)Tokens.lt; }
 {gt}			{ return (int)Tokens.gt; }

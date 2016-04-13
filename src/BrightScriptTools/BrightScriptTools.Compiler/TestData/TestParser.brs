@@ -4,7 +4,7 @@ sub Main(arg1 as Object, arg2)
 	arr[1] = "ssss"
 end sub
 
-function Test() as Integer
+function Test() as Object
 	if not true
 		print("false")
 	else
@@ -12,4 +12,11 @@ function Test() as Integer
 	end if
 
 	? "Test"
+
+	return {
+		ttt: 1
+		tte: function() as Void
+
+		end function
+	}
 end function

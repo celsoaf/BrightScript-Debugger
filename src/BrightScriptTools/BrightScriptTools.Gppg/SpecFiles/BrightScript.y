@@ -15,7 +15,7 @@
 
 %token	bar, dot, semi, star, lt, gt, ltEqual, gtEqual, notEqual, comma, slash, lBrac, rBrac, lPar, rPar, lBrace, rBrace, Eol, equal, plus, minus
 
-%token bsIdent, bsNumber, bsStr, bsCmnt, bsFuncs, bsType, bsAs, bsTrue, bsFalse, bsInvalid, bsNot
+%token bsIdent, bsNumber, bsStr, bsCmnt, bsFuncs, bsType, bsAs, bsTrue, bsFalse, bsInvalid, bsNot, bsM, bsStop
 
 %token bsIf, bsElse, bsFor, bsTo, bsEach, bsStep, bsIn, bsWhile
 
@@ -26,42 +26,43 @@
 %%
 
 Program
-    : FunctionSeq EOF
+    : SourceElements EOF
     ;
 
-FunctionSeq
-	: EolOpt FunctionElem FunctionSeq 
+SourceElements
+	: EolOpt SourceElement SourceElements 
 	| EolOpt /* Empty */
 	;
 
-FunctionElem
-	: Sub 
-	| Function
+SourceElement
+	: SubDeclaration 
+	| FunctionDeclaration
 	;
 
-Function
-	: bsFunction bsIdent lPar ParamSeq rPar AsBlock StatementSeq bsEnd bsFunction
+FunctionDeclaration
+	: bsFunction bsIdent lPar ParameterList rPar Type StatementList bsEnd bsFunction
 	;
 
-Sub
-	: bsSub bsIdent lPar ParamSeq rPar StatementSeq bsEnd bsSub 
+SubDeclaration
+	: bsSub bsIdent lPar ParameterList rPar StatementList bsEnd bsSub 
 	;
 
-ParamSeq
-	: Param ParamTail
+ParameterList
+	: Parameter ParameterTail
 	| /* Empty */
 	;
 
-ParamTail
-	: comma Param ParamTail
+ParameterTail
+	: comma Parameter ParameterTail
 	| /* Empty */
 	;
 
-Param
-	: bsIdent AsBlock
+Parameter
+	: bsIdent equal Literal Type
+	| bsIdent Type 
 	;
 
-AsBlock
+Type
 	: bsAs bsType
 	| /* Empty */
 	;
@@ -71,8 +72,8 @@ EolOpt
 	| /* Empty */
 	;
 
-StatementSeq
-	: EolOpt Statement StatementSeq
+StatementList
+	: EolOpt Statement StatementList
 	| EolOpt /* Empty */
 	;
 
@@ -90,17 +91,17 @@ StAssign
 	;
 
 StIf
-	: bsIf BooleanExpression StatementSeq bsEnd bsIf
-	| bsIf BooleanExpression StatementSeq bsElse StatementSeq bsEnd bsIf
+	: bsIf BooleanExpression StatementList bsEnd bsIf
+	| bsIf BooleanExpression StatementList bsElse StatementList bsEnd bsIf
 	;
 
 StFor
-	: bsFor Expression bsTo Expression StatementSeq bsEnd bsFor
-	| bsFor bsEach Expression bsIn Expression StatementSeq bsEnd bsFor
+	: bsFor Expression bsTo Expression StatementList bsEnd bsFor
+	| bsFor bsEach Expression bsIn Expression StatementList bsEnd bsFor
 	;
 
 StWhile
-	: bsWhile BooleanExpression StatementSeq bsEnd bsWhile
+	: bsWhile BooleanExpression StatementList bsEnd bsWhile
 	;
 	
 Expression

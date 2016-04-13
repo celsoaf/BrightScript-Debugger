@@ -143,6 +143,30 @@ BooleanOperator
 	| equal
 	| notEqual
 	;
+	
+Literal
+	: NullLiteral
+	| BooleanLiteral
+	| StringLiteral
+	| NumericLiteral
+	;
+
+NullLiteral
+	: bsInvalid
+	;
+
+BooleanLiteral
+	: bsTrue
+	| bsFalse
+	;
+
+StringLiteral
+	: bsStr
+	;
+
+NumericLiteral
+	: bsNumber
+	;
 
 /*
 BinaryExpression
@@ -166,30 +190,6 @@ Operator
 	| star
 	| minus
 	| plus 
-	;
-
-Literal
-	: NullLiteral
-	| BooleanLiteral
-	| StringLiteral
-	| NumericLiteral
-	;
-
-NullLiteral
-	: bsInvalid
-	;
-
-BooleanLiteral
-	: bsTrue
-	| bsFalse
-	;
-
-StringLiteral
-	: bsStr
-	;
-
-NumericLiteral
-	: bsNumber
 	;
 */
 

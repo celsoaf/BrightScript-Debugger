@@ -119,13 +119,14 @@ PrintStatement
 SingleExpression
 	: UnaryExpression 
 	| CallExpression
-	//| BinaryExpression
+	| BinaryExpression
 	| Literal
 	;
 
 BooleanExpression
 	: bsTrue
 	| bsFalse
+	| bsNot BooleanExpression
 	| SingleExpression BooleanOperator SingleExpression
 	;
 
@@ -140,15 +141,21 @@ Arguments
 	;
 
 UnaryExpression
-	: bsNot SingleExpression
-	| lPar SingleExpression rPar 
+	: lPar SingleExpression rPar 
 	| minus SingleExpression
+	;
+
+BinaryExpression
+	: MemberExpression plus SingleExpression
+	| MemberExpression minus SingleExpression
+	| MemberExpression star SingleExpression
+	| MemberExpression slash SingleExpression
 	;
 
 MemberExpression
 	: bsIdent
 	| bsIdent dot MemberExpression
-	| bsIdent lBrac MemberExpression rBrac
+	| bsIdent lBrac SingleExpression rBrac
 	;
 
 BooleanOperator

@@ -69,6 +69,7 @@ bsFalse			false
 bsInvalid		invalid
 bsM				m
 bsStop			stop
+bsReturn		return
 
 Number			{Num}|{Real}
 Cmnt			\'{DotChr}*
@@ -123,6 +124,7 @@ AS				{ return (int)Tokens.bsAs; }
 {bsInvalid}		{ return (int)Tokens.bsInvalid;}
 {bsM}			{ return (int)Tokens.bsM; }
 {bsStop}		{ return (int)Tokens.bsStop; }
+{bsReturn}		{ return (int)Tokens.bsReturn; }
 
 {bsIf}			{ return (int)Tokens.bsIf;}
 {bsElse}		{ return (int)Tokens.bsElse;}

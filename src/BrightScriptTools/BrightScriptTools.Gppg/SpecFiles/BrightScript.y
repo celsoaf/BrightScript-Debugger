@@ -15,7 +15,7 @@
 
 %token	bar, dot, semi, star, lt, gt, ltEqual, gtEqual, notEqual, comma, slash, lBrac, rBrac, lPar, rPar, lBrace, rBrace, Eol, equal, plus, minus
 
-%token bsIdent, bsNumber, bsStr, bsCmnt, bsFuncs, bsType, bsAs, bsTrue, bsFalse, bsInvalid, bsNot, bsM, bsStop
+%token bsIdent, bsNumber, bsStr, bsCmnt, bsFuncs, bsType, bsAs, bsTrue, bsFalse, bsInvalid, bsNot, bsM, bsStop, bsReturn
 
 %token bsIf, bsElse, bsFor, bsTo, bsEach, bsStep, bsIn, bsWhile
 
@@ -78,33 +78,40 @@ StatementList
 	;
 
 Statement
-	: StAssign
-	| StIf
-	| StFor
-	| StWhile
-	| Expression
+	: AssignStatement
+	| IfStatement
+	| IterationStatement
+	| ReturnStatement
+	| DebuggerStatement
+	| SingleExpression
 	;
 
-StAssign
-	: bsIdent equal Expression
-	| bsIdent lBrac Expression rBrac equal Expression
+AssignStatement
+	: Identifier equal SingleExpression
+	| Identifier lBrac SingleExpression rBrac equal SingleExpression
 	;
 
-StIf
+IfStatement
 	: bsIf BooleanExpression StatementList bsEnd bsIf
 	| bsIf BooleanExpression StatementList bsElse StatementList bsEnd bsIf
 	;
 
-StFor
-	: bsFor Expression bsTo Expression StatementList bsEnd bsFor
-	| bsFor bsEach Expression bsIn Expression StatementList bsEnd bsFor
+IterationStatement
+	: bsFor SingleExpression bsTo SingleExpression StatementList bsEnd bsFor
+	| bsFor bsEach SingleExpression bsIn SingleExpression StatementList bsEnd bsFor
+	| bsWhile BooleanExpression StatementList bsEnd bsWhile
 	;
 
-StWhile
-	: bsWhile BooleanExpression StatementList bsEnd bsWhile
+ReturnStatement
+	: bsReturn SingleExpression
+	| bsReturn Eol
+	;
+
+DebuggerStatement
+	: bsStop
 	;
 	
-Expression
+SingleExpression
 	: UnaryExpression 
 	//| BinaryExpression
 	| Operand
@@ -113,7 +120,7 @@ Expression
 BooleanExpression
 	: bsTrue
 	| bsFalse
-	| Expression BooleanOperator Expression
+	| SingleExpression BooleanOperator SingleExpression
 	;
 
 //CallExpression
@@ -121,9 +128,14 @@ BooleanExpression
 //	;
 
 UnaryExpression
-	: bsNot Expression
-	| lPar Expression rPar 
-	| minus Expression
+	: bsNot SingleExpression
+	| lPar SingleExpression rPar 
+	| minus SingleExpression
+	;
+
+Identifier
+	: bsIdent
+	| bsIdent dot Identifier
 	;
 
 Operand

@@ -6,8 +6,10 @@ end sub
 
 function Test() as Integer
 	if not true
-		print "false"
+		print("false")
 	else
 		print "true"
 	end if
+
+	? "Test"
 end function

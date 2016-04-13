@@ -117,10 +117,39 @@ PrintStatement
 	;
 	
 SingleExpression
-	: UnaryExpression 
+	: Block
+	| UnaryExpression 
 	| CallExpression
 	| BinaryExpression
 	| Literal
+	;
+
+Block
+	: lBrace LabelledStatementList rBrace
+	;
+
+LabelledStatementList
+	: EolOpt LabelledStatement LabelledStatementTail
+	| EolOpt /* Empty */
+	;
+
+LabelledStatementTail
+	: LabelSeparator LabelledStatement LabelledStatementTail
+	| EolOpt /* Empty */
+	;
+
+LabelledStatement
+	: bsIdent colon SingleExpression
+	| bsIdent colon FunctionStatement
+	;
+
+FunctionStatement
+	: bsFunction lPar ParameterList rPar Type StatementList bsEnd bsFunction
+	;
+
+LabelSeparator
+	: Eol 
+	| comma
 	;
 
 BooleanExpression

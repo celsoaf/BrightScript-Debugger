@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.0.0.0
 //  Machine:  OSTLT0248323
-//  DateTime: 13/04/2016 23:32:07
+//  DateTime: 14/04/2016 12:18:57
 //  UserName: CFE05
-//  GPLEX input file <SpecFiles\BrightScriptLexer.lex - 13/04/2016 23:22:01>
+//  GPLEX input file <SpecFiles\BrightScriptLexer.lex - 14/04/2016 12:18:49>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize
@@ -1592,7 +1592,7 @@ int NextState() {
                 return (int)Tokens.EOF;
             break;
         case 1: // Recognized '{Cmnt}',	Shortest string "'"
-return (int)Tokens.bsCmnt;
+return (int)Tokens.comment;
             break;
         case 2: // Recognized '{Ident}',	Shortest string "S"
         case 3: // Recognized '{Ident}',	Shortest string "U"

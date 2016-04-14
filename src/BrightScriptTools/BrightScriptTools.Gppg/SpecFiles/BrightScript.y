@@ -158,8 +158,7 @@ LabelSeparator
 	;
 
 BooleanExpression
-	: bsTrue
-	| bsFalse
+	: BooleanLiteral
 	| bsNot BooleanExpression
 	| SingleExpression BooleanOperator SingleExpression
 	;

@@ -93,7 +93,7 @@ RND 			|
 TAB				{ return (int)Tokens.reserved; }
 */
 
-{Cmnt}			{ return (int)Tokens.bsCmnt; }
+{Cmnt}			{ return (int)Tokens.comment; }
 
 SUB				{ return (int)Tokens.bsSub; }
 FUNCTION		{ return (int)Tokens.bsFunction; }

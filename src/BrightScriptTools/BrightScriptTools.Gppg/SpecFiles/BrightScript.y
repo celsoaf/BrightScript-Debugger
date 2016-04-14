@@ -84,7 +84,7 @@ Statement
 	| ReturnStatement
 	| DebuggerStatement
 	| PrintStatement
-	| SingleExpression
+	| SequenceExpression
 	;
 
 AssignStatement
@@ -116,6 +116,11 @@ PrintStatement
 	| questionMark SingleExpression
 	;
 	
+SequenceExpression
+	: SingleExpression
+	| SingleExpression dot SequenceExpression
+	;
+
 SingleExpression
 	: Block
 	| UnaryExpression 
@@ -183,7 +188,6 @@ BinaryExpression
 
 MemberExpression
 	: bsIdent
-	| bsIdent dot MemberExpression
 	| bsIdent lBrac SingleExpression rBrac
 	;
 

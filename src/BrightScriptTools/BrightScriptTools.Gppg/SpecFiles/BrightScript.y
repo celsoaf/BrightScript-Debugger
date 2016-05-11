@@ -88,22 +88,22 @@ Statement
 	;
 
 AssignStatement
-	: MemberExpression equal SingleExpression
+	: SequenceExpression equal SequenceExpression
 	;
 
 IfStatement
-	: bsIf BooleanExpression StatementList bsEnd bsIf
-	| bsIf BooleanExpression StatementList bsElse StatementList bsEnd bsIf
+	: bsIf SequenceExpression StatementList bsEnd bsIf
+	| bsIf SequenceExpression StatementList bsElse StatementList bsEnd bsIf
 	;
 
 IterationStatement
-	: bsFor SingleExpression bsTo SingleExpression StatementList bsEnd bsFor
-	| bsFor bsEach SingleExpression bsIn SingleExpression StatementList bsEnd bsFor
-	| bsWhile BooleanExpression StatementList bsEnd bsWhile
+	: bsFor AssignStatement bsTo SequenceExpression StatementList bsEnd bsFor
+	| bsFor bsEach bsIdent bsIn SequenceExpression StatementList bsEnd bsFor
+	| bsWhile SequenceExpression StatementList bsEnd bsWhile
 	;
 
 ReturnStatement
-	: bsReturn SingleExpression
+	: bsReturn SequenceExpression
 	| bsReturn Eol
 	;
 
@@ -112,8 +112,8 @@ DebuggerStatement
 	;
 
 PrintStatement
-	: bsPrint SingleExpression
-	| questionMark SingleExpression
+	: bsPrint SequenceExpression
+	| questionMark SequenceExpression
 	;
 	
 SequenceExpression

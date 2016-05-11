@@ -5,10 +5,10 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  1.0.0.0
-//  Machine:  OSTLT0248323
-//  DateTime: 14/04/2016 12:18:57
-//  UserName: CFE05
-//  GPLEX input file <SpecFiles\BrightScriptLexer.lex - 14/04/2016 12:18:49>
+//  Machine:  CELSO-PC
+//  DateTime: 10/05/2016 18:57:23
+//  UserName: Celso
+//  GPLEX input file <SpecFiles\BrightScriptLexer.lex - 23/04/2016 15:25:49>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize

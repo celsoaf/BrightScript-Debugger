@@ -153,7 +153,7 @@ FunctionStatement
 	;
 
 LabelSeparator
-	: Eol 
+	: Eol EolOpt
 	| comma
 	;
 

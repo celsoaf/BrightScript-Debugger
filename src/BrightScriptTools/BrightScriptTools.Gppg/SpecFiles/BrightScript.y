@@ -163,7 +163,8 @@ CallExpression
 	;
 
 Arguments
-	: SingleExpression Arguments
+	: SequenceExpression 
+	| SequenceExpression comma Arguments
 	| /* Empty */
 	;
 

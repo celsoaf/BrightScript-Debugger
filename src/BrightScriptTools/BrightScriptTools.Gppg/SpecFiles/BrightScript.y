@@ -175,15 +175,20 @@ UnaryExpression
 	;
 
 BinaryExpression
-	: MemberExpression plus SingleExpression
-	| MemberExpression minus SingleExpression
-	| MemberExpression star SingleExpression
-	| MemberExpression slash SingleExpression
+	: MemberExpression MathOperator SingleExpression
+	| MemberExpression BooleanOperator SingleExpression
 	;
 
 MemberExpression
 	: bsIdent
 	| bsIdent lBrac SingleExpression rBrac
+	;
+
+MathOperator
+	: plus
+	| minus
+	| star
+	| slash
 	;
 
 BooleanOperator

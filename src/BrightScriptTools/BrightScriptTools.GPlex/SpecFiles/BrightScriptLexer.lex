@@ -126,7 +126,7 @@ AS				{ return (int)Tokens.bsAs; }
 {bsTrue}		{ return (int)Tokens.bsTrue;}
 {bsFalse}		{ return (int)Tokens.bsFalse;}
 {bsInvalid}		{ return (int)Tokens.bsInvalid;}
-{bsM}			{ return (int)Tokens.bsM; }
+//{bsM}			{ return (int)Tokens.bsM; }
 {bsStop}		{ return (int)Tokens.bsStop; }
 {bsReturn}		{ return (int)Tokens.bsReturn; }
 

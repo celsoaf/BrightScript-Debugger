@@ -169,7 +169,7 @@ Arguments
 	;
 
 UnaryExpression
-	: lPar SingleExpression rPar 
+	: lPar SequenceExpression rPar 
 	| minus SingleExpression
 	| bsNot SingleExpression
 	;

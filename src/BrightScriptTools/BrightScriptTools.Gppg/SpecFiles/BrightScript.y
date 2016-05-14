@@ -171,6 +171,7 @@ Arguments
 UnaryExpression
 	: lPar SingleExpression rPar 
 	| minus SingleExpression
+	| bsNot SingleExpression
 	;
 
 BinaryExpression

@@ -144,7 +144,7 @@ LabelledStatementTail
 	;
 
 LabelledStatement
-	: bsIdent colon SingleExpression
+	: bsIdent colon SequenceExpression
 	| bsIdent colon FunctionStatement
 	;
 

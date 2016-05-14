@@ -157,12 +157,6 @@ LabelSeparator
 	| comma
 	;
 
-BooleanExpression
-	: BooleanLiteral
-	| bsNot BooleanExpression
-	| SingleExpression BooleanOperator SingleExpression
-	;
-
 CallExpression
 	: MemberExpression lPar Arguments rPar
 	| bsFuncs lPar Arguments rPar

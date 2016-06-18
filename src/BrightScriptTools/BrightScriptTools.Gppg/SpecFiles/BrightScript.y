@@ -30,8 +30,8 @@ Program
     ;
 
 SourceElements
-	: EolOpt SourceElement SourceElements 
-	| EolOpt /* Empty */
+	: EolOpt /* Empty */
+	| EolOpt SourceElement SourceElements
 	;
 
 SourceElement
@@ -48,43 +48,43 @@ SubDeclaration
 	;
 
 ParameterList
-	: Parameter ParameterTail
-	| /* Empty */
+	: /* Empty */
+	| Parameter ParameterTail
 	;
 
 ParameterTail
-	: comma Parameter ParameterTail
-	| /* Empty */
+	: /* Empty */
+	| comma Parameter ParameterTail
 	;
 
 Parameter
-	: bsIdent equal Literal Type
-	| bsIdent Type 
+	: bsIdent Type 
+	| bsIdent equal Literal Type
 	;
 
 Type
-	: bsAs bsType
-	| /* Empty */
+	: /* Empty */
+	| bsAs bsType
 	;
 
 EolOpt
-	: Eol EolOpt
-	| /* Empty */
+	: /* Empty */
+	| Eol EolOpt
 	;
 
 StatementList
-	: EolOpt Statement StatementList
-	| EolOpt /* Empty */
+	: EolOpt /* Empty */
+	| EolOpt Statement StatementList 
 	;
 
 Statement
-	: AssignStatement
-	| IfStatement
-	| IterationStatement
-	| ReturnStatement
-	| DebuggerStatement
+	: DebuggerStatement
 	| PrintStatement
 	| SequenceExpression
+	| IterationStatement
+	| IfStatement
+	| AssignStatement
+	| ReturnStatement
 	;
 
 AssignStatement
@@ -122,10 +122,11 @@ SequenceExpression
 	;
 
 SingleExpression
-	: Block
-	| UnaryExpression 
-	| CallExpression
+	: Block 
+	| MemberExpression
 	| BinaryExpression
+	| UnaryExpression
+	| CallExpression
 	| Literal
 	;
 
@@ -134,18 +135,18 @@ Block
 	;
 
 LabelledStatementList
-	: EolOpt LabelledStatement LabelledStatementTail
-	| EolOpt /* Empty */
+	: EolOpt /* Empty */
+	| EolOpt LabelledStatement LabelledStatementTail
 	;
 
 LabelledStatementTail
-	: LabelSeparator LabelledStatement LabelledStatementTail
-	| EolOpt /* Empty */
+	: EolOpt /* Empty */
+	| LabelSeparator LabelledStatement LabelledStatementTail
 	;
 
 LabelledStatement
-	: bsIdent colon SequenceExpression
-	| bsIdent colon FunctionStatement
+	: bsIdent colon FunctionStatement
+	| bsIdent colon SequenceExpression
 	;
 
 FunctionStatement
@@ -158,14 +159,14 @@ LabelSeparator
 	;
 
 CallExpression
-	: MemberExpression lPar Arguments rPar
-	| bsFuncs lPar Arguments rPar
+	: bsFuncs lPar Arguments rPar
+	| MemberExpression lPar Arguments rPar
 	;
 
 Arguments
-	: SequenceExpression 
+	: /* Empty */
+	| SequenceExpression 
 	| SequenceExpression comma Arguments
-	| /* Empty */
 	;
 
 UnaryExpression

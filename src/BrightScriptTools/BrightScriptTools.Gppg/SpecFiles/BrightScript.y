@@ -176,8 +176,8 @@ UnaryExpression
 	;
 
 BinaryExpression
-	: MemberExpression MathOperator SingleExpression
-	| MemberExpression BooleanOperator SingleExpression
+	: SingleExpression MathOperator SingleExpression
+	| SingleExpression BooleanOperator SingleExpression
 	;
 
 MemberExpression

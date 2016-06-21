@@ -1,0 +1,98 @@
+﻿<UserControl x:Class="RokuTelnet.Views.Toolbar.ToolbarView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:RokuTelnet.Enums"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <StackPanel IsEnabled="{Binding Enable}" Orientation="Horizontal">
+        <ToolBar>
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.c}"
+                    ToolTip="Continue Script Execution">
+                <Image Source="../../Resources/Continue.png" Height="24" Width="24"/>
+            </Button>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.s}"
+                    ToolTip="Step one program statement">
+                <Image Source="../../Resources/step.png" Height="24" Width="24"/>
+            </Button>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.d}"
+                    ToolTip="Move down the function context chain one">
+                <Image Source="../../Resources/down.png" Height="24" Width="24"/>
+            </Button>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.u}"
+                    ToolTip="Move up the function context chain one">
+                <Image Source="../../Resources/up.png" Height="24" Width="24"/>
+            </Button>
+
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.exit}"
+                    ToolTip="Exit shell">
+                <Image Source="../../Resources/stop.png" Height="24" Width="24"/>
+            </Button>
+        </ToolBar>
+        <ToolBar>
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.bt}"
+                    ToolTip="Print backtrace of call function context frames">
+                <Image Source="../../Resources/callstack.png" Height="24" Width="24"/>
+            </Button>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.var}"
+                    ToolTip="Print local variables and their types/values">
+                <Image Source="../../Resources/var.png" Height="24" Width="24"/>
+            </Button>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.list}"
+                    ToolTip="List current function">
+                <Image Source="../../Resources/function.png" Height="24" Width="24"/>
+            </Button>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.last}"
+                    ToolTip="Print the last line that executed">
+                <Image Source="../../Resources/last.png" Height="24" Width="24"/>
+            </Button>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.next}"
+                    ToolTip="Print the next line to execute">
+                <Image Source="../../Resources/next.png" Height="24" Width="24"/>
+            </Button>
+        </ToolBar>
+        <ToolBar>
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.brkd}"
+                    ToolTip="Toggle whether BrightScript should break into the debugger after non-fatal diagnostic messages">
+                <Image Source="../../Resources/braekpoint.png" Height="24" Width="24"/>
+            </Button>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.gc}"
+                    ToolTip="Run garbage collector">
+                <Image Source="../../Resources/gc.png" Height="24" Width="24"/>
+            </Button>
+        </ToolBar>
+        <ToolBar>
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.classes}"
+                    ToolTip="Print Brightscript Component classes">
+                <Image Source="../../Resources/classes.png" Height="24" Width="24"/>
+            </Button>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.bscs}"
+                    ToolTip="Print a summary of BrightScript component instance counts by component type">
+                <Image Source="../../Resources/bscs.png" Height="24" Width="24"/>
+            </Button>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.bsc}"
+                    ToolTip="Print current BrightScript Component instances">
+                <Image Source="../../Resources/bsc.png" Height="24" Width="24"/>
+            </Button>
+        </ToolBar>
+        <ToolBar>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.help}"
+                    ToolTip="Print the list of debugger commands">
+                <Image Source="../../Resources/help.png" Height="24" Width="24"/>
+            </Button>
+        </ToolBar>
+    </StackPanel>
+</UserControl>

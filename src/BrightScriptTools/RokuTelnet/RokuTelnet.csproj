@@ -1,0 +1,285 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{68BBAF22-1E42-420D-A569-CDA9487901D2}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RokuTelnet</RootNamespace>
+    <AssemblyName>RokuTelnet</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\roku.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.Configuration.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Prism, Version=6.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.6.0.1\lib\net45\Prism.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Prism.Unity.Wpf, Version=6.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Unity.6.0.1\lib\net45\Prism.Unity.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Prism.Wpf, Version=6.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.6.0.1\lib\net45\Prism.Wpf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SuperSocket.ClientEngine, Version=0.7.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ClientEngine.0.7.0.1\lib\net45\SuperSocket.ClientEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SuperSocket.ProtoBase, Version=1.7.0.4, Culture=neutral, PublicKeyToken=6c80000676988ebb, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSocket.ProtoBase.1.7.0.4\lib\net35-client\SuperSocket.ProtoBase.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Controllers\AppController.cs" />
+    <Compile Include="Controllers\IAppController.cs" />
+    <Compile Include="Enums\DebuggerCommandEnum.cs" />
+    <Compile Include="Events\CommandEvent.cs" />
+    <Compile Include="Events\LogEvent.cs" />
+    <Compile Include="Models\StackModel.cs" />
+    <Compile Include="RegionNames.cs" />
+    <Compile Include="Services\Telnet\ITelenetService.cs" />
+    <Compile Include="Services\Telnet\SoketService.cs" />
+    <Compile Include="Services\Telnet\SuperSocketService.cs" />
+    <Compile Include="Services\Telnet\TelenetService.cs" />
+    <Compile Include="Services\Telnet\Utils\RokuStringParser.cs" />
+    <Compile Include="Services\Telnet\Utils\RokuReceiverFilter.cs" />
+    <Compile Include="Services\Telnet\Utils\TerminatorReceiveFilter .cs" />
+    <Compile Include="Telnet\BaseClient.cs" />
+    <Compile Include="Telnet\ByteStreamHandler.cs" />
+    <Compile Include="Telnet\Client.cs" />
+    <Compile Include="Telnet\Commands.cs" />
+    <Compile Include="Telnet\Guard.cs" />
+    <Compile Include="Telnet\IByteStream.cs" />
+    <Compile Include="Telnet\IByteStreamHandler.cs" />
+    <Compile Include="Telnet\INetworkStream.cs" />
+    <Compile Include="Telnet\ISocket.cs" />
+    <Compile Include="Telnet\NetworkStream.cs" />
+    <Compile Include="Telnet\Options.cs" />
+    <Compile Include="Telnet\TcpByteStream.cs" />
+    <Compile Include="Telnet\TcpClient.cs" />
+    <Compile Include="Utils\AutoScrollingListView.cs" />
+    <Compile Include="Views\Input\IInputView.cs" />
+    <Compile Include="Views\Input\IInputViewModel.cs" />
+    <Compile Include="Views\Input\InputView.xaml.cs">
+      <DependentUpon>InputView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Input\InputViewModel.cs" />
+    <Compile Include="Views\Locals\ILocalsView.cs" />
+    <Compile Include="Views\Locals\ILocalsViewModel.cs" />
+    <Compile Include="Views\Locals\LocalsView.xaml.cs">
+      <DependentUpon>LocalsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Locals\LocalsViewModel.cs" />
+    <Compile Include="Views\Output\IOutputView.cs" />
+    <Compile Include="Views\Output\OutputView.xaml.cs">
+      <DependentUpon>OutputView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Output\IOutputViewModel.cs" />
+    <Compile Include="Views\Output\OutputViewModel.cs" />
+    <Compile Include="Views\Shell\IShellView.cs" />
+    <Compile Include="Views\Shell\IShellViewModel.cs" />
+    <Compile Include="Views\Shell\ShellView.xaml.cs">
+      <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Shell\ShellViewModel.cs" />
+    <Compile Include="Views\StackPanel\IStackPanelView.cs" />
+    <Compile Include="Views\StackPanel\IStackPanelViewModel.cs" />
+    <Compile Include="Views\StackPanel\StackPanelView.xaml.cs">
+      <DependentUpon>StackPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StackPanel\StackPanelViewModel.cs" />
+    <Compile Include="Views\Toolbar\IToolbarView.cs" />
+    <Compile Include="Views\Toolbar\IToolbarViewModel.cs" />
+    <Compile Include="Views\Toolbar\ToolbarView.xaml.cs">
+      <DependentUpon>ToolbarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Toolbar\ToolbarViewModel.cs" />
+    <Compile Include="Views\Watch\IWatchView.cs" />
+    <Compile Include="Views\Watch\IWatchViewModel.cs" />
+    <Compile Include="Views\Watch\WatchViewModel.cs" />
+    <Compile Include="Views\Watch\WatchView.xaml.cs">
+      <DependentUpon>WatchView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\Input\InputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Locals\LocalsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Output\OutputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Shell\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StackPanel\StackPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Toolbar\ToolbarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Watch\WatchView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\roku.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\roku.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\roku1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\roku1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Continue.png" />
+    <Resource Include="Resources\down.png" />
+    <Resource Include="Resources\step.png" />
+    <Resource Include="Resources\up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\callstack.png" />
+    <Resource Include="Resources\last.png" />
+    <Resource Include="Resources\next.png" />
+    <Resource Include="Resources\var.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\function.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\exit.png" />
+    <Resource Include="Resources\gc.png" />
+    <Resource Include="Resources\help.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\braekpoint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\bsc.png" />
+    <Resource Include="Resources\bscs.png" />
+    <Resource Include="Resources\classes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\Parser\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

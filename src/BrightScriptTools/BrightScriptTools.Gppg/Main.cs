@@ -1,4 +1,4 @@
-// Gardens Point Parser Generator
+﻿// Gardens Point Parser Generator
 // Copyright (c) Wayne Kelly, QUT 2005-2014
 // (see accompanying GPPGcopyright.rtf)
 
@@ -44,6 +44,7 @@ namespace BrightScriptTools.Gppg {
         public static string LinesFilename;
 
         private static int Main( string[] args ) {
+            args = new[] { "/report", "/verbose", "/conﬂicts", "/babel", "SpecFiles\\BrightScript.y" };
             Stream inputFile = null;
 
             Grammar grammar = null;

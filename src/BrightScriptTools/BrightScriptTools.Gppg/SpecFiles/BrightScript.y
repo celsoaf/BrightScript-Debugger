@@ -123,6 +123,7 @@ SequenceExpression
 
 SingleExpression
 	: Block 
+	| IndexExpression
 	| MemberExpression
 	| BinaryExpression
 	| UnaryExpression
@@ -176,8 +177,8 @@ UnaryExpression
 	;
 
 BinaryExpression
-	: SingleExpression MathOperator SingleExpression
-	| SingleExpression BooleanOperator SingleExpression
+	: SequenceExpression MathOperator SequenceExpression
+	| SequenceExpression BooleanOperator SequenceExpression
 	;
 
 MemberExpression

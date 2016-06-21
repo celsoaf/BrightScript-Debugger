@@ -181,8 +181,11 @@ BinaryExpression
 	;
 
 MemberExpression
-	: bsIdent
-	| bsIdent lBrac SingleExpression rBrac
+	: bsIdent 
+	;
+
+IndexExpression
+	: SequenceExpression lBrac SequenceExpression rBrac
 	;
 
 MathOperator

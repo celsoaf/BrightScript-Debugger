@@ -160,7 +160,7 @@ LabelSeparator
 
 CallExpression
 	: bsFuncs lPar Arguments rPar
-	| MemberExpression lPar Arguments rPar
+	| SequenceExpression lPar Arguments rPar
 	;
 
 Arguments

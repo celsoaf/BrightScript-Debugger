@@ -202,7 +202,8 @@ BooleanOperator
 	;
 	
 Literal
-	: NullLiteral
+	: EmptyBlock
+	| NullLiteral
 	| BooleanLiteral
 	| StringLiteral
 	| NumericLiteral
@@ -225,4 +226,7 @@ NumericLiteral
 	: bsNumber
 	;
 
+EmptyBlock
+	:  lBrace rBrace
+	;
 %%

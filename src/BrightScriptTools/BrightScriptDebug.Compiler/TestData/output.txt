@@ -1,0 +1,172 @@
+
+------ Compiling dev 'Sky Store P3 QS' ------
+
+------ Running dev 'Sky Store P3 QS' main ------
+
+BrightScript Micro Debugger.
+Enter any BrightScript statement, debug commands, or HELP.
+
+
+Current Function:
+152:  function(resultObj as Object) as Void
+153:*       stop
+154:        if m.launchParameters.getItem("contentID") <> Invalid
+155:          m._deepLink()
+156:        else
+157:          m.pubSub.publish(PubSubEvents().MENU_NAVIGATE_TO, {id: Routes().SHOWCASE, callback: {}, flushHistoryFromTopCount: 1})
+STOP (runtime error &hf7) in ...e/app/controller/LaunchController.brs(153)
+153:       stop
+Backtrace:
+#19 Function $anon_55b(resultobj As Object) As Void
+   file/line: ...e/app/controller/LaunchController.brs(154)
+#18 Function $anon_569(eventobj As Object) As Void
+   file/line: ...rce/app/controller/MenuController.brs(82)
+#17 Function $anon_afd(payload As Dynamic) As Void
+   file/line: pkg:/source/app/pubsub/Subscription.brs(51)
+#16 Function $anon_af6(topic As String, payload As Dynamic) As Dynamic
+   file/line: pkg:/source/app/pubsub/PubSub.brs(58)
+#15 Function $anon_55a() As Dynamic
+   file/line: ...e/app/controller/LaunchController.brs(149)
+#14 Function $anon_558(resultobj As Object) As Void
+   file/line: ...e/app/controller/LaunchController.brs(136)
+#13 Function $anon_d2d(callback As Object, data As Object) As Void
+   file/line: pkg:/source/app/utils/ApiUtils.brs(32)
+#12 Function $anon_ba7(resultobj As Dynamic) As Void
+   file/line: ...ces/UserActions/UserActionService.brs(186)
+#11 Function $anon_7b1(callback As Object, data As Object) As Void
+   file/line: pkg:/source/app/core/CoreDelegate.brs(40)
+#10 Function $anon_82b(resultobj As Object) As Void
+   file/line: ...ce/app/delegates/TVSignUpDelegate.brs(51)
+#9  Function $anon_ab2(dataobj As Object) As Dynamic
+   file/line: pkg:/source/app/net/Net.brs(97)
+#8  Function $anon_ace(client As Object, data As Object) As Void
+   file/line: pkg:/source/app/net/Xhr.brs(123)
+#7  Function $anon_ae9(message As Object) As Void
+   file/line: pkg:/source/app/net/Xhr.brs(373)
+#6  Function $anon_ae0(message As Object) As Void
+   file/line: pkg:/source/app/net/Xhr.brs(267)
+#5  Function $anon_aef(eventobj As Object) As Void
+   file/line: pkg:/source/app/net/Xhr.brs(428)
+#4  Function $anon_afd(payload As Dynamic) As Void
+   file/line: pkg:/source/app/pubsub/Subscription.brs(51)
+#3  Function $anon_af6(topic As String, payload As Dynamic) As Dynamic
+   file/line: pkg:/source/app/pubsub/PubSub.brs(58)
+#2  Function $anon_88a(msg As Dynamic) As Dynamic
+   file/line: pkg:/source/app/display/Stage.brs(104)
+#1  Function $anon_889() As Void
+   file/line: pkg:/source/app/display/Stage.brs(72)
+#0  Function main(launchparams As Object) As Void
+   file/line: pkg:/source/Main.brs(27)
+Local Variables:
+resultobj        roArray refcnt=5 count:9
+global           rotINTERFACE:ifGlobal
+m                roAssociativeArray refcnt=10 count:58
+
+BrightScript Debugger> 
+Current Function:
+135:  function(data as Object) as Void
+136:*       stop
+137:        m.carouselResolved = true
+138:        m.carouselData = data
+139:        m._resolveView(data)
+140:      end function
+STOP (runtime error &hf7) in ...ontroller/content/GenreController.brs(136)
+136:       stop
+Backtrace:
+#12 Function $anon_616(data As Object) As Void
+   file/line: ...ontroller/content/GenreController.brs(137)
+#11 Function $anon_7b1(callback As Object, data As Object) As Void
+   file/line: pkg:/source/app/core/CoreDelegate.brs(40)
+#10 Function $anon_858(data As Object) As Void
+   file/line: ...p/delegates/catalog/GenreDelegate.brs(76)
+#9  Function $anon_ab2(dataobj As Object) As Dynamic
+   file/line: pkg:/source/app/net/Net.brs(97)
+#8  Function $anon_ace(client As Object, data As Object) As Void
+   file/line: pkg:/source/app/net/Xhr.brs(123)
+#7  Function $anon_ae9(message As Object) As Void
+   file/line: pkg:/source/app/net/Xhr.brs(373)
+#6  Function $anon_ae0(message As Object) As Void
+   file/line: pkg:/source/app/net/Xhr.brs(267)
+#5  Function $anon_aef(eventobj As Object) As Void
+   file/line: pkg:/source/app/net/Xhr.brs(428)
+#4  Function $anon_afd(payload As Dynamic) As Void
+   file/line: pkg:/source/app/pubsub/Subscription.brs(51)
+#3  Function $anon_af6(topic As String, payload As Dynamic) As Dynamic
+   file/line: pkg:/source/app/pubsub/PubSub.brs(58)
+#2  Function $anon_88a(msg As Dynamic) As Dynamic
+   file/line: pkg:/source/app/display/Stage.brs(104)
+#1  Function $anon_889() As Void
+   file/line: pkg:/source/app/display/Stage.brs(72)
+#0  Function main(launchparams As Object) As Void
+   file/line: pkg:/source/Main.brs(27)
+Local Variables:
+data             roAssociativeArray refcnt=4 count:3
+global           rotINTERFACE:ifGlobal
+m                roAssociativeArray refcnt=5 count:49
+
+BrightScript Debugger> Note: GC - Found 4263 orphaned objects (objects in a circular ref loop).
+
+------ Compiling dev 'Sky Store P3 QS' ------
+
+------ Running dev 'Sky Store P3 QS' main ------
+
+BrightScript Micro Debugger.
+Enter any BrightScript statement, debug commands, or HELP.
+
+
+Current Function:
+152:  function(resultObj as Object) as Void
+153:*       stop
+154:        if m.launchParameters.getItem("contentID") <> Invalid
+155:          m._deepLink()
+156:        else
+157:          m.pubSub.publish(PubSubEvents().MENU_NAVIGATE_TO, {id: Routes().SHOWCASE, callback: {}, flushHistoryFromTopCount: 1})
+STOP (runtime error &hf7) in ...e/app/controller/LaunchController.brs(153)
+153:       stop
+Backtrace:
+#19 Function $anon_55b(resultobj As Object) As Void
+   file/line: ...e/app/controller/LaunchController.brs(154)
+#18 Function $anon_569(eventobj As Object) As Void
+   file/line: ...rce/app/controller/MenuController.brs(82)
+#17 Function $anon_afd(payload As Dynamic) As Void
+   file/line: pkg:/source/app/pubsub/Subscription.brs(51)
+#16 Function $anon_af6(topic As String, payload As Dynamic) As Dynamic
+   file/line: pkg:/source/app/pubsub/PubSub.brs(58)
+#15 Function $anon_55a() As Dynamic
+   file/line: ...e/app/controller/LaunchController.brs(149)
+#14 Function $anon_558(resultobj As Object) As Void
+   file/line: ...e/app/controller/LaunchController.brs(136)
+#13 Function $anon_d2d(callback As Object, data As Object) As Void
+   file/line: pkg:/source/app/utils/ApiUtils.brs(32)
+#12 Function $anon_ba7(resultobj As Dynamic) As Void
+   file/line: ...ces/UserActions/UserActionService.brs(186)
+#11 Function $anon_7b1(callback As Object, data As Object) As Void
+   file/line: pkg:/source/app/core/CoreDelegate.brs(40)
+#10 Function $anon_82b(resultobj As Object) As Void
+   file/line: ...ce/app/delegates/TVSignUpDelegate.brs(51)
+#9  Function $anon_ab2(dataobj As Object) As Dynamic
+   file/line: pkg:/source/app/net/Net.brs(97)
+#8  Function $anon_ace(client As Object, data As Object) As Void
+   file/line: pkg:/source/app/net/Xhr.brs(123)
+#7  Function $anon_ae9(message As Object) As Void
+   file/line: pkg:/source/app/net/Xhr.brs(373)
+#6  Function $anon_ae0(message As Object) As Void
+   file/line: pkg:/source/app/net/Xhr.brs(267)
+#5  Function $anon_aef(eventobj As Object) As Void
+   file/line: pkg:/source/app/net/Xhr.brs(428)
+#4  Function $anon_afd(payload As Dynamic) As Void
+   file/line: pkg:/source/app/pubsub/Subscription.brs(51)
+#3  Function $anon_af6(topic As String, payload As Dynamic) As Dynamic
+   file/line: pkg:/source/app/pubsub/PubSub.brs(58)
+#2  Function $anon_88a(msg As Dynamic) As Dynamic
+   file/line: pkg:/source/app/display/Stage.brs(104)
+#1  Function $anon_889() As Void
+   file/line: pkg:/source/app/display/Stage.brs(72)
+#0  Function main(launchparams As Object) As Void
+   file/line: pkg:/source/Main.brs(27)
+Local Variables:
+resultobj        roArray refcnt=5 count:9
+global           rotINTERFACE:ifGlobal
+m                roAssociativeArray refcnt=10 count:58
+
+BrightScript Debugger> Note: GC - Found 3411 orphaned objects (objects in a circular ref loop).

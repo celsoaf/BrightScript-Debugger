@@ -46,9 +46,6 @@
     <Compile Include="..\BrightScriptDebug.GPlex\SpecFiles\Scanner.cs">
       <Link>Scanner.cs</Link>
     </Compile>
-    <Compile Include="..\BrightScriptDebug.GPlex\SpecFiles\ScannerColor.cs">
-      <Link>ScannerColor.cs</Link>
-    </Compile>
     <Compile Include="..\BrightScriptDebug.Gppg\SpecFiles\Parser.cs">
       <Link>Parser.cs</Link>
     </Compile>

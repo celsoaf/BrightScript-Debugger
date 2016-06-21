@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{4B7C9AC6-96B9-4CA9-B3D5-D29D980748B0}"
 EndProject
@@ -10,6 +10,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScriptTools.Gppg", "BrightScriptTools.Gppg\BrightScriptTools.Gppg.csproj", "{DDDA2561-E4D5-4870-AD42-F8855D243D49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScriptTools.Compiler", "BrightScriptTools.Compiler\BrightScriptTools.Compiler.csproj", "{96A149F1-9ABF-4246-9CB1-06F0AAA0E294}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debug", "Debug", "{21C516E6-8CBC-4E58-9ED3-88DD41817303}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScriptDebug.GPlex", "BrightScriptDebug.GPlex\BrightScriptDebug.GPlex.csproj", "{F9E856DE-8322-4556-8C5D-D9ED9DBBE894}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScriptDebug.Gppg", "BrightScriptDebug.Gppg\BrightScriptDebug.Gppg.csproj", "{8E6C1395-5ABD-416A-9721-28AA5CC45263}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RokuTelnet", "RokuTelnet\RokuTelnet.csproj", "{68BBAF22-1E42-420D-A569-CDA9487901D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScriptDebug.Compiler", "BrightScriptDebug.Compiler\BrightScriptDebug.Compiler.csproj", "{53E771E5-FDE0-43CE-AC69-6D1A1B62D835}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +39,22 @@ Global
 		{96A149F1-9ABF-4246-9CB1-06F0AAA0E294}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96A149F1-9ABF-4246-9CB1-06F0AAA0E294}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96A149F1-9ABF-4246-9CB1-06F0AAA0E294}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9E856DE-8322-4556-8C5D-D9ED9DBBE894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9E856DE-8322-4556-8C5D-D9ED9DBBE894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9E856DE-8322-4556-8C5D-D9ED9DBBE894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9E856DE-8322-4556-8C5D-D9ED9DBBE894}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E6C1395-5ABD-416A-9721-28AA5CC45263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E6C1395-5ABD-416A-9721-28AA5CC45263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E6C1395-5ABD-416A-9721-28AA5CC45263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E6C1395-5ABD-416A-9721-28AA5CC45263}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68BBAF22-1E42-420D-A569-CDA9487901D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68BBAF22-1E42-420D-A569-CDA9487901D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68BBAF22-1E42-420D-A569-CDA9487901D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68BBAF22-1E42-420D-A569-CDA9487901D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53E771E5-FDE0-43CE-AC69-6D1A1B62D835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53E771E5-FDE0-43CE-AC69-6D1A1B62D835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53E771E5-FDE0-43CE-AC69-6D1A1B62D835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53E771E5-FDE0-43CE-AC69-6D1A1B62D835}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,5 +62,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{2EA37226-2FA2-40B5-AABF-72AA499E4C0B} = {4B7C9AC6-96B9-4CA9-B3D5-D29D980748B0}
 		{DDDA2561-E4D5-4870-AD42-F8855D243D49} = {4B7C9AC6-96B9-4CA9-B3D5-D29D980748B0}
+		{F9E856DE-8322-4556-8C5D-D9ED9DBBE894} = {21C516E6-8CBC-4E58-9ED3-88DD41817303}
+		{8E6C1395-5ABD-416A-9721-28AA5CC45263} = {21C516E6-8CBC-4E58-9ED3-88DD41817303}
+		{53E771E5-FDE0-43CE-AC69-6D1A1B62D835} = {21C516E6-8CBC-4E58-9ED3-88DD41817303}
 	EndGlobalSection
 EndGlobal

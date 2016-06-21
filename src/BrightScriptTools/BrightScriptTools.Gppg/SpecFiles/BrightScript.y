@@ -203,6 +203,7 @@ BooleanOperator
 	
 Literal
 	: EmptyBlock
+	| Array
 	| NullLiteral
 	| BooleanLiteral
 	| StringLiteral
@@ -229,4 +230,19 @@ NumericLiteral
 EmptyBlock
 	:  lBrace rBrace
 	;
+
+Array
+	: lBrac ArrayList rBrac
+	;
+
+ArrayList
+	: EolOpt /* Empty */
+	| EolOpt SequenceExpression ArrayTail
+	;
+
+ArrayTail
+	: EolOpt /* Empty */
+	| LabelSeparator SequenceExpression ArrayTail
+	;
+
 %%

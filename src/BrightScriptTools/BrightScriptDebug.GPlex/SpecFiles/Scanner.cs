@@ -5,10 +5,10 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  1.0.0.0
-//  Machine:  OSTLT0248323
-//  DateTime: 21/06/2016 16:02:35
-//  UserName: CFE05
-//  GPLEX input file <SpecFiles\Debugger.lex - 21/06/2016 16:02:20>
+//  Machine:  CELSO-PC
+//  DateTime: 21/06/2016 16:45:43
+//  UserName: Celso
+//  GPLEX input file <SpecFiles\Debugger.lex - 21/06/2016 16:30:27>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize

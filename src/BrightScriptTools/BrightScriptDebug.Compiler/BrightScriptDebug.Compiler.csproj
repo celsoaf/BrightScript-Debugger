@@ -52,6 +52,7 @@
     <Compile Include="ParserExtension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScannerExtension.cs" />
     <Compile Include="TokensColor.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,19 +65,19 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BrightScriptTools.GPlex\BrightScriptTools.GPlex.csproj">
-      <Project>{2ea37226-2fa2-40b5-aabf-72aa499e4c0b}</Project>
-      <Name>BrightScriptTools.GPlex</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BrightScriptTools.Gppg\BrightScriptTools.Gppg.csproj">
-      <Project>{ddda2561-e4d5-4870-ad42-f8855d243d49}</Project>
-      <Name>BrightScriptTools.Gppg</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="TestData\output.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrightScriptDebug.GPlex\BrightScriptDebug.GPlex.csproj">
+      <Project>{f9e856de-8322-4556-8c5d-d9ed9dbbe894}</Project>
+      <Name>BrightScriptDebug.GPlex</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrightScriptDebug.Gppg\BrightScriptDebug.Gppg.csproj">
+      <Project>{8e6c1395-5abd-416a-9721-28aa5cc45263}</Project>
+      <Name>BrightScriptDebug.Gppg</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

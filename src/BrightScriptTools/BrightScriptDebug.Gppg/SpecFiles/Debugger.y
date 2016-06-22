@@ -15,11 +15,10 @@
 
 %token dot, colon, star, gt, comma, slash, lPar, rPar, lBrace, rBrace, Eol, equal, minus
 
-%token print
+%token dgEnterDebug, dgCompiling, dgMinus, dgRunning, dgCurrFunc, dgCodeLine, dgDebugLine, dgBacktrace, dgTraceLine
+%token dgTraceFile, dgVariables, dgDebugger, dgVarLine
 
-%token dgStop, dgFunction, dgBS, dgDebugger, dgLocal, dgVariables, dgFile, dgLine, dgBacktrace, dgCurrent, dgCompiling, dgRunning, dgDev, dgMain, dgMinus, dgDebug
-
-%token dgNumber, dgIdent, dgStr
+%token dgNumber, dgIdent, dgStr, dgLine
 
 %token maxParseToken EOL comment errTok repErr
 
@@ -30,52 +29,73 @@ Program
     ;
 
 DebugElements
-	: EolOpt DebugElement DebugElements 
-	| EolOpt /* Empty */
+	: DebugElement DebugElements 
+	| /* Empty */
 	;
 
 DebugElement
-	: CompileStatment
-	| RunStatment
-	| CurrentFunctionStatement
-	| BacktraceStatment
-	| LocalVariablesStatment
-	| InputStatment
+	: Eol
 	| ErrorStatment
+	| EnterDebugStatment
+	| CompilingStatment
+	| RunningStatment
+	| CurrentFunctionStatment
+	| CodeLineStatment
+	| DebugLineStatment
+	| BacktraceStatment
+	| TraceLineStatment
+	| VariablesStatment
+	| DebuggerStatment
+	| VarLineStatment
 	;
 
-CompileStatment
-	: dgMinus dgCompiling dgDev dgStr dgMinus
+CompilingStatment
+	: dgMinus dgCompiling dgIdent dgStr dgMinus Eol
 	;
 
-RunStatment
-	: dgMinus dgRunning dgDev dgStr dgMain dgMinus
+RunningStatment
+	: dgMinus dgRunning dgIdent dgStr dgIdent dgMinus Eol
 	;
 
-CurrentFunctionStatement
-	: dgCurrent dgFunction colon
+EnterDebugStatment
+	: dgEnterDebug Eol
+	;
+
+CurrentFunctionStatment
+	: dgCurrFunc Eol
+	;
+
+CodeLineStatment
+	: dgCodeLine Eol
+	;
+
+DebugLineStatment
+	: dgDebugLine Eol
 	;
 
 BacktraceStatment
-	: dgBacktrace colon
+	: dgBacktrace Eol
 	;
 
-LocalVariablesStatment
-	: dgLocal dgVariables colon
+TraceLineStatment
+	: dgTraceLine Eol dgTraceFile Eol
 	;
 
-InputStatment
-	: dgBS dgDebugger gt
+VariablesStatment
+	: dgVariables Eol
+	;
+
+VarLineStatment
+	: dgVarLine Eol
+	;
+
+DebuggerStatment
+	: dgDebugger Eol
 	;
 
 ErrorStatment
-	: dgStr
+	: errTok Eol
 	;
 
-
-EolOpt
-	: Eol EolOpt
-	| /* Empty */
-	;
 
 %%

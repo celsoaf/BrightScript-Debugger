@@ -48,7 +48,6 @@ dgBacktrace		Backtrace:
 dgTraceLine		#{Num}{DotChr}*
 dgTraceFile		file\/line{DotChr}*
 dgVariables		Local\x20Variables:
-dgVarLine		{Ident}\t{DotChr}*
 dgDebugger		BrightScript\x20Debugger>
 
 Number			{Num}|{Real}
@@ -86,7 +85,6 @@ Line			{DotChr}*
 {dgTraceLine}	{ return (int)Tokens.dgTraceLine; }
 {dgTraceFile}	{ return (int)Tokens.dgTraceFile; }
 {dgVariables}	{ return (int)Tokens.dgVariables; }
-{dgVarLine}		{ return (int)Tokens.dgVarLine; }
 {dgDebugger}	{ return (int)Tokens.dgDebugger; }
 
 {Number}		{ return (int)Tokens.dgNumber; }

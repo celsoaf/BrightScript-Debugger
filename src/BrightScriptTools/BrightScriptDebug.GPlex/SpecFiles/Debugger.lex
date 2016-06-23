@@ -49,6 +49,7 @@ dgTraceLine		#{Num}{DotChr}*
 dgTraceFile		file\/line{DotChr}*
 dgVariables		Local\x20Variables:
 dgDebugger		BrightScript\x20Debugger>
+dgNote			Note:\x20GC\x20-\x20Found\x20{Num}\x20orphaned\x20objects\x20\(objects\x20in\x20a\x20circular\x20ref\x20loop\)\.
 
 Number			{Num}|{Real}
 Str				'{DotChr}*'
@@ -86,6 +87,7 @@ Line			{DotChr}*
 {dgTraceFile}	{ return (int)Tokens.dgTraceFile; }
 {dgVariables}	{ return (int)Tokens.dgVariables; }
 {dgDebugger}	{ return (int)Tokens.dgDebugger; }
+{dgNote}		{ return (int)Tokens.dgNote; }
 
 {Number}		{ return (int)Tokens.dgNumber; }
 {Ident}			{ return (int)Tokens.dgIdent; }

@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.0.0.0
 //  Machine:  CELSO-PC
-//  DateTime: 21/06/2016 16:45:43
+//  DateTime: 24/06/2016 00:20:48
 //  UserName: Celso
-//  GPLEX input file <SpecFiles\Debugger.lex - 21/06/2016 16:30:27>
+//  GPLEX input file <SpecFiles\Debugger.lex - 24/06/2016 00:07:32>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize
@@ -129,8 +129,8 @@ namespace BrightScriptDebug.Compiler
         
         enum Result {accept, noMatch, contextFound};
 
-        const int maxAccept = 111;
-        const int initial = 112;
+        const int maxAccept = 92;
+        const int initial = 93;
         const int eofNum = 0;
         const int goStart = -1;
         const int INITIAL = 0;
@@ -161,35 +161,35 @@ namespace BrightScriptDebug.Compiler
 #region ScannerTables
     struct Table {
         public int min; public int rng; public int dflt;
-        public sbyte[] nxt;
-        public Table(int m, int x, int d, sbyte[] n) {
+        public short[] nxt;
+        public Table(int m, int x, int d, short[] n) {
             min = m; rng = x; dflt = d; nxt = n;
         }
     };
 
-    static int[] startState = new int[] {112, 0};
+    static int[] startState = new int[] {93, 0};
 
 #region CompressedCharacterMap
     //
-    // There are 39 equivalence classes
+    // There are 43 equivalence classes
     // There are 4 character sequence regions
     // There are 2 tables, 172 entries
     // There are 2 runs, 0 singletons
     // Decision tree depth is 2
     //
     static sbyte[] mapC0 = new sbyte[126] {
-/*     '\0' */ 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 12, 38, 38, 11, 38, 38, 
-/*   '\x10' */ 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 
-/*   '\x20' */ 38, 38, 38, 38, 38, 38, 38, 37, 7, 8, 3, 38, 5, 14, 1, 6, 
-/*      '0' */ 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 2, 38, 38, 13, 4, 38, 
-/*      '@' */ 38, 31, 25, 24, 28, 29, 22, 26, 27, 17, 36, 33, 30, 34, 18, 21, 
-/*      'P' */ 15, 36, 16, 20, 19, 23, 32, 36, 36, 36, 36, 38, 38, 38, 38, 36, 
-/*      '`' */ 38, 31, 25, 24, 28, 29, 22, 26, 27, 17, 36, 33, 30, 34, 18, 21, 
-/*      'p' */ 15, 36, 16, 20, 19, 23, 32, 36, 36, 36, 36, 9, 38, 10 };
+/*     '\0' */ 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 12, 36, 36, 11, 36, 36, 
+/*   '\x10' */ 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 
+/*   '\x20' */ 24, 36, 36, 38, 36, 36, 36, 42, 7, 8, 3, 36, 5, 14, 1, 6, 
+/*      '0' */ 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 2, 36, 36, 13, 4, 36, 
+/*      '@' */ 36, 31, 15, 22, 27, 28, 34, 18, 19, 17, 40, 37, 33, 25, 30, 26, 
+/*      'P' */ 23, 41, 16, 21, 20, 29, 39, 41, 41, 32, 41, 36, 36, 36, 36, 41, 
+/*      '`' */ 36, 31, 15, 22, 27, 28, 34, 18, 19, 17, 40, 37, 33, 25, 30, 26, 
+/*      'p' */ 23, 41, 16, 21, 20, 29, 39, 41, 41, 32, 41, 9, 36, 10 };
     static sbyte[] mapC2 = new sbyte[46] {
-/* '\u01C5' */ 0, 38, 38, 0, 38, 38, 0, 38, 38, 38, 38, 38, 38, 38, 38, 38, 
-/* '\u01D5' */ 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 
-/* '\u01E5' */ 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 38, 0 };
+/* '\u01C5' */ 0, 36, 36, 0, 36, 36, 0, 36, 36, 36, 36, 36, 36, 36, 36, 36, 
+/* '\u01D5' */ 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 
+/* '\u01E5' */ 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 36, 0 };
 
     static sbyte MapC(int code)
     { // '\0' <= code <= '\U0010FFFF'
@@ -197,19 +197,19 @@ namespace BrightScriptDebug.Compiler
         if (code < 126) // '\0' <= code <= '}'
           return mapC0[code - 0];
         else // '~' <= code <= '\u01C4'
-          return (sbyte)38;
+          return (sbyte)36;
       else // '\u01C5' <= code <= '\U0010FFFF'
         if (code < 499) // '\u01C5' <= code <= '\u01F2'
           return mapC2[code - 453];
         else // '\u01F3' <= code <= '\U0010FFFF'
-          return (sbyte)38;
+          return (sbyte)36;
     }
 #endregion
 
-    static Table[] NxS = new Table[118] {
+    static Table[] NxS = new Table[261] {
 /* NxS[   0] */ new Table(0, 0, 0, null), // Shortest string ""
 /* NxS[   1] */ // Shortest string "."
-      new Table(35, 1, -1, new sbyte[] {28}),
+      new Table(35, 1, -1, new short[] {27}),
 /* NxS[   2] */ new Table(0, 0, -1, null), // Shortest string ":"
 /* NxS[   3] */ new Table(0, 0, -1, null), // Shortest string "*"
 /* NxS[   4] */ new Table(0, 0, -1, null), // Shortest string ">"
@@ -220,313 +220,635 @@ namespace BrightScriptDebug.Compiler
 /* NxS[   9] */ new Table(0, 0, -1, null), // Shortest string "{"
 /* NxS[  10] */ new Table(0, 0, -1, null), // Shortest string "}"
 /* NxS[  11] */ // Shortest string "\r"
-      new Table(12, 1, -1, new sbyte[] {12}),
+      new Table(12, 1, -1, new short[] {12}),
 /* NxS[  12] */ new Table(0, 0, -1, null), // Shortest string "\n"
 /* NxS[  13] */ new Table(0, 0, -1, null), // Shortest string "="
 /* NxS[  14] */ // Shortest string "-"
-      new Table(14, 1, -1, new sbyte[] {114}),
-/* NxS[  15] */ // Shortest string "P"
-      new Table(37, 19, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 107}),
+      new Table(14, 1, -1, new short[] {257}),
+/* NxS[  15] */ // Shortest string "B"
+      new Table(15, 27, -1, new short[] {17, 71, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 72, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
 /* NxS[  16] */ // Shortest string "R"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 101, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 65, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
 /* NxS[  17] */ // Shortest string "I"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
 /* NxS[  18] */ // Shortest string "S"
-      new Table(37, 22, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 17, 98}),
-/* NxS[  19] */ // Shortest string "F"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 88, 17, 17, 17, 
-          17, 17, 89, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  20] */ // Shortest string "C"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          74, 17, 75, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  21] */ // Shortest string "B"
-      new Table(15, 22, -1, new sbyte[] {17, 55, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 56, 17, 17, 17, 17, 17}),
-/* NxS[  22] */ // Shortest string "D"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 47, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  23] */ // Shortest string "L"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 40, 17, 17, 17, 
-          41, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  24] */ // Shortest string "V"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 32, 17, 17, 17, 17, 17}),
-/* NxS[  25] */ // Shortest string "M"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 29, 17, 17, 17, 17, 17}),
-/* NxS[  26] */ // Shortest string "0"
-      new Table(35, 6, -1, new sbyte[] {26, -1, -1, -1, -1, 28}),
-/* NxS[  27] */ // Shortest string "''"
-      new Table(37, 15, 113, new sbyte[] {27, 113, -1, 113, 113, 113, 
-          113, 113, 113, 113, 113, 113, 113, -1, -1}),
-/* NxS[  28] */ // Shortest string ".0"
-      new Table(35, 1, -1, new sbyte[] {28}),
-/* NxS[  29] */ // Shortest string "MA"
-      new Table(37, 20, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 30}),
-/* NxS[  30] */ // Shortest string "MAI"
-      new Table(37, 21, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 31}),
-/* NxS[  31] */ // Shortest string "MAIN"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  32] */ // Shortest string "VA"
-      new Table(37, 19, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 33}),
-/* NxS[  33] */ // Shortest string "VAR"
-      new Table(37, 20, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 34}),
-/* NxS[  34] */ // Shortest string "VARI"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 35, 17, 17, 17, 17, 17}),
-/* NxS[  35] */ // Shortest string "VARIA"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 36, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  36] */ // Shortest string "VARIAB"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 37, 17, 17, 17, 17, 17, 17}),
-/* NxS[  37] */ // Shortest string "VARIABL"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 38, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  38] */ // Shortest string "VARIABLE"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 39, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  39] */ // Shortest string "VARIABLES"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  40] */ // Shortest string "LI"
-      new Table(37, 21, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 45}),
-/* NxS[  41] */ // Shortest string "LO"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 42, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  42] */ // Shortest string "LOC"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 43, 17, 17, 17, 17, 17}),
-/* NxS[  43] */ // Shortest string "LOCA"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 44, 17, 17, 17, 17, 17, 17}),
-/* NxS[  44] */ // Shortest string "LOCAL"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  45] */ // Shortest string "LIN"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 46, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  46] */ // Shortest string "LINE"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  47] */ // Shortest string "DE"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 48, 17, 17, 17, 17, 17, 17, 49, 17, 17, 17, 17}),
-/* NxS[  48] */ // Shortest string "DEB"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 50, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  49] */ // Shortest string "DEV"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  50] */ // Shortest string "DEBU"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 51, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  51] */ // Shortest string "DEBUG"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 52, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  52] */ // Shortest string "DEBUGG"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 53, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  53] */ // Shortest string "DEBUGGE"
-      new Table(37, 19, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 54}),
-/* NxS[  54] */ // Shortest string "DEBUGGER"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  55] */ // Shortest string "BR"
-      new Table(37, 20, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 64}),
-/* NxS[  56] */ // Shortest string "BA"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 57, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  57] */ // Shortest string "BAC"
-      new Table(33, 21, 17, new sbyte[] {58, 17, 17, 17, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  58] */ // Shortest string "BACK"
-      new Table(37, 22, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 17, 59}),
-/* NxS[  59] */ // Shortest string "BACKT"
-      new Table(37, 19, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 60}),
-/* NxS[  60] */ // Shortest string "BACKTR"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 61, 17, 17, 17, 17, 17}),
-/* NxS[  61] */ // Shortest string "BACKTRA"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 62, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  62] */ // Shortest string "BACKTRAC"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 63, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  63] */ // Shortest string "BACKTRACE"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  64] */ // Shortest string "BRI"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 65, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  65] */ // Shortest string "BRIG"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 66, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  66] */ // Shortest string "BRIGH"
-      new Table(37, 22, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 17, 67}),
-/* NxS[  67] */ // Shortest string "BRIGHT"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 68, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  68] */ // Shortest string "BRIGHTS"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 69, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  69] */ // Shortest string "BRIGHTSC"
-      new Table(37, 19, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 70}),
-/* NxS[  70] */ // Shortest string "BRIGHTSCR"
-      new Table(37, 20, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 71}),
-/* NxS[  71] */ // Shortest string "BRIGHTSCRI"
-      new Table(37, 18, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 72}),
-/* NxS[  72] */ // Shortest string "BRIGHTSCRIP"
-      new Table(37, 22, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 17, 73}),
-/* NxS[  73] */ // Shortest string "BRIGHTSCRIPT"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  74] */ // Shortest string "CO"
-      new Table(34, 20, 17, new sbyte[] {81, 17, 17, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  75] */ // Shortest string "CU"
-      new Table(37, 19, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 76}),
-/* NxS[  76] */ // Shortest string "CUR"
-      new Table(37, 19, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 77}),
-/* NxS[  77] */ // Shortest string "CURR"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 78, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  78] */ // Shortest string "CURRE"
-      new Table(37, 21, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 79}),
-/* NxS[  79] */ // Shortest string "CURREN"
-      new Table(37, 22, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 17, 80}),
-/* NxS[  80] */ // Shortest string "CURRENT"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  81] */ // Shortest string "COM"
-      new Table(37, 18, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 82}),
-/* NxS[  82] */ // Shortest string "COMP"
-      new Table(37, 20, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 83}),
-/* NxS[  83] */ // Shortest string "COMPI"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 84, 17, 17, 17, 17, 17, 17}),
-/* NxS[  84] */ // Shortest string "COMPIL"
-      new Table(37, 20, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 85}),
-/* NxS[  85] */ // Shortest string "COMPILI"
-      new Table(37, 21, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 86}),
-/* NxS[  86] */ // Shortest string "COMPILIN"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 87, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  87] */ // Shortest string "COMPILING"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  88] */ // Shortest string "FI"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 17, 96, 17, 17, 17, 17, 17, 17}),
-/* NxS[  89] */ // Shortest string "FU"
-      new Table(37, 21, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 90}),
-/* NxS[  90] */ // Shortest string "FUN"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 91, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  91] */ // Shortest string "FUNC"
-      new Table(37, 22, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 17, 92}),
-/* NxS[  92] */ // Shortest string "FUNCT"
-      new Table(37, 20, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 93}),
-/* NxS[  93] */ // Shortest string "FUNCTI"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          94, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  94] */ // Shortest string "FUNCTIO"
-      new Table(37, 21, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 95}),
-/* NxS[  95] */ // Shortest string "FUNCTION"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  96] */ // Shortest string "FIL"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 17, 17, 17, 97, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  97] */ // Shortest string "FILE"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  98] */ // Shortest string "ST"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          99, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[  99] */ // Shortest string "STO"
-      new Table(37, 18, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 100}),
-/* NxS[ 100] */ // Shortest string "STOP"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[ 101] */ // Shortest string "RU"
-      new Table(37, 21, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 102}),
-/* NxS[ 102] */ // Shortest string "RUN"
-      new Table(37, 21, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 103}),
-/* NxS[ 103] */ // Shortest string "RUNN"
-      new Table(37, 20, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 104}),
-/* NxS[ 104] */ // Shortest string "RUNNI"
-      new Table(37, 21, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 105}),
-/* NxS[ 105] */ // Shortest string "RUNNIN"
-      new Table(15, 22, -1, new sbyte[] {17, 17, 17, 17, 17, 17, 
-          17, 17, 17, 17, 17, 106, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17}),
-/* NxS[ 106] */ // Shortest string "RUNNING"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[ 107] */ // Shortest string "PR"
-      new Table(37, 20, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 108}),
-/* NxS[ 108] */ // Shortest string "PRI"
-      new Table(37, 21, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 109}),
-/* NxS[ 109] */ // Shortest string "PRIN"
-      new Table(37, 22, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 17, 17, 17, 17, 110}),
-/* NxS[ 110] */ // Shortest string "PRINT"
-      new Table(37, 17, 17, new sbyte[] {-1, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[ 111] */ new Table(0, 0, -1, null), // Shortest string "------"
-/* NxS[ 112] */ // Shortest string ""
-      new Table(20, 36, 17, new sbyte[] {18, 17, 19, 17, 20, 21, 
-          17, 17, 22, 17, 23, 17, 24, 17, 25, 26, 17, 113, -1, -1, 1, 2, 
-          3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16}),
-/* NxS[ 113] */ // Shortest string "'"
-      new Table(37, 15, 113, new sbyte[] {27, 113, -1, 113, 113, 113, 
-          113, 113, 113, 113, 113, 113, 113, -1, -1}),
-/* NxS[ 114] */ // Shortest string "--"
-      new Table(14, 1, -1, new sbyte[] {115}),
-/* NxS[ 115] */ // Shortest string "---"
-      new Table(14, 1, -1, new sbyte[] {116}),
-/* NxS[ 116] */ // Shortest string "----"
-      new Table(14, 1, -1, new sbyte[] {117}),
-/* NxS[ 117] */ // Shortest string "-----"
-      new Table(14, 1, -1, new sbyte[] {111}),
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 62, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  19] */ // Shortest string "C"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 47, 17, 17, 48, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  20] */ // Shortest string "E"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 42, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  21] */ // Shortest string "N"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 38, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  22] */ // Shortest string "L"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 33, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  23] */ // Shortest string "F"
+      new Table(15, 27, -1, new short[] {17, 17, 29, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  24] */ // Shortest string "0"
+      new Table(35, 11, -1, new short[] {24, -1, -1, -1, -1, -1, 
+          -1, -1, -1, 27, 28}),
+/* NxS[  25] */ // Shortest string "''"
+      new Table(42, 14, 95, new short[] {25, -1, 95, 95, 95, 95, 
+          95, 95, 95, 95, 95, 95, -1, -1}),
+/* NxS[  26] */ // Shortest string "#0"
+      new Table(0, 13, 26, new short[] {-1, 26, 26, 26, 26, 26, 
+          26, 26, 26, 26, 26, -1, -1}),
+/* NxS[  27] */ // Shortest string ".0"
+      new Table(35, 1, -1, new short[] {27}),
+/* NxS[  28] */ // Shortest string "0:"
+      new Table(0, 13, 28, new short[] {-1, 28, 28, 28, 28, 28, 
+          28, 28, 28, 28, 28, -1, -1}),
+/* NxS[  29] */ // Shortest string "FI"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 30, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  30] */ // Shortest string "FIL"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 31, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  31] */ // Shortest string "FILE"
+      new Table(36, 32, 17, new short[] {-1, 17, -1, 17, 17, 17, 
+          -1, -1, -1, -1, -1, -1, -1, 96, -1, -1, -1, -1, -1, -1, -1, -1, 
+          17, 17, 17, 17, 17, 17, 17, 17, 17, -1}),
+/* NxS[  32] */ // Shortest string "FILE/LINE"
+      new Table(0, 13, 32, new short[] {-1, 32, 32, 32, 32, 32, 
+          32, 32, 32, 32, 32, -1, -1}),
+/* NxS[  33] */ // Shortest string "LO"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 34, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  34] */ // Shortest string "LOC"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 35, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  35] */ // Shortest string "LOCA"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 36, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  36] */ // Shortest string "LOCAL"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, 100, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  37] */ new Table(0, 0, -1, null), // Shortest string "LOCAL\x20VARIABLES:"
+/* NxS[  38] */ // Shortest string "NO"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 39, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  39] */ // Shortest string "NOT"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 40, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  40] */ // Shortest string "NOTE"
+      new Table(15, 31, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17, -1, -1, -1, 110}),
+/* NxS[  41] */ new Table(0, 0, -1, null), // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR\x20REF\x20LOOP)."
+/* NxS[  42] */ // Shortest string "EN"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 43, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  43] */ // Shortest string "ENT"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 44, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  44] */ // Shortest string "ENTE"
+      new Table(15, 27, -1, new short[] {17, 45, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  45] */ // Shortest string "ENTER"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, 174, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  46] */ new Table(0, 0, -1, null), // Shortest string "BRIGHTSCRIPT\x20MICRO\x20DEBUGGER."
+/* NxS[  47] */ // Shortest string "CO"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 55, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  48] */ // Shortest string "CU"
+      new Table(15, 27, -1, new short[] {17, 49, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  49] */ // Shortest string "CUR"
+      new Table(15, 27, -1, new short[] {17, 50, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  50] */ // Shortest string "CURR"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 51, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  51] */ // Shortest string "CURRE"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 52, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  52] */ // Shortest string "CURREN"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 53, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  53] */ // Shortest string "CURRENT"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, 226, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  54] */ new Table(0, 0, -1, null), // Shortest string "CURRENT\x20FUNCTION:"
+/* NxS[  55] */ // Shortest string "COM"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 56, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  56] */ // Shortest string "COMP"
+      new Table(15, 27, -1, new short[] {17, 17, 57, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  57] */ // Shortest string "COMPI"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 58, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  58] */ // Shortest string "COMPIL"
+      new Table(15, 27, -1, new short[] {17, 17, 59, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  59] */ // Shortest string "COMPILI"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 60, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  60] */ // Shortest string "COMPILIN"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 61, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  61] */ // Shortest string "COMPILING"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  62] */ // Shortest string "ST"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 63, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  63] */ // Shortest string "STO"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 64, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  64] */ // Shortest string "STOP"
+      new Table(0, 13, 64, new short[] {-1, 64, 64, 64, 64, 64, 
+          64, 64, 64, 64, 64, -1, -1}),
+/* NxS[  65] */ // Shortest string "RU"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 66, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  66] */ // Shortest string "RUN"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 67, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  67] */ // Shortest string "RUNN"
+      new Table(15, 27, -1, new short[] {17, 17, 68, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  68] */ // Shortest string "RUNNI"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 69, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  69] */ // Shortest string "RUNNIN"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 70, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  70] */ // Shortest string "RUNNING"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  71] */ // Shortest string "BR"
+      new Table(15, 27, -1, new short[] {17, 17, 81, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  72] */ // Shortest string "BA"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 73, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  73] */ // Shortest string "BAC"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          74, -1, 17, 17, 17}),
+/* NxS[  74] */ // Shortest string "BACK"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 75, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  75] */ // Shortest string "BACKT"
+      new Table(15, 27, -1, new short[] {17, 76, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  76] */ // Shortest string "BACKTR"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 77, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  77] */ // Shortest string "BACKTRA"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 78, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  78] */ // Shortest string "BACKTRAC"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 79, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  79] */ // Shortest string "BACKTRACE"
+      new Table(15, 31, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17, -1, -1, -1, 80}),
+/* NxS[  80] */ new Table(0, 0, -1, null), // Shortest string "BACKTRACE:"
+/* NxS[  81] */ // Shortest string "BRI"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 82, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  82] */ // Shortest string "BRIG"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 83, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  83] */ // Shortest string "BRIGH"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 84, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  84] */ // Shortest string "BRIGHT"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          85, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  85] */ // Shortest string "BRIGHTS"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 86, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  86] */ // Shortest string "BRIGHTSC"
+      new Table(15, 27, -1, new short[] {17, 87, 17, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  87] */ // Shortest string "BRIGHTSCR"
+      new Table(15, 27, -1, new short[] {17, 17, 88, 17, 17, 17, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  88] */ // Shortest string "BRIGHTSCRI"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 89, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  89] */ // Shortest string "BRIGHTSCRIP"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 90, 
+          17, 17, 17, -1, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  90] */ // Shortest string "BRIGHTSCRIPT"
+      new Table(15, 27, -1, new short[] {17, 17, 17, 17, 17, 17, 
+          17, 17, 17, 235, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, -1, 
+          17, -1, 17, 17, 17}),
+/* NxS[  91] */ new Table(0, 0, -1, null), // Shortest string "BRIGHTSCRIPT\x20DEBUGGER>"
+/* NxS[  92] */ new Table(0, 0, -1, null), // Shortest string "------"
+/* NxS[  93] */ // Shortest string ""
+      new Table(21, 39, 17, new short[] {18, 19, 17, -1, 17, 17, 
+          17, 20, 17, 21, 17, 17, 22, 23, 24, -1, 17, 94, 17, 17, 17, 95, 
+          -1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 
+          16}),
+/* NxS[  94] */ // Shortest string "#"
+      new Table(35, 1, -1, new short[] {26}),
+/* NxS[  95] */ // Shortest string "'"
+      new Table(42, 14, 95, new short[] {25, -1, 95, 95, 95, 95, 
+          95, 95, 95, 95, 95, 95, -1, -1}),
+/* NxS[  96] */ // Shortest string "FILE/"
+      new Table(33, 1, -1, new short[] {97}),
+/* NxS[  97] */ // Shortest string "FILE/L"
+      new Table(17, 1, -1, new short[] {98}),
+/* NxS[  98] */ // Shortest string "FILE/LI"
+      new Table(30, 1, -1, new short[] {99}),
+/* NxS[  99] */ // Shortest string "FILE/LIN"
+      new Table(28, 1, -1, new short[] {32}),
+/* NxS[ 100] */ // Shortest string "LOCAL\x20"
+      new Table(39, 1, -1, new short[] {101}),
+/* NxS[ 101] */ // Shortest string "LOCAL\x20V"
+      new Table(31, 1, -1, new short[] {102}),
+/* NxS[ 102] */ // Shortest string "LOCAL\x20VA"
+      new Table(16, 1, -1, new short[] {103}),
+/* NxS[ 103] */ // Shortest string "LOCAL\x20VAR"
+      new Table(17, 1, -1, new short[] {104}),
+/* NxS[ 104] */ // Shortest string "LOCAL\x20VARI"
+      new Table(31, 1, -1, new short[] {105}),
+/* NxS[ 105] */ // Shortest string "LOCAL\x20VARIA"
+      new Table(15, 1, -1, new short[] {106}),
+/* NxS[ 106] */ // Shortest string "LOCAL\x20VARIAB"
+      new Table(33, 1, -1, new short[] {107}),
+/* NxS[ 107] */ // Shortest string "LOCAL\x20VARIABL"
+      new Table(28, 1, -1, new short[] {108}),
+/* NxS[ 108] */ // Shortest string "LOCAL\x20VARIABLE"
+      new Table(21, 1, -1, new short[] {109}),
+/* NxS[ 109] */ // Shortest string "LOCAL\x20VARIABLES"
+      new Table(2, 1, -1, new short[] {37}),
+/* NxS[ 110] */ // Shortest string "NOTE:"
+      new Table(24, 1, -1, new short[] {111}),
+/* NxS[ 111] */ // Shortest string "NOTE:\x20"
+      new Table(18, 1, -1, new short[] {112}),
+/* NxS[ 112] */ // Shortest string "NOTE:\x20G"
+      new Table(22, 1, -1, new short[] {113}),
+/* NxS[ 113] */ // Shortest string "NOTE:\x20GC"
+      new Table(24, 1, -1, new short[] {114}),
+/* NxS[ 114] */ // Shortest string "NOTE:\x20GC\x20"
+      new Table(14, 1, -1, new short[] {115}),
+/* NxS[ 115] */ // Shortest string "NOTE:\x20GC\x20-"
+      new Table(24, 1, -1, new short[] {116}),
+/* NxS[ 116] */ // Shortest string "NOTE:\x20GC\x20-\x20"
+      new Table(34, 1, -1, new short[] {117}),
+/* NxS[ 117] */ // Shortest string "NOTE:\x20GC\x20-\x20F"
+      new Table(26, 1, -1, new short[] {118}),
+/* NxS[ 118] */ // Shortest string "NOTE:\x20GC\x20-\x20FO"
+      new Table(29, 1, -1, new short[] {119}),
+/* NxS[ 119] */ // Shortest string "NOTE:\x20GC\x20-\x20FOU"
+      new Table(30, 1, -1, new short[] {120}),
+/* NxS[ 120] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUN"
+      new Table(27, 1, -1, new short[] {121}),
+/* NxS[ 121] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND"
+      new Table(24, 1, -1, new short[] {122}),
+/* NxS[ 122] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x20"
+      new Table(35, 1, -1, new short[] {123}),
+/* NxS[ 123] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200"
+      new Table(24, 12, -1, new short[] {124, -1, -1, -1, -1, -1, 
+          -1, -1, -1, -1, -1, 123}),
+/* NxS[ 124] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20"
+      new Table(26, 1, -1, new short[] {125}),
+/* NxS[ 125] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20O"
+      new Table(16, 1, -1, new short[] {126}),
+/* NxS[ 126] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20OR"
+      new Table(23, 1, -1, new short[] {127}),
+/* NxS[ 127] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORP"
+      new Table(19, 1, -1, new short[] {128}),
+/* NxS[ 128] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPH"
+      new Table(31, 1, -1, new short[] {129}),
+/* NxS[ 129] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHA"
+      new Table(30, 1, -1, new short[] {130}),
+/* NxS[ 130] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHAN"
+      new Table(28, 1, -1, new short[] {131}),
+/* NxS[ 131] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANE"
+      new Table(27, 1, -1, new short[] {132}),
+/* NxS[ 132] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED"
+      new Table(24, 1, -1, new short[] {133}),
+/* NxS[ 133] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20"
+      new Table(26, 1, -1, new short[] {134}),
+/* NxS[ 134] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20O"
+      new Table(15, 1, -1, new short[] {135}),
+/* NxS[ 135] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OB"
+      new Table(40, 1, -1, new short[] {136}),
+/* NxS[ 136] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJ"
+      new Table(28, 1, -1, new short[] {137}),
+/* NxS[ 137] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJE"
+      new Table(22, 1, -1, new short[] {138}),
+/* NxS[ 138] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJEC"
+      new Table(20, 1, -1, new short[] {139}),
+/* NxS[ 139] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECT"
+      new Table(21, 1, -1, new short[] {140}),
+/* NxS[ 140] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS"
+      new Table(24, 1, -1, new short[] {141}),
+/* NxS[ 141] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20"
+      new Table(7, 1, -1, new short[] {142}),
+/* NxS[ 142] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20("
+      new Table(26, 1, -1, new short[] {143}),
+/* NxS[ 143] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(O"
+      new Table(15, 1, -1, new short[] {144}),
+/* NxS[ 144] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OB"
+      new Table(40, 1, -1, new short[] {145}),
+/* NxS[ 145] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJ"
+      new Table(28, 1, -1, new short[] {146}),
+/* NxS[ 146] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJE"
+      new Table(22, 1, -1, new short[] {147}),
+/* NxS[ 147] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJEC"
+      new Table(20, 1, -1, new short[] {148}),
+/* NxS[ 148] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECT"
+      new Table(21, 1, -1, new short[] {149}),
+/* NxS[ 149] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS"
+      new Table(24, 1, -1, new short[] {150}),
+/* NxS[ 150] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20"
+      new Table(17, 1, -1, new short[] {151}),
+/* NxS[ 151] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20I"
+      new Table(30, 1, -1, new short[] {152}),
+/* NxS[ 152] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN"
+      new Table(24, 1, -1, new short[] {153}),
+/* NxS[ 153] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20"
+      new Table(31, 1, -1, new short[] {154}),
+/* NxS[ 154] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A"
+      new Table(24, 1, -1, new short[] {155}),
+/* NxS[ 155] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20"
+      new Table(22, 1, -1, new short[] {156}),
+/* NxS[ 156] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20C"
+      new Table(17, 1, -1, new short[] {157}),
+/* NxS[ 157] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CI"
+      new Table(16, 1, -1, new short[] {158}),
+/* NxS[ 158] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIR"
+      new Table(22, 1, -1, new short[] {159}),
+/* NxS[ 159] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRC"
+      new Table(29, 1, -1, new short[] {160}),
+/* NxS[ 160] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCU"
+      new Table(33, 1, -1, new short[] {161}),
+/* NxS[ 161] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCUL"
+      new Table(31, 1, -1, new short[] {162}),
+/* NxS[ 162] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULA"
+      new Table(16, 1, -1, new short[] {163}),
+/* NxS[ 163] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR"
+      new Table(24, 1, -1, new short[] {164}),
+/* NxS[ 164] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR\x20"
+      new Table(16, 1, -1, new short[] {165}),
+/* NxS[ 165] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR\x20R"
+      new Table(28, 1, -1, new short[] {166}),
+/* NxS[ 166] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR\x20RE"
+      new Table(34, 1, -1, new short[] {167}),
+/* NxS[ 167] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR\x20REF"
+      new Table(24, 1, -1, new short[] {168}),
+/* NxS[ 168] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR\x20REF\x20"
+      new Table(33, 1, -1, new short[] {169}),
+/* NxS[ 169] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR\x20REF\x20L"
+      new Table(26, 1, -1, new short[] {170}),
+/* NxS[ 170] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR\x20REF\x20LO"
+      new Table(26, 1, -1, new short[] {171}),
+/* NxS[ 171] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR\x20REF\x20LOO"
+      new Table(23, 1, -1, new short[] {172}),
+/* NxS[ 172] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR\x20REF\x20LOOP"
+      new Table(8, 1, -1, new short[] {173}),
+/* NxS[ 173] */ // Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR\x20REF\x20LOOP)"
+      new Table(1, 1, -1, new short[] {41}),
+/* NxS[ 174] */ // Shortest string "ENTER\x20"
+      new Table(31, 1, -1, new short[] {175}),
+/* NxS[ 175] */ // Shortest string "ENTER\x20A"
+      new Table(30, 1, -1, new short[] {176}),
+/* NxS[ 176] */ // Shortest string "ENTER\x20AN"
+      new Table(32, 1, -1, new short[] {177}),
+/* NxS[ 177] */ // Shortest string "ENTER\x20ANY"
+      new Table(24, 1, -1, new short[] {178}),
+/* NxS[ 178] */ // Shortest string "ENTER\x20ANY\x20"
+      new Table(15, 1, -1, new short[] {179}),
+/* NxS[ 179] */ // Shortest string "ENTER\x20ANY\x20B"
+      new Table(16, 1, -1, new short[] {180}),
+/* NxS[ 180] */ // Shortest string "ENTER\x20ANY\x20BR"
+      new Table(17, 1, -1, new short[] {181}),
+/* NxS[ 181] */ // Shortest string "ENTER\x20ANY\x20BRI"
+      new Table(18, 1, -1, new short[] {182}),
+/* NxS[ 182] */ // Shortest string "ENTER\x20ANY\x20BRIG"
+      new Table(19, 1, -1, new short[] {183}),
+/* NxS[ 183] */ // Shortest string "ENTER\x20ANY\x20BRIGH"
+      new Table(20, 1, -1, new short[] {184}),
+/* NxS[ 184] */ // Shortest string "ENTER\x20ANY\x20BRIGHT"
+      new Table(21, 1, -1, new short[] {185}),
+/* NxS[ 185] */ // Shortest string "ENTER\x20ANY\x20BRIGHTS"
+      new Table(22, 1, -1, new short[] {186}),
+/* NxS[ 186] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSC"
+      new Table(16, 1, -1, new short[] {187}),
+/* NxS[ 187] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCR"
+      new Table(17, 1, -1, new short[] {188}),
+/* NxS[ 188] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRI"
+      new Table(23, 1, -1, new short[] {189}),
+/* NxS[ 189] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIP"
+      new Table(20, 1, -1, new short[] {190}),
+/* NxS[ 190] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT"
+      new Table(24, 1, -1, new short[] {191}),
+/* NxS[ 191] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20"
+      new Table(21, 1, -1, new short[] {192}),
+/* NxS[ 192] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20S"
+      new Table(20, 1, -1, new short[] {193}),
+/* NxS[ 193] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20ST"
+      new Table(31, 1, -1, new short[] {194}),
+/* NxS[ 194] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STA"
+      new Table(20, 1, -1, new short[] {195}),
+/* NxS[ 195] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STAT"
+      new Table(28, 1, -1, new short[] {196}),
+/* NxS[ 196] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATE"
+      new Table(25, 1, -1, new short[] {197}),
+/* NxS[ 197] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEM"
+      new Table(28, 1, -1, new short[] {198}),
+/* NxS[ 198] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEME"
+      new Table(30, 1, -1, new short[] {199}),
+/* NxS[ 199] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMEN"
+      new Table(20, 1, -1, new short[] {200}),
+/* NxS[ 200] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT"
+      new Table(5, 1, -1, new short[] {201}),
+/* NxS[ 201] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,"
+      new Table(24, 1, -1, new short[] {202}),
+/* NxS[ 202] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20"
+      new Table(27, 1, -1, new short[] {203}),
+/* NxS[ 203] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20D"
+      new Table(28, 1, -1, new short[] {204}),
+/* NxS[ 204] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DE"
+      new Table(15, 1, -1, new short[] {205}),
+/* NxS[ 205] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEB"
+      new Table(29, 1, -1, new short[] {206}),
+/* NxS[ 206] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBU"
+      new Table(18, 1, -1, new short[] {207}),
+/* NxS[ 207] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG"
+      new Table(24, 1, -1, new short[] {208}),
+/* NxS[ 208] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20"
+      new Table(22, 1, -1, new short[] {209}),
+/* NxS[ 209] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20C"
+      new Table(26, 1, -1, new short[] {210}),
+/* NxS[ 210] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20CO"
+      new Table(25, 1, -1, new short[] {211}),
+/* NxS[ 211] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COM"
+      new Table(25, 1, -1, new short[] {212}),
+/* NxS[ 212] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMM"
+      new Table(31, 1, -1, new short[] {213}),
+/* NxS[ 213] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMMA"
+      new Table(30, 1, -1, new short[] {214}),
+/* NxS[ 214] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMMAN"
+      new Table(27, 1, -1, new short[] {215}),
+/* NxS[ 215] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMMAND"
+      new Table(21, 1, -1, new short[] {216}),
+/* NxS[ 216] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMMANDS"
+      new Table(5, 1, -1, new short[] {217}),
+/* NxS[ 217] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMMANDS,"
+      new Table(24, 1, -1, new short[] {218}),
+/* NxS[ 218] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMMANDS,\x20"
+      new Table(26, 1, -1, new short[] {219}),
+/* NxS[ 219] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMMANDS,\x20O"
+      new Table(16, 1, -1, new short[] {220}),
+/* NxS[ 220] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMMANDS,\x20OR"
+      new Table(24, 1, -1, new short[] {221}),
+/* NxS[ 221] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMMANDS,\x20OR\x20"
+      new Table(19, 1, -1, new short[] {222}),
+/* NxS[ 222] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMMANDS,\x20OR\x20H"
+      new Table(28, 1, -1, new short[] {223}),
+/* NxS[ 223] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMMANDS,\x20OR\x20HE"
+      new Table(33, 1, -1, new short[] {224}),
+/* NxS[ 224] */ // Shortest string "ENTER\x20ANY\x20BRIGHTSCRIPT\x20STATEMENT,\x20DEBUG\x20COMMANDS,\x20OR\x20HEL"
+      new Table(23, 1, -1, new short[] {225}),
+/* NxS[ 225] */ // Shortest string "BRIGHTSCRIPT\x20MICRO\x20DEBUGGER"
+      new Table(1, 1, -1, new short[] {46}),
+/* NxS[ 226] */ // Shortest string "CURRENT\x20"
+      new Table(34, 1, -1, new short[] {227}),
+/* NxS[ 227] */ // Shortest string "CURRENT\x20F"
+      new Table(29, 1, -1, new short[] {228}),
+/* NxS[ 228] */ // Shortest string "CURRENT\x20FU"
+      new Table(30, 1, -1, new short[] {229}),
+/* NxS[ 229] */ // Shortest string "CURRENT\x20FUN"
+      new Table(22, 1, -1, new short[] {230}),
+/* NxS[ 230] */ // Shortest string "CURRENT\x20FUNC"
+      new Table(20, 1, -1, new short[] {231}),
+/* NxS[ 231] */ // Shortest string "CURRENT\x20FUNCT"
+      new Table(17, 1, -1, new short[] {232}),
+/* NxS[ 232] */ // Shortest string "CURRENT\x20FUNCTI"
+      new Table(26, 1, -1, new short[] {233}),
+/* NxS[ 233] */ // Shortest string "CURRENT\x20FUNCTIO"
+      new Table(30, 1, -1, new short[] {234}),
+/* NxS[ 234] */ // Shortest string "CURRENT\x20FUNCTION"
+      new Table(2, 1, -1, new short[] {54}),
+/* NxS[ 235] */ // Shortest string "BRIGHTSCRIPT\x20"
+      new Table(25, 3, -1, new short[] {236, -1, 237}),
+/* NxS[ 236] */ // Shortest string "BRIGHTSCRIPT\x20M"
+      new Table(17, 1, -1, new short[] {245}),
+/* NxS[ 237] */ // Shortest string "BRIGHTSCRIPT\x20D"
+      new Table(28, 1, -1, new short[] {238}),
+/* NxS[ 238] */ // Shortest string "BRIGHTSCRIPT\x20DE"
+      new Table(15, 1, -1, new short[] {239}),
+/* NxS[ 239] */ // Shortest string "BRIGHTSCRIPT\x20DEB"
+      new Table(29, 1, -1, new short[] {240}),
+/* NxS[ 240] */ // Shortest string "BRIGHTSCRIPT\x20DEBU"
+      new Table(18, 1, -1, new short[] {241}),
+/* NxS[ 241] */ // Shortest string "BRIGHTSCRIPT\x20DEBUG"
+      new Table(18, 1, -1, new short[] {242}),
+/* NxS[ 242] */ // Shortest string "BRIGHTSCRIPT\x20DEBUGG"
+      new Table(28, 1, -1, new short[] {243}),
+/* NxS[ 243] */ // Shortest string "BRIGHTSCRIPT\x20DEBUGGE"
+      new Table(16, 1, -1, new short[] {244}),
+/* NxS[ 244] */ // Shortest string "BRIGHTSCRIPT\x20DEBUGGER"
+      new Table(4, 1, -1, new short[] {91}),
+/* NxS[ 245] */ // Shortest string "BRIGHTSCRIPT\x20MI"
+      new Table(22, 1, -1, new short[] {246}),
+/* NxS[ 246] */ // Shortest string "BRIGHTSCRIPT\x20MIC"
+      new Table(16, 1, -1, new short[] {247}),
+/* NxS[ 247] */ // Shortest string "BRIGHTSCRIPT\x20MICR"
+      new Table(26, 1, -1, new short[] {248}),
+/* NxS[ 248] */ // Shortest string "BRIGHTSCRIPT\x20MICRO"
+      new Table(24, 1, -1, new short[] {249}),
+/* NxS[ 249] */ // Shortest string "BRIGHTSCRIPT\x20MICRO\x20"
+      new Table(27, 1, -1, new short[] {250}),
+/* NxS[ 250] */ // Shortest string "BRIGHTSCRIPT\x20MICRO\x20D"
+      new Table(28, 1, -1, new short[] {251}),
+/* NxS[ 251] */ // Shortest string "BRIGHTSCRIPT\x20MICRO\x20DE"
+      new Table(15, 1, -1, new short[] {252}),
+/* NxS[ 252] */ // Shortest string "BRIGHTSCRIPT\x20MICRO\x20DEB"
+      new Table(29, 1, -1, new short[] {253}),
+/* NxS[ 253] */ // Shortest string "BRIGHTSCRIPT\x20MICRO\x20DEBU"
+      new Table(18, 1, -1, new short[] {254}),
+/* NxS[ 254] */ // Shortest string "BRIGHTSCRIPT\x20MICRO\x20DEBUG"
+      new Table(18, 1, -1, new short[] {255}),
+/* NxS[ 255] */ // Shortest string "BRIGHTSCRIPT\x20MICRO\x20DEBUGG"
+      new Table(28, 1, -1, new short[] {256}),
+/* NxS[ 256] */ // Shortest string "BRIGHTSCRIPT\x20MICRO\x20DEBUGGE"
+      new Table(16, 1, -1, new short[] {225}),
+/* NxS[ 257] */ // Shortest string "--"
+      new Table(14, 1, -1, new short[] {258}),
+/* NxS[ 258] */ // Shortest string "---"
+      new Table(14, 1, -1, new short[] {259}),
+/* NxS[ 259] */ // Shortest string "----"
+      new Table(14, 1, -1, new short[] {260}),
+/* NxS[ 260] */ // Shortest string "-----"
+      new Table(14, 1, -1, new short[] {92}),
     };
 
 int NextState() {
@@ -536,7 +858,7 @@ int NextState() {
         unchecked {
             int rslt;
             int idx = MapC(code) - NxS[state].min;
-            if (idx < 0) idx += 39;
+            if (idx < 0) idx += 43;
             if ((uint)idx >= (uint)NxS[state].rng) rslt = NxS[state].dflt;
             else rslt = NxS[state].nxt[idx];
             return rslt;
@@ -999,139 +1321,114 @@ return (int)Tokens.equal;
         case 14: // Recognized '{minus}',	Shortest string "-"
 return (int)Tokens.minus;
             break;
-        case 15: // Recognized '{Ident}',	Shortest string "P"
+        case 15: // Recognized '{Ident}',	Shortest string "B"
         case 16: // Recognized '{Ident}',	Shortest string "R"
         case 17: // Recognized '{Ident}',	Shortest string "I"
         case 18: // Recognized '{Ident}',	Shortest string "S"
-        case 19: // Recognized '{Ident}',	Shortest string "F"
-        case 20: // Recognized '{Ident}',	Shortest string "C"
-        case 21: // Recognized '{Ident}',	Shortest string "B"
-        case 22: // Recognized '{Ident}',	Shortest string "D"
-        case 23: // Recognized '{Ident}',	Shortest string "L"
-        case 24: // Recognized '{Ident}',	Shortest string "V"
-        case 25: // Recognized '{Ident}',	Shortest string "M"
-        case 29: // Recognized '{Ident}',	Shortest string "MA"
-        case 30: // Recognized '{Ident}',	Shortest string "MAI"
-        case 32: // Recognized '{Ident}',	Shortest string "VA"
-        case 33: // Recognized '{Ident}',	Shortest string "VAR"
-        case 34: // Recognized '{Ident}',	Shortest string "VARI"
-        case 35: // Recognized '{Ident}',	Shortest string "VARIA"
-        case 36: // Recognized '{Ident}',	Shortest string "VARIAB"
-        case 37: // Recognized '{Ident}',	Shortest string "VARIABL"
-        case 38: // Recognized '{Ident}',	Shortest string "VARIABLE"
-        case 40: // Recognized '{Ident}',	Shortest string "LI"
-        case 41: // Recognized '{Ident}',	Shortest string "LO"
-        case 42: // Recognized '{Ident}',	Shortest string "LOC"
-        case 43: // Recognized '{Ident}',	Shortest string "LOCA"
-        case 45: // Recognized '{Ident}',	Shortest string "LIN"
-        case 47: // Recognized '{Ident}',	Shortest string "DE"
-        case 48: // Recognized '{Ident}',	Shortest string "DEB"
-        case 50: // Recognized '{Ident}',	Shortest string "DEBU"
-        case 51: // Recognized '{Ident}',	Shortest string "DEBUG"
-        case 52: // Recognized '{Ident}',	Shortest string "DEBUGG"
-        case 53: // Recognized '{Ident}',	Shortest string "DEBUGGE"
-        case 55: // Recognized '{Ident}',	Shortest string "BR"
-        case 56: // Recognized '{Ident}',	Shortest string "BA"
-        case 57: // Recognized '{Ident}',	Shortest string "BAC"
-        case 58: // Recognized '{Ident}',	Shortest string "BACK"
-        case 59: // Recognized '{Ident}',	Shortest string "BACKT"
-        case 60: // Recognized '{Ident}',	Shortest string "BACKTR"
-        case 61: // Recognized '{Ident}',	Shortest string "BACKTRA"
-        case 62: // Recognized '{Ident}',	Shortest string "BACKTRAC"
-        case 64: // Recognized '{Ident}',	Shortest string "BRI"
-        case 65: // Recognized '{Ident}',	Shortest string "BRIG"
-        case 66: // Recognized '{Ident}',	Shortest string "BRIGH"
-        case 67: // Recognized '{Ident}',	Shortest string "BRIGHT"
-        case 68: // Recognized '{Ident}',	Shortest string "BRIGHTS"
-        case 69: // Recognized '{Ident}',	Shortest string "BRIGHTSC"
-        case 70: // Recognized '{Ident}',	Shortest string "BRIGHTSCR"
-        case 71: // Recognized '{Ident}',	Shortest string "BRIGHTSCRI"
-        case 72: // Recognized '{Ident}',	Shortest string "BRIGHTSCRIP"
-        case 74: // Recognized '{Ident}',	Shortest string "CO"
-        case 75: // Recognized '{Ident}',	Shortest string "CU"
-        case 76: // Recognized '{Ident}',	Shortest string "CUR"
-        case 77: // Recognized '{Ident}',	Shortest string "CURR"
-        case 78: // Recognized '{Ident}',	Shortest string "CURRE"
-        case 79: // Recognized '{Ident}',	Shortest string "CURREN"
-        case 81: // Recognized '{Ident}',	Shortest string "COM"
-        case 82: // Recognized '{Ident}',	Shortest string "COMP"
-        case 83: // Recognized '{Ident}',	Shortest string "COMPI"
-        case 84: // Recognized '{Ident}',	Shortest string "COMPIL"
-        case 85: // Recognized '{Ident}',	Shortest string "COMPILI"
-        case 86: // Recognized '{Ident}',	Shortest string "COMPILIN"
-        case 88: // Recognized '{Ident}',	Shortest string "FI"
-        case 89: // Recognized '{Ident}',	Shortest string "FU"
-        case 90: // Recognized '{Ident}',	Shortest string "FUN"
-        case 91: // Recognized '{Ident}',	Shortest string "FUNC"
-        case 92: // Recognized '{Ident}',	Shortest string "FUNCT"
-        case 93: // Recognized '{Ident}',	Shortest string "FUNCTI"
-        case 94: // Recognized '{Ident}',	Shortest string "FUNCTIO"
-        case 96: // Recognized '{Ident}',	Shortest string "FIL"
-        case 98: // Recognized '{Ident}',	Shortest string "ST"
-        case 99: // Recognized '{Ident}',	Shortest string "STO"
-        case 101: // Recognized '{Ident}',	Shortest string "RU"
-        case 102: // Recognized '{Ident}',	Shortest string "RUN"
-        case 103: // Recognized '{Ident}',	Shortest string "RUNN"
-        case 104: // Recognized '{Ident}',	Shortest string "RUNNI"
-        case 105: // Recognized '{Ident}',	Shortest string "RUNNIN"
-        case 107: // Recognized '{Ident}',	Shortest string "PR"
-        case 108: // Recognized '{Ident}',	Shortest string "PRI"
-        case 109: // Recognized '{Ident}',	Shortest string "PRIN"
+        case 19: // Recognized '{Ident}',	Shortest string "C"
+        case 20: // Recognized '{Ident}',	Shortest string "E"
+        case 21: // Recognized '{Ident}',	Shortest string "N"
+        case 22: // Recognized '{Ident}',	Shortest string "L"
+        case 23: // Recognized '{Ident}',	Shortest string "F"
+        case 29: // Recognized '{Ident}',	Shortest string "FI"
+        case 30: // Recognized '{Ident}',	Shortest string "FIL"
+        case 31: // Recognized '{Ident}',	Shortest string "FILE"
+        case 33: // Recognized '{Ident}',	Shortest string "LO"
+        case 34: // Recognized '{Ident}',	Shortest string "LOC"
+        case 35: // Recognized '{Ident}',	Shortest string "LOCA"
+        case 36: // Recognized '{Ident}',	Shortest string "LOCAL"
+        case 38: // Recognized '{Ident}',	Shortest string "NO"
+        case 39: // Recognized '{Ident}',	Shortest string "NOT"
+        case 40: // Recognized '{Ident}',	Shortest string "NOTE"
+        case 42: // Recognized '{Ident}',	Shortest string "EN"
+        case 43: // Recognized '{Ident}',	Shortest string "ENT"
+        case 44: // Recognized '{Ident}',	Shortest string "ENTE"
+        case 45: // Recognized '{Ident}',	Shortest string "ENTER"
+        case 47: // Recognized '{Ident}',	Shortest string "CO"
+        case 48: // Recognized '{Ident}',	Shortest string "CU"
+        case 49: // Recognized '{Ident}',	Shortest string "CUR"
+        case 50: // Recognized '{Ident}',	Shortest string "CURR"
+        case 51: // Recognized '{Ident}',	Shortest string "CURRE"
+        case 52: // Recognized '{Ident}',	Shortest string "CURREN"
+        case 53: // Recognized '{Ident}',	Shortest string "CURRENT"
+        case 55: // Recognized '{Ident}',	Shortest string "COM"
+        case 56: // Recognized '{Ident}',	Shortest string "COMP"
+        case 57: // Recognized '{Ident}',	Shortest string "COMPI"
+        case 58: // Recognized '{Ident}',	Shortest string "COMPIL"
+        case 59: // Recognized '{Ident}',	Shortest string "COMPILI"
+        case 60: // Recognized '{Ident}',	Shortest string "COMPILIN"
+        case 62: // Recognized '{Ident}',	Shortest string "ST"
+        case 63: // Recognized '{Ident}',	Shortest string "STO"
+        case 65: // Recognized '{Ident}',	Shortest string "RU"
+        case 66: // Recognized '{Ident}',	Shortest string "RUN"
+        case 67: // Recognized '{Ident}',	Shortest string "RUNN"
+        case 68: // Recognized '{Ident}',	Shortest string "RUNNI"
+        case 69: // Recognized '{Ident}',	Shortest string "RUNNIN"
+        case 71: // Recognized '{Ident}',	Shortest string "BR"
+        case 72: // Recognized '{Ident}',	Shortest string "BA"
+        case 73: // Recognized '{Ident}',	Shortest string "BAC"
+        case 74: // Recognized '{Ident}',	Shortest string "BACK"
+        case 75: // Recognized '{Ident}',	Shortest string "BACKT"
+        case 76: // Recognized '{Ident}',	Shortest string "BACKTR"
+        case 77: // Recognized '{Ident}',	Shortest string "BACKTRA"
+        case 78: // Recognized '{Ident}',	Shortest string "BACKTRAC"
+        case 79: // Recognized '{Ident}',	Shortest string "BACKTRACE"
+        case 81: // Recognized '{Ident}',	Shortest string "BRI"
+        case 82: // Recognized '{Ident}',	Shortest string "BRIG"
+        case 83: // Recognized '{Ident}',	Shortest string "BRIGH"
+        case 84: // Recognized '{Ident}',	Shortest string "BRIGHT"
+        case 85: // Recognized '{Ident}',	Shortest string "BRIGHTS"
+        case 86: // Recognized '{Ident}',	Shortest string "BRIGHTSC"
+        case 87: // Recognized '{Ident}',	Shortest string "BRIGHTSCR"
+        case 88: // Recognized '{Ident}',	Shortest string "BRIGHTSCRI"
+        case 89: // Recognized '{Ident}',	Shortest string "BRIGHTSCRIP"
+        case 90: // Recognized '{Ident}',	Shortest string "BRIGHTSCRIPT"
 return (int)Tokens.dgIdent;
             break;
-        case 26: // Recognized '{Number}',	Shortest string "0"
-        case 28: // Recognized '{Number}',	Shortest string ".0"
+        case 24: // Recognized '{Number}',	Shortest string "0"
+        case 27: // Recognized '{Number}',	Shortest string ".0"
 return (int)Tokens.dgNumber;
             break;
-        case 27: // Recognized '{Str}',	Shortest string "''"
+        case 25: // Recognized '{Str}',	Shortest string "''"
 return (int)Tokens.dgStr;
             break;
-        case 31: // Recognized '{dgMain}',	Shortest string "MAIN"
-return (int)Tokens.dgMain;
+        case 26: // Recognized '{dgTraceLine}',	Shortest string "#0"
+return (int)Tokens.dgTraceLine;
             break;
-        case 39: // Recognized '{dgVariables}',	Shortest string "VARIABLES"
+        case 28: // Recognized '{dgCodeLine}',	Shortest string "0:"
+return (int)Tokens.dgCodeLine;
+            break;
+        case 32: // Recognized '{dgTraceFile}',	Shortest string "FILE/LINE"
+return (int)Tokens.dgTraceFile;
+            break;
+        case 37: // Recognized '{dgVariables}',	Shortest string "LOCAL\x20VARIABLES:"
 return (int)Tokens.dgVariables;
             break;
-        case 44: // Recognized '{dgLocal}',	Shortest string "LOCAL"
-return (int)Tokens.dgLocal;
+        case 41: // Recognized '{dgNote}',	Shortest string "NOTE:\x20GC\x20-\x20FOUND\x200\x20ORPHANED\x20OBJECTS\x20(OBJECTS\x20IN\x20A\x20CIRCULAR\x20REF\x20LOOP)."
+return (int)Tokens.dgNote;
             break;
-        case 46: // Recognized '{dgLine}',	Shortest string "LINE"
-return (int)Tokens.dgLine;
+        case 46: // Recognized '{dgEnterDebug}',	Shortest string "BRIGHTSCRIPT\x20MICRO\x20DEBUGGER."
+return (int)Tokens.dgEnterDebug;
             break;
-        case 49: // Recognized '{dgDev}',	Shortest string "DEV"
-return (int)Tokens.dgDev;
+        case 54: // Recognized '{dgCurrFunc}',	Shortest string "CURRENT\x20FUNCTION:"
+return (int)Tokens.dgCurrFunc;
             break;
-        case 54: // Recognized '{dgDebugger}',	Shortest string "DEBUGGER"
-return (int)Tokens.dgDebugger;
-            break;
-        case 63: // Recognized '{dgBacktrace}',	Shortest string "BACKTRACE"
-return (int)Tokens.dgBacktrace;
-            break;
-        case 73: // Recognized '{dgBS}',	Shortest string "BRIGHTSCRIPT"
-return (int)Tokens.dgBS;
-            break;
-        case 80: // Recognized '{dgCurrent}',	Shortest string "CURRENT"
-return (int)Tokens.dgCurrent;
-            break;
-        case 87: // Recognized '{dgCompiling}',	Shortest string "COMPILING"
+        case 61: // Recognized '{dgCompiling}',	Shortest string "COMPILING"
 return (int)Tokens.dgCompiling;
             break;
-        case 95: // Recognized '{dgFunction}',	Shortest string "FUNCTION"
-return (int)Tokens.dgFunction;
+        case 64: // Recognized '{dgDebugLine}',	Shortest string "STOP"
+return (int)Tokens.dgDebugLine;
             break;
-        case 97: // Recognized '{dgFile}',	Shortest string "FILE"
-return (int)Tokens.dgFile;
-            break;
-        case 100: // Recognized '{dgStop}',	Shortest string "STOP"
-return (int)Tokens.dgStop;
-            break;
-        case 106: // Recognized '{dgRunning}',	Shortest string "RUNNING"
+        case 70: // Recognized '{dgRunning}',	Shortest string "RUNNING"
 return (int)Tokens.dgRunning;
             break;
-        case 110: // Recognized '{print}',	Shortest string "PRINT"
-return (int)Tokens.print;
+        case 80: // Recognized '{dgBacktrace}',	Shortest string "BACKTRACE:"
+return (int)Tokens.dgBacktrace;
             break;
-        case 111: // Recognized '{dgMinus}',	Shortest string "------"
+        case 91: // Recognized '{dgDebugger}',	Shortest string "BRIGHTSCRIPT\x20DEBUGGER>"
+return (int)Tokens.dgDebugger;
+            break;
+        case 92: // Recognized '{dgMinus}',	Shortest string "------"
 return (int)Tokens.dgMinus;
             break;
         default:

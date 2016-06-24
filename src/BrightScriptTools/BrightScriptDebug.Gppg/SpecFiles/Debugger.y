@@ -16,7 +16,7 @@
 %token dot, colon, star, gt, comma, slash, lPar, rPar, lBrace, rBrace, Eol, equal, minus
 
 %token dgEnterDebug, dgCompiling, dgMinus, dgRunning, dgCurrFunc, dgCodeLine, dgDebugLine, dgBacktrace, dgTraceLine
-%token dgTraceFile, dgVariables, dgDebugger, dgVarLine
+%token dgTraceFile, dgVariables, dgDebugger, dgNote
 
 %token dgNumber, dgIdent, dgStr, dgLine
 
@@ -40,13 +40,9 @@ DebugElement
 	| CompilingStatment
 	| RunningStatment
 	| CurrentFunctionStatment
-	| CodeLineStatment
-	| DebugLineStatment
 	| BacktraceStatment
-	| TraceLineStatment
 	| VariablesStatment
 	| DebuggerStatment
-	| VarLineStatment
 	;
 
 CompilingStatment
@@ -62,35 +58,20 @@ EnterDebugStatment
 	;
 
 CurrentFunctionStatment
-	: dgCurrFunc Eol
-	;
-
-CodeLineStatment
-	: dgCodeLine Eol
-	;
-
-DebugLineStatment
-	: dgDebugLine Eol
+	: dgCurrFunc Eol { ProcessCurrentFunction(); }
 	;
 
 BacktraceStatment
-	: dgBacktrace Eol
-	;
-
-TraceLineStatment
-	: dgTraceLine Eol dgTraceFile Eol
+	: dgBacktrace Eol { ProcessBacktrace(); }
 	;
 
 VariablesStatment
-	: dgVariables Eol
-	;
-
-VarLineStatment
-	: dgVarLine Eol
+	: dgVariables Eol { ProcessVariables(); }
 	;
 
 DebuggerStatment
-	: dgDebugger Eol
+	: dgDebugger Eol { ProcessDebug(); }
+	| dgDebugger dgNote Eol
 	;
 
 ErrorStatment

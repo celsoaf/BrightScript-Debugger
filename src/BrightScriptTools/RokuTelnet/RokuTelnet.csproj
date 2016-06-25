@@ -109,9 +109,14 @@
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\IAppController.cs" />
     <Compile Include="Enums\DebuggerCommandEnum.cs" />
+    <Compile Include="Events\AppCloseEvent.cs" />
+    <Compile Include="Events\AppOpenEvent.cs" />
+    <Compile Include="Events\BacktraceEvent.cs" />
     <Compile Include="Events\CommandEvent.cs" />
+    <Compile Include="Events\DebugEvent.cs" />
     <Compile Include="Events\LogEvent.cs" />
-    <Compile Include="Models\StackModel.cs" />
+    <Compile Include="Events\VariablesEvent.cs" />
+    <Compile Include="Models\BacktraceModel.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Services\Parser\IParserService.cs" />
     <Compile Include="Services\Parser\ParserService.cs" />

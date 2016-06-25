@@ -4,12 +4,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:utils="clr-namespace:RokuTelnet.Utils"
+             xmlns:converters="clr-namespace:RokuTelnet.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:UnixTextConverter x:Key="UnixTextConverter"/>
+        <converters:UnixColorConverter x:Key="UnixColorConverter"/>
+    </UserControl.Resources>
     <Grid>
-
         <utils:AutoScrollingListView ItemsSource="{Binding Logs}"
-            Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas" />
+            Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Converter={StaticResource UnixTextConverter}}" Foreground="{Binding Converter={StaticResource UnixColorConverter}}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </utils:AutoScrollingListView>
 
     </Grid>
 </UserControl>

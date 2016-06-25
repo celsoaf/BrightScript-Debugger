@@ -108,6 +108,8 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\IAppController.cs" />
+    <Compile Include="Converters\UnixColorConverter.cs" />
+    <Compile Include="Converters\UnixTextConverter.cs" />
     <Compile Include="Enums\DebuggerCommandEnum.cs" />
     <Compile Include="Events\AppCloseEvent.cs" />
     <Compile Include="Events\AppOpenEvent.cs" />

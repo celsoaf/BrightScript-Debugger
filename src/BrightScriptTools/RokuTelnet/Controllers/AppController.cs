@@ -39,7 +39,7 @@ namespace RokuTelnet.Controllers
             _regionManager.RegisterViewWithRegion(RegionNames.INPUT, () => _container.Resolve<IInputViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.TOOLBAR, () => _container.Resolve<IToolbarViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.STACK_PANEL, () => _container.Resolve<IStackPanelViewModel>().View);
-            _regionManager.RegisterViewWithRegion(RegionNames.WATCH, () => _container.Resolve<IWatchViewModel>().View);
+            //_regionManager.RegisterViewWithRegion(RegionNames.WATCH, () => _container.Resolve<IWatchViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.LOCALS, () => _container.Resolve<ILocalsViewModel>().View);
 
             Task.Factory.StartNew(() =>

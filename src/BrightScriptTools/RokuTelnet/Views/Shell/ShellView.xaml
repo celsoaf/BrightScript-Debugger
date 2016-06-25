@@ -43,11 +43,11 @@
 
             <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="5"/>
 
-            <ContentControl Grid.Row="2" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.WATCH}" />
+            <ContentControl Grid.Row="2" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.LOCALS}" />
 
             <GridSplitter Grid.Row="3" HorizontalAlignment="Stretch" Height="5"/>
 
-            <ContentControl Grid.Row="4" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.LOCALS}" />
+            <ContentControl Grid.Row="4" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.WATCH}" />
         </Grid>
     </Grid>
 </Window>

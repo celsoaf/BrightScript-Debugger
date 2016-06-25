@@ -1,10 +1,12 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Interop;
 using BrightScriptDebug.Compiler;
 using Prism.Events;
 using RokuTelnet.Events;
+using RokuTelnet.Models;
 
 namespace RokuTelnet.Services.Parser
 {
@@ -33,21 +35,58 @@ namespace RokuTelnet.Services.Parser
 
                 _eventAggregator.GetEvent<LogEvent>().Subscribe(ProcessLog);
 
-               Task.Factory.StartNew(() =>
+                Task.Factory.StartNew(() =>
                 {
+                    // parse input args, and open input file
+                    var scanner = new Scanner(_stream);
+
+                    var parser = new BrightScriptDebug.Compiler.Parser(scanner);
+
+                    parser.BacktraceProcessed += PublishBacktrace;
+                    parser.VariablesProcessed += PublishVariables;
+                    parser.DebugPorcessed += PublishDebug;
+                    parser.AppCloseProcessed += PublishAppClose;
+                    parser.AppOpenProcessed += PublishAppOpen;
+
                     while (_running)
                     {
                         Task.Delay(1000).Wait();
 
-                        // parse input args, and open input file
-                        var scanner = new Scanner(_stream);
-
-                        var parser = new BrightScriptDebug.Compiler.Parser(scanner);
-
                         parser.Parse();
                     }
+
+                    parser.BacktraceProcessed -= PublishBacktrace;
+                    parser.VariablesProcessed -= PublishVariables;
+                    parser.DebugPorcessed -= PublishDebug;
+                    parser.AppCloseProcessed -= PublishAppClose;
+                    parser.AppOpenProcessed -= PublishAppOpen;
                 }, _cancellationToken.Token);
             }
+        }
+
+        private void PublishBacktrace(List<BacktraceModel> trace)
+        {
+            _eventAggregator.GetEvent<BacktraceEvent>().Publish(trace);
+        }
+
+        private void PublishVariables(Dictionary<string, string> vars)
+        {
+            _eventAggregator.GetEvent<VariablesEvent>().Publish(vars);
+        }
+
+        private void PublishDebug()
+        {
+            _eventAggregator.GetEvent<DebugEvent>().Publish(true);
+        }
+
+        private void PublishAppClose()
+        {
+            _eventAggregator.GetEvent<AppCloseEvent>().Publish(null);
+        }
+
+        private void PublishAppOpen()
+        {
+            _eventAggregator.GetEvent<AppOpenEvent>().Publish(null);
         }
 
         private void ProcessLog(string msg)

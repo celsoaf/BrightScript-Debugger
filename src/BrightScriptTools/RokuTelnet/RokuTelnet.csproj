@@ -95,6 +95,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\BrightScriptDebug.GPlex\SpecFiles\Scanner.cs">
+      <Link>Services\Parser\Utils\Scanner.cs</Link>
+    </Compile>
+    <Compile Include="..\BrightScriptDebug.Gppg\SpecFiles\Parser.cs">
+      <Link>Services\Parser\Utils\Parser.cs</Link>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -107,6 +113,8 @@
     <Compile Include="Events\LogEvent.cs" />
     <Compile Include="Models\StackModel.cs" />
     <Compile Include="RegionNames.cs" />
+    <Compile Include="Services\Parser\Utils\ParserExtension.cs" />
+    <Compile Include="Services\Parser\Utils\ScannerExtension.cs" />
     <Compile Include="Services\Telnet\ITelenetService.cs" />
     <Compile Include="Services\Telnet\SoketService.cs" />
     <Compile Include="Services\Telnet\SuperSocketService.cs" />
@@ -272,8 +280,16 @@
   <ItemGroup>
     <Resource Include="Resources\stop.png" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Services\Parser\" />
+    <ProjectReference Include="..\BrightScriptDebug.GPlex\BrightScriptDebug.GPlex.csproj">
+      <Project>{f9e856de-8322-4556-8c5d-d9ed9dbbe894}</Project>
+      <Name>BrightScriptDebug.GPlex</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrightScriptDebug.Gppg\BrightScriptDebug.Gppg.csproj">
+      <Project>{8e6c1395-5abd-416a-9721-28aa5cc45263}</Project>
+      <Name>BrightScriptDebug.Gppg</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

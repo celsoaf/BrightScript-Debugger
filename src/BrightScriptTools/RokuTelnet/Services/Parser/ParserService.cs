@@ -69,7 +69,7 @@ namespace RokuTelnet.Services.Parser
             _eventAggregator.GetEvent<BacktraceEvent>().Publish(trace);
         }
 
-        private void PublishVariables(Dictionary<string, string> vars)
+        private void PublishVariables(List<VariableModel> vars)
         {
             _eventAggregator.GetEvent<VariablesEvent>().Publish(vars);
         }

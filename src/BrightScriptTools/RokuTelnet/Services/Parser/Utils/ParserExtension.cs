@@ -14,7 +14,7 @@ namespace BrightScriptDebug.Compiler
 
         }
 
-        public event Action<List<string>> CurrentFunctionProcessed; 
+        public event Action<List<string>> CurrentFunctionProcessed;
 
         public void ProcessCurrentFunction()
         {
@@ -33,7 +33,7 @@ namespace BrightScriptDebug.Compiler
             CurrentFunctionProcessed?.Invoke(lines);
         }
 
-        public event Action<List<BacktraceModel>> BacktraceProcessed; 
+        public event Action<List<BacktraceModel>> BacktraceProcessed;
 
         public void ProcessBacktrace()
         {
@@ -66,18 +66,18 @@ namespace BrightScriptDebug.Compiler
                 });
 
                 Scanner.yylex();
-                if(trace.StartsWith("#0"))
+                if (trace.StartsWith("#0"))
                     break;
             }
 
             BacktraceProcessed?.Invoke(stack);
         }
 
-        public event Action<Dictionary<string, string>> VariablesProcessed; 
+        public event Action<List<VariableModel>> VariablesProcessed;
 
         public void ProcessVariables()
         {
-            var dic = new Dictionary<string, string>();
+            var dic = new List<VariableModel>();
 
             int last;
             int curr = 0;
@@ -91,7 +91,7 @@ namespace BrightScriptDebug.Compiler
                 if (curr == (int)Tokens.Eol)
                 {
                     if (key != null)
-                        dic.Add(key, value);
+                        dic.Add(new VariableModel { Ident = key, Value = value });
                     key = value = null;
                 }
                 else if (key == null)
@@ -105,7 +105,7 @@ namespace BrightScriptDebug.Compiler
             VariablesProcessed?.Invoke(dic);
         }
 
-        public event Action DebugPorcessed; 
+        public event Action DebugPorcessed;
 
         public void ProcessDebug()
         {
@@ -114,7 +114,7 @@ namespace BrightScriptDebug.Compiler
             DebugPorcessed?.Invoke();
         }
 
-        public event Action AppCloseProcessed; 
+        public event Action AppCloseProcessed;
 
         public void ProcessAppClose()
         {

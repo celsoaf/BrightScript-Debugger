@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using BrightScriptTools.GPlex;
 using BrightScriptTools.GPlex.Parser;
+using RokuTelnet.Models;
 
 namespace BrightScriptDebug.Compiler
 {
@@ -12,6 +13,8 @@ namespace BrightScriptDebug.Compiler
         {
 
         }
+
+        public event Action<List<string>> CurrentFunctionProcessed; 
 
         public void ProcessCurrentFunction()
         {
@@ -26,15 +29,11 @@ namespace BrightScriptDebug.Compiler
             Scanner.yylex();
             Scanner.yylex();
             Scanner.yylex();
+
+            CurrentFunctionProcessed?.Invoke(lines);
         }
 
-        public class BacktraceModel
-        {
-            public int Position { get; set; }
-            public string Function { get; set; }
-            public string File { get; set; }
-            public int Line { get; set; }
-        }
+        public event Action<List<BacktraceModel>> BacktraceProcessed; 
 
         public void ProcessBacktrace()
         {
@@ -69,8 +68,12 @@ namespace BrightScriptDebug.Compiler
                 Scanner.yylex();
                 if(trace.StartsWith("#0"))
                     break;
-            }   
+            }
+
+            BacktraceProcessed?.Invoke(stack);
         }
+
+        public event Action<Dictionary<string, string>> VariablesProcessed; 
 
         public void ProcessVariables()
         {
@@ -98,16 +101,35 @@ namespace BrightScriptDebug.Compiler
                 else
                     value += " " + ((Scanner)Scanner).yytext;
             } while (curr != last || curr != (int)Tokens.Eol);
+
+            VariablesProcessed?.Invoke(dic);
         }
+
+        public event Action DebugPorcessed; 
 
         public void ProcessDebug()
         {
             Console.WriteLine(@"Debug");
+
+            DebugPorcessed?.Invoke();
         }
+
+        public event Action AppCloseProcessed; 
 
         public void ProcessAppClose()
         {
             Console.WriteLine(@"App Closed");
+
+            AppCloseProcessed?.Invoke();
+        }
+
+        public event Action AppOpenProcessed;
+
+        public void ProcessAppOpen()
+        {
+            Console.WriteLine(@"App Open");
+
+            AppOpenProcessed?.Invoke();
         }
     }
 }

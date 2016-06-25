@@ -117,6 +117,7 @@
     <Compile Include="Events\LogEvent.cs" />
     <Compile Include="Events\VariablesEvent.cs" />
     <Compile Include="Models\BacktraceModel.cs" />
+    <Compile Include="Models\VariableModel.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Services\Parser\IParserService.cs" />
     <Compile Include="Services\Parser\ParserService.cs" />

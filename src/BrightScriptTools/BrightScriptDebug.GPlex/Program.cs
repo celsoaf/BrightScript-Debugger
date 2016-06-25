@@ -24,7 +24,7 @@ namespace BrightScriptTools.GPlex
             //var lexerArgs = new string[] { "/verbose", "/version", "/unicode", "SpecFiles\\BrightScriptLexer" };
             //GenerateScanner(lexerArgs);
 
-            var debuggerArgs = new string[] { "/verbose", "/version", "/unicode", "SpecFiles\\Debugger" };
+            var debuggerArgs = new string[] { "/verbose", "/version", "/unicode", "/errorsToConsole", "SpecFiles\\Debugger" };
             GenerateScanner(debuggerArgs);
 
             Console.ReadLine();

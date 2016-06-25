@@ -81,6 +81,7 @@ AppCloseStatement
 
 ErrorStatment
 	: errTok Eol
+	| error Eol
 	;
 
 

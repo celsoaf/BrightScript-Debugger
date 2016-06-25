@@ -2,6 +2,7 @@
 using Microsoft.Practices.Unity;
 using Prism.Unity;
 using RokuTelnet.Controllers;
+using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Telnet;
 using RokuTelnet.Views.Input;
 using RokuTelnet.Views.Locals;
@@ -63,6 +64,7 @@ namespace RokuTelnet
             //Container.RegisterType<ITelenetService, TelenetService>();
             //Container.RegisterType<ITelenetService, SuperSocketService>();
             Container.RegisterType<ITelenetService, SoketService>();
+            Container.RegisterType<IParserService, ParserService>();
             
 
             Container.Resolve<IAppController>().Initialize();

@@ -113,7 +113,10 @@
     <Compile Include="Events\LogEvent.cs" />
     <Compile Include="Models\StackModel.cs" />
     <Compile Include="RegionNames.cs" />
+    <Compile Include="Services\Parser\IParserService.cs" />
+    <Compile Include="Services\Parser\ParserService.cs" />
     <Compile Include="Services\Parser\Utils\ParserExtension.cs" />
+    <Compile Include="Services\Parser\Utils\PipeStream.cs" />
     <Compile Include="Services\Parser\Utils\ScannerExtension.cs" />
     <Compile Include="Services\Telnet\ITelenetService.cs" />
     <Compile Include="Services\Telnet\SoketService.cs" />

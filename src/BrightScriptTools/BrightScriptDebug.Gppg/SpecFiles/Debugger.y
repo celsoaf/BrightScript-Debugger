@@ -51,7 +51,7 @@ CompilingStatment
 	;
 
 RunningStatment
-	: dgMinus dgRunning dgIdent dgStr dgIdent dgMinus Eol
+	: dgMinus dgRunning dgIdent dgStr dgIdent dgMinus Eol { ProcessAppOpen(); }
 	;
 
 EnterDebugStatment

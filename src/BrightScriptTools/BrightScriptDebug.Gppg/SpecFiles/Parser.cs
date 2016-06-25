@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  OSTLT0248323
-// DateTime: 25/06/2016 13:52:06
+// DateTime: 25/06/2016 15:22:52
 // UserName: CFE05
-// Input file <SpecFiles\Debugger.y - 25/06/2016 13:51:41>
+// Input file <SpecFiles\Debugger.y - 25/06/2016 15:20:18>
 
 // options: babel lines diagnose & report gplex
 
@@ -166,6 +166,11 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
 #pragma warning disable 162, 1522
     switch (action)
     {
+      case 16: // RunningStatment -> dgMinus, dgRunning, dgIdent, dgStr, dgIdent, dgMinus, Eol
+#line 54 "SpecFiles\Debugger.y"
+                                                       { ProcessAppOpen(); }
+#line default
+        break;
       case 18: // CurrentFunctionStatment -> dgCurrFunc, Eol
 #line 62 "SpecFiles\Debugger.y"
                   { ProcessCurrentFunction(); }

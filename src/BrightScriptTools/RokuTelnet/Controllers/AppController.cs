@@ -4,6 +4,7 @@ using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Regions;
 using RokuTelnet.Events;
+using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Telnet;
 using RokuTelnet.Views.Input;
 using RokuTelnet.Views.Locals;
@@ -19,14 +20,16 @@ namespace RokuTelnet.Controllers
         private IUnityContainer _container;
         private IEventAggregator _eventAggregator;
         private ITelenetService _telenetService;
+        private IParserService _parserService;
 
         private IRegionManager _regionManager;
 
-        public AppController(IUnityContainer container, IEventAggregator eventAggregator, IRegionManager regionManager)
+        public AppController(IUnityContainer container, IEventAggregator eventAggregator, IRegionManager regionManager, IParserService parserService)
         {
             _container = container;
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
+            _parserService = parserService;
             _container = container;
         }
 
@@ -42,7 +45,8 @@ namespace RokuTelnet.Controllers
             Task.Factory.StartNew(() =>
             {
                 Task.Delay(1000).Wait();
-                Connect("10.241.10.35", 8085).Wait();
+                _parserService.Start();
+                Connect("192.168.1.108", 8085).Wait();
             }, TaskCreationOptions.LongRunning);
             
 

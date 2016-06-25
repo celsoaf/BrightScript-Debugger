@@ -6,6 +6,7 @@ using Prism.Regions;
 using RokuTelnet.Events;
 using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Telnet;
+using RokuTelnet.Views.Console;
 using RokuTelnet.Views.Input;
 using RokuTelnet.Views.Locals;
 using RokuTelnet.Views.Output;
@@ -41,6 +42,7 @@ namespace RokuTelnet.Controllers
             _regionManager.RegisterViewWithRegion(RegionNames.STACK_PANEL, () => _container.Resolve<IStackPanelViewModel>().View);
             //_regionManager.RegisterViewWithRegion(RegionNames.WATCH, () => _container.Resolve<IWatchViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.LOCALS, () => _container.Resolve<ILocalsViewModel>().View);
+            _regionManager.RegisterViewWithRegion(RegionNames.CONSOLE, ()=> _container.Resolve<IConsoleViewModel>().View);
 
             Task.Factory.StartNew(() =>
             {

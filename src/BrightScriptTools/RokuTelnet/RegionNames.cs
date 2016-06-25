@@ -8,5 +8,6 @@
         public const string STACK_PANEL = "StackPanel";
         public const string WATCH = "Watch";
         public const string LOCALS = "Locals";
+        public const string CONSOLE = "Console";
     }
 }

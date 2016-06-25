@@ -147,6 +147,12 @@
     <Compile Include="Telnet\TcpByteStream.cs" />
     <Compile Include="Telnet\TcpClient.cs" />
     <Compile Include="Utils\AutoScrollingListView.cs" />
+    <Compile Include="Views\Console\ConsoleView.xaml.cs">
+      <DependentUpon>ConsoleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Console\ConsoleViewModel.cs" />
+    <Compile Include="Views\Console\IConsoleView.cs" />
+    <Compile Include="Views\Console\IConsoleViewModel.cs" />
     <Compile Include="Views\Input\IInputView.cs" />
     <Compile Include="Views\Input\IInputViewModel.cs" />
     <Compile Include="Views\Input\InputView.xaml.cs">
@@ -219,6 +225,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\Console\ConsoleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Input\InputView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

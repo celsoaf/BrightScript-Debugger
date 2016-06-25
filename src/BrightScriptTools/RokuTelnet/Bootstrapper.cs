@@ -4,6 +4,7 @@ using Prism.Unity;
 using RokuTelnet.Controllers;
 using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Telnet;
+using RokuTelnet.Views.Console;
 using RokuTelnet.Views.Input;
 using RokuTelnet.Views.Locals;
 using RokuTelnet.Views.Output;
@@ -60,6 +61,9 @@ namespace RokuTelnet
 
             Container.RegisterType<ILocalsView, LocalsView>();
             Container.RegisterType<ILocalsViewModel, LocalsViewModel>();
+
+            Container.RegisterType<IConsoleView, ConsoleView>();
+            Container.RegisterType<IConsoleViewModel, ConsoleViewModel>();
 
             //Container.RegisterType<ITelenetService, TelenetService>();
             //Container.RegisterType<ITelenetService, SuperSocketService>();

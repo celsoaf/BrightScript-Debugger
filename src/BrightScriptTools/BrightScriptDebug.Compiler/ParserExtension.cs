@@ -104,5 +104,10 @@ namespace BrightScriptDebug.Compiler
         {
             Console.WriteLine(@"Debug");
         }
+
+        public void ProcessAppClose()
+        {
+            Console.WriteLine(@"App Closed");
+        }
     }
 }

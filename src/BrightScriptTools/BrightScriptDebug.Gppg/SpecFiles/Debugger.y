@@ -43,6 +43,7 @@ DebugElement
 	| BacktraceStatment
 	| VariablesStatment
 	| DebuggerStatment
+	| AppCloseStatement
 	;
 
 CompilingStatment
@@ -71,8 +72,12 @@ VariablesStatment
 
 DebuggerStatment
 	: dgDebugger Eol { ProcessDebug(); }
-	| dgDebugger dgNote Eol
+	| dgDebugger dgNote Eol  { ProcessAppClose(); }
 	;
+
+AppCloseStatement
+	: dgNote Eol { ProcessAppClose(); }
+	; 
 
 ErrorStatment
 	: errTok Eol

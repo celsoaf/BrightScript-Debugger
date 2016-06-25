@@ -153,6 +153,7 @@
     <Compile Include="Views\Console\ConsoleViewModel.cs" />
     <Compile Include="Views\Console\IConsoleView.cs" />
     <Compile Include="Views\Console\IConsoleViewModel.cs" />
+    <Compile Include="Views\Console\TextBoxOutputter.cs" />
     <Compile Include="Views\Input\IInputView.cs" />
     <Compile Include="Views\Input\IInputViewModel.cs" />
     <Compile Include="Views\Input\InputView.xaml.cs">

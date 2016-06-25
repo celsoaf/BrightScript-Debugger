@@ -3,5 +3,7 @@
     public interface IConsoleViewModel
     {
         IConsoleView View { get; set; }
+
+        string Text { get; set; }
     }
 }

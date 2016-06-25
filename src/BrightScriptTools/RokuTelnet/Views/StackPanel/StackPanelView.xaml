@@ -9,10 +9,10 @@
         <DataGrid ItemsSource="{Binding List}"
                   SelectionMode="Single" Margin="5" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="Function" Binding="{Binding Function}" />
+                <DataGridTextColumn Header="Position" Binding="{Binding Position}" />
                 <DataGridTextColumn Header="File" Binding="{Binding File}" />
                 <DataGridTextColumn Header="Line" Binding="{Binding Line}" />
+                <DataGridTextColumn Header="Function" Binding="{Binding Function}" />
             </DataGrid.Columns>
         </DataGrid>
     </GroupBox>

@@ -16,22 +16,17 @@ namespace RokuTelnet.Views.StackPanel
 
             _eventAggregator = eventAggregator;
 
-            List = new ObservableCollection<StackModel>();
+            List = new ObservableCollection<BacktraceModel>();
 
-            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg =>
+            _eventAggregator.GetEvent<BacktraceEvent>().Subscribe(trace =>
             {
-                if (msg.StartsWith("#"))
-                    ParseMessage(msg);
-            });
-        }
-
-        private void ParseMessage(string msg)
-        {
-            //throw new System.NotImplementedException();
+                List.Clear();
+                List.AddRange(trace);
+            }, ThreadOption.UIThread);
         }
 
         public IStackPanelView View { get; set; }
 
-        public ObservableCollection<StackModel> List { get; set; }
+        public ObservableCollection<BacktraceModel> List { get; set; }
     }
 }

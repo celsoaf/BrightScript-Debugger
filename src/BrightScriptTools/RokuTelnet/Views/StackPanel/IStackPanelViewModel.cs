@@ -7,6 +7,6 @@ namespace RokuTelnet.Views.StackPanel
     {
         IStackPanelView View { get; set; }
 
-        ObservableCollection<StackModel> List { get; set; }
+        ObservableCollection<BacktraceModel> List { get; set; }
     }
 }

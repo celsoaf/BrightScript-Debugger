@@ -1,8 +1,8 @@
 ﻿namespace RokuTelnet.Models
 {
-    public class StackModel
+    public class BacktraceModel
     {
-        public int Id { get; set; }
+        public int Position { get; set; }
         public string Function { get; set; }
         public string File { get; set; }
         public int Line { get; set; }

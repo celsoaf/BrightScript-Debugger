@@ -47,7 +47,7 @@
 
             <GridSplitter Grid.Row="3" HorizontalAlignment="Stretch" Height="5"/>
 
-            <ContentControl Grid.Row="4" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.WATCH}" />
+            <ContentControl Grid.Row="4" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.CONSOLE}" />
         </Grid>
     </Grid>
 </Window>

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <GroupBox Header="Stack Panel">
+    <GroupBox Header="Stack Panel" Margin="3">
         <DataGrid ItemsSource="{Binding List}"
                   SelectionMode="Single" Margin="5" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>

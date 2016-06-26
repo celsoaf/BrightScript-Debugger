@@ -135,24 +135,9 @@
     <Compile Include="Services\Parser\Utils\ScannerExtension.cs" />
     <Compile Include="Services\Telnet\ITelenetService.cs" />
     <Compile Include="Services\Telnet\SoketService.cs" />
-    <Compile Include="Services\Telnet\SuperSocketService.cs" />
-    <Compile Include="Services\Telnet\TelenetService.cs" />
     <Compile Include="Services\Telnet\Utils\RokuStringParser.cs" />
     <Compile Include="Services\Telnet\Utils\RokuReceiverFilter.cs" />
     <Compile Include="Services\Telnet\Utils\TerminatorReceiveFilter .cs" />
-    <Compile Include="Telnet\BaseClient.cs" />
-    <Compile Include="Telnet\ByteStreamHandler.cs" />
-    <Compile Include="Telnet\Client.cs" />
-    <Compile Include="Telnet\Commands.cs" />
-    <Compile Include="Telnet\Guard.cs" />
-    <Compile Include="Telnet\IByteStream.cs" />
-    <Compile Include="Telnet\IByteStreamHandler.cs" />
-    <Compile Include="Telnet\INetworkStream.cs" />
-    <Compile Include="Telnet\ISocket.cs" />
-    <Compile Include="Telnet\NetworkStream.cs" />
-    <Compile Include="Telnet\Options.cs" />
-    <Compile Include="Telnet\TcpByteStream.cs" />
-    <Compile Include="Telnet\TcpClient.cs" />
     <Compile Include="Utils\AutoScrollingListView.cs" />
     <Compile Include="Views\Console\ConsoleView.xaml.cs">
       <DependentUpon>ConsoleView.xaml</DependentUpon>

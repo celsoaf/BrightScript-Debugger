@@ -112,6 +112,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Controllers\AppController.cs" />
     <Compile Include="Controllers\IAppController.cs" />
+    <Compile Include="Converters\BoolToNotConverter.cs" />
     <Compile Include="Converters\UnixColorConverter.cs" />
     <Compile Include="Converters\UnixTextConverter.cs" />
     <Compile Include="Enums\DebuggerCommandEnum.cs" />
@@ -119,7 +120,9 @@
     <Compile Include="Events\AppOpenEvent.cs" />
     <Compile Include="Events\BacktraceEvent.cs" />
     <Compile Include="Events\CommandEvent.cs" />
+    <Compile Include="Events\ConnectEvent.cs" />
     <Compile Include="Events\DebugEvent.cs" />
+    <Compile Include="Events\DisconnectEvent.cs" />
     <Compile Include="Events\LogEvent.cs" />
     <Compile Include="Events\VariablesEvent.cs" />
     <Compile Include="Models\BacktraceModel.cs" />
@@ -307,7 +310,12 @@
   <ItemGroup>
     <Resource Include="Resources\stop.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\add.png" />
+    <Resource Include="Resources\connect.png" />
+    <Resource Include="Resources\disconnect.png" />
+    <Resource Include="Resources\remove.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrightScriptDebug.GPlex\BrightScriptDebug.GPlex.csproj">
       <Project>{f9e856de-8322-4556-8c5d-d9ed9dbbe894}</Project>

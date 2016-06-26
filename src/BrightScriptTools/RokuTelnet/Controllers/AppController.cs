@@ -42,20 +42,28 @@ namespace RokuTelnet.Controllers
             _regionManager.RegisterViewWithRegion(RegionNames.STACK_PANEL, () => _container.Resolve<IStackPanelViewModel>().View);
             //_regionManager.RegisterViewWithRegion(RegionNames.WATCH, () => _container.Resolve<IWatchViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.LOCALS, () => _container.Resolve<ILocalsViewModel>().View);
-            _regionManager.RegisterViewWithRegion(RegionNames.CONSOLE, ()=> _container.Resolve<IConsoleViewModel>().View);
+            _regionManager.RegisterViewWithRegion(RegionNames.CONSOLE, () => _container.Resolve<IConsoleViewModel>().View);
 
-            Task.Factory.StartNew(() =>
-            {
-                Task.Delay(1000).Wait();
-                _parserService.Start();
-                Connect("192.168.1.108", 8085).Wait();
-            }, TaskCreationOptions.LongRunning);
-            
+
+
 
             _eventAggregator.GetEvent<CommandEvent>().Subscribe(cmd =>
             {
-               _telenetService.Send(cmd);
+                _telenetService.Send(cmd);
             });
+
+            _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip =>
+            {
+                Task.Delay(1000).Wait();
+                _parserService.Start();
+                Connect(ip, 8085).Wait();
+            }, ThreadOption.BackgroundThread);
+
+            _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj =>
+            {
+                _telenetService.Disconnect();
+                _parserService.Stop();
+            }, ThreadOption.BackgroundThread);
         }
 
         private async Task Connect(string ip, int port)
@@ -70,10 +78,10 @@ namespace RokuTelnet.Controllers
                 App.Current.Dispatcher.BeginInvoke(
                     new Action(() => App.Current.Exit += (s, e) => _telenetService.Disconnect()));
 
-                LogFormat("Connected {0}-{1}" + Environment.NewLine, ip, port);
+                LogFormat("Connected {0}:{1}" + Environment.NewLine, ip, port);
             }
             else
-                LogFormat("Not connected {0}-{1}" + Environment.NewLine, ip, port);
+                LogFormat("Not connected {0}:{1}" + Environment.NewLine, ip, port);
         }
 
         private void Log(string msg)

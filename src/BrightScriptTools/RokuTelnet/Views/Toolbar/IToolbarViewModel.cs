@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using System.Collections.ObjectModel;
+using Prism.Commands;
 using RokuTelnet.Enums;
 
 namespace RokuTelnet.Views.Toolbar
@@ -10,5 +11,13 @@ namespace RokuTelnet.Views.Toolbar
         DelegateCommand<DebuggerCommandEnum?> Command { get; set; }
 
         bool Enable { get; set; }
+
+        DelegateCommand AddCommand { get; set; }
+        DelegateCommand RemoveCommand { get; set; }
+        DelegateCommand ConnectCommand { get; set; }
+
+        ObservableCollection<string> IPList { get; set; }
+        string SelectedIP { get; set; }
+        bool Connected { get; set; }
     }
 }

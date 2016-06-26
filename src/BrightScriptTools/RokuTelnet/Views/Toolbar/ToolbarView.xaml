@@ -4,10 +4,54 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:enums="clr-namespace:RokuTelnet.Enums"
+             xmlns:converters="clr-namespace:RokuTelnet.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <StackPanel IsEnabled="{Binding Enable}" Orientation="Horizontal">
+    <UserControl.Resources>
+        <converters:BoolToNotConverter x:Key="BoolToNotConverter"/>
+        <Style TargetType="Image" x:Key="connectImage">
+            <Setter Property="Source" Value="../../Resources/disconnect.png"></Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Connected}" Value="True">
+                    <Setter Property="Source" Value="../../Resources/connect.png"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Orientation="Horizontal">
         <ToolBar>
+            <Grid Width="300">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="IP:" VerticalAlignment="Center" Margin="5" FontWeight="Bold" FontSize="16"/>
+                <ComboBox IsEditable="True" Grid.Column="1" Opacity="0.9" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"
+				        Text="{Binding SelectedIP}"
+				        ItemsSource="{Binding IPList}"
+				        IsEnabled="{Binding Connected, Converter={StaticResource BoolToNotConverter}}"
+					  />
+                <Button Grid.Column="2" Margin="0" Command="{Binding AddCommand}"
+				IsEnabled="{Binding Connected, Converter={StaticResource BoolToNotConverter}}"
+                    ToolTip="Add to drop down list">
+                    <Image Source="../../Resources/add.png" Width="24" Height="24"/>
+                </Button>
+                <Button Grid.Column="3" Margin="0" Command="{Binding RemoveCommand}"
+				IsEnabled="{Binding Connected, Converter={StaticResource BoolToNotConverter}}"
+                    ToolTip="Remove from drop down list">
+                    <Image Source="../../Resources/remove.png" Width="24" Height="24"/>
+                </Button>
+                <Button Grid.Column="4" Margin="0" Command="{Binding ConnectCommand}"
+                    ToolTip="Connect to selected IP">
+                    <Image Width="24" Height="24" Style="{StaticResource connectImage}"/>
+                </Button>
+            </Grid>
+        </ToolBar>
+        <ToolBar IsEnabled="{Binding Enable}">
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.c}"
                     ToolTip="Continue Script Execution">
                 <Image Source="../../Resources/Continue.png" Height="24" Width="24"/>
@@ -34,7 +78,7 @@
                 <Image Source="../../Resources/stop.png" Height="24" Width="24"/>
             </Button>
         </ToolBar>
-        <ToolBar>
+        <ToolBar IsEnabled="{Binding Enable}">
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.bt}"
                     ToolTip="Print backtrace of call function context frames">
                 <Image Source="../../Resources/callstack.png" Height="24" Width="24"/>
@@ -60,7 +104,7 @@
                 <Image Source="../../Resources/next.png" Height="24" Width="24"/>
             </Button>
         </ToolBar>
-        <ToolBar>
+        <ToolBar IsEnabled="{Binding Enable}">
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.brkd}"
                     ToolTip="Toggle whether BrightScript should break into the debugger after non-fatal diagnostic messages">
                 <Image Source="../../Resources/braekpoint.png" Height="24" Width="24"/>
@@ -71,7 +115,7 @@
                 <Image Source="../../Resources/gc.png" Height="24" Width="24"/>
             </Button>
         </ToolBar>
-        <ToolBar>
+        <ToolBar IsEnabled="{Binding Enable}">
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.classes}"
                     ToolTip="Print Brightscript Component classes">
                 <Image Source="../../Resources/classes.png" Height="24" Width="24"/>
@@ -87,7 +131,7 @@
                 <Image Source="../../Resources/bsc.png" Height="24" Width="24"/>
             </Button>
         </ToolBar>
-        <ToolBar>
+        <ToolBar IsEnabled="{Binding Enable}">
 
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.help}"
                     ToolTip="Print the list of debugger commands">

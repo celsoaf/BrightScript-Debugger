@@ -7,6 +7,8 @@ namespace RokuTelnet.Views.Console
 {
     public class TextBoxOutputter : TextWriter
     {
+        private const int LOGS_LENGHT = 10000;
+
         private StringBuilder textBox = null;
 
         public event Action TextChange; 
@@ -20,6 +22,9 @@ namespace RokuTelnet.Views.Console
         {
             base.Write(value);
             textBox.Append(value.ToString());
+
+            if (textBox.Length > LOGS_LENGHT)
+                textBox.Remove(0, textBox.Length - LOGS_LENGHT);
 
             TextChange?.Invoke();
         }

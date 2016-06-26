@@ -58,14 +58,16 @@ namespace RokuTelnet.Controls
 
         private static Paragraph BuildParagraph(string line)
         {
+            line = line.Replace("[0m", "");
             if (line.StartsWith("\u001b[3"))
             {
                 var color = int.Parse(line.Substring(3, 1));
                 line = line.Substring(7);
-                line = line.Replace("[0m", "");
 
                 var p = new Paragraph(new Run(line));
                 p.Foreground = GetColor(color);
+
+                return p;
             }
 
             return new Paragraph(new Run(line));

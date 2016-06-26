@@ -3,19 +3,19 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:RokuTelnet.Views.Console"
+             xmlns:controls="clr-namespace:RokuTelnet.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <GroupBox Header="Console" Margin="3">
-        <!--<ScrollViewer>
-            <TextBlock Text="{Binding Text}" Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas"/>
-        </ScrollViewer>-->
-        <local:RichTextViewer RichText="{Binding Text}" Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas" VerticalScrollBarVisibility="Auto">
-            <local:RichTextViewer.Resources>
+        <controls:RichTextViewer RichText="{Binding Text}" Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas" VerticalScrollBarVisibility="Auto">
+            <controls:RichTextViewer.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"/>
                 </Style>
-            </local:RichTextViewer.Resources>
-        </local:RichTextViewer>
+            </controls:RichTextViewer.Resources>
+        </controls:RichTextViewer>
     </GroupBox>
 </UserControl>
+
+
+

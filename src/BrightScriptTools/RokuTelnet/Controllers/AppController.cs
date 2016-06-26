@@ -70,10 +70,10 @@ namespace RokuTelnet.Controllers
                 App.Current.Dispatcher.BeginInvoke(
                     new Action(() => App.Current.Exit += (s, e) => _telenetService.Disconnect()));
 
-                LogFormat("Connected {0}-{1}", ip, port);
+                LogFormat("Connected {0}-{1}" + Environment.NewLine, ip, port);
             }
             else
-                LogFormat("Not connected {0}-{1}", ip, port);
+                LogFormat("Not connected {0}-{1}" + Environment.NewLine, ip, port);
         }
 
         private void Log(string msg)

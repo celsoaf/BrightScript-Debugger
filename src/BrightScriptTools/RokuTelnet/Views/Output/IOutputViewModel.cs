@@ -6,6 +6,6 @@ namespace RokuTelnet.Views.Output
     {
         IOutputView View { get; set; }
 
-        ObservableCollection<string> Logs { get; set; }
+        string Logs { get; set; }
     }
 }

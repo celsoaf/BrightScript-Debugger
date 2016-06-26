@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 
-namespace RokuTelnet.Views.Console
+namespace RokuTelnet.Controls
 {
     public class RichTextViewer : RichTextBox
     {

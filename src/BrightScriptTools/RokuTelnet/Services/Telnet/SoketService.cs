@@ -24,32 +24,7 @@ namespace RokuTelnet.Services.Telnet
                 _client.Connect(remoteEP);
                 _running = true;
 
-                Task.Factory.StartNew(() =>
-                {
-                    while (_running)
-                    {
-                        var bytes = new Byte[256];
-                        String responseData = String.Empty;
-                        int bytesRead = 0;
-                        do
-                        {
-                            if (_client.Poll(1000, SelectMode.SelectRead))
-                                bytesRead = _client.Receive(bytes, _client.Available > bytes.Length ? bytes.Length : _client.Available, SocketFlags.None);
-                            else
-                                bytesRead = 0;
-
-                            responseData += Encoding.ASCII.GetString(bytes, 0, bytesRead);
-                        } while (bytesRead == bytes.Length);
-
-                        if (Log != null && !string.IsNullOrEmpty(responseData))
-                        {
-                            var parts = responseData.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-                            parts.ToList().ForEach(s => Log(s));
-                        }
-
-                        Thread.Sleep(1000);
-                    }
-                }, TaskCreationOptions.LongRunning);
+                Task.Factory.StartNew(Run, TaskCreationOptions.LongRunning);
 
                 return _client.Connected;
             }
@@ -59,6 +34,30 @@ namespace RokuTelnet.Services.Telnet
                     Log(ex.Message);
 
                 return false;
+            }
+        }
+
+        private void Run()
+        {
+            while (_running)
+            {
+                var bytes = new Byte[256];
+                String responseData = String.Empty;
+                int bytesRead = 0;
+                do
+                {
+                    if (_client.Poll(1000, SelectMode.SelectRead))
+                        bytesRead = _client.Receive(bytes, _client.Available > bytes.Length ? bytes.Length : _client.Available, SocketFlags.None);
+                    else
+                        bytesRead = 0;
+
+                    responseData += Encoding.ASCII.GetString(bytes, 0, bytesRead);
+                } while (bytesRead == bytes.Length);
+
+                if (!string.IsNullOrEmpty(responseData))
+                    Log?.Invoke(responseData);
+
+                Thread.Sleep(1000);
             }
         }
 

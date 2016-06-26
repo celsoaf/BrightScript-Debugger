@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:utils="clr-namespace:RokuTelnet.Utils"
              xmlns:converters="clr-namespace:RokuTelnet.Converters"
+             xmlns:controls="clr-namespace:RokuTelnet.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -12,14 +13,20 @@
         <converters:UnixColorConverter x:Key="UnixColorConverter"/>
     </UserControl.Resources>
     <Grid>
-        <utils:AutoScrollingListView ItemsSource="{Binding Logs}"
+        <!--<utils:AutoScrollingListView ItemsSource="{Binding Logs}"
             Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Converter={StaticResource UnixTextConverter}}" Foreground="{Binding Converter={StaticResource UnixColorConverter}}" />
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </utils:AutoScrollingListView>
-
+        </utils:AutoScrollingListView>-->
+        <controls:RichTextViewer RichText="{Binding Logs}" Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas" VerticalScrollBarVisibility="Auto">
+            <controls:RichTextViewer.Resources>
+                <Style TargetType="{x:Type Paragraph}">
+                    <Setter Property="Margin" Value="0"/>
+                </Style>
+            </controls:RichTextViewer.Resources>
+        </controls:RichTextViewer>
     </Grid>
 </UserControl>

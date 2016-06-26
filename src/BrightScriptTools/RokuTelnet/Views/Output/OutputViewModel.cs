@@ -4,12 +4,13 @@ using RokuTelnet.Events;
 
 namespace RokuTelnet.Views.Output
 {
-    public class OutputViewModel :IOutputViewModel
+    public class OutputViewModel : Prism.Mvvm.BindableBase, IOutputViewModel
     {
         private const int LOGS_LENGHT = 1000;
 
         private readonly IEventAggregator _eventAggregator;
-        
+        private string _logs;
+
         public OutputViewModel(IOutputView view, IEventAggregator eventAggregator)
         {
             View = view;
@@ -17,19 +18,20 @@ namespace RokuTelnet.Views.Output
 
             _eventAggregator = eventAggregator;
 
-            Logs = new ObservableCollection<string>();
+            Logs = string.Empty;
 
             _eventAggregator.GetEvent<LogEvent>().Subscribe(msg =>
             {
-                if (Logs.Count >= LOGS_LENGHT)
-                    Logs.RemoveAt(0);
-
-                Logs.Add(msg);
+                Logs += msg;
             }, ThreadOption.UIThread);
         }
 
         public IOutputView View { get; set; }
 
-        public ObservableCollection<string> Logs { get; set; }
+        public string Logs
+        {
+            get { return _logs; }
+            set { _logs = value; OnPropertyChanged(() => Logs); }
+        }
     }
 }

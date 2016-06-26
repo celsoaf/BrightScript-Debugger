@@ -18,15 +18,17 @@
 
         <ContentControl Grid.Row="0" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.TOOLBAR}" />
 
-        <Grid Grid.Row="1">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <ContentControl Grid.Row="0" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT}" />
+        <GroupBox Grid.Row="1" Header="Telnet" Margin="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <ContentControl Grid.Row="0" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT}" />
 
-            <ContentControl Grid.Row="1" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.INPUT}" />
-        </Grid>
+                <ContentControl Grid.Row="1" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.INPUT}" />
+            </Grid>
+        </GroupBox>
         
         <GridSplitter Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Width="5"/>
         

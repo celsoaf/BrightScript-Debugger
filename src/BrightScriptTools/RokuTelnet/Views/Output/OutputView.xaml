@@ -13,15 +13,7 @@
         <converters:UnixColorConverter x:Key="UnixColorConverter"/>
     </UserControl.Resources>
     <Grid>
-        <!--<utils:AutoScrollingListView ItemsSource="{Binding Logs}"
-            Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Converter={StaticResource UnixTextConverter}}" Foreground="{Binding Converter={StaticResource UnixColorConverter}}" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </utils:AutoScrollingListView>-->
-        <controls:RichTextViewer RichText="{Binding Logs}" Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas" VerticalScrollBarVisibility="Auto">
+       <controls:RichTextViewer RichText="{Binding Logs}" Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas" VerticalScrollBarVisibility="Auto">
             <controls:RichTextViewer.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"/>

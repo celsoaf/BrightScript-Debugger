@@ -39,9 +39,9 @@ namespace RokuTelnet.Controllers
             _container = container;
 
             _injectStrings=new Dictionary<DebuggerCommandEnum, string>();
-            _injectStrings.Add(DebuggerCommandEnum.bt, "Backtrace: " + Environment.NewLine);
-            _injectStrings.Add(DebuggerCommandEnum.var, "Local Variables: " + Environment.NewLine);
-            _injectStrings.Add(DebuggerCommandEnum.list, "Current Function: " + Environment.NewLine);
+            _injectStrings.Add(DebuggerCommandEnum.bt, "Backtrace: ");
+            _injectStrings.Add(DebuggerCommandEnum.var, "Local Variables: ");
+            _injectStrings.Add(DebuggerCommandEnum.list, "Current Function: ");
         }
 
         public async void Initialize()
@@ -100,7 +100,7 @@ namespace RokuTelnet.Controllers
             if (_lasCommand.HasValue)
             {
                 if (_injectStrings.ContainsKey(_lasCommand.Value))
-                    msg = _injectStrings[_lasCommand.Value] + msg;
+                    msg = Environment.NewLine + _injectStrings[_lasCommand.Value] + Environment.NewLine + msg;
 
                 _lasCommand = null;
             }

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 
 namespace RokuTelnet.Views.Console
 {
@@ -7,6 +8,8 @@ namespace RokuTelnet.Views.Console
         private TextBoxOutputter _textBoxOutputter;
         private StringBuilder _stringBuilder;
         private string _text;
+        private bool _showError;
+        private TextWriter _errorTextWriter;
 
         public ConsoleViewModel(IConsoleView view)
         {
@@ -19,6 +22,8 @@ namespace RokuTelnet.Views.Console
             _textBoxOutputter.TextChange += () => Text = _stringBuilder.ToString();
 
             System.Console.SetOut(_textBoxOutputter);
+
+            _errorTextWriter = System.Console.Error;
         }
 
         public IConsoleView View { get; set; }
@@ -27,6 +32,20 @@ namespace RokuTelnet.Views.Console
         {
             get { return _text; }
             set { _text = value; OnPropertyChanged(()=> Text); }
+        }
+
+        public bool ShowError
+        {
+            get { return _showError; }
+            set
+            {
+                _showError = value;
+                
+                if(_showError)
+                    System.Console.SetError(_textBoxOutputter);
+                else
+                    System.Console.SetError(_errorTextWriter);
+            }
         }
     }
 }

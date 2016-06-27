@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Practices.ObjectBuilder2;
+using Prism.Commands;
 using Prism.Events;
 using RokuTelnet.Enums;
 using RokuTelnet.Events;
@@ -10,6 +11,7 @@ namespace RokuTelnet.Views.Remote
     {
         private bool _connected;
         private readonly IEventAggregator _eventAggregator;
+        private string _input;
 
         public RemoteViewModel(IRemoteView view, IEventAggregator eventAggregator)
         {
@@ -24,6 +26,11 @@ namespace RokuTelnet.Views.Remote
                     _eventAggregator.GetEvent<SendCommandEvent>().Publish(new EventModel(EventType.KeyPress, cmd.Value));
             }, cmd => Connected);
 
+            BackspaceCommand = new DelegateCommand(() =>
+            {
+                _eventAggregator.GetEvent<SendCommandEvent>().Publish(new EventModel(EventType.KeyPress, EventKey.Backspace));
+            }, ()=> Connected);
+
             _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip => Connected = true);
             _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj => Connected = false);
         }
@@ -31,6 +38,7 @@ namespace RokuTelnet.Views.Remote
         public IRemoteView View { get; set; }
 
         public DelegateCommand<EventKey?> SendCommand { get; set; }
+        public DelegateCommand BackspaceCommand { get; set; }
 
         public bool Connected
         {
@@ -40,7 +48,26 @@ namespace RokuTelnet.Views.Remote
                 _connected = value;
                 OnPropertyChanged(() => Connected);
                 SendCommand.RaiseCanExecuteChanged();
+                BackspaceCommand.RaiseCanExecuteChanged();
             }
+        }
+
+        public string Input
+        {
+            get { return _input; }
+            set
+            {
+                //_input = value;
+
+                ProcessInput(value);
+
+                OnPropertyChanged(()=> Input);
+            }
+        }
+        
+        private void ProcessInput(string value)
+        {
+            value.ForEach(c => _eventAggregator.GetEvent<SendCommandEvent>().Publish(new EventModel(EventType.KeyPress, EventKey.Lit_, c.ToString())));
         }
     }
 }

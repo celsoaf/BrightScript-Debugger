@@ -9,6 +9,10 @@ namespace RokuTelnet.Views.Remote
 
         DelegateCommand<EventKey?> SendCommand { get; set; }
 
+        DelegateCommand BackspaceCommand { get; set; }
+
         bool Connected { get; set; }
+
+        string Input { get; set; }
     }
 }

@@ -60,8 +60,14 @@ namespace RokuTelnet.Controllers
             _eventAggregator.GetEvent<CommandEvent>().Subscribe(cmd =>
             {
                 _telenetService.Send(cmd);
-                _lasCommand = (DebuggerCommandEnum)Enum.Parse(typeof(DebuggerCommandEnum), cmd);
+
                 Log(cmd + Environment.NewLine);
+
+                DebuggerCommandEnum c;
+                if (Enum.TryParse(cmd, out c))
+                    _lasCommand = c;
+                else
+                    _lasCommand = null;
             });
 
             _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip =>

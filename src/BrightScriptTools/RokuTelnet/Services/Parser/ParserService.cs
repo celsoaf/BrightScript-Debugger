@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -52,7 +53,6 @@ namespace RokuTelnet.Services.Parser
                             {
                                 if (_hasContent)
                                 {
-
                                     var parser = new BrightScriptDebug.Compiler.Parser(scanner);
 
                                     parser.BacktraceProcessed += PublishBacktrace;
@@ -61,8 +61,14 @@ namespace RokuTelnet.Services.Parser
                                     parser.AppCloseProcessed += PublishAppClose;
                                     parser.AppOpenProcessed += PublishAppOpen;
 
-                                    parser.Parse();
-
+                                    try
+                                    {
+                                        parser.Parse();
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine(ex.Message);
+                                    }
                                     parser.BacktraceProcessed -= PublishBacktrace;
                                     parser.VariablesProcessed -= PublishVariables;
                                     parser.DebugPorcessed -= PublishDebug;

@@ -18,7 +18,7 @@ namespace RokuTelnet.Services.Parser
         private CancellationTokenSource _cancellationToken;
         private readonly IEventAggregator _eventAggregator;
         private object _locker = new object();
-        private bool _hasContent = false;
+        private volatile bool _hasContent = false;
 
         public ParserService(IEventAggregator eventAggregator)
         {
@@ -52,6 +52,7 @@ namespace RokuTelnet.Services.Parser
                             {
                                 if (_hasContent)
                                 {
+
                                     var parser = new BrightScriptDebug.Compiler.Parser(scanner);
 
                                     parser.BacktraceProcessed += PublishBacktrace;

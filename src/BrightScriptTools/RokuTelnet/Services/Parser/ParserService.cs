@@ -17,6 +17,8 @@ namespace RokuTelnet.Services.Parser
         private StreamWriter _writer;
         private CancellationTokenSource _cancellationToken;
         private readonly IEventAggregator _eventAggregator;
+        private object _locker = new object();
+        private bool _hasContent = false;
 
         public ParserService(IEventAggregator eventAggregator)
         {
@@ -33,33 +35,44 @@ namespace RokuTelnet.Services.Parser
                 _writer = new StreamWriter(_stream);
                 _cancellationToken = new CancellationTokenSource();
 
-                _eventAggregator.GetEvent<LogEvent>().Subscribe(ProcessLog);
+                _eventAggregator.GetEvent<LogEvent>().Subscribe(ProcessLog, ThreadOption.BackgroundThread);
 
                 Task.Factory.StartNew(() =>
                 {
-                    // parse input args, and open input file
-                    var scanner = new Scanner(_stream);
-
-                    var parser = new BrightScriptDebug.Compiler.Parser(scanner);
-
-                    parser.BacktraceProcessed += PublishBacktrace;
-                    parser.VariablesProcessed += PublishVariables;
-                    parser.DebugPorcessed += PublishDebug;
-                    parser.AppCloseProcessed += PublishAppClose;
-                    parser.AppOpenProcessed += PublishAppOpen;
-
                     while (_running)
                     {
                         Task.Delay(1000).Wait();
 
-                        parser.Parse();
-                    }
+                        if (_hasContent)
+                        {
+                            lock (_locker)
+                            {
+                                if (_hasContent)
+                                {
+                                    // parse input args, and open input file
+                                    var scanner = new Scanner(_stream);
 
-                    parser.BacktraceProcessed -= PublishBacktrace;
-                    parser.VariablesProcessed -= PublishVariables;
-                    parser.DebugPorcessed -= PublishDebug;
-                    parser.AppCloseProcessed -= PublishAppClose;
-                    parser.AppOpenProcessed -= PublishAppOpen;
+                                    var parser = new BrightScriptDebug.Compiler.Parser(scanner);
+
+                                    parser.BacktraceProcessed += PublishBacktrace;
+                                    parser.VariablesProcessed += PublishVariables;
+                                    parser.DebugPorcessed += PublishDebug;
+                                    parser.AppCloseProcessed += PublishAppClose;
+                                    parser.AppOpenProcessed += PublishAppOpen;
+
+                                    parser.Parse();
+
+                                    parser.BacktraceProcessed -= PublishBacktrace;
+                                    parser.VariablesProcessed -= PublishVariables;
+                                    parser.DebugPorcessed -= PublishDebug;
+                                    parser.AppCloseProcessed -= PublishAppClose;
+                                    parser.AppOpenProcessed -= PublishAppOpen;
+
+                                    _hasContent = false;
+                                }
+                            }
+                        }
+                    }
                 }, _cancellationToken.Token);
             }
         }
@@ -91,8 +104,13 @@ namespace RokuTelnet.Services.Parser
 
         private void ProcessLog(string msg)
         {
-            _writer.WriteLine(msg);
-            _writer.Flush();
+            lock (_locker)
+            {
+                _writer.WriteLine(msg);
+                _writer.Flush();
+
+                _hasContent = true;
+            }
         }
 
         public void Stop()

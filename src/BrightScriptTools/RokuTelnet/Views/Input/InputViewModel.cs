@@ -7,7 +7,7 @@ using RokuTelnet.Events;
 
 namespace RokuTelnet.Views.Input
 {
-    public class InputViewModel : Prism.Mvvm.BindableBase,  IInputViewModel
+    public class InputViewModel : Prism.Mvvm.BindableBase, IInputViewModel
     {
         private readonly IEventAggregator _eventAggregator;
         private string _commands;
@@ -56,7 +56,7 @@ namespace RokuTelnet.Views.Input
                 }
             });
 
-            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Contains("Debugger>"));
+            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Contains("Debugger>"), ThreadOption.UIThread);
         }
 
         public IInputView View { get; set; }
@@ -76,7 +76,12 @@ namespace RokuTelnet.Views.Input
         public bool Enable
         {
             get { return _enable; }
-            set { _enable = value; OnPropertyChanged(()=> Enable); }
+            set
+            {
+                _enable = value;
+                OnPropertyChanged(() => Enable);
+                View.SetFocus();
+            }
         }
     }
 }

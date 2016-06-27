@@ -19,6 +19,8 @@ namespace BrightScriptDebug.Compiler
 
         public void ProcessCurrentFunction()
         {
+            Console.WriteLine(@"ProcessCurrentFunction");
+
             var lines = new List<string>();
 
             while (Scanner.yylex() == (int)Tokens.dgCodeLine)
@@ -38,6 +40,8 @@ namespace BrightScriptDebug.Compiler
 
         public void ProcessBacktrace()
         {
+            Console.WriteLine(@"ProcessBacktrace");
+
             var stack = new List<BacktraceModel>();
 
             while (true)
@@ -84,6 +88,8 @@ namespace BrightScriptDebug.Compiler
         private List<BacktraceModel> _stack = new List<BacktraceModel>();
         public void ProcessBacktraceLine()
         {
+            Console.WriteLine(@"ProcessBacktraceLine");
+
             var tc = ((TelnetScanner) Scanner);
 
             var trace = tc.GetToken(3);
@@ -103,6 +109,8 @@ namespace BrightScriptDebug.Compiler
 
         public void ProcessVariables()
         {
+            Console.WriteLine(@"ProcessVariables");
+
             var dic = new List<VariableModel>();
 
             int last;
@@ -135,7 +143,7 @@ namespace BrightScriptDebug.Compiler
 
         public void ProcessDebug()
         {
-            Console.WriteLine(@"Debug");
+            Console.WriteLine(@"ProcessDebug");
 
             DebugPorcessed?.Invoke();
         }
@@ -144,7 +152,7 @@ namespace BrightScriptDebug.Compiler
 
         public void ProcessAppClose()
         {
-            Console.WriteLine(@"App Closed");
+            Console.WriteLine(@"ProcessAppClose");
 
             AppCloseProcessed?.Invoke();
         }
@@ -153,7 +161,7 @@ namespace BrightScriptDebug.Compiler
 
         public void ProcessAppOpen()
         {
-            Console.WriteLine(@"App Open");
+            Console.WriteLine(@"ProcessAppOpen");
 
             AppOpenProcessed?.Invoke();
         }

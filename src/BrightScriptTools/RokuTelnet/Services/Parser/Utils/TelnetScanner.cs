@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace BrightScriptDebug.Compiler
@@ -17,6 +18,7 @@ namespace BrightScriptDebug.Compiler
 
         public override int yylex()
         {
+            //Console.WriteLine(yytext);
             _tokenValues.Add(yytext);
 
             if (_tokenValues.Count > TOKEN_LENGHT)

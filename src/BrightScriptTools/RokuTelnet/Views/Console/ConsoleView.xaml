@@ -6,21 +6,20 @@
              xmlns:controls="clr-namespace:RokuTelnet.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <GroupBox Margin="3">
-        <GroupBox.Header>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Console"/>
-                <CheckBox IsChecked="{Binding ShowError}" Content="Show error" Margin="5,0,0,0"/>
-            </StackPanel>
-        </GroupBox.Header>
-        <controls:RichTextViewer RichText="{Binding Text}" Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas" VerticalScrollBarVisibility="Auto">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <CheckBox IsChecked="{Binding ShowError}" Content="Show error"/>
+        <controls:RichTextViewer Grid.Row="1" RichText="{Binding Text}" Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas" VerticalScrollBarVisibility="Auto">
             <controls:RichTextViewer.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"/>
                 </Style>
             </controls:RichTextViewer.Resources>
         </controls:RichTextViewer>
-    </GroupBox>
+    </Grid>
 </UserControl>
 
 

@@ -5,15 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <GroupBox Header="Stack Panel" Margin="3">
-        <DataGrid ItemsSource="{Binding List}"
+    <DataGrid ItemsSource="{Binding List}"
                   SelectionMode="Single" Margin="5" AutoGenerateColumns="False" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Position" Binding="{Binding Position}" />
-                <DataGridTextColumn Header="File" Binding="{Binding File}" />
-                <DataGridTextColumn Header="Line" Binding="{Binding Line}" />
-                <DataGridTextColumn Header="Function" Binding="{Binding Function}" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </GroupBox>
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Position" Binding="{Binding Position}" />
+            <DataGridTextColumn Header="File" Binding="{Binding File}" />
+            <DataGridTextColumn Header="Line" Binding="{Binding Line}" />
+            <DataGridTextColumn Header="Function" Binding="{Binding Function}" />
+        </DataGrid.Columns>
+    </DataGrid>
 </UserControl>

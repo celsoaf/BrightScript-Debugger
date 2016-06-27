@@ -3,6 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:regions="http://prismlibrary.com/"
         xmlns:rokuTelnet="clr-namespace:RokuTelnet"
+        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         Title="Roku Telnet" Width="1350" Height="720"
         Icon="../../Resources/roku1.png">
     <Grid>
@@ -10,46 +12,46 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="5" />
-            <ColumnDefinition Width="2*"/>
-        </Grid.ColumnDefinitions>
 
         <ContentControl Grid.Row="0" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.TOOLBAR}" />
 
-        <GroupBox Grid.Row="1" Header="Telnet" Margin="3">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <ContentControl Grid.Row="0" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT}" />
+        <xcad:DockingManager Grid.Row="1" AllowMixedOrientation="True" BorderBrush="Black" BorderThickness="1">
+            <xcad:LayoutRoot x:Name="_layoutRoot">
+                <xcad:LayoutPanel Orientation="Horizontal">
+                    <xcad:LayoutDocumentPaneGroup >
+                        <xcad:LayoutDocumentPane>
+                            <xcad:LayoutDocument ContentId="telnet" Title="Telnet" CanClose="False" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <ContentControl Grid.Row="0" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT}" />
 
-                <ContentControl Grid.Row="1" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.INPUT}" />
-            </Grid>
-        </GroupBox>
-        
-        <GridSplitter Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Width="5"/>
-        
-        <Grid Grid.Row="1" Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="5"/>
-                <RowDefinition Height="3*"/>
-            </Grid.RowDefinitions>
-
-            <ContentControl Grid.Row="0" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.STACK_PANEL}" />
-
-            <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="5"/>
-
-            <ContentControl Grid.Row="2" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.LOCALS}" />
-
-            <GridSplitter Grid.Row="3" HorizontalAlignment="Stretch" Height="5"/>
-
-            <ContentControl Grid.Row="4" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.CONSOLE}" />
-        </Grid>
+                                    <ContentControl Grid.Row="1" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.INPUT}" />
+                                </Grid>
+                            </xcad:LayoutDocument>
+                        </xcad:LayoutDocumentPane>
+                    </xcad:LayoutDocumentPaneGroup >
+                    <xcad:LayoutAnchorablePaneGroup DockWidth="500" Orientation="Vertical">
+                        <xcad:LayoutAnchorablePane>
+                            <xcad:LayoutAnchorable Title="Call Stack" CanClose="False">
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.STACK_PANEL}" />
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>
+                        <xcad:LayoutAnchorablePane>
+                             <xcad:LayoutAnchorable Title="Local variables" CanClose="False">
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.LOCALS}" />
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>
+                        <xcad:LayoutAnchorablePane>
+                            <xcad:LayoutAnchorable Title="Console" CanClose="False">
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.CONSOLE}" />
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>
+                    </xcad:LayoutAnchorablePaneGroup>
+                </xcad:LayoutPanel>
+            </xcad:LayoutRoot>
+        </xcad:DockingManager>
     </Grid>
 </Window>

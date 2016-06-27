@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  OSTLT0248323
-// DateTime: 25/06/2016 15:22:52
+// DateTime: 27/06/2016 15:31:48
 // UserName: CFE05
-// Input file <SpecFiles\Debugger.y - 25/06/2016 15:20:18>
+// Input file <SpecFiles\Debugger.y - 27/06/2016 15:31:35>
 
 // options: babel lines diagnose & report gplex
 
@@ -68,62 +68,71 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
 #pragma warning disable 649
   private static Dictionary<int, string> aliases;
 #pragma warning restore 649
-  private static Rule[] rules = new Rule[26];
-  private static State[] states = new State[47];
+  private static Rule[] rules = new Rule[29];
+  private static State[] states = new State[56];
   private static string[] nonTerms = new string[] {
       "Program", "$accept", "DebugElements", "DebugElement", "ErrorStatment", 
       "EnterDebugStatment", "CompilingStatment", "RunningStatment", "CurrentFunctionStatment", 
-      "BacktraceStatment", "VariablesStatment", "DebuggerStatment", "AppCloseStatement", 
-      };
+      "TraceLineStatment", "BacktraceStatment", "VariablesStatment", "DebuggerStatment", 
+      "AppCloseStatement", };
 
   static Parser() {
-    states[0] = new State(new int[]{14,7,37,9,2,11,17,14,19,17,21,31,24,34,27,37,28,40,29,45,3,-4},new int[]{-1,1,-3,3,-4,5,-5,8,-6,13,-7,16,-8,29,-9,30,-10,33,-11,36,-12,39,-13,44});
+    states[0] = new State(new int[]{14,7,37,9,2,11,17,14,19,17,21,31,25,34,28,38,24,47,27,50,29,54,3,-4},new int[]{-1,1,-3,3,-4,5,-5,8,-6,13,-7,16,-8,29,-9,30,-10,33,-11,46,-12,49,-13,52,-14,53});
     states[1] = new State(new int[]{3,2});
     states[2] = new State(-1);
     states[3] = new State(new int[]{3,4});
     states[4] = new State(-2);
-    states[5] = new State(new int[]{14,7,37,9,2,11,17,14,19,17,21,31,24,34,27,37,28,40,29,45,3,-4},new int[]{-3,6,-4,5,-5,8,-6,13,-7,16,-8,29,-9,30,-10,33,-11,36,-12,39,-13,44});
+    states[5] = new State(new int[]{14,7,37,9,2,11,17,14,19,17,21,31,25,34,28,38,24,47,27,50,29,54,3,-4},new int[]{-3,6,-4,5,-5,8,-6,13,-7,16,-8,29,-9,30,-10,33,-11,46,-12,49,-13,52,-14,53});
     states[6] = new State(-3);
     states[7] = new State(-5);
     states[8] = new State(-6);
     states[9] = new State(new int[]{14,10});
-    states[10] = new State(-24);
+    states[10] = new State(-27);
     states[11] = new State(new int[]{14,12});
-    states[12] = new State(-25);
+    states[12] = new State(-28);
     states[13] = new State(-7);
     states[14] = new State(new int[]{14,15});
-    states[15] = new State(-17);
+    states[15] = new State(-18);
     states[16] = new State(-8);
     states[17] = new State(new int[]{18,18,20,23});
     states[18] = new State(new int[]{31,19});
     states[19] = new State(new int[]{32,20});
     states[20] = new State(new int[]{19,21});
     states[21] = new State(new int[]{14,22});
-    states[22] = new State(-15);
+    states[22] = new State(-16);
     states[23] = new State(new int[]{31,24});
     states[24] = new State(new int[]{32,25});
     states[25] = new State(new int[]{31,26});
     states[26] = new State(new int[]{19,27});
     states[27] = new State(new int[]{14,28});
-    states[28] = new State(-16);
+    states[28] = new State(-17);
     states[29] = new State(-9);
     states[30] = new State(-10);
     states[31] = new State(new int[]{14,32});
-    states[32] = new State(-18);
+    states[32] = new State(-19);
     states[33] = new State(-11);
     states[34] = new State(new int[]{14,35});
-    states[35] = new State(-19);
-    states[36] = new State(-12);
-    states[37] = new State(new int[]{14,38});
-    states[38] = new State(-20);
-    states[39] = new State(-13);
-    states[40] = new State(new int[]{14,41,29,42});
-    states[41] = new State(-21);
-    states[42] = new State(new int[]{14,43});
-    states[43] = new State(-22);
-    states[44] = new State(-14);
-    states[45] = new State(new int[]{14,46});
-    states[46] = new State(-23);
+    states[35] = new State(new int[]{26,36});
+    states[36] = new State(new int[]{14,37});
+    states[37] = new State(-20);
+    states[38] = new State(new int[]{25,39,14,43,29,44});
+    states[39] = new State(new int[]{14,40});
+    states[40] = new State(new int[]{26,41});
+    states[41] = new State(new int[]{14,42});
+    states[42] = new State(-21);
+    states[43] = new State(-24);
+    states[44] = new State(new int[]{14,45});
+    states[45] = new State(-25);
+    states[46] = new State(-12);
+    states[47] = new State(new int[]{14,48});
+    states[48] = new State(-22);
+    states[49] = new State(-13);
+    states[50] = new State(new int[]{14,51});
+    states[51] = new State(-23);
+    states[52] = new State(-14);
+    states[53] = new State(-15);
+    states[54] = new State(new int[]{14,55});
+    states[55] = new State(-26);
 
     for (int sNo = 0; sNo < states.Length; sNo++) states[sNo].number = sNo;
 
@@ -141,17 +150,20 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
     rules[12] = new Rule(-4, new int[]{-11});
     rules[13] = new Rule(-4, new int[]{-12});
     rules[14] = new Rule(-4, new int[]{-13});
-    rules[15] = new Rule(-7, new int[]{19,18,31,32,19,14});
-    rules[16] = new Rule(-8, new int[]{19,20,31,32,31,19,14});
-    rules[17] = new Rule(-6, new int[]{17,14});
-    rules[18] = new Rule(-9, new int[]{21,14});
-    rules[19] = new Rule(-10, new int[]{24,14});
-    rules[20] = new Rule(-11, new int[]{27,14});
-    rules[21] = new Rule(-12, new int[]{28,14});
-    rules[22] = new Rule(-12, new int[]{28,29,14});
-    rules[23] = new Rule(-13, new int[]{29,14});
-    rules[24] = new Rule(-5, new int[]{37,14});
-    rules[25] = new Rule(-5, new int[]{2,14});
+    rules[15] = new Rule(-4, new int[]{-14});
+    rules[16] = new Rule(-7, new int[]{19,18,31,32,19,14});
+    rules[17] = new Rule(-8, new int[]{19,20,31,32,31,19,14});
+    rules[18] = new Rule(-6, new int[]{17,14});
+    rules[19] = new Rule(-9, new int[]{21,14});
+    rules[20] = new Rule(-10, new int[]{25,14,26,14});
+    rules[21] = new Rule(-10, new int[]{28,25,14,26,14});
+    rules[22] = new Rule(-11, new int[]{24,14});
+    rules[23] = new Rule(-12, new int[]{27,14});
+    rules[24] = new Rule(-13, new int[]{28,14});
+    rules[25] = new Rule(-13, new int[]{28,29,14});
+    rules[26] = new Rule(-14, new int[]{29,14});
+    rules[27] = new Rule(-5, new int[]{37,14});
+    rules[28] = new Rule(-5, new int[]{2,14});
   }
 
   protected override void Initialize() {
@@ -166,38 +178,48 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
 #pragma warning disable 162, 1522
     switch (action)
     {
-      case 16: // RunningStatment -> dgMinus, dgRunning, dgIdent, dgStr, dgIdent, dgMinus, Eol
-#line 54 "SpecFiles\Debugger.y"
+      case 17: // RunningStatment -> dgMinus, dgRunning, dgIdent, dgStr, dgIdent, dgMinus, Eol
+#line 55 "SpecFiles\Debugger.y"
                                                        { ProcessAppOpen(); }
 #line default
         break;
-      case 18: // CurrentFunctionStatment -> dgCurrFunc, Eol
-#line 62 "SpecFiles\Debugger.y"
+      case 19: // CurrentFunctionStatment -> dgCurrFunc, Eol
+#line 63 "SpecFiles\Debugger.y"
                   { ProcessCurrentFunction(); }
 #line default
         break;
-      case 19: // BacktraceStatment -> dgBacktrace, Eol
-#line 66 "SpecFiles\Debugger.y"
+      case 20: // TraceLineStatment -> dgTraceLine, Eol, dgTraceFile, Eol
+#line 67 "SpecFiles\Debugger.y"
+                                   { ProcessBacktraceLine(); }
+#line default
+        break;
+      case 21: // TraceLineStatment -> dgDebugger, dgTraceLine, Eol, dgTraceFile, Eol
+#line 68 "SpecFiles\Debugger.y"
+                                              { ProcessBacktraceLine(); }
+#line default
+        break;
+      case 22: // BacktraceStatment -> dgBacktrace, Eol
+#line 72 "SpecFiles\Debugger.y"
                    { ProcessBacktrace(); }
 #line default
         break;
-      case 20: // VariablesStatment -> dgVariables, Eol
-#line 70 "SpecFiles\Debugger.y"
+      case 23: // VariablesStatment -> dgVariables, Eol
+#line 76 "SpecFiles\Debugger.y"
                    { ProcessVariables(); }
 #line default
         break;
-      case 21: // DebuggerStatment -> dgDebugger, Eol
-#line 74 "SpecFiles\Debugger.y"
+      case 24: // DebuggerStatment -> dgDebugger, Eol
+#line 80 "SpecFiles\Debugger.y"
                   { ProcessDebug(); }
 #line default
         break;
-      case 22: // DebuggerStatment -> dgDebugger, dgNote, Eol
-#line 75 "SpecFiles\Debugger.y"
+      case 25: // DebuggerStatment -> dgDebugger, dgNote, Eol
+#line 81 "SpecFiles\Debugger.y"
                           { ProcessAppClose(); }
 #line default
         break;
-      case 23: // AppCloseStatement -> dgNote, Eol
-#line 79 "SpecFiles\Debugger.y"
+      case 26: // AppCloseStatement -> dgNote, Eol
+#line 85 "SpecFiles\Debugger.y"
               { ProcessAppClose(); }
 #line default
         break;
@@ -215,7 +237,7 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
         return CharToString((char)terminal);
   }
 
-#line 88 "SpecFiles\Debugger.y"
+#line 94 "SpecFiles\Debugger.y"
  #line default
 }
 }

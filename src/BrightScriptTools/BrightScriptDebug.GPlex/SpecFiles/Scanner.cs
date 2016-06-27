@@ -5,10 +5,10 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  1.0.0.0
-//  Machine:  CELSO-PC
-//  DateTime: 24/06/2016 00:20:48
-//  UserName: Celso
-//  GPLEX input file <SpecFiles\Debugger.lex - 24/06/2016 00:07:32>
+//  Machine:  OSTLT0248323
+//  DateTime: 27/06/2016 15:08:15
+//  UserName: CFE05
+//  GPLEX input file <SpecFiles\Debugger.lex - 25/06/2016 13:54:53>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize
@@ -91,7 +91,7 @@ namespace BrightScriptDebug.Compiler
     // If the compiler can't find the scanner base class maybe you
     // need to run GPPG with the /gplex option, or GPLEX with /noparser
 #if BABEL
-     public sealed partial class Scanner : ScanBase, IColorScan
+     public partial class Scanner : ScanBase, IColorScan
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal
@@ -108,7 +108,7 @@ namespace BrightScriptDebug.Compiler
                    currentStart = startState[value]; }
         }
 #else  // BABEL
-     public sealed partial class Scanner : ScanBase
+     public partial class Scanner : ScanBase
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal

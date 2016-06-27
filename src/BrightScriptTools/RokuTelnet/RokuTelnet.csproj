@@ -133,6 +133,7 @@
     <Compile Include="Services\Parser\Utils\ParserExtension.cs" />
     <Compile Include="Services\Parser\Utils\PipeStream.cs" />
     <Compile Include="Services\Parser\Utils\ScannerExtension.cs" />
+    <Compile Include="Services\Parser\Utils\TelnetScanner.cs" />
     <Compile Include="Services\Telnet\ITelenetService.cs" />
     <Compile Include="Services\Telnet\SoketService.cs" />
     <Compile Include="Services\Telnet\Utils\RokuStringParser.cs" />

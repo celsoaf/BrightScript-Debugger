@@ -39,9 +39,12 @@ namespace RokuTelnet.Services.Parser
 
                 Task.Factory.StartNew(() =>
                 {
+                    // parse input args, and open input file
+                    var scanner = new TelnetScanner(_stream);
+
                     while (_running)
                     {
-                        Task.Delay(1000).Wait();
+                        Task.Delay(100).Wait();
 
                         if (_hasContent)
                         {
@@ -49,9 +52,6 @@ namespace RokuTelnet.Services.Parser
                             {
                                 if (_hasContent)
                                 {
-                                    // parse input args, and open input file
-                                    var scanner = new Scanner(_stream);
-
                                     var parser = new BrightScriptDebug.Compiler.Parser(scanner);
 
                                     parser.BacktraceProcessed += PublishBacktrace;

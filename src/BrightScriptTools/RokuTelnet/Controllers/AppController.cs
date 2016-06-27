@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
+using Newtonsoft.Json;
 using Prism.Events;
 using Prism.Regions;
 using RokuTelnet.Enums;
 using RokuTelnet.Events;
 using RokuTelnet.Services.Parser;
+using RokuTelnet.Services.Remote;
 using RokuTelnet.Services.Telnet;
 using RokuTelnet.Views.Console;
 using RokuTelnet.Views.Input;
 using RokuTelnet.Views.Locals;
 using RokuTelnet.Views.Output;
+using RokuTelnet.Views.Remote;
 using RokuTelnet.Views.StackPanel;
 using RokuTelnet.Views.Toolbar;
 using RokuTelnet.Views.Watch;
@@ -24,18 +27,20 @@ namespace RokuTelnet.Controllers
         private IEventAggregator _eventAggregator;
         private ITelenetService _telenetService;
         private IParserService _parserService;
+        private IRemoteService _remoteService;
 
         private IRegionManager _regionManager;
 
         private Dictionary<DebuggerCommandEnum, string> _injectStrings;
         private DebuggerCommandEnum? _lasCommand;
 
-        public AppController(IUnityContainer container, IEventAggregator eventAggregator, IRegionManager regionManager, IParserService parserService)
+        public AppController(IUnityContainer container, IEventAggregator eventAggregator, IRegionManager regionManager, IParserService parserService, IRemoteService remoteService)
         {
             _container = container;
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _parserService = parserService;
+            _remoteService = remoteService;
             _container = container;
 
             _injectStrings=new Dictionary<DebuggerCommandEnum, string>();
@@ -53,9 +58,7 @@ namespace RokuTelnet.Controllers
             //_regionManager.RegisterViewWithRegion(RegionNames.WATCH, () => _container.Resolve<IWatchViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.LOCALS, () => _container.Resolve<ILocalsViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.CONSOLE, () => _container.Resolve<IConsoleViewModel>().View);
-
-
-
+            _regionManager.RegisterViewWithRegion(RegionNames.REMOTE, () => _container.Resolve<IRemoteViewModel>().View);
 
             _eventAggregator.GetEvent<CommandEvent>().Subscribe(cmd =>
             {
@@ -75,6 +78,9 @@ namespace RokuTelnet.Controllers
                 Task.Delay(1000).Wait();
                 _parserService.Start();
                 Connect(ip, 8085).Wait();
+
+                var args = JsonConvert.SerializeObject(new { ip = ip });
+                _remoteService.SetArgs(args);
             }, ThreadOption.BackgroundThread);
 
             _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj =>
@@ -82,6 +88,11 @@ namespace RokuTelnet.Controllers
                 _telenetService.Disconnect();
                 _parserService.Stop();
             }, ThreadOption.BackgroundThread);
+
+            _eventAggregator.GetEvent<SendCommandEvent>().Subscribe(cmd =>
+            {
+                _remoteService.SendAsync(cmd);
+            });
         }
 
         private async Task Connect(string ip, int port)

@@ -3,11 +3,13 @@ using Microsoft.Practices.Unity;
 using Prism.Unity;
 using RokuTelnet.Controllers;
 using RokuTelnet.Services.Parser;
+using RokuTelnet.Services.Remote;
 using RokuTelnet.Services.Telnet;
 using RokuTelnet.Views.Console;
 using RokuTelnet.Views.Input;
 using RokuTelnet.Views.Locals;
 using RokuTelnet.Views.Output;
+using RokuTelnet.Views.Remote;
 using RokuTelnet.Views.Shell;
 using RokuTelnet.Views.StackPanel;
 using RokuTelnet.Views.Toolbar;
@@ -67,7 +69,8 @@ namespace RokuTelnet
 
             Container.RegisterType<ITelenetService, SoketService>();
             Container.RegisterType<IParserService, ParserService>();
-            
+            Container.RegisterType<IRemoteService, RemoteService>();
+
 
             Container.Resolve<IAppController>().Initialize();
         }

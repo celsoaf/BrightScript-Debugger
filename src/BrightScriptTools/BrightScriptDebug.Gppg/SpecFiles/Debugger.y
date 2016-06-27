@@ -70,10 +70,12 @@ TraceLineStatment
 
 BacktraceStatment
 	: dgBacktrace Eol { ProcessBacktrace(); }
+	| dgDebugger dgBacktrace Eol { ProcessBacktrace(); }
 	;
 
 VariablesStatment
 	: dgVariables Eol { ProcessVariables(); }
+	| dgDebugger dgVariables Eol { ProcessVariables(); }
 	;
 
 DebuggerStatment

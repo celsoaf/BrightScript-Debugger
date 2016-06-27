@@ -61,6 +61,7 @@ namespace RokuTelnet.Controllers
             {
                 _telenetService.Send(cmd);
                 _lasCommand = (DebuggerCommandEnum)Enum.Parse(typeof(DebuggerCommandEnum), cmd);
+                Log(cmd + Environment.NewLine);
             });
 
             _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip =>
@@ -100,7 +101,7 @@ namespace RokuTelnet.Controllers
             if (_lasCommand.HasValue)
             {
                 if (_injectStrings.ContainsKey(_lasCommand.Value))
-                    msg = Environment.NewLine + _injectStrings[_lasCommand.Value] + Environment.NewLine + msg;
+                    msg = _injectStrings[_lasCommand.Value] + Environment.NewLine + msg;
 
                 _lasCommand = null;
             }

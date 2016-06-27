@@ -18,6 +18,13 @@
         <xcad:DockingManager Grid.Row="1" AllowMixedOrientation="True" BorderBrush="Black" BorderThickness="1">
             <xcad:LayoutRoot x:Name="_layoutRoot">
                 <xcad:LayoutPanel Orientation="Horizontal">
+                    <xcad:LayoutAnchorablePaneGroup DockWidth="250">
+                        <xcad:LayoutAnchorablePane>
+                            <xcad:LayoutAnchorable Title="Remote">
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.REMOTE}" />
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>
+                    </xcad:LayoutAnchorablePaneGroup>
                     <xcad:LayoutDocumentPaneGroup >
                         <xcad:LayoutDocumentPane>
                             <xcad:LayoutDocument ContentId="telnet" Title="Telnet" CanClose="False" >
@@ -33,7 +40,7 @@
                             </xcad:LayoutDocument>
                         </xcad:LayoutDocumentPane>
                     </xcad:LayoutDocumentPaneGroup >
-                    <xcad:LayoutAnchorablePaneGroup DockWidth="500" Orientation="Vertical">
+                    <xcad:LayoutAnchorablePaneGroup DockWidth="400" Orientation="Vertical">
                         <xcad:LayoutAnchorablePane>
                             <xcad:LayoutAnchorable Title="Call Stack" CanClose="False">
                                 <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.STACK_PANEL}" />

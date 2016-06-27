@@ -9,5 +9,6 @@
         public const string WATCH = "Watch";
         public const string LOCALS = "Locals";
         public const string CONSOLE = "Console";
+        public const string REMOTE = "Remote";
     }
 }

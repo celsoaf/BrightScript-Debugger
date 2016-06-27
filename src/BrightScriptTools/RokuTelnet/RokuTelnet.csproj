@@ -81,6 +81,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -140,6 +141,8 @@
     <Compile Include="Converters\UnixColorConverter.cs" />
     <Compile Include="Converters\UnixTextConverter.cs" />
     <Compile Include="Enums\DebuggerCommandEnum.cs" />
+    <Compile Include="Enums\EventKey.cs" />
+    <Compile Include="Enums\EventType.cs" />
     <Compile Include="Events\AppCloseEvent.cs" />
     <Compile Include="Events\AppOpenEvent.cs" />
     <Compile Include="Events\BacktraceEvent.cs" />
@@ -148,8 +151,10 @@
     <Compile Include="Events\DebugEvent.cs" />
     <Compile Include="Events\DisconnectEvent.cs" />
     <Compile Include="Events\LogEvent.cs" />
+    <Compile Include="Events\SendCommandEvent.cs" />
     <Compile Include="Events\VariablesEvent.cs" />
     <Compile Include="Models\BacktraceModel.cs" />
+    <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\VariableModel.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Services\Parser\IParserService.cs" />
@@ -158,6 +163,8 @@
     <Compile Include="Services\Parser\Utils\PipeStream.cs" />
     <Compile Include="Services\Parser\Utils\ScannerExtension.cs" />
     <Compile Include="Services\Parser\Utils\TelnetScanner.cs" />
+    <Compile Include="Services\Remote\IRemoteService.cs" />
+    <Compile Include="Services\Remote\RemoteService.cs" />
     <Compile Include="Services\Telnet\ITelenetService.cs" />
     <Compile Include="Services\Telnet\SoketService.cs" />
     <Compile Include="Services\Telnet\Utils\RokuStringParser.cs" />
@@ -190,6 +197,12 @@
     </Compile>
     <Compile Include="Views\Output\IOutputViewModel.cs" />
     <Compile Include="Views\Output\OutputViewModel.cs" />
+    <Compile Include="Views\Remote\IRemoteView.cs" />
+    <Compile Include="Views\Remote\IRemoteViewModel.cs" />
+    <Compile Include="Views\Remote\RemoteView.xaml.cs">
+      <DependentUpon>RemoteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Remote\RemoteViewModel.cs" />
     <Compile Include="Views\Shell\IShellView.cs" />
     <Compile Include="Views\Shell\IShellViewModel.cs" />
     <Compile Include="Views\Shell\ShellView.xaml.cs">
@@ -257,6 +270,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Output\OutputView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Remote\RemoteView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -340,7 +357,18 @@
     <Resource Include="Resources\document.png" />
     <Resource Include="Resources\property-blue.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\asterisk.png" />
+    <Resource Include="Resources\back.png" />
+    <Resource Include="Resources\fastforward.png" />
+    <Resource Include="Resources\home.png" />
+    <Resource Include="Resources\left.png" />
+    <Resource Include="Resources\ok.png" />
+    <Resource Include="Resources\playpause.png" />
+    <Resource Include="Resources\replay.png" />
+    <Resource Include="Resources\rewind.png" />
+    <Resource Include="Resources\right.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

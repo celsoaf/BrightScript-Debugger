@@ -67,6 +67,9 @@ namespace RokuTelnet
             Container.RegisterType<IConsoleView, ConsoleView>();
             Container.RegisterType<IConsoleViewModel, ConsoleViewModel>();
 
+            Container.RegisterType<IRemoteView, RemoteView>();
+            Container.RegisterType<IRemoteViewModel, RemoteViewModel>();
+
             Container.RegisterType<ITelenetService, SoketService>();
             Container.RegisterType<IParserService, ParserService>();
             Container.RegisterType<IRemoteService, RemoteService>();

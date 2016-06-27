@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Practices.Unity;
 using Prism.Events;
 using Prism.Regions;
+using RokuTelnet.Enums;
 using RokuTelnet.Events;
 using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Telnet;
@@ -25,6 +27,9 @@ namespace RokuTelnet.Controllers
 
         private IRegionManager _regionManager;
 
+        private Dictionary<DebuggerCommandEnum, string> _injectStrings;
+        private DebuggerCommandEnum? _lasCommand;
+
         public AppController(IUnityContainer container, IEventAggregator eventAggregator, IRegionManager regionManager, IParserService parserService)
         {
             _container = container;
@@ -32,6 +37,11 @@ namespace RokuTelnet.Controllers
             _regionManager = regionManager;
             _parserService = parserService;
             _container = container;
+
+            _injectStrings=new Dictionary<DebuggerCommandEnum, string>();
+            _injectStrings.Add(DebuggerCommandEnum.bt, "Backtrace: " + Environment.NewLine);
+            _injectStrings.Add(DebuggerCommandEnum.var, "Local Variables: " + Environment.NewLine);
+            _injectStrings.Add(DebuggerCommandEnum.list, "Current Function: " + Environment.NewLine);
         }
 
         public async void Initialize()
@@ -50,6 +60,7 @@ namespace RokuTelnet.Controllers
             _eventAggregator.GetEvent<CommandEvent>().Subscribe(cmd =>
             {
                 _telenetService.Send(cmd);
+                _lasCommand = (DebuggerCommandEnum)Enum.Parse(typeof(DebuggerCommandEnum), cmd);
             });
 
             _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip =>
@@ -86,6 +97,14 @@ namespace RokuTelnet.Controllers
 
         private void Log(string msg)
         {
+            if (_lasCommand.HasValue)
+            {
+                if (_injectStrings.ContainsKey(_lasCommand.Value))
+                    msg = _injectStrings[_lasCommand.Value] + msg;
+
+                _lasCommand = null;
+            }
+
             _eventAggregator.GetEvent<LogEvent>().Publish(msg);
         }
 

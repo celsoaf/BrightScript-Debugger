@@ -40,6 +40,7 @@ DebugElement
 	| CompilingStatment
 	| RunningStatment
 	| CurrentFunctionStatment
+	| TraceLineStatment
 	| BacktraceStatment
 	| VariablesStatment
 	| DebuggerStatment
@@ -60,6 +61,11 @@ EnterDebugStatment
 
 CurrentFunctionStatment
 	: dgCurrFunc Eol { ProcessCurrentFunction(); }
+	;
+
+TraceLineStatment
+	: dgTraceLine Eol dgTraceFile Eol { ProcessBacktraceLine(); }
+	| dgDebugger dgTraceLine Eol dgTraceFile Eol { ProcessBacktraceLine(); }
 	;
 
 BacktraceStatment

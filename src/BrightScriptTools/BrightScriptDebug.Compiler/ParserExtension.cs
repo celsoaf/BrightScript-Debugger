@@ -72,6 +72,11 @@ namespace BrightScriptDebug.Compiler
             }   
         }
 
+        public void ProcessBacktraceLine()
+        {
+
+        }
+
         public void ProcessVariables()
         {
             var dic = new Dictionary<string, string>();

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using Newtonsoft.Json;
 using Prism.Commands;
 
@@ -10,6 +13,7 @@ namespace RokuTelnet.Views.Cygwin
     public class CygwinViewModel : Prism.Mvvm.BindableBase, ICygwinViewModel
     {
         private const int LENGHT = 10000;
+        private const string FILE_NAME = "commands.json";
         private const string LAST_FOLDER_NAME = "lastFolder.json";
 
         private string _logs;
@@ -25,16 +29,16 @@ namespace RokuTelnet.Views.Cygwin
             View = view;
             View.DataContext = this;
 
-            LastCommands = new ObservableCollection<string>();
+            LastCommands = new ObservableCollection<string>(LoadCommandList());
             Output = string.Empty;
 
-            var psi = new ProcessStartInfo(@"C:\cygwin64\bin\bash.exe", "-i");
+            var psi = new ProcessStartInfo("Cygwin.bat");
             psi.RedirectStandardError = true;
             psi.RedirectStandardOutput = true;
             psi.RedirectStandardInput = true;
             psi.UseShellExecute = false;
             psi.CreateNoWindow = true;
-            psi.WorkingDirectory = GetLastFolder();
+            
             psi.WindowStyle = ProcessWindowStyle.Hidden;
             _process = new Process();
             _process.StartInfo = psi;
@@ -53,6 +57,7 @@ namespace RokuTelnet.Views.Cygwin
                     LastCommands.RemoveAt(0);
                 _cmdIndex = LastCommands.Count;
                 Command = string.Empty;
+                UpdateCommandList();
             });
 
             UpCommand = new DelegateCommand(() =>
@@ -77,6 +82,14 @@ namespace RokuTelnet.Views.Cygwin
                     Command = String.Empty;
                 }
             });
+
+            ChangeDirectory();
+        }
+
+        private void ChangeDirectory()
+        {
+            var dir = GetLastFolder().Substring(2).Replace("\\", "/");
+            _process.StandardInput.WriteLine("cd /cygdrive/c{0}", dir);
         }
 
         private void _processDataReceived(object sender, DataReceivedEventArgs e)
@@ -130,6 +143,34 @@ namespace RokuTelnet.Views.Cygwin
             }
 
             return null;
+        }
+
+        private void UpdateCommandList()
+        {
+            var content = JsonConvert.SerializeObject(LastCommands.ToList());
+
+            if (File.Exists(FILE_NAME))
+                File.Delete(FILE_NAME);
+
+            using (var sw = new StreamWriter(FILE_NAME))
+            {
+                sw.Write(content);
+            }
+        }
+
+        private List<string> LoadCommandList()
+        {
+            if (File.Exists(FILE_NAME))
+            {
+                using (var sr = new StreamReader(FILE_NAME))
+                {
+                    var content = sr.ReadToEnd();
+
+                    return JsonConvert.DeserializeObject<List<string>>(content);
+                }
+            }
+
+            return new List<string>();
         }
     }
 }

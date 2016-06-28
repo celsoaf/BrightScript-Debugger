@@ -24,5 +24,10 @@ namespace RokuTelnet.Views.Remote
         {
             InitializeComponent();
         }
+
+        private void RemoteView_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            Input.Focus();
+        }
     }
 }

@@ -29,5 +29,10 @@ namespace RokuTelnet.Views.Output
         {
             InputBlock.Focus();
         }
+
+        private void OutputView_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            InputBlock.Focus();
+        }
     }
 }

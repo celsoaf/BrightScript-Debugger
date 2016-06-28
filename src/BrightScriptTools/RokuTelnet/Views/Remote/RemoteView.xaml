@@ -6,7 +6,8 @@
              xmlns:local="clr-namespace:RokuTelnet.Views.Remote"
              xmlns:enums="clr-namespace:RokuTelnet.Enums"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300"
+             MouseEnter="RemoteView_OnMouseEnter">
     <UserControl.Resources>
         <Style TargetType="{x:Type Button}">
             <Setter Property="Margin" Value="5"/>
@@ -107,7 +108,7 @@
 
         <TextBox Grid.Row="6" Grid.ColumnSpan="3" Margin="5" FontSize="16" 
                  Text="{Binding Input, UpdateSourceTrigger=PropertyChanged}"
-                 IsEnabled="{Binding Connected}">
+                 IsEnabled="{Binding Connected}" Name="Input">
             <TextBox.InputBindings>
                 <KeyBinding Key="Back" Command="{Binding BackspaceCommand}"/>
 

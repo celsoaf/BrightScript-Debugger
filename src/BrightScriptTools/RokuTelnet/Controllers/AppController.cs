@@ -11,7 +11,6 @@ using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Remote;
 using RokuTelnet.Services.Telnet;
 using RokuTelnet.Views.Console;
-using RokuTelnet.Views.Input;
 using RokuTelnet.Views.Locals;
 using RokuTelnet.Views.Output;
 using RokuTelnet.Views.Remote;
@@ -52,7 +51,6 @@ namespace RokuTelnet.Controllers
         public async void Initialize()
         {
             _regionManager.RegisterViewWithRegion(RegionNames.OUTPUT, () => _container.Resolve<IOutputViewModel>().View);
-            _regionManager.RegisterViewWithRegion(RegionNames.INPUT, () => _container.Resolve<IInputViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.TOOLBAR, () => _container.Resolve<IToolbarViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.STACK_PANEL, () => _container.Resolve<IStackPanelViewModel>().View);
             //_regionManager.RegisterViewWithRegion(RegionNames.WATCH, () => _container.Resolve<IWatchViewModel>().View);

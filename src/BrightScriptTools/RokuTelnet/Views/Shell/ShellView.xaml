@@ -28,15 +28,7 @@
                     <xcad:LayoutDocumentPaneGroup >
                         <xcad:LayoutDocumentPane>
                             <xcad:LayoutDocument ContentId="telnet" Title="Telnet" CanClose="False" >
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <ContentControl Grid.Row="0" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT}" />
-
-                                    <ContentControl Grid.Row="1" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.INPUT}" />
-                                </Grid>
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT}" />
                             </xcad:LayoutDocument>
                         </xcad:LayoutDocumentPane>
                     </xcad:LayoutDocumentPaneGroup >

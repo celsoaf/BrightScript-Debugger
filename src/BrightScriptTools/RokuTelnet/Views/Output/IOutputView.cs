@@ -3,5 +3,7 @@
     public interface IOutputView
     {
         object DataContext { get; set; }
+
+        void SetFocus();
     }
 }

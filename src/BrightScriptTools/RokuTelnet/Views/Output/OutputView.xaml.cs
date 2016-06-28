@@ -24,5 +24,10 @@ namespace RokuTelnet.Views.Output
         {
             InitializeComponent();
         }
+
+        public void SetFocus()
+        {
+            InputBlock.Focus();
+        }
     }
 }

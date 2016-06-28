@@ -19,5 +19,10 @@ namespace RokuTelnet.Views.Toolbar
         ObservableCollection<string> IPList { get; set; }
         string SelectedIP { get; set; }
         bool Connected { get; set; }
+
+        DelegateCommand OpenFolderCommand { get; set; }
+        DelegateCommand DeployCommand { get; set; }
+
+        string Folder { get; set; }
     }
 }

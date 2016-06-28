@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 using Newtonsoft.Json;
 using Prism.Commands;
 using Prism.Events;
@@ -14,12 +15,14 @@ namespace RokuTelnet.Views.Toolbar
     public class ToolbarViewModel : Prism.Mvvm.BindableBase, IToolbarViewModel
     {
         private const string FILE_NAME = "ips.json";
-        private const string LAST_FILE_NAME = "last.json";
+        private const string LAST_FILE_NAME = "lastIp.json";
+        private const string LAST_FOLDER_NAME = "lastFolder.json";
 
         private IEventAggregator _eventAggregator;
         private bool _enable;
         private bool _connected;
         private string _selectedIp;
+        private string _folder;
 
         public ToolbarViewModel(IToolbarView view, IEventAggregator eventAggregator)
         {
@@ -50,8 +53,24 @@ namespace RokuTelnet.Views.Toolbar
             {
                 Connected = !Connected;
 
-                UpdateLast();
+                UpdateLastIp();
             }, () => ValidateIP(SelectedIP));
+
+            DeployCommand = new DelegateCommand(() =>
+            {
+
+            });
+
+            OpenFolderCommand = new DelegateCommand(() =>
+            {
+                var dialog = new System.Windows.Forms.FolderBrowserDialog();
+                dialog.SelectedPath = Folder;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    Folder = dialog.SelectedPath;
+                    UpdateLastFolder();
+                }
+            });
 
             Command = new DelegateCommand<DebuggerCommandEnum?>(cmd =>
             {
@@ -61,7 +80,8 @@ namespace RokuTelnet.Views.Toolbar
 
             _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Contains("Debugger>"));
 
-            LoadLast();
+            LoadLastIp();
+            LoadLastFolder();
         }
 
         public IToolbarView View { get; set; }
@@ -107,6 +127,15 @@ namespace RokuTelnet.Views.Toolbar
             }
         }
 
+        public DelegateCommand OpenFolderCommand { get; set; }
+        public DelegateCommand DeployCommand { get; set; }
+
+        public string Folder
+        {
+            get { return _folder; }
+            set { _folder = value; OnPropertyChanged(() => Folder); }
+        }
+
         private void UpdateFileList()
         {
             var content = JsonConvert.SerializeObject(IPList.ToList());
@@ -135,7 +164,7 @@ namespace RokuTelnet.Views.Toolbar
             return new List<string>();
         }
 
-        private void LoadLast()
+        private void LoadLastIp()
         {
             if (File.Exists(LAST_FILE_NAME))
             {
@@ -154,7 +183,7 @@ namespace RokuTelnet.Views.Toolbar
             }
         }
 
-        private void UpdateLast()
+        private void UpdateLastIp()
         {
             if (File.Exists(LAST_FILE_NAME))
                 File.Delete(LAST_FILE_NAME);
@@ -166,6 +195,31 @@ namespace RokuTelnet.Views.Toolbar
                 {
                     sw.Write(content);
                 }
+            }
+        }
+
+        private void LoadLastFolder()
+        {
+            if (File.Exists(LAST_FOLDER_NAME))
+            {
+                using (var sr = new StreamReader(LAST_FOLDER_NAME))
+                {
+                    var content = sr.ReadToEnd();
+
+                    Folder = JsonConvert.DeserializeObject<string>(content);
+                }
+            }
+        }
+
+        private void UpdateLastFolder()
+        {
+            if (File.Exists(LAST_FOLDER_NAME))
+                File.Delete(LAST_FOLDER_NAME);
+
+            var content = JsonConvert.SerializeObject(Folder);
+            using (var sw = new StreamWriter(LAST_FOLDER_NAME))
+            {
+                sw.Write(content);
             }
         }
 

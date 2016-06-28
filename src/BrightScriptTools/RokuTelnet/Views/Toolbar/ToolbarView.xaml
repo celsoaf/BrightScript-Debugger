@@ -51,6 +51,32 @@
                 </Button>
             </Grid>
         </ToolBar>
+        <ToolBar>
+            <Grid Width="300">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <Button Grid.Column="0" Margin="0" 
+                        Command="{Binding OpenFolderCommand}"
+				        IsEnabled="{Binding Connected}"
+                        ToolTip="Add to drop down list">
+                    <Image Source="../../Resources/Open_folder.png" Width="24" Height="24"/>
+                </Button>
+                
+                <TextBox Grid.Column="1" IsReadOnly="True" Text="{Binding Folder}" 
+                         FontWeight="Bold" FontSize="16"/>
+                
+                <Button Grid.Column="2" Margin="0" 
+                        Command="{Binding DeployCommand}"
+				        IsEnabled="{Binding Connected}"
+                        ToolTip="Remove from drop down list">
+                    <Image Source="../../Resources/deploy.png" Width="24" Height="24"/>
+                </Button>
+            </Grid>
+        </ToolBar>
         <ToolBar IsEnabled="{Binding Enable}">
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.c}"
                     ToolTip="Continue Script Execution">

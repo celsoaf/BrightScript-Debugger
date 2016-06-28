@@ -18,7 +18,6 @@ namespace RokuTelnet.Services.Parser
         private StreamWriter _writer;
         private CancellationTokenSource _cancellationToken;
         private readonly IEventAggregator _eventAggregator;
-        private volatile bool _hasContent = false;
 
         public ParserService(IEventAggregator eventAggregator)
         {
@@ -46,7 +45,7 @@ namespace RokuTelnet.Services.Parser
                     {
                         Task.Delay(100).Wait();
 
-                        if (_hasContent)
+                        if (_stream.Length > 0)
                         {
                             var parser = new BrightScriptDebug.Compiler.Parser(scanner);
 
@@ -69,8 +68,6 @@ namespace RokuTelnet.Services.Parser
                             parser.DebugPorcessed -= PublishDebug;
                             parser.AppCloseProcessed -= PublishAppClose;
                             parser.AppOpenProcessed -= PublishAppOpen;
-
-                            _hasContent = false;
                         }
                     }
                 }, _cancellationToken.Token);
@@ -106,8 +103,6 @@ namespace RokuTelnet.Services.Parser
         {
             _writer.WriteLine(msg);
             _writer.Flush();
-
-            _hasContent = true;
         }
 
         public void Stop()

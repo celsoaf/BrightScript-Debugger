@@ -9,5 +9,6 @@
         public const string LOCALS = "Locals";
         public const string CONSOLE = "Console";
         public const string REMOTE = "Remote";
+        public const string CYGWIN = "Cygwin";
     }
 }

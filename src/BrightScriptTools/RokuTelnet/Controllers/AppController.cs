@@ -11,6 +11,7 @@ using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Remote;
 using RokuTelnet.Services.Telnet;
 using RokuTelnet.Views.Console;
+using RokuTelnet.Views.Cygwin;
 using RokuTelnet.Views.Locals;
 using RokuTelnet.Views.Output;
 using RokuTelnet.Views.Remote;
@@ -57,6 +58,7 @@ namespace RokuTelnet.Controllers
             _regionManager.RegisterViewWithRegion(RegionNames.LOCALS, () => _container.Resolve<ILocalsViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.CONSOLE, () => _container.Resolve<IConsoleViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.REMOTE, () => _container.Resolve<IRemoteViewModel>().View);
+            _regionManager.RegisterViewWithRegion(RegionNames.CYGWIN, () => _container.Resolve<ICygwinViewModel>().View);
 
             _eventAggregator.GetEvent<CommandEvent>().Subscribe(cmd =>
             {

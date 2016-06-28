@@ -186,6 +186,12 @@
       <DependentUpon>LocalsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Locals\LocalsViewModel.cs" />
+    <Compile Include="Views\Cygwin\ICygwinView.cs" />
+    <Compile Include="Views\Cygwin\ICygwinViewModel.cs" />
+    <Compile Include="Views\Cygwin\CygwinView.xaml.cs">
+      <DependentUpon>CygwinView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cygwin\CygwinViewModel.cs" />
     <Compile Include="Views\Output\IOutputView.cs" />
     <Compile Include="Views\Output\OutputView.xaml.cs">
       <DependentUpon>OutputView.xaml</DependentUpon>
@@ -259,6 +265,10 @@
     <Page Include="Views\Locals\LocalsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cygwin\CygwinView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Output\OutputView.xaml">
       <SubType>Designer</SubType>

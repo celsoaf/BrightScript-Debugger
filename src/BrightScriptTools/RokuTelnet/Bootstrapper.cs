@@ -6,6 +6,7 @@ using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Remote;
 using RokuTelnet.Services.Telnet;
 using RokuTelnet.Views.Console;
+using RokuTelnet.Views.Cygwin;
 using RokuTelnet.Views.Locals;
 using RokuTelnet.Views.Output;
 using RokuTelnet.Views.Remote;
@@ -47,6 +48,9 @@ namespace RokuTelnet
 
             Container.RegisterType<IOutputView, OutputView>();
             Container.RegisterType<IOutputViewModel, OutputViewModel>();
+
+            Container.RegisterType<ICygwinView, CygwinView>();
+            Container.RegisterType<ICygwinViewModel, CygwinViewModel>();
 
             Container.RegisterType<IStackPanelView, StackPanelView>();
             Container.RegisterType<IStackPanelViewModel, StackPanelViewModel>();

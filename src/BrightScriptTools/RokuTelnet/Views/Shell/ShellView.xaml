@@ -6,7 +6,8 @@
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         Title="Roku Telnet" Width="1350" Height="720"
-        Icon="../../Resources/roku1.png">
+        Icon="../../Resources/roku1.png"
+        WindowState="Maximized">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

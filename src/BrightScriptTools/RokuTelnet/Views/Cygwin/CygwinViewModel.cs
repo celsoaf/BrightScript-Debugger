@@ -83,6 +83,12 @@ namespace RokuTelnet.Views.Cygwin
                 }
             });
 
+            CoffeeCommand = new DelegateCommand(() =>
+            {
+                Command = "coffee build.coffee";
+                EnterCommand.Execute().Wait();
+            });
+
             ChangeDirectory();
         }
 
@@ -129,6 +135,8 @@ namespace RokuTelnet.Views.Cygwin
                 OnPropertyChanged(() => Enable);
             }
         }
+
+        public DelegateCommand CoffeeCommand { get; set; }
 
         private string GetLastFolder()
         {

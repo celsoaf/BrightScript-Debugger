@@ -14,11 +14,21 @@
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal">
+            <Button Command="{Binding CoffeeCommand}" Margin="3">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../../Resources/coffee.png" Width="24" Height="24"/>
+                    <TextBlock Text="Deploy" FontSize="16" FontWeight="Bold" Margin="3"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
 
-        <controls:RichTextViewer Grid.Row="0" RichText="{Binding Output}" Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas" VerticalScrollBarVisibility="Auto">
+        <controls:RichTextViewer Grid.Row="1" RichText="{Binding Output}" Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas" VerticalScrollBarVisibility="Auto">
             <controls:RichTextViewer.Resources>
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"/>
@@ -26,7 +36,7 @@
             </controls:RichTextViewer.Resources>
         </controls:RichTextViewer>
 
-        <TextBox Grid.Row="1" Text="{Binding Command, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Grid.Row="2" Text="{Binding Command, UpdateSourceTrigger=PropertyChanged}" 
                  Background="Black" Foreground="White" FontFamily="Consolas" Name="InputBlock" BorderBrush="{x:Null}" SelectionBrush="{x:Null}"
                  IsEnabled="{Binding Enable}">
             <TextBox.InputBindings>

@@ -20,5 +20,6 @@ namespace RokuTelnet.Views.Cygwin
         bool Enable { get; set; }
 
         DelegateCommand CoffeeCommand { get; set; }
+        DelegateCommand RestartCommand { get; set; }
     }
 }

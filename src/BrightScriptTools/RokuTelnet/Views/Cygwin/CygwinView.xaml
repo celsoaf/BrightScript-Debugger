@@ -26,6 +26,12 @@
                     <TextBlock Text="Deploy" FontSize="16" FontWeight="Bold" Margin="3"/>
                 </StackPanel>
             </Button>
+            <Button Command="{Binding RestartCommand}" Margin="3">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../../Resources/restart.png" Width="24" Height="24"/>
+                    <TextBlock Text="Restart" FontSize="16" FontWeight="Bold" Margin="3"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <controls:RichTextViewer Grid.Row="1" RichText="{Binding Output}" Background="Black" Foreground="WhiteSmoke" FontFamily="Consolas" VerticalScrollBarVisibility="Auto">
@@ -43,6 +49,7 @@
                 <KeyBinding Key="Enter" Command="{Binding EnterCommand}"/>
                 <KeyBinding Key="Up" Command="{Binding UpCommand}"/>
                 <KeyBinding Key="Down" Command="{Binding DownCommand}"/>
+                <KeyBinding Key="C" Modifiers="Control" Command="{Binding RestartCommand}"/>
             </TextBox.InputBindings>
         </TextBox>
     </Grid>

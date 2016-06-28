@@ -30,25 +30,11 @@ namespace RokuTelnet.Views.Cygwin
             View.DataContext = this;
 
             LastCommands = new ObservableCollection<string>(LoadCommandList());
+            _cmdIndex = LastCommands.Count;
             Output = string.Empty;
 
-            var psi = new ProcessStartInfo("Cygwin.bat");
-            psi.RedirectStandardError = true;
-            psi.RedirectStandardOutput = true;
-            psi.RedirectStandardInput = true;
-            psi.UseShellExecute = false;
-            psi.CreateNoWindow = true;
-            
-            psi.WindowStyle = ProcessWindowStyle.Hidden;
-            _process = new Process();
-            _process.StartInfo = psi;
-            _process.OutputDataReceived += _processDataReceived;
-            _process.ErrorDataReceived += _processDataReceived;
-            _process.Start();
+            StartProcess();
 
-            _process.BeginErrorReadLine();
-            _process.BeginOutputReadLine();
-            
             EnterCommand = new DelegateCommand(() =>
             {
                 _process.StandardInput.WriteLine(Command);
@@ -88,6 +74,32 @@ namespace RokuTelnet.Views.Cygwin
                 Command = "coffee build.coffee";
                 EnterCommand.Execute().Wait();
             });
+
+            RestartCommand = new DelegateCommand(() =>
+            {
+                _process.Kill();
+                StartProcess();
+            });
+        }
+
+        private void StartProcess()
+        {
+            var psi = new ProcessStartInfo("Cygwin.bat");
+            psi.RedirectStandardError = true;
+            psi.RedirectStandardOutput = true;
+            psi.RedirectStandardInput = true;
+            psi.UseShellExecute = false;
+            psi.CreateNoWindow = true;
+
+            psi.WindowStyle = ProcessWindowStyle.Hidden;
+            _process = new Process();
+            _process.StartInfo = psi;
+            _process.OutputDataReceived += _processDataReceived;
+            _process.ErrorDataReceived += _processDataReceived;
+            _process.Start();
+
+            _process.BeginErrorReadLine();
+            _process.BeginOutputReadLine();
 
             ChangeDirectory();
         }
@@ -137,6 +149,7 @@ namespace RokuTelnet.Views.Cygwin
         }
 
         public DelegateCommand CoffeeCommand { get; set; }
+        public DelegateCommand RestartCommand { get; set; }
 
         private string GetLastFolder()
         {

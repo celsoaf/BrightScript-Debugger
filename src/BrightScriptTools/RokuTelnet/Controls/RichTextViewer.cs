@@ -46,7 +46,7 @@ namespace RokuTelnet.Controls
                         string newLine;
                         while ((newLine = reader.ReadLine()) != null)
                         {
-                            doc.Blocks.Add(BuildParagraph(newLine));
+                            doc.Blocks.Add(BuildParagraph1(newLine));
                         }
                     }
 
@@ -61,7 +61,7 @@ namespace RokuTelnet.Controls
             line = line.Replace("[0m", "");
             if (line.StartsWith("\u001b[3"))
             {
-                var color = int.Parse(line.Substring(3, 1));
+                var color = line.Substring(3, 1);
                 line = line.Substring(7);
 
                 var p = new Paragraph(new Run(line));
@@ -73,23 +73,65 @@ namespace RokuTelnet.Controls
             return new Paragraph(new Run(line));
         }
 
-        private static Brush GetColor(int index)
+        private static Paragraph BuildParagraph1(string line)
+        {
+            line = line.Replace("\u001b]0;", "$");
+
+            var p = new Paragraph();
+
+            do
+            {
+                var idx = line.IndexOf("\u001b[");
+                if (idx == -1)
+                {
+                    p.Inlines.Add(new Run(line));
+                    line = string.Empty;
+                }
+                else if (idx == 0)
+                {
+                    var color = line.Substring(3, 1);
+                    line = line.Substring(line.IndexOf("m") + 1);
+                    idx = line.IndexOf("\u001b[");
+                    if (idx != -1)
+                    {
+                        var s = line.Substring(0, idx);
+                        line = line.Substring(idx);
+                        p.Inlines.Add(new Run(s) {Foreground = GetColor(color)});
+                    }
+                    else
+                    {
+                        p.Inlines.Add(new Run(line) {Foreground = GetColor(color)});
+                        line = string.Empty;
+                    }
+                }
+                else
+                {
+                    var s = line.Substring(0, idx);
+                    line = line.Substring(idx);
+                    p.Inlines.Add(new Run(s));
+                }
+            } while (!string.IsNullOrEmpty(line));
+
+            return p;
+        }
+
+        private static Brush GetColor(string index)
         {
             switch (index)
             {
-                case 1:
+                case "1":
                     return Brushes.Red;
-                case 2:
+                case "2":
                     return Brushes.LightGreen;
-                case 3:
+                case "3":
                     return Brushes.Yellow;
-                case 4:
+                case "4":
                     return Brushes.DeepSkyBlue;
-                case 5:
+                case "5":
                     return Brushes.Magenta;
-                case 6:
+                case "6":
                     return Brushes.Cyan;
-                case 7:
+                case "7":
                     return Brushes.LightCyan;
             }
 

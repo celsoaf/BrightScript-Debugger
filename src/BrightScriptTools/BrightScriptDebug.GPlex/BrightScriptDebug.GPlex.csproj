@@ -71,24 +71,11 @@
     <None Include="SpecFiles\Debugger.lex">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="SpecFiles\BrightScriptLexer.lex">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SpecFiles\BrightScriptColor.lex">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="SpecFiles\GenerateAll.bat" />
     <None Include="SpecFiles\gplex.lex" />
     <None Include="SpecFiles\gplex.y" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SpecFiles\BrightScript\BrightScript Core Objects.txt" />
-    <Content Include="SpecFiles\BrightScript\BrightScript Folding Markers.txt" />
-    <Content Include="SpecFiles\BrightScript\BrightScript Functions.txt" />
-    <Content Include="SpecFiles\BrightScript\BrightScript Keywords.txt" />
-    <Content Include="SpecFiles\BrightScript\BrightScript Statements.txt" />
-    <Content Include="SpecFiles\BrightScript\BrightScript Type.txt" />
-    <Content Include="SpecFiles\BrightScript\BrightSign Objects.txt" />
     <Content Include="SpecFiles\gplex.lst" />
   </ItemGroup>
   <ItemGroup>

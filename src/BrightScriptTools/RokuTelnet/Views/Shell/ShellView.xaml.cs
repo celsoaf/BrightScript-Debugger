@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Xceed.Wpf.AvalonDock.Layout.Serialization;
 
 namespace RokuTelnet.Views.Shell
 {
@@ -19,9 +20,23 @@ namespace RokuTelnet.Views.Shell
     /// </summary>
     public partial class ShellView : Window, IShellView
     {
+        public const string LAYOUT_FILE = "layout.xml";
+
         public ShellView()
         {
             InitializeComponent();
+
+            Loaded += (s, e) =>
+            {
+                var serializer = new XmlLayoutSerializer(DockingManager);
+                //serializer.Deserialize(LAYOUT_FILE);
+            };
+
+            Closing += (s, e) =>
+            {
+                var serializer = new XmlLayoutSerializer(DockingManager);
+                serializer.Serialize(LAYOUT_FILE);
+            };
         }
     }
 }

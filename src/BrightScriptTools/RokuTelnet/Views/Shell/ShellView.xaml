@@ -16,10 +16,10 @@
 
         <ContentControl Grid.Row="0" regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.TOOLBAR}" />
 
-        <xcad:DockingManager Grid.Row="1" AllowMixedOrientation="True" BorderBrush="Black" BorderThickness="1">
+        <xcad:DockingManager Grid.Row="1" AllowMixedOrientation="True" BorderBrush="Black" BorderThickness="1" Name="DockingManager">
             <xcad:LayoutRoot x:Name="_layoutRoot">
                 <xcad:LayoutPanel Orientation="Horizontal">
-                    <xcad:LayoutAnchorablePaneGroup DockWidth="350" Orientation="Vertical">
+                    <xcad:LayoutAnchorablePaneGroup DockWidth="420" Orientation="Vertical">
                         <xcad:LayoutAnchorablePane>
                             <xcad:LayoutAnchorable Title="Remote">
                                 <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.REMOTE}" />

@@ -5,5 +5,6 @@
         object DataContext { get; set; }
 
         void SetFocus();
+        void SetCursorPosition();
     }
 }

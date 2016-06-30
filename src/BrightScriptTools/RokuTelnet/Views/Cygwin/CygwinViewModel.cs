@@ -60,6 +60,7 @@ namespace RokuTelnet.Views.Cygwin
                 {
                     _cmdIndex--;
                     Command = LastCommands[_cmdIndex];
+                    View.SetCursorPosition();
                 }
             });
 
@@ -69,6 +70,7 @@ namespace RokuTelnet.Views.Cygwin
                 {
                     _cmdIndex++;
                     Command = LastCommands[_cmdIndex];
+                    View.SetCursorPosition();
                 }
                 else
                 {
@@ -142,7 +144,11 @@ namespace RokuTelnet.Views.Cygwin
         public string Command
         {
             get { return _commands; }
-            set { _commands = value; OnPropertyChanged(() => Command); }
+            set
+            {
+                _commands = value;
+                OnPropertyChanged(() => Command);
+            }
         }
 
         public DelegateCommand EnterCommand { get; set; }

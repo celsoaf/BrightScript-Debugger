@@ -14,6 +14,16 @@ namespace RokuTelnet.Views.Cygwin
             InitializeComponent();
         }
 
+        public void SetFocus()
+        {
+            InputBlock.Focus();
+        }
+
+        public void SetCursorPosition()
+        {
+            InputBlock.CaretIndex = InputBlock.Text.Length;
+        }
+
         private void CygwinView_OnMouseEnter(object sender, MouseEventArgs e)
         {
             InputBlock.Focus();

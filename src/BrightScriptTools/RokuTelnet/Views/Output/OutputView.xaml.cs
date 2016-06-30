@@ -30,6 +30,11 @@ namespace RokuTelnet.Views.Output
             InputBlock.Focus();
         }
 
+        public void SetCursorPosition()
+        {
+            InputBlock.CaretIndex = InputBlock.Text.Length;
+        }
+
         private void OutputView_OnMouseEnter(object sender, MouseEventArgs e)
         {
             InputBlock.Focus();

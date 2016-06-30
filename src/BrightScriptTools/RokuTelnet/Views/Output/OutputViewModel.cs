@@ -35,7 +35,7 @@ namespace RokuTelnet.Views.Output
                 if (Logs.Length > LOGS_LENGHT)
                     Logs = Logs.Substring(Logs.Length - LOGS_LENGHT);
             }, ThreadOption.UIThread);
-            
+
             EnterCommand = new DelegateCommand(() =>
             {
                 _eventAggregator.GetEvent<CommandEvent>().Publish(Command);
@@ -52,6 +52,7 @@ namespace RokuTelnet.Views.Output
                 {
                     _cmdIndex--;
                     Command = LastCommands[_cmdIndex];
+                    View.SetCursorPosition();
                 }
             });
 
@@ -61,6 +62,7 @@ namespace RokuTelnet.Views.Output
                 {
                     _cmdIndex++;
                     Command = LastCommands[_cmdIndex];
+                    View.SetCursorPosition();
                 }
                 else
                 {
@@ -85,7 +87,11 @@ namespace RokuTelnet.Views.Output
         public string Command
         {
             get { return _commands; }
-            set { _commands = value; OnPropertyChanged(() => Command); }
+            set
+            {
+                _commands = value;
+                OnPropertyChanged(() => Command);
+            }
         }
 
         public DelegateCommand EnterCommand { get; set; }

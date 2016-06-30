@@ -43,9 +43,8 @@ namespace RokuTelnet.Services.Parser
 
                     while (_running)
                     {
-                        Task.Delay(100).Wait();
 
-                        if (_stream.Length > 0)
+                        if ( _stream.Length > 0)
                         {
                             var parser = new BrightScriptDebug.Compiler.Parser(scanner);
 
@@ -69,6 +68,8 @@ namespace RokuTelnet.Services.Parser
                             parser.AppCloseProcessed -= PublishAppClose;
                             parser.AppOpenProcessed -= PublishAppOpen;
                         }
+
+                        Task.Delay(100).Wait();
                     }
                 }, _cancellationToken.Token);
             }

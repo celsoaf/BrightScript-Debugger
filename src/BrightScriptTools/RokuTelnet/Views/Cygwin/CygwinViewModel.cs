@@ -7,6 +7,8 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 using Prism.Commands;
+using Prism.Events;
+using RokuTelnet.Events;
 
 namespace RokuTelnet.Views.Cygwin
 {
@@ -24,16 +26,22 @@ namespace RokuTelnet.Views.Cygwin
 
         private Process _process;
 
-        public CygwinViewModel(ICygwinView view)
+        private readonly IEventAggregator _eventAggregator;
+        private string _ip;
+
+        public CygwinViewModel(ICygwinView view, IEventAggregator eventAggregator)
         {
             View = view;
             View.DataContext = this;
+            _eventAggregator = eventAggregator;
 
             LastCommands = new ObservableCollection<string>(LoadCommandList());
             _cmdIndex = LastCommands.Count;
             Output = string.Empty;
 
             StartProcess();
+
+            _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip => _ip = ip);
 
             EnterCommand = new DelegateCommand(() =>
             {
@@ -72,6 +80,9 @@ namespace RokuTelnet.Views.Cygwin
             CoffeeCommand = new DelegateCommand(() =>
             {
                 Command = "coffee build.coffee";
+                if (!string.IsNullOrEmpty(_ip))
+                    Command += " -b " + _ip;
+
                 EnterCommand.Execute().Wait();
             });
 

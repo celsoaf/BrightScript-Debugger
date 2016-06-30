@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using RokuTelnet.Enums;
 using RokuTelnet.Events;
+using RokuTelnet.Models;
 using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Remote;
 using RokuTelnet.Services.Telnet;
@@ -33,6 +36,7 @@ namespace RokuTelnet.Controllers
 
         private Dictionary<DebuggerCommandEnum, string> _injectStrings;
         private DebuggerCommandEnum? _lasCommand;
+        private volatile bool _connected;
 
         public AppController(IUnityContainer container, IEventAggregator eventAggregator, IRegionManager regionManager, IParserService parserService, IRemoteService remoteService)
         {
@@ -43,7 +47,7 @@ namespace RokuTelnet.Controllers
             _remoteService = remoteService;
             _container = container;
 
-            _injectStrings=new Dictionary<DebuggerCommandEnum, string>();
+            _injectStrings = new Dictionary<DebuggerCommandEnum, string>();
             _injectStrings.Add(DebuggerCommandEnum.bt, "Backtrace: ");
             _injectStrings.Add(DebuggerCommandEnum.var, "Local Variables: ");
             _injectStrings.Add(DebuggerCommandEnum.list, "Current Function: ");
@@ -60,18 +64,7 @@ namespace RokuTelnet.Controllers
             _regionManager.RegisterViewWithRegion(RegionNames.REMOTE, () => _container.Resolve<IRemoteViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.CYGWIN, () => _container.Resolve<ICygwinViewModel>().View);
 
-            _eventAggregator.GetEvent<CommandEvent>().Subscribe(cmd =>
-            {
-                _telenetService.Send(cmd);
-
-                Log(cmd + Environment.NewLine);
-
-                DebuggerCommandEnum c;
-                if (Enum.TryParse(cmd, out c))
-                    _lasCommand = c;
-                else
-                    _lasCommand = null;
-            });
+            _eventAggregator.GetEvent<CommandEvent>().Subscribe(SendCommand);
 
             _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip =>
             {
@@ -87,12 +80,48 @@ namespace RokuTelnet.Controllers
             {
                 _telenetService.Disconnect();
                 _parserService.Stop();
+                _connected = false;
             }, ThreadOption.BackgroundThread);
 
             _eventAggregator.GetEvent<SendCommandEvent>().Subscribe(cmd =>
             {
                 _remoteService.SendAsync(cmd);
             });
+
+            RegisterCommands();
+        }
+
+        private void SendCommand(string cmd)
+        {
+            _telenetService.Send(cmd);
+
+            Log(cmd + Environment.NewLine);
+
+            DebuggerCommandEnum c;
+            if (Enum.TryParse(cmd, out c))
+                _lasCommand = c;
+            else
+                _lasCommand = null;
+        }
+
+        private void RegisterCommands()
+        {
+            App.Current.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                RegisterDebuggerCommand(GlobalCommands.DebuggerStep, DebuggerCommandEnum.s);
+                RegisterDebuggerCommand(GlobalCommands.DebuggerContinue, DebuggerCommandEnum.c);
+            }));
+        }
+
+        private void RegisterDebuggerCommand(RoutedUICommand command, DebuggerCommandEnum cmd)
+        {
+            App.Current.MainWindow.CommandBindings.Add(new CommandBinding(command, (s, e) =>
+            {
+                if (_connected)
+                {
+                    SendCommand(cmd.ToString());
+                }
+            }));
         }
 
         private async Task Connect(string ip, int port)
@@ -100,9 +129,9 @@ namespace RokuTelnet.Controllers
             _telenetService = _container.Resolve<ITelenetService>();
             _telenetService.Log += l => Log(l);
             _telenetService.Close += () => LogFormat("Connection closed");
-            var connected = await _telenetService.Connect(ip, port);
+            _connected = await _telenetService.Connect(ip, port);
 
-            if (connected)
+            if (_connected)
             {
                 App.Current.Dispatcher.BeginInvoke(
                     new Action(() => App.Current.Exit += (s, e) => _telenetService.Disconnect()));

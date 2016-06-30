@@ -154,6 +154,7 @@
     <Compile Include="Events\LogEvent.cs" />
     <Compile Include="Events\SendCommandEvent.cs" />
     <Compile Include="Events\VariablesEvent.cs" />
+    <Compile Include="GlobalCommands.cs" />
     <Compile Include="Models\BacktraceModel.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\VariableModel.cs" />

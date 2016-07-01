@@ -52,8 +52,10 @@ namespace RokuTelnet.Views.Output
                 {
                     _cmdIndex--;
                     Command = LastCommands[_cmdIndex];
+                    View.SetFocus();
                     View.SetCursorPosition();
                 }
+                View.SetFocus();
             });
 
             DownCommand = new DelegateCommand(() =>
@@ -62,6 +64,7 @@ namespace RokuTelnet.Views.Output
                 {
                     _cmdIndex++;
                     Command = LastCommands[_cmdIndex];
+                    View.SetFocus();
                     View.SetCursorPosition();
                 }
                 else
@@ -69,6 +72,7 @@ namespace RokuTelnet.Views.Output
                     _cmdIndex = LastCommands.Count;
                     Command = String.Empty;
                 }
+                View.SetFocus();
             });
 
             _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Contains("Debugger>"), ThreadOption.UIThread);

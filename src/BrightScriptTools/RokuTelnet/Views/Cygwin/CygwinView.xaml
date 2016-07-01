@@ -41,6 +41,11 @@
                     <Setter Property="Margin" Value="0"/>
                 </Style>
             </controls:RichTextViewer.Resources>
+            <controls:RichTextViewer.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding EnterCommand}"/>
+                <KeyBinding Key="Up" Command="{Binding UpCommand}"/>
+                <KeyBinding Key="Down" Command="{Binding DownCommand}"/>
+            </controls:RichTextViewer.InputBindings>
         </controls:RichTextViewer>
 
         <TextBox Grid.Row="2" Text="{Binding Command, UpdateSourceTrigger=PropertyChanged}" 

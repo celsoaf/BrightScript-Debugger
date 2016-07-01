@@ -62,6 +62,7 @@ namespace RokuTelnet.Views.Cygwin
                     Command = LastCommands[_cmdIndex];
                     View.SetCursorPosition();
                 }
+                View.SetFocus();
             });
 
             DownCommand = new DelegateCommand(() =>
@@ -77,6 +78,7 @@ namespace RokuTelnet.Views.Cygwin
                     _cmdIndex = LastCommands.Count;
                     Command = String.Empty;
                 }
+                View.SetFocus();
             });
 
             CoffeeCommand = new DelegateCommand(() =>

@@ -10,6 +10,7 @@ using Prism.Regions;
 using RokuTelnet.Enums;
 using RokuTelnet.Events;
 using RokuTelnet.Models;
+using RokuTelnet.Services.Deploy;
 using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Remote;
 using RokuTelnet.Services.Telnet;
@@ -26,25 +27,32 @@ namespace RokuTelnet.Controllers
 {
     public class AppController : IAppController
     {
-        private IUnityContainer _container;
-        private IEventAggregator _eventAggregator;
+        private readonly IUnityContainer _container;
+        private readonly IEventAggregator _eventAggregator;
         private ITelenetService _telenetService;
-        private IParserService _parserService;
-        private IRemoteService _remoteService;
+        private readonly IParserService _parserService;
+        private readonly IRemoteService _remoteService;
+        private readonly IRegionManager _regionManager;
+        private readonly IDeployService _deployService;
 
-        private IRegionManager _regionManager;
-
-        private Dictionary<DebuggerCommandEnum, string> _injectStrings;
+        private readonly Dictionary<DebuggerCommandEnum, string> _injectStrings;
         private DebuggerCommandEnum? _lasCommand;
         private volatile bool _connected;
 
-        public AppController(IUnityContainer container, IEventAggregator eventAggregator, IRegionManager regionManager, IParserService parserService, IRemoteService remoteService)
+        public AppController(
+            IUnityContainer container, 
+            IEventAggregator eventAggregator, 
+            IRegionManager regionManager, 
+            IParserService parserService, 
+            IRemoteService remoteService, 
+            IDeployService deployService)
         {
             _container = container;
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
             _parserService = parserService;
             _remoteService = remoteService;
+            _deployService = deployService;
             _container = container;
 
             _injectStrings = new Dictionary<DebuggerCommandEnum, string>();
@@ -87,6 +95,8 @@ namespace RokuTelnet.Controllers
             {
                 _remoteService.SendAsync(cmd);
             });
+
+            _eventAggregator.GetEvent<DeployEvent>().Subscribe(model => _deployService.Deploy(model.Ip, model.Folder), ThreadOption.BackgroundThread);
 
             RegisterCommands();
         }

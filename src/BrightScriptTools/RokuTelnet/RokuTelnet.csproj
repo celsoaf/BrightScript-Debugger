@@ -150,15 +150,19 @@
     <Compile Include="Events\CommandEvent.cs" />
     <Compile Include="Events\ConnectEvent.cs" />
     <Compile Include="Events\DebugEvent.cs" />
+    <Compile Include="Events\DeployEvent.cs" />
     <Compile Include="Events\DisconnectEvent.cs" />
     <Compile Include="Events\LogEvent.cs" />
     <Compile Include="Events\SendCommandEvent.cs" />
     <Compile Include="Events\VariablesEvent.cs" />
     <Compile Include="GlobalCommands.cs" />
     <Compile Include="Models\BacktraceModel.cs" />
+    <Compile Include="Models\DeployModel.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\VariableModel.cs" />
     <Compile Include="RegionNames.cs" />
+    <Compile Include="Services\Deploy\DeployService.cs" />
+    <Compile Include="Services\Deploy\IDeployService.cs" />
     <Compile Include="Services\Parser\IParserService.cs" />
     <Compile Include="Services\Parser\ParserService.cs" />
     <Compile Include="Services\Parser\Utils\ParserExtension.cs" />
@@ -249,6 +253,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Cygwin.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="deploy.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

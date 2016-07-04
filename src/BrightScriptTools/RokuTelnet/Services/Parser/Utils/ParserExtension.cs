@@ -53,6 +53,9 @@ namespace BrightScriptDebug.Compiler
                 Scanner.yylex();
                 var file = ((Scanner)Scanner).yytext;
 
+                if(string.IsNullOrWhiteSpace(trace) && string.IsNullOrWhiteSpace(file))
+                    break;
+
                 stack.Add(BuildBacktraceModel(trace, file));
 
                 Scanner.yylex();
@@ -65,24 +68,35 @@ namespace BrightScriptDebug.Compiler
 
         private BacktraceModel BuildBacktraceModel(string trace, string file)
         {
-            var pos = int.Parse(trace.Substring(1, 3));
-            var func = trace.Substring(4);
-
-            var colonIdx = file.IndexOf(":");
-            var lParIdx = file.IndexOf("(");
-            var rParIdx = file.IndexOf(")");
-
-            var f = file.Substring(colonIdx + 2, lParIdx - colonIdx - 2);
-            var ls = file.Substring(lParIdx + 1, rParIdx - lParIdx - 1);
-            var l = int.Parse(ls);
-
-            return new BacktraceModel
+            try
             {
-                Position = pos,
-                Function = func,
-                File = f,
-                Line = l
-            };
+                var pos = int.Parse(trace.Substring(1, 3));
+                var func = trace.Substring(4);
+
+                var colonIdx = file.IndexOf(":");
+                var lParIdx = file.IndexOf("(");
+                var rParIdx = file.IndexOf(")");
+
+                string f = string.Empty;
+                int l = -1;
+                if (colonIdx >= 0 && lParIdx >= 0 && rParIdx >= 0)
+                {
+                    f = file.Substring(colonIdx + 2, lParIdx - colonIdx - 2);
+                    var ls = file.Substring(lParIdx + 1, rParIdx - lParIdx - 1);
+                    l = int.Parse(ls);
+                }
+                return new BacktraceModel
+                {
+                    Position = pos,
+                    Function = func,
+                    File = f,
+                    Line = l
+                };
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         private List<BacktraceModel> _stack = new List<BacktraceModel>();

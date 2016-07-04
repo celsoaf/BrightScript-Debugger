@@ -1,0 +1,12 @@
+﻿{
+  "appName": "SkyStore",
+  "archiveName": "skystore",
+  "buildDirectory": "build",
+  "environment": "P3A_QS",
+  "directoriesExcludeForDeploy": [ "source/test", "source/envs" ],
+  "directoriesIncludeForDeploy": [ "source" ],
+  "optimize": false,
+  "username": "rokudev",
+  "password": "rokudev",
+  "log": 4
+}

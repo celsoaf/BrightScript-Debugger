@@ -9,6 +9,7 @@ using Prism.Commands;
 using Prism.Events;
 using RokuTelnet.Enums;
 using RokuTelnet.Events;
+using RokuTelnet.Models;
 
 namespace RokuTelnet.Views.Toolbar
 {
@@ -58,8 +59,8 @@ namespace RokuTelnet.Views.Toolbar
 
             DeployCommand = new DelegateCommand(() =>
             {
-
-            });
+                _eventAggregator.GetEvent<DeployEvent>().Publish(new DeployModel(SelectedIP, Folder));
+            }, ()=> Connected);
 
             OpenFolderCommand = new DelegateCommand(() =>
             {
@@ -119,6 +120,7 @@ namespace RokuTelnet.Views.Toolbar
             {
                 _connected = value;
                 OnPropertyChanged(() => Connected);
+                DeployCommand.RaiseCanExecuteChanged();
 
                 if (_connected)
                     _eventAggregator.GetEvent<ConnectEvent>().Publish(SelectedIP);

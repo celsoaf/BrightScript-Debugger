@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,12 +24,45 @@ namespace RokuTelnet.Services.Deploy
 
                     CopyFiles(folder, outputFolder, options);
 
-                    Console.WriteLine();
+                    Console.WriteLine("Files Copied");
+
+                    ProcessReplaces(outputFolder, GetReplaces(options));
+
+                    Console.WriteLine("Deploy complete");
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        private Dictionary<string, string> GetReplaces(XDocument options)
+        {
+            var replaces = options.Root.Elements("replaces")
+                    .Select(x => new KeyValuePair<string,string>(x.Element("key")?.Value, x.Element("value")?.Value))
+                    .ToDictionary(item => item.Key, item => item.Value);
+
+            return replaces;
+        }
+
+        private void ProcessReplaces(string outputFolder, Dictionary<string, string> replaces)
+        {
+            foreach (string path in Directory.GetFiles(outputFolder, "*.*", SearchOption.AllDirectories))
+            {
+                string contentOld = string.Empty;
+                string contentNew = string.Empty;
+                using (var sr = new StreamReader(path))
+                    contentOld = sr.ReadToEnd();
+
+                foreach (var item in replaces)
+                {
+                    contentNew = contentOld.Replace(item.Key, item.Value);
+                }
+
+                if (contentOld != contentNew)
+                    using (var sw = new StreamWriter(path))
+                        sw.Write(contentNew);
             }
         }
 
@@ -49,7 +83,7 @@ namespace RokuTelnet.Services.Deploy
                 CopyFolder(src, dest);
             }
 
-            var excludes = options.Root.Elements("directoriesIncludeForDeploy");
+            var excludes = options.Root.Elements("directoriesExcludeForDeploy");
 
             foreach (var value in excludes.Select(x => x.Value))
             {
@@ -57,6 +91,9 @@ namespace RokuTelnet.Services.Deploy
 
                 Directory.Delete(dest, true);
             }
+
+            var manifestPath = Path.Combine(folder, "manifest");
+            File.Copy(manifestPath, manifestPath.Replace(folder, outputFolder));
         }
 
         private static void CopyFolder(string src, string dest)

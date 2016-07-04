@@ -8,5 +8,10 @@
   "optimize": false,
   "username": "rokudev",
   "password": "rokudev",
-  "log": 4
+  "replaces": [
+    {
+      "key": "'FeatureCapabilities_set_trace",
+      "value": "m.logLevel = 4"
+    }
+  ] 
 }

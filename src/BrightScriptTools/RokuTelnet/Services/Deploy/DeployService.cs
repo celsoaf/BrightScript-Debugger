@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -14,6 +16,7 @@ namespace RokuTelnet.Services.Deploy
     public class DeployService : IDeployService
     {
         private const string OPTIONS_FILE = "deploy.json";
+        private const string URL = "http://{0}//plugin_install";
 
         private readonly IGitService _gitService;
 
@@ -50,6 +53,8 @@ namespace RokuTelnet.Services.Deploy
 
                     Console.WriteLine("Archive done");
 
+                    DeployZip(zipFile, ip, options);
+
                     Console.WriteLine("Deploy complete");
 
                     File.Delete(zipFile);
@@ -59,6 +64,39 @@ namespace RokuTelnet.Services.Deploy
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        private void DeployZip(string zipFile, string ip, XDocument options)
+        {
+            var postData = "mysubmit=Install&passwd=&archive=@skystore.zip";
+            var postLength = postData.Length;
+            var data = Encoding.ASCII.GetBytes(postData);
+            var uri = new Uri(string.Format(URL, ip));
+            var request = (HttpWebRequest)WebRequest.Create(uri);
+            request.UserAgent = "HttpWebRequest";
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentLength = data.Length;
+            request.Timeout = (int)TimeSpan.FromMinutes(5).TotalMilliseconds;
+
+            var credentialCache = new CredentialCache();
+            credentialCache.Add(
+              new Uri(uri.GetLeftPart(UriPartial.Authority)), // request url's host
+              "Digest",  // authentication type 
+              new NetworkCredential(options.Root.Element("username").Value, options.Root.Element("password").Value) // credentials 
+            );
+
+            request.Credentials = credentialCache;
+
+            using (var stream = request.GetRequestStream())
+            {
+                stream.Write(data, 0, data.Length);
+            }
+
+            var response = (HttpWebResponse)request.GetResponse();
+            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+
+            Console.WriteLine(responseString);
         }
 
         private void ProcessManifest(string outputFolder, string folder)

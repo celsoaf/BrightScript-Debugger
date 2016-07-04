@@ -24,9 +24,11 @@ namespace RokuTelnet.Services.Deploy
 
                     CopyFiles(folder, outputFolder, options);
 
-                    Console.WriteLine("Files Copied");
+                    Console.WriteLine("Copy done");
 
                     ProcessReplaces(outputFolder, GetReplaces(options));
+
+                    Console.WriteLine("Replace done");
 
                     Console.WriteLine("Deploy complete");
                 }

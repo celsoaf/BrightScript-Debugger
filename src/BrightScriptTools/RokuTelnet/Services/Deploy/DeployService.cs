@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -30,13 +31,29 @@ namespace RokuTelnet.Services.Deploy
 
                     Console.WriteLine("Replace done");
 
+                    var zipFile = Path.Combine(folder, options.Root.Element("archiveName").Value + ".zip");
+
+                    CreateArchive(outputFolder, zipFile);
+
+                    Console.WriteLine("Archive done");
+
                     Console.WriteLine("Deploy complete");
+
+                    File.Delete(zipFile);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        private void CreateArchive(string outputFolder, string zipFile)
+        {
+            if(File.Exists(zipFile))
+                File.Delete(zipFile);
+
+            ZipFile.CreateFromDirectory(outputFolder, zipFile);
         }
 
         private Dictionary<string, string> GetReplaces(XDocument options)

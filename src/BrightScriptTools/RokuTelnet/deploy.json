@@ -8,10 +8,15 @@
   "optimize": false,
   "username": "rokudev",
   "password": "rokudev",
+  "log": "4", 
   "replaces": [
     {
       "key": "'FeatureCapabilities_set_trace",
-      "value": "m.logLevel = 4"
+      "value": "m.logLevel = {log}"
+    },
+    {
+      "key": "'Build_env",
+      "value": "m.load(\"{environment}\")"
     }
   ] 
 }

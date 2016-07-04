@@ -45,6 +45,22 @@ namespace RokuTelnet.Services.Deploy
                     .Select(x => new KeyValuePair<string,string>(x.Element("key")?.Value, x.Element("value")?.Value))
                     .ToDictionary(item => item.Key, item => item.Value);
 
+            options.Root.Elements()
+                    .Select(x => x.Name.LocalName)
+                    .Where(n=> n != "replaces")
+                    .ToList()
+                    .ForEach(k =>
+                    {
+                        replaces.ToList()
+                            .ForEach(kv =>
+                            {
+                                var val = "{" + k + "}";
+                                if (kv.Value.Contains(val))
+                                    replaces[kv.Key] = kv.Value.Replace(val, options.Root.Element(k).Value);
+                            });
+                    });
+
+
             return replaces;
         }
 
@@ -55,11 +71,11 @@ namespace RokuTelnet.Services.Deploy
                 string contentOld = string.Empty;
                 string contentNew = string.Empty;
                 using (var sr = new StreamReader(path))
-                    contentOld = sr.ReadToEnd();
+                    contentNew = contentOld = sr.ReadToEnd();
 
                 foreach (var item in replaces)
                 {
-                    contentNew = contentOld.Replace(item.Key, item.Value);
+                    contentNew = contentNew.Replace(item.Key, item.Value);
                 }
 
                 if (contentOld != contentNew)

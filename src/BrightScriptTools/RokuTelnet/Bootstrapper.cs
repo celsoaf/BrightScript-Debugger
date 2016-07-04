@@ -3,6 +3,7 @@ using Microsoft.Practices.Unity;
 using Prism.Unity;
 using RokuTelnet.Controllers;
 using RokuTelnet.Services.Deploy;
+using RokuTelnet.Services.Git;
 using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Remote;
 using RokuTelnet.Services.Telnet;
@@ -75,6 +76,7 @@ namespace RokuTelnet
             Container.RegisterType<IParserService, ParserService>();
             Container.RegisterType<IRemoteService, RemoteService>();
             Container.RegisterType<IDeployService, DeployService>();
+            Container.RegisterType<IGitService, GitService>();
 
             Container.Resolve<IAppController>().Initialize();
         }

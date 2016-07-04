@@ -3,15 +3,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Newtonsoft.Json;
+using RokuTelnet.Services.Git;
 
 namespace RokuTelnet.Services.Deploy
 {
     public class DeployService : IDeployService
     {
         private const string OPTIONS_FILE = "deploy.json";
+
+        private readonly IGitService _gitService;
+
+        public DeployService(IGitService gitService)
+        {
+            _gitService = gitService;
+        }
 
         public async Task Deploy(string ip, string folder)
         {
@@ -31,6 +40,10 @@ namespace RokuTelnet.Services.Deploy
 
                     Console.WriteLine("Replace done");
 
+                    ProcessManifest(outputFolder, folder);
+
+                    Console.WriteLine("Manifest done");
+
                     var zipFile = Path.Combine(folder, options.Root.Element("archiveName").Value + ".zip");
 
                     CreateArchive(outputFolder, zipFile);
@@ -45,6 +58,34 @@ namespace RokuTelnet.Services.Deploy
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void ProcessManifest(string outputFolder, string folder)
+        {
+            var version = _gitService.Describe(folder);
+            
+            if (!string.IsNullOrEmpty(version) && version.Contains("-"))
+            {
+                version = version.Split('-').First();
+                if (Regex.IsMatch(version, @"^(\d+\.)?(\d+\.)?(\*|\d+)$"))
+                {
+                    var parts = version.Split('.');
+
+                    var manifest = Path.Combine(outputFolder, "manifest");
+
+                    var content = string.Empty;
+
+                    using (var sr = new StreamReader(manifest))
+                        content = sr.ReadToEnd();
+
+                    content = content.Replace("#MAJOR_VERSION#", parts[0]);
+                    content = content.Replace("#MINOR_VERSION#", parts[1]);
+                    content = content.Replace("#FIX_VERSION#", parts[2]);
+
+                    using (var sw = new StreamWriter(manifest))
+                        sw.Write(content);
+                }
             }
         }
 

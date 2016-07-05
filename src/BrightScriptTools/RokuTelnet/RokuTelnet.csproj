@@ -187,6 +187,7 @@
     <Compile Include="Services\Telnet\Utils\RokuReceiverFilter.cs" />
     <Compile Include="Services\Telnet\Utils\TerminatorReceiveFilter .cs" />
     <Compile Include="Utils\AutoScrollingListView.cs" />
+    <Compile Include="Utils\DigestHttpWebRequest.cs" />
     <Compile Include="Views\Console\ConsoleView.xaml.cs">
       <DependentUpon>ConsoleView.xaml</DependentUpon>
     </Compile>

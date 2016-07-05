@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Newtonsoft.Json;
 using RokuTelnet.Services.Git;
+using RokuTelnet.Utils;
 
 namespace RokuTelnet.Services.Deploy
 {
@@ -68,33 +69,28 @@ namespace RokuTelnet.Services.Deploy
 
         private void DeployZip(string zipFile, string ip, XDocument options)
         {
-            var postData = "mysubmit=Install&passwd=&archive=@skystore.zip";
-            var postLength = postData.Length;
-            var data = Encoding.ASCII.GetBytes(postData);
-            var uri = new Uri(string.Format(URL, ip));
-            var request = (HttpWebRequest)WebRequest.Create(uri);
-            request.UserAgent = "HttpWebRequest";
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-            request.ContentLength = data.Length;
-            request.Timeout = (int)TimeSpan.FromMinutes(5).TotalMilliseconds;
+            var responseString = string.Empty;
 
-            var credentialCache = new CredentialCache();
-            credentialCache.Add(
-              new Uri(uri.GetLeftPart(UriPartial.Authority)), // request url's host
-              "Digest",  // authentication type 
-              new NetworkCredential(options.Root.Element("username").Value, options.Root.Element("password").Value) // credentials 
-            );
+            var req = new DigestHttpWebRequest(
+                options.Root.Element("username").Value,
+                options.Root.Element("password").Value);
 
-            request.Credentials = credentialCache;
+            req.Method = WebRequestMethods.Http.Post;
 
-            using (var stream = request.GetRequestStream())
-            {
-                stream.Write(data, 0, data.Length);
-            }
+            Uri uri = new Uri(string.Format(URL, ip));
 
-            var response = (HttpWebResponse)request.GetResponse();
-            var responseString = new StreamReader(response.GetResponseStream()).ReadToEnd();
+            using (HttpWebResponse webResponse = req.GetResponse(uri))
+                using (Stream responseStream = webResponse.GetResponseStream())
+                {
+                    if (responseStream != null)
+                    {
+                        using (StreamReader streamReader = new StreamReader(responseStream))
+                        {
+                            responseString = streamReader.ReadToEnd();
+                        }
+                    }
+                }
+
 
             Console.WriteLine(responseString);
         }
@@ -102,7 +98,7 @@ namespace RokuTelnet.Services.Deploy
         private void ProcessManifest(string outputFolder, string folder)
         {
             var version = _gitService.Describe(folder);
-            
+
             if (!string.IsNullOrEmpty(version) && version.Contains("-"))
             {
                 version = version.Split('-').First();
@@ -129,7 +125,7 @@ namespace RokuTelnet.Services.Deploy
 
         private void CreateArchive(string outputFolder, string zipFile)
         {
-            if(File.Exists(zipFile))
+            if (File.Exists(zipFile))
                 File.Delete(zipFile);
 
             ZipFile.CreateFromDirectory(outputFolder, zipFile);
@@ -138,12 +134,12 @@ namespace RokuTelnet.Services.Deploy
         private Dictionary<string, string> GetReplaces(XDocument options)
         {
             var replaces = options.Root.Elements("replaces")
-                    .Select(x => new KeyValuePair<string,string>(x.Element("key")?.Value, x.Element("value")?.Value))
+                    .Select(x => new KeyValuePair<string, string>(x.Element("key")?.Value, x.Element("value")?.Value))
                     .ToDictionary(item => item.Key, item => item.Value);
 
             options.Root.Elements()
                     .Select(x => x.Name.LocalName)
-                    .Where(n=> n != "replaces")
+                    .Where(n => n != "replaces")
                     .ToList()
                     .ForEach(k =>
                     {

@@ -147,7 +147,7 @@ namespace RokuTelnet.Utils
             request.Timeout = (int)TimeSpan.FromMinutes(3).TotalMilliseconds;
 
             ///Only for test reason. The Ip is the one for fiddler
-            request.Proxy = new WebProxy("127.0.0.1:8888", true);
+            //request.Proxy = new WebProxy("127.0.0.1:8888", true);
 
             if (!String.IsNullOrEmpty(this.ContentType))
             {

@@ -7,6 +7,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Linq;
 using Newtonsoft.Json;
 using RokuTelnet.Services.Git;
@@ -32,6 +33,8 @@ namespace RokuTelnet.Services.Deploy
             {
                 using (var sr = new StreamReader(OPTIONS_FILE))
                 {
+                    Console.WriteLine("Deploy started");
+
                     var options = JsonConvert.DeserializeXNode(sr.ReadToEnd(), "root");
 
                     var outputFolder = Path.Combine(folder, options.Root.Element("buildDirectory").Value);
@@ -77,22 +80,32 @@ namespace RokuTelnet.Services.Deploy
 
             req.Method = WebRequestMethods.Http.Post;
 
+            var formData = new MultipartFormData();
+            formData.Add("mysubmit", "Install");
+            formData.AddFile("archive", zipFile, "application/x-zip-compressed");
+            req.PostData = formData.GetMultipartFormData();
+            req.ContentType = formData.ContentType;
+
+
             Uri uri = new Uri(string.Format(URL, ip));
 
             using (HttpWebResponse webResponse = req.GetResponse(uri))
-                using (Stream responseStream = webResponse.GetResponseStream())
+            using (Stream responseStream = webResponse.GetResponseStream())
+            {
+                if (responseStream != null)
                 {
-                    if (responseStream != null)
+                    using (StreamReader streamReader = new StreamReader(responseStream))
                     {
-                        using (StreamReader streamReader = new StreamReader(responseStream))
-                        {
-                            responseString = streamReader.ReadToEnd();
-                        }
+                        responseString = streamReader.ReadToEnd();
+
+                        string pattern = "<font color=\"red\">(.*?)<\\/font>";
+                        MatchCollection matches = Regex.Matches(responseString, pattern);
+
+                        foreach (Match m in matches)
+                            Console.WriteLine("result: {0}", m.Groups[1]);
                     }
                 }
-
-
-            Console.WriteLine(responseString);
+            }
         }
 
         private void ProcessManifest(string outputFolder, string folder)

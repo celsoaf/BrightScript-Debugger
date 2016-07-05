@@ -188,6 +188,7 @@
     <Compile Include="Services\Telnet\Utils\TerminatorReceiveFilter .cs" />
     <Compile Include="Utils\AutoScrollingListView.cs" />
     <Compile Include="Utils\DigestHttpWebRequest.cs" />
+    <Compile Include="Utils\MultipartFormData.cs" />
     <Compile Include="Views\Console\ConsoleView.xaml.cs">
       <DependentUpon>ConsoleView.xaml</DependentUpon>
     </Compile>

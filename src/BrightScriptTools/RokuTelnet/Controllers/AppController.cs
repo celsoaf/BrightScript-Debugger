@@ -39,6 +39,7 @@ namespace RokuTelnet.Controllers
         private DebuggerCommandEnum? _lasCommand;
         private volatile bool _connected;
         private volatile bool _debug;
+        private IToolbarViewModel _toolbarViewModel;
 
         public AppController(
             IUnityContainer container, 
@@ -65,7 +66,11 @@ namespace RokuTelnet.Controllers
         public async void Initialize()
         {
             _regionManager.RegisterViewWithRegion(RegionNames.OUTPUT, () => _container.Resolve<IOutputViewModel>().View);
-            _regionManager.RegisterViewWithRegion(RegionNames.TOOLBAR, () => _container.Resolve<IToolbarViewModel>().View);
+            _regionManager.RegisterViewWithRegion(RegionNames.TOOLBAR, () =>
+            {
+                _toolbarViewModel = _container.Resolve<IToolbarViewModel>();
+                return _toolbarViewModel.View;
+            });
             _regionManager.RegisterViewWithRegion(RegionNames.STACK_PANEL, () => _container.Resolve<IStackPanelViewModel>().View);
             //_regionManager.RegisterViewWithRegion(RegionNames.WATCH, () => _container.Resolve<IWatchViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.LOCALS, () => _container.Resolve<ILocalsViewModel>().View);
@@ -123,6 +128,21 @@ namespace RokuTelnet.Controllers
             {
                 RegisterDebuggerCommand(GlobalCommands.DebuggerStep, DebuggerCommandEnum.s);
                 RegisterDebuggerCommand(GlobalCommands.DebuggerContinue, DebuggerCommandEnum.c);
+
+                RegisterDebuggerCommand(GlobalCommands.DebuggerStop, DebuggerCommandEnum.exit);
+                RegisterDebuggerCommand(GlobalCommands.DebuggerDown, DebuggerCommandEnum.d);
+                RegisterDebuggerCommand(GlobalCommands.DebuggerUp, DebuggerCommandEnum.u);
+                RegisterDebuggerCommand(GlobalCommands.DebuggerBacktrace, DebuggerCommandEnum.bt);
+                RegisterDebuggerCommand(GlobalCommands.DebuggerVariables, DebuggerCommandEnum.var);
+                RegisterDebuggerCommand(GlobalCommands.DebuggerFunction, DebuggerCommandEnum.list);
+
+                App.Current.MainWindow.CommandBindings.Add(new CommandBinding(GlobalCommands.Deploy, (s, e) =>
+                {
+                    if (_connected && _toolbarViewModel != null)
+                    {
+                        Task.Factory.StartNew(()=> _deployService.Deploy(_toolbarViewModel.SelectedIP, _toolbarViewModel.Folder));
+                    }
+                }));
             }));
         }
 

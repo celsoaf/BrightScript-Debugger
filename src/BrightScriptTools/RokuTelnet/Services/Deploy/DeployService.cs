@@ -17,7 +17,6 @@ namespace RokuTelnet.Services.Deploy
 {
     public class DeployService : IDeployService
     {
-        private const string OPTIONS_FILE = "deploy.json";
         private const string URL = "http://{0}//plugin_install";
 
         private readonly IGitService _gitService;
@@ -27,11 +26,11 @@ namespace RokuTelnet.Services.Deploy
             _gitService = gitService;
         }
 
-        public async Task Deploy(string ip, string folder)
+        public async Task Deploy(string ip, string folder, string optionsFile)
         {
             try
             {
-                using (var sr = new StreamReader(OPTIONS_FILE))
+                using (var sr = new StreamReader(optionsFile))
                 {
                     Console.WriteLine("Deploy started");
 

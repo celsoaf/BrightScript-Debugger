@@ -4,6 +4,6 @@ namespace RokuTelnet.Services.Deploy
 {
     public interface IDeployService
     {
-        Task Deploy(string ip, string folder);
+        Task Deploy(string ip, string folder, string optionsFile);
     }
 }

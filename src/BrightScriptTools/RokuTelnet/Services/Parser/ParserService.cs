@@ -107,7 +107,7 @@ namespace RokuTelnet.Services.Parser
 
         private void PublishError()
         {
-            _eventAggregator.GetEvent<DebugEvent>().Publish(false);
+            //_eventAggregator.GetEvent<DebugEvent>().Publish(false);
         }
 
         private void ProcessLog(string msg)

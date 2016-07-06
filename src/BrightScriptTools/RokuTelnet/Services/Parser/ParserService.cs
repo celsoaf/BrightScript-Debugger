@@ -40,6 +40,7 @@ namespace RokuTelnet.Services.Parser
                 {
                     // parse input args, and open input file
                     var scanner = new TelnetScanner(_stream);
+                    scanner.ErrorPorcessed += PublishError;
 
                     while (_running)
                     {
@@ -78,11 +79,13 @@ namespace RokuTelnet.Services.Parser
         private void PublishBacktrace(List<BacktraceModel> trace)
         {
             _eventAggregator.GetEvent<BacktraceEvent>().Publish(trace);
+            _eventAggregator.GetEvent<DebugEvent>().Publish(false);
         }
 
         private void PublishVariables(List<VariableModel> vars)
         {
             _eventAggregator.GetEvent<VariablesEvent>().Publish(vars);
+            _eventAggregator.GetEvent<DebugEvent>().Publish(false);
         }
 
         private void PublishDebug()
@@ -93,11 +96,18 @@ namespace RokuTelnet.Services.Parser
         private void PublishAppClose()
         {
             _eventAggregator.GetEvent<AppCloseEvent>().Publish(null);
+            _eventAggregator.GetEvent<DebugEvent>().Publish(false);
         }
 
         private void PublishAppOpen()
         {
             _eventAggregator.GetEvent<AppOpenEvent>().Publish(null);
+            _eventAggregator.GetEvent<DebugEvent>().Publish(false);
+        }
+
+        private void PublishError()
+        {
+            _eventAggregator.GetEvent<DebugEvent>().Publish(false);
         }
 
         private void ProcessLog(string msg)

@@ -38,6 +38,7 @@ namespace RokuTelnet.Controllers
         private readonly Dictionary<DebuggerCommandEnum, string> _injectStrings;
         private DebuggerCommandEnum? _lasCommand;
         private volatile bool _connected;
+        private volatile bool _debug;
 
         public AppController(
             IUnityContainer container, 
@@ -96,6 +97,8 @@ namespace RokuTelnet.Controllers
                 _remoteService.SendAsync(cmd);
             });
 
+            _eventAggregator.GetEvent<DebugEvent>().Subscribe(enabled => _debug = enabled);
+
             _eventAggregator.GetEvent<DeployEvent>().Subscribe(model => _deployService.Deploy(model.Ip, model.Folder), ThreadOption.BackgroundThread);
 
             RegisterCommands();
@@ -127,7 +130,7 @@ namespace RokuTelnet.Controllers
         {
             App.Current.MainWindow.CommandBindings.Add(new CommandBinding(command, (s, e) =>
             {
-                if (_connected)
+                if (_debug)
                 {
                     SendCommand(cmd.ToString());
                 }

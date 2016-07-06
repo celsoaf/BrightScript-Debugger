@@ -163,14 +163,17 @@ namespace RokuTelnet.Services.Deploy
                     .ToDictionary(item => item.Key, item => item.Value);
 
             var elements = options.ExtraConfigs.ToList();
-            elements.AddRange(new List<ConfigKeyValueModel>
-            {
-               new ConfigKeyValueModel { Key = "User", Value = options.User },
-               new ConfigKeyValueModel { Key = "Pass", Value = options.Pass },
-               new ConfigKeyValueModel { Key = "AppName", Value = options.AppName },
-               new ConfigKeyValueModel { Key = "ArchiveName", Value = options.ArchiveName },
-               new ConfigKeyValueModel { Key = "BuildDirectory", Value = options.BuildDirectory },
-            });
+
+            options.GetType()
+                .GetProperties()
+                .ToList()
+                .ForEach(p =>
+                {
+                    if (p.PropertyType == typeof(string))
+                    {
+                        elements.Add(new ConfigKeyValueModel {Key = p.Name, Value = (string)p.GetValue(options)});
+                    }
+                });
 
             var dic = elements.ToDictionary(item => item.Key, item => item.Value);
             

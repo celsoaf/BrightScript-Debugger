@@ -162,9 +162,12 @@
     <Compile Include="Events\DisconnectEvent.cs" />
     <Compile Include="Events\LogEvent.cs" />
     <Compile Include="Events\SendCommandEvent.cs" />
+    <Compile Include="Events\ShowConfigEvent.cs" />
     <Compile Include="Events\VariablesEvent.cs" />
     <Compile Include="GlobalCommands.cs" />
     <Compile Include="Models\BacktraceModel.cs" />
+    <Compile Include="Models\ConfigKeyModel.cs" />
+    <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\DeployModel.cs" />
     <Compile Include="Models\EventModel.cs" />
     <Compile Include="Models\VariableModel.cs" />
@@ -189,6 +192,12 @@
     <Compile Include="Utils\AutoScrollingListView.cs" />
     <Compile Include="Utils\DigestHttpWebRequest.cs" />
     <Compile Include="Utils\MultipartFormData.cs" />
+    <Compile Include="Views\Config\ConfigView.xaml.cs">
+      <DependentUpon>ConfigView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Config\ConfigViewModel.cs" />
+    <Compile Include="Views\Config\IConfigView.cs" />
+    <Compile Include="Views\Config\IConfigViewModel.cs" />
     <Compile Include="Views\Console\ConsoleView.xaml.cs">
       <DependentUpon>ConsoleView.xaml</DependentUpon>
     </Compile>
@@ -281,6 +290,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\Config\ConfigView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Console\ConsoleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -7,6 +7,7 @@ using RokuTelnet.Services.Git;
 using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Remote;
 using RokuTelnet.Services.Telnet;
+using RokuTelnet.Views.Config;
 using RokuTelnet.Views.Console;
 using RokuTelnet.Views.Cygwin;
 using RokuTelnet.Views.Locals;
@@ -71,6 +72,9 @@ namespace RokuTelnet
 
             Container.RegisterType<IRemoteView, RemoteView>();
             Container.RegisterType<IRemoteViewModel, RemoteViewModel>();
+
+            Container.RegisterType<IConfigView, ConfigView>();
+            Container.RegisterType<IConfigViewModel, ConfigViewModel>();
 
             Container.RegisterType<ITelenetService, SoketService>();
             Container.RegisterType<IParserService, ParserService>();

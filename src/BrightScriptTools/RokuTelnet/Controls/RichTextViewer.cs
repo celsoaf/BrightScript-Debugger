@@ -89,18 +89,25 @@ namespace RokuTelnet.Controls
                 }
                 else if (idx == 0)
                 {
-                    var color = line.Substring(3, 1);
-                    line = line.Substring(line.IndexOf("m") + 1);
-                    idx = line.IndexOf("\u001b[");
-                    if (idx != -1)
+                    if (line.Length > 3)
                     {
-                        var s = line.Substring(0, idx);
-                        line = line.Substring(idx);
-                        p.Inlines.Add(new Run(s) {Foreground = GetColor(color)});
+                        var color = line.Substring(3, 1);
+                        line = line.Substring(line.IndexOf("m") + 1);
+                        idx = line.IndexOf("\u001b[");
+                        if (idx != -1)
+                        {
+                            var s = line.Substring(0, idx);
+                            line = line.Substring(idx);
+                            p.Inlines.Add(new Run(s) {Foreground = GetColor(color)});
+                        }
+                        else
+                        {
+                            p.Inlines.Add(new Run(line) {Foreground = GetColor(color)});
+                            line = string.Empty;
+                        }
                     }
                     else
                     {
-                        p.Inlines.Add(new Run(line) {Foreground = GetColor(color)});
                         line = string.Empty;
                     }
                 }

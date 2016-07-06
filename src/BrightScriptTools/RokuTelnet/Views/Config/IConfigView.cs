@@ -5,6 +5,7 @@
         object DataContext { get; set; }
 
         bool? ShowDialog();
+        void Close();
         bool? DialogResult { get; set; }
     }
 }

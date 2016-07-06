@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
+using Newtonsoft.Json;
 using Prism.Commands;
 using RokuTelnet.Models;
 
@@ -7,10 +10,7 @@ namespace RokuTelnet.Views.Config
     public class ConfigViewModel : Prism.Mvvm.BindableBase, IConfigViewModel
     {
         private ConfigModel _model;
-        private ObservableCollection<string> _includes;
-        private ObservableCollection<string> _excludes;
-        private ObservableCollection<ConfigKeyModel> _extraConfigs;
-        private ObservableCollection<ConfigKeyModel> _replaces;
+        private string _fileName;
 
         public ConfigViewModel(IConfigView view)
         {
@@ -18,6 +18,18 @@ namespace RokuTelnet.Views.Config
             View.DataContext = this;
 
             Model = new ConfigModel();
+
+            SaveCommand = new DelegateCommand(() =>
+            {
+                Save(_fileName);
+                View.DialogResult = true;
+                View.Close();
+            });
+
+            CancelCommand = new DelegateCommand(() =>
+            {
+                View.Close();
+            });
         }
 
         public IConfigView View { get; set; }
@@ -29,63 +41,54 @@ namespace RokuTelnet.Views.Config
             {
                 _model = value;
                 OnPropertyChanged(() => Model);
-                UpdateLists();
-            }
-        }
-
-        private void UpdateLists()
-        {
-            if (Model != null)
-            {
-                Includes = new ObservableCollection<string>(Model.Includes);
-                Excludes = new ObservableCollection<string>(Model.Excludes);
-                ExtraConfigs = new ObservableCollection<ConfigKeyModel>(Model.ExtraConfigs);
-                Replaces = new ObservableCollection<ConfigKeyModel>(Model.Replaces);
-            }
-            else
-            {
-                Includes = new ObservableCollection<string>();
-                Excludes = new ObservableCollection<string>();
-                ExtraConfigs = new ObservableCollection<ConfigKeyModel>();
-                Replaces = new ObservableCollection<ConfigKeyModel>();
             }
         }
 
         public void Load(string filePath)
         {
-            throw new System.NotImplementedException();
+            _fileName = filePath;
+
+            if (File.Exists(filePath))
+            {
+                using (var sr = new StreamReader(filePath))
+                {
+                    var content = sr.ReadToEnd();
+
+                    Model = JsonConvert.DeserializeObject<ConfigModel>(content);
+                }
+            }
+            else
+            {
+                var di = new DirectoryInfo(Path.GetDirectoryName(filePath));
+                Model = new ConfigModel
+                {
+                    AppName = di.Name,
+                    ArchiveName = di.Name.ToLower(),
+                    BuildDirectory = "build",
+                    Includes = new List<ConfigValueModel>
+                    {
+                        new ConfigValueModel { Value =  "source" },
+                        new ConfigValueModel { Value =  "components" },
+                        new ConfigValueModel { Value =  "images" }
+                    }
+                };
+            }
         }
 
         public void Save(string filePath)
         {
-            throw new System.NotImplementedException();
+            var content = JsonConvert.SerializeObject(Model);
+
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+
+            using (var sw = new StreamWriter(filePath))
+            {
+                sw.Write(content);
+            }
         }
 
         public DelegateCommand SaveCommand { get; set; }
         public DelegateCommand CancelCommand { get; set; }
-
-        public ObservableCollection<string> Includes
-        {
-            get { return _includes; }
-            set { _includes = value; OnPropertyChanged(() => Includes); }
-        }
-
-        public ObservableCollection<string> Excludes
-        {
-            get { return _excludes; }
-            set { _excludes = value; OnPropertyChanged(() => Excludes); }
-        }
-
-        public ObservableCollection<ConfigKeyModel> ExtraConfigs
-        {
-            get { return _extraConfigs; }
-            set { _extraConfigs = value; OnPropertyChanged(() => ExtraConfigs); }
-        }
-
-        public ObservableCollection<ConfigKeyModel> Replaces
-        {
-            get { return _replaces; }
-            set { _replaces = value; OnPropertyChanged(() => Replaces); }
-        }
     }
 }

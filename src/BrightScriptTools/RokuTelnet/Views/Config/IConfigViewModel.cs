@@ -15,10 +15,5 @@ namespace RokuTelnet.Views.Config
 
         DelegateCommand SaveCommand { get; set; }
         DelegateCommand CancelCommand { get; set; }
-
-        ObservableCollection<string> Includes { get; set; }
-        ObservableCollection<string> Excludes { get; set; }
-        ObservableCollection<ConfigKeyModel> ExtraConfigs { get; set; }
-        ObservableCollection<ConfigKeyModel> Replaces { get; set; }
     }
 }

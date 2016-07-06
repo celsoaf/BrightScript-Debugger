@@ -10,10 +10,10 @@ namespace RokuTelnet.Models
         private string _archiveName;
         private string _buildDirectory;
         private bool _optimize;
-        private List<string> _includes = new List<string>();
-        private List<string> _excludes = new List<string>();
-        private List<ConfigKeyModel> _extraConfigs = new List<ConfigKeyModel>();
-        private List<ConfigKeyModel> _replaces = new List<ConfigKeyModel>();
+        private List<ConfigValueModel> _includes = new List<ConfigValueModel>();
+        private List<ConfigValueModel> _excludes = new List<ConfigValueModel>();
+        private List<ConfigKeyValueModel> _extraConfigs = new List<ConfigKeyValueModel>();
+        private List<ConfigKeyValueModel> _replaces = new List<ConfigKeyValueModel>();
 
         public string User
         {
@@ -51,25 +51,25 @@ namespace RokuTelnet.Models
             set { _optimize = value; OnPropertyChanged(()=> Optimize); }
         }
 
-        public List<string> Includes
+        public List<ConfigValueModel> Includes
         {
             get { return _includes; }
             set { _includes = value; OnPropertyChanged(()=> Includes); }
         }
 
-        public List<string> Excludes
+        public List<ConfigValueModel> Excludes
         {
             get { return _excludes; }
             set { _excludes = value; OnPropertyChanged(()=> Excludes); }
         }
 
-        public List<ConfigKeyModel> ExtraConfigs
+        public List<ConfigKeyValueModel> ExtraConfigs
         {
             get { return _extraConfigs; }
             set { _extraConfigs = value; OnPropertyChanged(()=> ExtraConfigs); }
         }
 
-        public List<ConfigKeyModel> Replaces
+        public List<ConfigKeyValueModel> Replaces
         {
             get { return _replaces; }
             set { _replaces = value; OnPropertyChanged(()=> Replaces); }

@@ -1,6 +1,6 @@
 ﻿namespace RokuTelnet.Models
 {
-    public class ConfigKeyModel : Prism.Mvvm.BindableBase
+    public class ConfigKeyValueModel : Prism.Mvvm.BindableBase
     {
         private string _key;
         private string _value;

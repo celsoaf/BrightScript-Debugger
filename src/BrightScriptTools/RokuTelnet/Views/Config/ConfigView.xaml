@@ -4,9 +4,112 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RokuTelnet.Views.Config"
+        Icon="../../Resources/roku1.png"
         mc:Ignorable="d"
-        Title="ConfigView" Height="300" Width="300">
+        Title="Roku Telnet - Configurations" Height="800" Width="500">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Resources>
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="User:"/>
+
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Model.User}"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Password:"/>
+
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Model.Pass}"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="AppName:"/>
+
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Model.AppName}"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="ArchiveName:"/>
+
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Model.ArchiveName}"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="BuildDirectory:"/>
+
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Model.BuildDirectory}"/>
+
+        <CheckBox Grid.Row="5" Grid.Column="0" Content="Optimize" IsChecked="{Binding Model.Optimize}"/>
+
+        <GroupBox Grid.Row="6" Grid.ColumnSpan="2" Header="Includes">
+            <DataGrid ItemsSource="{Binding Model.Includes}" CanUserAddRows="True" CanUserDeleteRows="True"
+                  SelectionMode="Single" Margin="5" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Item" Binding="{Binding Value}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="7" Grid.ColumnSpan="2" Header="Excludes">
+            <DataGrid ItemsSource="{Binding Model.Excludes}" CanUserAddRows="True" CanUserDeleteRows="True"
+                  SelectionMode="Single" Margin="5" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Item" Binding="{Binding Value}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="8" Grid.ColumnSpan="2" Header="ExtraConfigs">
+            <DataGrid ItemsSource="{Binding Model.ExtraConfigs}" CanUserAddRows="True" CanUserDeleteRows="True"
+                  SelectionMode="Single" Margin="5" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Key" Binding="{Binding Key}" />
+                    <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="9" Grid.ColumnSpan="2" Header="Replaces">
+            <DataGrid ItemsSource="{Binding Model.Replaces}" CanUserAddRows="True" CanUserDeleteRows="True"
+                  SelectionMode="Single" Margin="5" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Key" Binding="{Binding Key}" />
+                    <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+
+        <Button Grid.Row="10" Grid.Column="0" Content="Save" Command="{Binding SaveCommand}"/>
+
+        <Button Grid.Row="10" Grid.Column="1" Content="Cancel" Command="{Binding CancelCommand}"/>
     </Grid>
 </Window>

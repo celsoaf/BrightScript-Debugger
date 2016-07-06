@@ -122,24 +122,17 @@ namespace RokuTelnet.Controllers
             if (File.Exists(optionsFile))
                 _deployService.Deploy(ip, folder, OPTIONS_FILE);
             else
-                if (ShowConfig(folder))
+                if (ShowConfig(folder) == true)
                 _deployService.Deploy(ip, folder, OPTIONS_FILE);
         }
 
-        private bool ShowConfig(string folder)
+        private bool? ShowConfig(string folder)
         {
             var optionsFile = Path.Combine(folder, OPTIONS_FILE);
 
             var vm = _container.Resolve<IConfigViewModel>();
-            if (File.Exists(optionsFile))
-                vm.Load(optionsFile);
-            if (vm.View.ShowDialog() == true)
-            {
-                vm.Save(optionsFile);
-                return true;
-            }
-
-            return false;
+            vm.Load(optionsFile);
+            return vm.View.ShowDialog() == true;
         }
 
         private void SendCommand(string cmd)

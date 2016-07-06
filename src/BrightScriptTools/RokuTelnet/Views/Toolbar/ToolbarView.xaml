@@ -62,7 +62,7 @@
                 <Button Grid.Column="0" Margin="0" 
                         Command="{Binding OpenFolderCommand}"
 				        IsEnabled="{Binding Connected}"
-                        ToolTip="Add to drop down list">
+                        ToolTip="Select folder">
                     <Image Source="../../Resources/Open_folder.png" Width="24" Height="24"/>
                 </Button>
                 
@@ -72,51 +72,51 @@
                 <Button Grid.Column="2" Margin="0" 
                         Command="{Binding DeployCommand}"
 				        IsEnabled="{Binding Connected}"
-                        ToolTip="Remove from drop down list">
+                        ToolTip="Deploy App - F6">
                     <Image Source="../../Resources/deploy.png" Width="24" Height="24"/>
                 </Button>
             </Grid>
         </ToolBar>
         <ToolBar IsEnabled="{Binding Enable}">
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.c}"
-                    ToolTip="Continue Script Execution">
+                    ToolTip="Continue Script Execution - F5">
                 <Image Source="../../Resources/Continue.png" Height="24" Width="24"/>
             </Button>
 
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.s}"
-                    ToolTip="Step one program statement">
+                    ToolTip="Step one program statement - F11">
                 <Image Source="../../Resources/step.png" Height="24" Width="24"/>
             </Button>
 
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.d}"
-                    ToolTip="Move down the function context chain one">
+                    ToolTip="Move down the function context chain one - F7">
                 <Image Source="../../Resources/down.png" Height="24" Width="24"/>
             </Button>
 
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.u}"
-                    ToolTip="Move up the function context chain one">
+                    ToolTip="Move up the function context chain one - F8">
                 <Image Source="../../Resources/up.png" Height="24" Width="24"/>
             </Button>
 
 
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.exit}"
-                    ToolTip="Exit shell">
+                    ToolTip="Exit shell - F4">
                 <Image Source="../../Resources/stop.png" Height="24" Width="24"/>
             </Button>
         </ToolBar>
         <ToolBar IsEnabled="{Binding Enable}">
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.bt}"
-                    ToolTip="Print backtrace of call function context frames">
+                    ToolTip="Print backtrace of call function context frames - F9">
                 <Image Source="../../Resources/callstack.png" Height="24" Width="24"/>
             </Button>
 
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.var}"
-                    ToolTip="Print local variables and their types/values">
+                    ToolTip="Print local variables and their types/values - F10">
                 <Image Source="../../Resources/var.png" Height="24" Width="24"/>
             </Button>
 
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.list}"
-                    ToolTip="List current function">
+                    ToolTip="List current function - F12">
                 <Image Source="../../Resources/function.png" Height="24" Width="24"/>
             </Button>
 

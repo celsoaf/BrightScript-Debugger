@@ -93,6 +93,9 @@ namespace RokuTelnet.Views.Cygwin
             RestartCommand = new DelegateCommand(() =>
             {
                 _process.Kill();
+                Process.GetProcessesByName("node")
+                    .ToList()
+                    .ForEach(p => p.Kill());
                 StartProcess();
             });
         }

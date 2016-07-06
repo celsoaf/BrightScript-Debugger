@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Practices.Unity;
@@ -14,6 +15,7 @@ using RokuTelnet.Services.Deploy;
 using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Remote;
 using RokuTelnet.Services.Telnet;
+using RokuTelnet.Views.Config;
 using RokuTelnet.Views.Console;
 using RokuTelnet.Views.Cygwin;
 using RokuTelnet.Views.Locals;
@@ -27,6 +29,8 @@ namespace RokuTelnet.Controllers
 {
     public class AppController : IAppController
     {
+        private const string OPTIONS_FILE = "deploy.json";
+
         private readonly IUnityContainer _container;
         private readonly IEventAggregator _eventAggregator;
         private ITelenetService _telenetService;
@@ -42,11 +46,11 @@ namespace RokuTelnet.Controllers
         private IToolbarViewModel _toolbarViewModel;
 
         public AppController(
-            IUnityContainer container, 
-            IEventAggregator eventAggregator, 
-            IRegionManager regionManager, 
-            IParserService parserService, 
-            IRemoteService remoteService, 
+            IUnityContainer container,
+            IEventAggregator eventAggregator,
+            IRegionManager regionManager,
+            IParserService parserService,
+            IRemoteService remoteService,
             IDeployService deployService)
         {
             _container = container;
@@ -104,9 +108,38 @@ namespace RokuTelnet.Controllers
 
             _eventAggregator.GetEvent<DebugEvent>().Subscribe(enabled => _debug = enabled);
 
-            _eventAggregator.GetEvent<DeployEvent>().Subscribe(model => _deployService.Deploy(model.Ip, model.Folder), ThreadOption.BackgroundThread);
+            _eventAggregator.GetEvent<DeployEvent>().Subscribe(model => Deploy(model.Ip, model.Folder), ThreadOption.BackgroundThread);
+
+            _eventAggregator.GetEvent<ShowConfigEvent>().Subscribe(f => ShowConfig(f));
 
             RegisterCommands();
+        }
+
+        private void Deploy(string ip, string folder)
+        {
+            var optionsFile = Path.Combine(folder, OPTIONS_FILE);
+
+            if (File.Exists(optionsFile))
+                _deployService.Deploy(ip, folder, OPTIONS_FILE);
+            else
+                if (ShowConfig(folder))
+                _deployService.Deploy(ip, folder, OPTIONS_FILE);
+        }
+
+        private bool ShowConfig(string folder)
+        {
+            var optionsFile = Path.Combine(folder, OPTIONS_FILE);
+
+            var vm = _container.Resolve<IConfigViewModel>();
+            if (File.Exists(optionsFile))
+                vm.Load(optionsFile);
+            if (vm.View.ShowDialog() == true)
+            {
+                vm.Save(optionsFile);
+                return true;
+            }
+
+            return false;
         }
 
         private void SendCommand(string cmd)
@@ -140,7 +173,7 @@ namespace RokuTelnet.Controllers
                 {
                     if (_connected && _toolbarViewModel != null)
                     {
-                        Task.Factory.StartNew(()=> _deployService.Deploy(_toolbarViewModel.SelectedIP, _toolbarViewModel.Folder));
+                        Task.Factory.StartNew(() => Deploy(_toolbarViewModel.SelectedIP, _toolbarViewModel.Folder));
                     }
                 }));
             }));

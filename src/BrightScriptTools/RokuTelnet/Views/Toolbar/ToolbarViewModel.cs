@@ -73,6 +73,11 @@ namespace RokuTelnet.Views.Toolbar
                 }
             });
 
+            ConfigCommand = new DelegateCommand(() =>
+            {
+                _eventAggregator.GetEvent<ShowConfigEvent>().Publish(Folder);
+            });
+
             Command = new DelegateCommand<DebuggerCommandEnum?>(cmd =>
             {
                 if (cmd.HasValue)
@@ -130,6 +135,7 @@ namespace RokuTelnet.Views.Toolbar
         }
 
         public DelegateCommand OpenFolderCommand { get; set; }
+        public DelegateCommand ConfigCommand { get; set; }
         public DelegateCommand DeployCommand { get; set; }
 
         public string Folder

@@ -21,6 +21,7 @@ namespace RokuTelnet.Views.Toolbar
         bool Connected { get; set; }
 
         DelegateCommand OpenFolderCommand { get; set; }
+        DelegateCommand ConfigCommand { get; set; }
         DelegateCommand DeployCommand { get; set; }
 
         string Folder { get; set; }

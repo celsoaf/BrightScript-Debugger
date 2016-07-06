@@ -416,6 +416,9 @@
   <ItemGroup>
     <Resource Include="Resources\restart.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\config.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

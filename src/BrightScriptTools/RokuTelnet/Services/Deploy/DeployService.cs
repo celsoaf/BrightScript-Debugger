@@ -9,7 +9,9 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
+using RokuTelnet.Models;
 using RokuTelnet.Services.Git;
 using RokuTelnet.Utils;
 
@@ -30,38 +32,35 @@ namespace RokuTelnet.Services.Deploy
         {
             try
             {
-                using (var sr = new StreamReader(optionsFile))
-                {
-                    Console.WriteLine("Deploy started");
+                Console.WriteLine("Deploy started");
 
-                    var options = JsonConvert.DeserializeXNode(sr.ReadToEnd(), "root");
+                var options = LoadModel(optionsFile);
 
-                    var outputFolder = Path.Combine(folder, options.Root.Element("buildDirectory").Value);
+                var outputFolder = Path.Combine(folder, options.BuildDirectory);
 
-                    CopyFiles(folder, outputFolder, options);
+                CopyFiles(folder, outputFolder, options);
 
-                    Console.WriteLine("Copy done");
+                Console.WriteLine("Copy done");
 
-                    ProcessReplaces(outputFolder, GetReplaces(options));
+                ProcessManifest(outputFolder, folder, options);
 
-                    Console.WriteLine("Replace done");
+                Console.WriteLine("Manifest done");
 
-                    ProcessManifest(outputFolder, folder);
+                ProcessReplaces(outputFolder, GetReplaces(options));
 
-                    Console.WriteLine("Manifest done");
+                Console.WriteLine("Replace done");
 
-                    var zipFile = Path.Combine(folder, options.Root.Element("archiveName").Value + ".zip");
+                var zipFile = Path.Combine(folder, options.ArchiveName + ".zip");
 
-                    CreateArchive(outputFolder, zipFile);
+                CreateArchive(outputFolder, zipFile);
 
-                    Console.WriteLine("Archive done");
+                Console.WriteLine("Archive done");
 
-                    DeployZip(zipFile, ip, options);
+                DeployZip(zipFile, ip, options);
 
-                    Console.WriteLine("Deploy complete");
+                Console.WriteLine("Deploy complete");
 
-                    File.Delete(zipFile);
-                }
+                File.Delete(zipFile);
             }
             catch (Exception ex)
             {
@@ -69,13 +68,26 @@ namespace RokuTelnet.Services.Deploy
             }
         }
 
-        private void DeployZip(string zipFile, string ip, XDocument options)
+        private ConfigModel LoadModel(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                using (var sr = new StreamReader(filePath))
+                {
+                    var content = sr.ReadToEnd();
+
+                    return JsonConvert.DeserializeObject<ConfigModel>(content);
+                }
+            }
+
+            return null;
+        }
+
+        private void DeployZip(string zipFile, string ip, ConfigModel options)
         {
             var responseString = string.Empty;
 
-            var req = new DigestHttpWebRequest(
-                options.Root.Element("username").Value,
-                options.Root.Element("password").Value);
+            var req = new DigestHttpWebRequest(options.User, options.Pass);
 
             req.Method = WebRequestMethods.Http.Post;
 
@@ -107,7 +119,7 @@ namespace RokuTelnet.Services.Deploy
             }
         }
 
-        private void ProcessManifest(string outputFolder, string folder)
+        private void ProcessManifest(string outputFolder, string folder, ConfigModel options)
         {
             var version = _gitService.Describe(folder);
 
@@ -116,6 +128,8 @@ namespace RokuTelnet.Services.Deploy
                 version = version.Split('-').First();
                 if (Regex.IsMatch(version, @"^(\d+\.)?(\d+\.)?(\*|\d+)$"))
                 {
+                    options.ExtraConfigs.Add(new ConfigKeyValueModel { Key = "version", Value = version });
+
                     var parts = version.Split('.');
 
                     var manifest = Path.Combine(outputFolder, "manifest");
@@ -143,24 +157,31 @@ namespace RokuTelnet.Services.Deploy
             ZipFile.CreateFromDirectory(outputFolder, zipFile);
         }
 
-        private Dictionary<string, string> GetReplaces(XDocument options)
+        private Dictionary<string, string> GetReplaces(ConfigModel options)
         {
-            var replaces = options.Root.Elements("replaces")
-                    .Select(x => new KeyValuePair<string, string>(x.Element("key")?.Value, x.Element("value")?.Value))
+            var replaces = options.Replaces
                     .ToDictionary(item => item.Key, item => item.Value);
 
-            options.Root.Elements()
-                    .Select(x => x.Name.LocalName)
-                    .Where(n => n != "replaces")
-                    .ToList()
-                    .ForEach(k =>
+            var elements = options.ExtraConfigs.ToList();
+            elements.AddRange(new List<ConfigKeyValueModel>
+            {
+               new ConfigKeyValueModel { Key = "User", Value = options.User },
+               new ConfigKeyValueModel { Key = "Pass", Value = options.Pass },
+               new ConfigKeyValueModel { Key = "AppName", Value = options.AppName },
+               new ConfigKeyValueModel { Key = "ArchiveName", Value = options.ArchiveName },
+               new ConfigKeyValueModel { Key = "BuildDirectory", Value = options.BuildDirectory },
+            });
+
+            var dic = elements.ToDictionary(item => item.Key, item => item.Value);
+            
+            dic.Keys.ForEach(k =>
                     {
                         replaces.ToList()
                             .ForEach(kv =>
                             {
                                 var val = "{" + k + "}";
                                 if (kv.Value.Contains(val))
-                                    replaces[kv.Key] = kv.Value.Replace(val, options.Root.Element(k).Value);
+                                    replaces[kv.Key] = kv.Value.Replace(val, dic[k]);
                             });
                     });
 
@@ -188,30 +209,32 @@ namespace RokuTelnet.Services.Deploy
             }
         }
 
-        private void CopyFiles(string folder, string outputFolder, XDocument options)
+        private void CopyFiles(string folder, string outputFolder, ConfigModel options)
         {
             if (Directory.Exists(outputFolder))
                 Directory.Delete(outputFolder, true);
 
             Directory.CreateDirectory(outputFolder);
 
-            var includes = options.Root.Elements("directoriesIncludeForDeploy");
+            var includes = options.Includes;
 
             foreach (var value in includes.Select(x => x.Value))
             {
                 var src = Path.Combine(folder, value);
                 var dest = Path.Combine(outputFolder, value);
 
-                CopyFolder(src, dest);
+                if (Directory.Exists(src))
+                    CopyFolder(src, dest);
             }
 
-            var excludes = options.Root.Elements("directoriesExcludeForDeploy");
+            var excludes = options.Excludes;
 
             foreach (var value in excludes.Select(x => x.Value))
             {
                 var dest = Path.Combine(outputFolder, value);
 
-                Directory.Delete(dest, true);
+                if (Directory.Exists(dest))
+                    Directory.Delete(dest, true);
             }
 
             var manifestPath = Path.Combine(folder, "manifest");

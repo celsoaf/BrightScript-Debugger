@@ -120,10 +120,10 @@ namespace RokuTelnet.Controllers
             var optionsFile = Path.Combine(folder, OPTIONS_FILE);
 
             if (File.Exists(optionsFile))
-                _deployService.Deploy(ip, folder, OPTIONS_FILE);
+                _deployService.Deploy(ip, folder, optionsFile);
             else
                 if (ShowConfig(folder) == true)
-                _deployService.Deploy(ip, folder, OPTIONS_FILE);
+                    _deployService.Deploy(ip, folder, optionsFile);
         }
 
         private bool? ShowConfig(string folder)

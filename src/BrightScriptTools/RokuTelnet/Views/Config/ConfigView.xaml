@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RokuTelnet.Views.Config"
         Icon="../../Resources/roku1.png"
-        mc:Ignorable="d"
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Title="Roku Telnet - Configurations" Height="800" Width="500">
     <Window.Resources>
         <Style TargetType="TextBlock">
@@ -29,6 +29,9 @@
             <Setter Property="Margin" Value="5"/>
         </Style>
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Escape" Command="{Binding CancelCommand}"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

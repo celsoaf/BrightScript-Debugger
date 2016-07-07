@@ -92,18 +92,18 @@ namespace RokuTelnet.Services.Deploy
                 using (var sr = new StreamReader(path))
                     contentNew = contentOld = sr.ReadToEnd();
 
-                contentNew = new Regex(@"\s?=\s?").Replace(contentNew, "=");
-                contentNew = new Regex(@"\s?:\s?").Replace(contentNew, ":");
-                contentNew = new Regex(@"\s?\+\s?").Replace(contentNew, "+");
-                contentNew = new Regex(@"\s?-\s?").Replace(contentNew, "-");
-                contentNew = new Regex(@"\s?\*\\s?").Replace(contentNew, "*");
-                contentNew = new Regex(@"\s?/\s?").Replace(contentNew, "/");
+                contentNew = Regex.Replace(contentNew, @"\s?=\s?", "=", RegexOptions.Multiline);
+                contentNew = Regex.Replace(contentNew, @"\s?:\s?", ":", RegexOptions.Multiline);
+                contentNew = Regex.Replace(contentNew, @"\s?\+\s?", "+", RegexOptions.Multiline);
+                contentNew = Regex.Replace(contentNew, @"\s?-\s?", "-", RegexOptions.Multiline);
+                contentNew = Regex.Replace(contentNew, @"\s?\*\\s?", "*", RegexOptions.Multiline);
+                //contentNew = Regex.Replace(contentNew, @"\s?/\s?", "/", RegexOptions.Multiline);
 
-                contentNew = new Regex(@"\'%\-\-\'([\s\S]*?)\'\-\-%\'").Replace(contentNew, "");
+                contentNew = Regex.Replace(contentNew, @"\'%\-\-\'([\s\S]*?)\'\-\-%\'", "", RegexOptions.Multiline);
 
-                contentNew = new Regex(@"\'.*(\r\n|\n|\r)").Replace(contentNew, "");
+                contentNew = Regex.Replace(contentNew, "(?!\")\'*(\r\n|\n|\r)", "\r\n", RegexOptions.Multiline);
 
-                //contentNew = new Regex(@"[\s\t]*(\r\n|\n|\r)").Replace(contentNew, "");
+                contentNew = Regex.Replace(contentNew, @"^\s+$[\r\n]*", "", RegexOptions.Multiline);
 
                 if (contentOld != contentNew)
                     using (var sw = new StreamWriter(path))

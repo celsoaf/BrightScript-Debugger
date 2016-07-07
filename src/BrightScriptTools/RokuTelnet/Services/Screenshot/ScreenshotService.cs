@@ -35,47 +35,49 @@ namespace RokuTelnet.Services.Screenshot
             {
                 _running = true;
 
-                Task.Factory.StartNew(() =>
+                Task.Factory.StartNew(() => Run(ip), TaskCreationOptions.LongRunning);
+            }
+        }
+
+        private void Run(string ip)
+        {
+            while (_running)
+            {
+                try
                 {
-                    while (_running)
+                    var folder = LoadLastFolder();
+                    if (!string.IsNullOrEmpty(folder))
                     {
-                        try
+                        var options = LoadModel(Path.Combine(folder, OPTIONS_FILE));
+
+                        if (options != null)
                         {
-                            var folder = LoadLastFolder();
-                            if (!string.IsNullOrEmpty(folder))
+                            var url = GetImageUrl(ip, options);
+
+                            if (!string.IsNullOrEmpty(url))
                             {
-                                var options = LoadModel(Path.Combine(folder, OPTIONS_FILE));
+                                var image = GetImage(url, options);
 
-                                if (options != null)
-                                {
-                                    var url = GetImageUrl(ip, options);
-
-                                    if (!string.IsNullOrEmpty(url))
-                                    {
-                                        var image = GetImage(url, options);
-
-                                        if(image!=null)
-                                            _eventAggregator.GetEvent<ScreenshotEvent>().Publish(image);
-                                    }
-                                    else
-                                    {
-                                        _eventAggregator.GetEvent<ScreenshotEvent>().Publish(null);
-                                    }
-                                }
-                                else
-                                    Task.Delay(SLEEP_TIME).Wait();
+                                if (image != null)
+                                    _eventAggregator.GetEvent<ScreenshotEvent>().Publish(image);
                             }
                             else
-                                Task.Delay(SLEEP_TIME).Wait();
+                            {
+                                _eventAggregator.GetEvent<ScreenshotEvent>().Publish(null);
+                            }
                         }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-
+                        else
                             Task.Delay(SLEEP_TIME).Wait();
-                        }
                     }
-                }, TaskCreationOptions.LongRunning);
+                    else
+                        Task.Delay(SLEEP_TIME).Wait();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+
+                    Task.Delay(SLEEP_TIME).Wait();
+                }
             }
         }
 

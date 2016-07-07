@@ -14,6 +14,7 @@ using RokuTelnet.Models;
 using RokuTelnet.Services.Deploy;
 using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Remote;
+using RokuTelnet.Services.Screenshot;
 using RokuTelnet.Services.Telnet;
 using RokuTelnet.Views.Config;
 using RokuTelnet.Views.Console;
@@ -38,6 +39,7 @@ namespace RokuTelnet.Controllers
         private readonly IRemoteService _remoteService;
         private readonly IRegionManager _regionManager;
         private readonly IDeployService _deployService;
+        private readonly IScreenshotService _screenshotService;
 
         private readonly Dictionary<DebuggerCommandEnum, string> _injectStrings;
         private DebuggerCommandEnum? _lasCommand;
@@ -51,7 +53,8 @@ namespace RokuTelnet.Controllers
             IRegionManager regionManager,
             IParserService parserService,
             IRemoteService remoteService,
-            IDeployService deployService)
+            IDeployService deployService,
+            IScreenshotService screenshotService)
         {
             _container = container;
             _eventAggregator = eventAggregator;
@@ -59,6 +62,7 @@ namespace RokuTelnet.Controllers
             _parserService = parserService;
             _remoteService = remoteService;
             _deployService = deployService;
+            _screenshotService = screenshotService;
             _container = container;
 
             _injectStrings = new Dictionary<DebuggerCommandEnum, string>();
@@ -88,6 +92,7 @@ namespace RokuTelnet.Controllers
             {
                 Task.Delay(1000).Wait();
                 _parserService.Start();
+                _screenshotService.Start(ip);
                 Connect(ip, 8085).Wait();
 
                 var args = JsonConvert.SerializeObject(new { ip = ip });
@@ -98,6 +103,7 @@ namespace RokuTelnet.Controllers
             {
                 _telenetService.Disconnect();
                 _parserService.Stop();
+                _screenshotService.Stop();
                 _connected = false;
             }, ThreadOption.BackgroundThread);
 

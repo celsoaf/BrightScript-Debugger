@@ -188,6 +188,8 @@
     <Compile Include="Services\Parser\Utils\TelnetScanner.cs" />
     <Compile Include="Services\Remote\IRemoteService.cs" />
     <Compile Include="Services\Remote\RemoteService.cs" />
+    <Compile Include="Services\Screenshot\IScreenshotService.cs" />
+    <Compile Include="Services\Screenshot\ScreenshotService.cs" />
     <Compile Include="Services\Telnet\ITelenetService.cs" />
     <Compile Include="Services\Telnet\SoketService.cs" />
     <Compile Include="Services\Telnet\Utils\RokuStringParser.cs" />

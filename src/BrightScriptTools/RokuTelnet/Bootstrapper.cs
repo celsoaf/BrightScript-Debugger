@@ -6,6 +6,7 @@ using RokuTelnet.Services.Deploy;
 using RokuTelnet.Services.Git;
 using RokuTelnet.Services.Parser;
 using RokuTelnet.Services.Remote;
+using RokuTelnet.Services.Screenshot;
 using RokuTelnet.Services.Telnet;
 using RokuTelnet.Views.Config;
 using RokuTelnet.Views.Console;
@@ -81,6 +82,7 @@ namespace RokuTelnet
             Container.RegisterType<IRemoteService, RemoteService>();
             Container.RegisterType<IDeployService, DeployService>();
             Container.RegisterType<IGitService, GitService>();
+            Container.RegisterType<IScreenshotService, ScreenshotService>();
 
             Container.Resolve<IAppController>().Initialize();
         }

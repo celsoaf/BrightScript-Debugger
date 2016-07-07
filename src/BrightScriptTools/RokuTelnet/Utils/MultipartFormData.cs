@@ -59,7 +59,8 @@ namespace RokuTelnet.Utils
                     formDataStream.Write(encoding.GetBytes(header), 0, encoding.GetByteCount(header));
 
                     // Write the file data directly to the Stream, rather than serializing it to a string.
-                    formDataStream.Write(fileToUpload.File, 0, fileToUpload.File.Length);
+                    if (fileToUpload.File != null)
+                        formDataStream.Write(fileToUpload.File, 0, fileToUpload.File.Length);
                 }
                 else
                 {
@@ -103,12 +104,13 @@ namespace RokuTelnet.Utils
                 FileName = Path.GetFileName(filePath);
                 ContentType = contenttype;
 
-                using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
-                {
-                    byte[] data = new byte[fs.Length];
-                    fs.Read(data, 0, data.Length);
-                    File = data;
-                }
+                if (System.IO.File.Exists(filePath))
+                    using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+                    {
+                        byte[] data = new byte[fs.Length];
+                        fs.Read(data, 0, data.Length);
+                        File = data;
+                    }
 
             }
         }

@@ -91,11 +91,11 @@ namespace RokuTelnet.Services.Deploy
                 contentNew = new Regex(@"\s?\*\\s?").Replace(contentNew, "*");
                 contentNew = new Regex(@"\s?/\s?").Replace(contentNew, "/");
 
-                contentNew = new Regex(@"[\s\t]*(\r\n|\n|\r)").Replace(contentNew, "");
+                contentNew = new Regex(@"\'%\-\-\'([\s\S]*?)\'\-\-%\'").Replace(contentNew, "");
 
-                contentNew = new Regex(@"^\'.*").Replace(contentNew, "");
+                contentNew = new Regex(@"\'.*(\r\n|\n|\r)").Replace(contentNew, "");
 
-                contentNew = new Regex(@"\'%\-\-([\s\S]*?)\'\-\-%").Replace(contentNew, "");
+                //contentNew = new Regex(@"[\s\t]*(\r\n|\n|\r)").Replace(contentNew, "");
 
                 if (contentOld != contentNew)
                     using (var sw = new StreamWriter(path))

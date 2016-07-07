@@ -163,6 +163,7 @@
     <Compile Include="Events\DeployEvent.cs" />
     <Compile Include="Events\DisconnectEvent.cs" />
     <Compile Include="Events\LogEvent.cs" />
+    <Compile Include="Events\ScreenshotEvent.cs" />
     <Compile Include="Events\SendCommandEvent.cs" />
     <Compile Include="Events\ShowConfigEvent.cs" />
     <Compile Include="Events\VariablesEvent.cs" />
@@ -236,6 +237,12 @@
       <DependentUpon>RemoteView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Remote\RemoteViewModel.cs" />
+    <Compile Include="Views\Screenshot\IScreenshotView.cs" />
+    <Compile Include="Views\Screenshot\IScreenshotViewModel.cs" />
+    <Compile Include="Views\Screenshot\ScreenshotView.xaml.cs">
+      <DependentUpon>ScreenshotView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Screenshot\ScreenshotViewModel.cs" />
     <Compile Include="Views\Shell\IShellView.cs" />
     <Compile Include="Views\Shell\IShellViewModel.cs" />
     <Compile Include="Views\Shell\ShellView.xaml.cs">
@@ -317,6 +324,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Remote\RemoteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Screenshot\ScreenshotView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

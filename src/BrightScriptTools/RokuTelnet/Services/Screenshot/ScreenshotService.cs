@@ -18,6 +18,8 @@ namespace RokuTelnet.Services.Screenshot
         private const string OPTIONS_FILE = "deploy.json";
         private const string LAST_FOLDER_NAME = "lastFolder.json";
 
+        private const int SLEEP_TIME = 1000;
+
         private volatile bool _running = false;
 
         private IEventAggregator _eventAggregator;
@@ -55,15 +57,23 @@ namespace RokuTelnet.Services.Screenshot
                                         if(image!=null)
                                             _eventAggregator.GetEvent<ScreenshotEvent>().Publish(image);
                                     }
+                                    else
+                                    {
+                                        _eventAggregator.GetEvent<ScreenshotEvent>().Publish(null);
+                                    }
                                 }
+                                else
+                                    Task.Delay(SLEEP_TIME).Wait();
                             }
+                            else
+                                Task.Delay(SLEEP_TIME).Wait();
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.Message);
-                        }
 
-                        Task.Delay(1000).Wait();
+                            Task.Delay(SLEEP_TIME).Wait();
+                        }
                     }
                 }, TaskCreationOptions.LongRunning);
             }

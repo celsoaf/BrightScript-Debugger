@@ -10,5 +10,6 @@
         public const string CONSOLE = "Console";
         public const string REMOTE = "Remote";
         public const string CYGWIN = "Cygwin";
+        public const string SCREENSHOT = "Screenshot";
     }
 }

@@ -27,6 +27,11 @@
                             </xcad:LayoutAnchorable>
                         </xcad:LayoutAnchorablePane>
                         <xcad:LayoutAnchorablePane>
+                            <xcad:LayoutAnchorable Title="Screenshot" CanClose="False">
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.SCREENSHOT}" />
+                            </xcad:LayoutAnchorable>
+                        </xcad:LayoutAnchorablePane>
+                        <xcad:LayoutAnchorablePane>
                             <xcad:LayoutAnchorable Title="Cygwin" CanClose="False">
                                 <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.CYGWIN}" />
                             </xcad:LayoutAnchorable>

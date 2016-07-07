@@ -14,6 +14,7 @@ using RokuTelnet.Views.Cygwin;
 using RokuTelnet.Views.Locals;
 using RokuTelnet.Views.Output;
 using RokuTelnet.Views.Remote;
+using RokuTelnet.Views.Screenshot;
 using RokuTelnet.Views.Shell;
 using RokuTelnet.Views.StackPanel;
 using RokuTelnet.Views.Toolbar;
@@ -76,6 +77,9 @@ namespace RokuTelnet
 
             Container.RegisterType<IConfigView, ConfigView>();
             Container.RegisterType<IConfigViewModel, ConfigViewModel>();
+
+            Container.RegisterType<IScreenshotView, ScreenshotView>();
+            Container.RegisterType<IScreenshotViewModel, ScreenshotViewModel>();
 
             Container.RegisterType<ITelenetService, SoketService>();
             Container.RegisterType<IParserService, ParserService>();

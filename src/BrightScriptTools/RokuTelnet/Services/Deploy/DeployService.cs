@@ -50,6 +50,13 @@ namespace RokuTelnet.Services.Deploy
 
                 Console.WriteLine("Replace done");
 
+                if (options.Optimize)
+                {
+                    ProcessOptimize(outputFolder);
+
+                    Console.WriteLine("Optimize done");
+                }
+
                 var zipFile = Path.Combine(folder, options.ArchiveName + ".zip");
 
                 CreateArchive(outputFolder, zipFile);
@@ -65,6 +72,34 @@ namespace RokuTelnet.Services.Deploy
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void ProcessOptimize(string outputFolder)
+        {
+            foreach (string path in Directory.GetFiles(outputFolder, "*.brs", SearchOption.AllDirectories))
+            {
+                string contentOld = string.Empty;
+                string contentNew = string.Empty;
+                using (var sr = new StreamReader(path))
+                    contentNew = contentOld = sr.ReadToEnd();
+
+                contentNew = new Regex(@"\s?=\s?").Replace(contentNew, "=");
+                contentNew = new Regex(@"\s?:\s?").Replace(contentNew, ":");
+                contentNew = new Regex(@"\s?\+\s?").Replace(contentNew, "+");
+                contentNew = new Regex(@"\s?-\s?").Replace(contentNew, "-");
+                contentNew = new Regex(@"\s?\*\\s?").Replace(contentNew, "*");
+                contentNew = new Regex(@"\s?/\s?").Replace(contentNew, "/");
+
+                contentNew = new Regex(@"[\s\t]*(\r\n|\n|\r)").Replace(contentNew, "");
+
+                contentNew = new Regex(@"^\'.*").Replace(contentNew, "");
+
+                contentNew = new Regex(@"\'%\-\-([\s\S]*?)\'\-\-%").Replace(contentNew, "");
+
+                if (contentOld != contentNew)
+                    using (var sw = new StreamWriter(path))
+                        sw.Write(contentNew);
             }
         }
 

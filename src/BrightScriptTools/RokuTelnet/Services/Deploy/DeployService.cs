@@ -97,11 +97,11 @@ namespace RokuTelnet.Services.Deploy
                 contentNew = Regex.Replace(contentNew, @"\s?\+\s?", "+", RegexOptions.Multiline);
                 contentNew = Regex.Replace(contentNew, @"\s?-\s?", "-", RegexOptions.Multiline);
                 contentNew = Regex.Replace(contentNew, @"\s?\*\\s?", "*", RegexOptions.Multiline);
-                //contentNew = Regex.Replace(contentNew, @"\s?/\s?", "/", RegexOptions.Multiline);
+                contentNew = Regex.Replace(contentNew, @"\s?\/\s?", "/", RegexOptions.Multiline);
 
                 contentNew = Regex.Replace(contentNew, @"\'%\-\-\'([\s\S]*?)\'\-\-%\'", "", RegexOptions.Multiline);
 
-                contentNew = Regex.Replace(contentNew, "(?!\")\'*(\r\n|\n|\r)", "\r\n", RegexOptions.Multiline);
+                contentNew = Regex.Replace(contentNew, @"^(\s)*\'.*", "", RegexOptions.Multiline);
 
                 contentNew = Regex.Replace(contentNew, @"^\s+$[\r\n]*", "", RegexOptions.Multiline);
 

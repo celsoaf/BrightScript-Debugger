@@ -22,6 +22,7 @@ namespace RokuTelnet.Services.Deploy
         private const string URL = "http://{0}//plugin_install";
 
         private readonly IGitService _gitService;
+        private volatile bool _running;
 
         public DeployService(IGitService gitService)
         {
@@ -30,48 +31,55 @@ namespace RokuTelnet.Services.Deploy
 
         public async Task Deploy(string ip, string folder, string optionsFile)
         {
-            try
+            if (!_running)
             {
-                Console.WriteLine("Deploy started");
+                _running = true;
 
-                var options = LoadModel(optionsFile);
-
-                var outputFolder = Path.Combine(folder, options.BuildDirectory);
-
-                CopyFiles(folder, outputFolder, options);
-
-                Console.WriteLine("Copy done");
-
-                ProcessManifest(outputFolder, folder, options);
-
-                Console.WriteLine("Manifest done");
-
-                ProcessReplaces(outputFolder, GetReplaces(options));
-
-                Console.WriteLine("Replace done");
-
-                if (options.Optimize)
+                try
                 {
-                    ProcessOptimize(outputFolder);
+                    Console.WriteLine("Deploy started");
 
-                    Console.WriteLine("Optimize done");
+                    var options = LoadModel(optionsFile);
+
+                    var outputFolder = Path.Combine(folder, options.BuildDirectory);
+
+                    CopyFiles(folder, outputFolder, options);
+
+                    Console.WriteLine("Copy done");
+
+                    ProcessManifest(outputFolder, folder, options);
+
+                    Console.WriteLine("Manifest done");
+
+                    ProcessReplaces(outputFolder, GetReplaces(options));
+
+                    Console.WriteLine("Replace done");
+
+                    if (options.Optimize)
+                    {
+                        ProcessOptimize(outputFolder);
+
+                        Console.WriteLine("Optimize done");
+                    }
+
+                    var zipFile = Path.Combine(folder, options.ArchiveName + ".zip");
+
+                    CreateArchive(outputFolder, zipFile);
+
+                    Console.WriteLine("Archive done");
+
+                    DeployZip(zipFile, ip, options);
+
+                    Console.WriteLine("Deploy complete");
+
+                    File.Delete(zipFile);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
 
-                var zipFile = Path.Combine(folder, options.ArchiveName + ".zip");
-
-                CreateArchive(outputFolder, zipFile);
-
-                Console.WriteLine("Archive done");
-
-                DeployZip(zipFile, ip, options);
-
-                Console.WriteLine("Deploy complete");
-
-                File.Delete(zipFile);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+                _running = false;
             }
         }
 

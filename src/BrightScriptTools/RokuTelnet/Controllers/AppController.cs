@@ -45,6 +45,7 @@ namespace RokuTelnet.Controllers
         private readonly Dictionary<DebuggerCommandEnum, string> _injectStrings;
         private DebuggerCommandEnum? _lasCommand;
         private volatile bool _connected;
+        private string _ip;
         private volatile bool _debug;
         private IToolbarViewModel _toolbarViewModel;
 
@@ -92,6 +93,7 @@ namespace RokuTelnet.Controllers
 
             _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip =>
             {
+                _ip = ip;
                 Task.Delay(1000).Wait();
                 _parserService.Start();
                 _screenshotService.Start(ip);
@@ -119,6 +121,13 @@ namespace RokuTelnet.Controllers
             _eventAggregator.GetEvent<DeployEvent>().Subscribe(model => Deploy(model.Ip, model.Folder), ThreadOption.BackgroundThread);
 
             _eventAggregator.GetEvent<ShowConfigEvent>().Subscribe(f => ShowConfig(f));
+
+            _eventAggregator.GetEvent<BusyShowEvent>().Subscribe(m => _screenshotService.Stop());
+            _eventAggregator.GetEvent<BusyHideEvent>().Subscribe(obj =>
+            {
+                if(_connected)
+                    _screenshotService.Start(_ip);
+            });
 
             RegisterCommands();
         }

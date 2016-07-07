@@ -174,7 +174,7 @@ namespace RokuTelnet.Services.Deploy
                         MatchCollection matches = Regex.Matches(responseString, pattern);
 
                         foreach (Match m in matches)
-                            Console.WriteLine("result: {0}", m.Groups[1]);
+                            Console.WriteLine("Deploy result: {0}", m.Groups[1]);
                     }
                 }
             }

@@ -5,6 +5,7 @@
         xmlns:rokuTelnet="clr-namespace:RokuTelnet"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="Roku Telnet" Width="1350" Height="720"
         Icon="../../Resources/roku1.png"
         WindowState="Maximized">
@@ -60,5 +61,30 @@
                 </xcad:LayoutPanel>
             </xcad:LayoutRoot>
         </xcad:DockingManager>
+        
+        <Grid Grid.RowSpan="2">
+            <xctk:BusyIndicator IsBusy="{Binding IsBusy}" Name="BusyIndicator">
+                <xctk:BusyIndicator.BusyContentTemplate>
+                    <DataTemplate>
+                        <Grid Width="300">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="{Binding Path=DataContext.BusyModel.Title, ElementName=BusyIndicator}" FontWeight="Bold" FontSize="18" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="1" Text="{Binding Path=DataContext.BusyModel.Message, ElementName=BusyIndicator}" FontSize="14"/>
+                            <ProgressBar Grid.Row="2" Value="{Binding Path=DataContext.BusyModel.Percentage, ElementName=BusyIndicator}" Height="20"/>
+                        </Grid>
+                    </DataTemplate>
+                </xctk:BusyIndicator.BusyContentTemplate>
+                <xctk:BusyIndicator.ProgressBarStyle>
+                    <Style TargetType="ProgressBar">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Style>
+                </xctk:BusyIndicator.ProgressBarStyle>
+            </xctk:BusyIndicator>
+        </Grid>
     </Grid>
 </Window>

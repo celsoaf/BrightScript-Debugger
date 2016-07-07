@@ -11,6 +11,8 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using Microsoft.Practices.ObjectBuilder2;
 using Newtonsoft.Json;
+using Prism.Events;
+using RokuTelnet.Events;
 using RokuTelnet.Models;
 using RokuTelnet.Services.Git;
 using RokuTelnet.Utils;
@@ -22,11 +24,13 @@ namespace RokuTelnet.Services.Deploy
         private const string URL = "http://{0}//plugin_install";
 
         private readonly IGitService _gitService;
+        private IEventAggregator _eventAggregator;
         private volatile bool _running;
 
-        public DeployService(IGitService gitService)
+        public DeployService(IGitService gitService, IEventAggregator eventAggregator)
         {
             _gitService = gitService;
+            _eventAggregator = eventAggregator;
         }
 
         public async Task Deploy(string ip, string folder, string optionsFile)
@@ -37,40 +41,44 @@ namespace RokuTelnet.Services.Deploy
 
                 try
                 {
-                    Console.WriteLine("Deploy started");
-
                     var options = LoadModel(optionsFile);
+
+                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Deploy started", 0, options));
 
                     var outputFolder = Path.Combine(folder, options.BuildDirectory);
 
+                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy($"Copying files to '{options.BuildDirectory}", 1, options));
+
                     CopyFiles(folder, outputFolder, options);
 
-                    Console.WriteLine("Copy done");
+                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Processing Manifest", 2, options));
 
                     ProcessManifest(outputFolder, folder, options);
 
-                    Console.WriteLine("Manifest done");
+                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Processing Replaces", 3, options));
 
                     ProcessReplaces(outputFolder, GetReplaces(options));
 
-                    Console.WriteLine("Replace done");
-
                     if (options.Optimize)
                     {
-                        ProcessOptimize(outputFolder);
+                        _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Processing Optimization", 4, options));
 
-                        Console.WriteLine("Optimize done");
+                        ProcessOptimize(outputFolder);
                     }
+
+                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Creating Archive", 5, options));
 
                     var zipFile = Path.Combine(folder, options.ArchiveName + ".zip");
 
                     CreateArchive(outputFolder, zipFile);
 
-                    Console.WriteLine("Archive done");
+                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy($"Deploying app to '{ip}'", 6, options));
 
                     DeployZip(zipFile, ip, options);
 
-                    Console.WriteLine("Deploy complete");
+                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Deploy complete", 7, options));
+
+                    Task.Delay(1000).ContinueWith(c => _eventAggregator.GetEvent<BusyHideEvent>().Publish(null));
 
                     File.Delete(zipFile);
                 }
@@ -81,6 +89,16 @@ namespace RokuTelnet.Services.Deploy
 
                 _running = false;
             }
+        }
+
+        private BusyModel GetBusy(string message, double step, ConfigModel options)
+        {
+            return new BusyModel
+            {
+                Title = $"Deploying '{options.AppName}'",
+                Message = message,
+                Percentage = (step/7d) * 100
+            };
         }
 
         private void ProcessOptimize(string outputFolder)

@@ -31,6 +31,7 @@
     </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Key="Escape" Command="{Binding CancelCommand}"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}"/>
     </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>

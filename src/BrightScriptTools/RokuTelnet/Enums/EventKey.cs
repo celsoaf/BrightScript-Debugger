@@ -21,5 +21,6 @@
         VolumeDown,
         VolumeMute,
         VolumeUp,
+        Dev
     }
 }

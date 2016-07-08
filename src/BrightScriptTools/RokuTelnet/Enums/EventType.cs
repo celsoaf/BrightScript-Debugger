@@ -4,6 +4,7 @@
     {
         KeyDown,
         KeyUp,
-        KeyPress
+        KeyPress,
+        Launch
     }
 }

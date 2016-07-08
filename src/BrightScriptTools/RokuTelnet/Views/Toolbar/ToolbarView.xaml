@@ -52,11 +52,12 @@
             </Grid>
         </ToolBar>
         <ToolBar>
-            <Grid Width="300">
+            <Grid Width="400">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
@@ -82,6 +83,13 @@
 				        IsEnabled="{Binding Connected}"
                         ToolTip="Deploy App - F6">
                     <Image Source="../../Resources/deploy.png" Width="24" Height="24"/>
+                </Button>
+
+                <Button Grid.Column="4" Margin="0" 
+                        Command="{Binding LaunchAppCommand}"
+				        IsEnabled="{Binding Connected}"
+                        ToolTip="Launch App">
+                    <Image Source="../../Resources/launch.png" Width="24" Height="24"/>
                 </Button>
             </Grid>
         </ToolBar>

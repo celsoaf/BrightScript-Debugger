@@ -78,6 +78,11 @@ namespace RokuTelnet.Views.Toolbar
                 _eventAggregator.GetEvent<ShowConfigEvent>().Publish(Folder);
             });
 
+            LaunchAppCommand = new DelegateCommand(() =>
+            {
+                _eventAggregator.GetEvent<SendCommandEvent>().Publish(new EventModel(EventType.Launch, EventKey.Dev));
+            }, () => Connected);
+
             Command = new DelegateCommand<DebuggerCommandEnum?>(cmd =>
             {
                 if (cmd.HasValue)
@@ -126,6 +131,7 @@ namespace RokuTelnet.Views.Toolbar
                 _connected = value;
                 OnPropertyChanged(() => Connected);
                 DeployCommand.RaiseCanExecuteChanged();
+                LaunchAppCommand.RaiseCanExecuteChanged();
 
                 if (_connected)
                     _eventAggregator.GetEvent<ConnectEvent>().Publish(SelectedIP);
@@ -137,6 +143,7 @@ namespace RokuTelnet.Views.Toolbar
         public DelegateCommand OpenFolderCommand { get; set; }
         public DelegateCommand ConfigCommand { get; set; }
         public DelegateCommand DeployCommand { get; set; }
+        public DelegateCommand LaunchAppCommand { get; set; }
 
         public string Folder
         {

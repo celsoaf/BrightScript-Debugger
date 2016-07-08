@@ -9,7 +9,7 @@ namespace RokuTelnet.Views.Output
 {
     public class OutputViewModel : Prism.Mvvm.BindableBase, IOutputViewModel
     {
-        private const int LOGS_LENGHT = 500000;
+        private const int LOGS_LENGHT = 100000;
 
         private readonly IEventAggregator _eventAggregator;
         private string _logs;

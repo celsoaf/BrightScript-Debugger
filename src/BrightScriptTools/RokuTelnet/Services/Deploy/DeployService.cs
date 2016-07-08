@@ -39,6 +39,7 @@ namespace RokuTelnet.Services.Deploy
             {
                 _running = true;
 
+                var zipFile = string.Empty;
                 try
                 {
                     var options = LoadModel(optionsFile);
@@ -47,7 +48,8 @@ namespace RokuTelnet.Services.Deploy
 
                     var outputFolder = Path.Combine(folder, options.BuildDirectory);
 
-                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy($"Copying files to '{options.BuildDirectory}", 1, options));
+                    _eventAggregator.GetEvent<BusyShowEvent>()
+                        .Publish(GetBusy($"Copying files to '{options.BuildDirectory}", 1, options));
 
                     CopyFiles(folder, outputFolder, options);
 
@@ -61,14 +63,15 @@ namespace RokuTelnet.Services.Deploy
 
                     if (options.Optimize)
                     {
-                        _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Processing Optimization", 4, options));
+                        _eventAggregator.GetEvent<BusyShowEvent>()
+                            .Publish(GetBusy("Processing Optimization", 4, options));
 
                         ProcessOptimize(outputFolder);
                     }
 
                     _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Creating Archive", 5, options));
 
-                    var zipFile = Path.Combine(folder, options.ArchiveName + ".zip");
+                    zipFile = Path.Combine(folder, options.ArchiveName + ".zip");
 
                     CreateArchive(outputFolder, zipFile);
 
@@ -77,14 +80,17 @@ namespace RokuTelnet.Services.Deploy
                     DeployZip(zipFile, ip, options);
 
                     _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Deploy complete", 7, options));
-
-                    Task.Delay(1000).ContinueWith(c => _eventAggregator.GetEvent<BusyHideEvent>().Publish(null));
-
-                    File.Delete(zipFile);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    if (!string.IsNullOrEmpty(zipFile) && File.Exists(zipFile))
+                        File.Delete(zipFile);
+
+                    Task.Delay(1000).ContinueWith(c => _eventAggregator.GetEvent<BusyHideEvent>().Publish(null));
                 }
 
                 _running = false;
@@ -97,7 +103,7 @@ namespace RokuTelnet.Services.Deploy
             {
                 Title = $"Deploying '{options.AppName}'",
                 Message = message,
-                Percentage = (step/7d) * 100
+                Percentage = (step / 7d) * 100
             };
         }
 
@@ -232,12 +238,12 @@ namespace RokuTelnet.Services.Deploy
                 {
                     if (p.PropertyType == typeof(string))
                     {
-                        elements.Add(new ConfigKeyValueModel {Key = p.Name, Value = (string)p.GetValue(options)});
+                        elements.Add(new ConfigKeyValueModel { Key = p.Name, Value = (string)p.GetValue(options) });
                     }
                 });
 
             var dic = elements.ToDictionary(item => item.Key, item => item.Value);
-            
+
             dic.Keys.ForEach(k =>
                     {
                         replaces.ToList()

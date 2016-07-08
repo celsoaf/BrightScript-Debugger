@@ -164,6 +164,9 @@
     <Compile Include="Events\DisconnectEvent.cs" />
     <Compile Include="Events\LogEvent.cs" />
     <Compile Include="Events\ScreenshotEvent.cs" />
+    <Compile Include="Events\ScreenshotRunningEvent.cs" />
+    <Compile Include="Events\ScreenshotStartEvent.cs" />
+    <Compile Include="Events\ScreenshotStopEvent.cs" />
     <Compile Include="Events\SendCommandEvent.cs" />
     <Compile Include="Events\ShowConfigEvent.cs" />
     <Compile Include="Events\VariablesEvent.cs" />

@@ -6,7 +6,25 @@
              xmlns:local="clr-namespace:RokuTelnet.Views.Screenshot"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+    </UserControl.Resources>
     <Grid>
-        <Image Source="{Binding Image}"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Orientation="Horizontal">
+            <Button Content="Start" Command="{Binding StartCommand}"/>
+            <Button Content="Stop" Command="{Binding StopCommand}"/>
+        </StackPanel>
+        
+        <Image Grid.Row="1" Source="{Binding Image}"/>
     </Grid>
 </UserControl>

@@ -35,6 +35,8 @@ namespace RokuTelnet.Services.Screenshot
             {
                 _running = true;
 
+                _eventAggregator.GetEvent<ScreenshotRunningEvent>().Publish(true);
+
                 Task.Factory.StartNew(() => Run(ip), TaskCreationOptions.LongRunning);
             }
         }
@@ -79,6 +81,8 @@ namespace RokuTelnet.Services.Screenshot
                     Task.Delay(SLEEP_TIME).Wait();
                 }
             }
+
+            _eventAggregator.GetEvent<ScreenshotRunningEvent>().Publish(false);
         }
 
         private Image GetImage(string url, ConfigModel options)

@@ -47,6 +47,7 @@ namespace RokuTelnet.Controllers
         private volatile bool _connected;
         private string _ip;
         private volatile bool _debug;
+        private volatile bool _screenshotRunning;
         private IToolbarViewModel _toolbarViewModel;
 
         public AppController(
@@ -96,7 +97,7 @@ namespace RokuTelnet.Controllers
                 _ip = ip;
                 Task.Delay(1000).Wait();
                 _parserService.Start();
-                _screenshotService.Start(ip);
+                //_screenshotService.Start(ip);
                 Connect(ip, 8085).Wait();
 
                 var args = JsonConvert.SerializeObject(new { ip = ip });
@@ -125,8 +126,20 @@ namespace RokuTelnet.Controllers
             _eventAggregator.GetEvent<BusyShowEvent>().Subscribe(m => _screenshotService.Stop());
             _eventAggregator.GetEvent<BusyHideEvent>().Subscribe(obj =>
             {
-                if(_connected)
+                if(_screenshotRunning)
                     _screenshotService.Start(_ip);
+            });
+
+            _eventAggregator.GetEvent<ScreenshotStartEvent>().Subscribe(obj =>
+            {
+                _screenshotRunning = true;
+                _screenshotService.Start(_ip);
+            });
+
+            _eventAggregator.GetEvent<ScreenshotStopEvent>().Subscribe(obj =>
+            {
+                _screenshotRunning = false;
+                _screenshotService.Stop();
             });
 
             RegisterCommands();

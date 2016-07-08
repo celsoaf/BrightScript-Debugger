@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Prism.Commands;
 using Prism.Events;
 using RokuTelnet.Events;
 using PixelFormat = System.Windows.Media.PixelFormat;
@@ -12,6 +13,7 @@ namespace RokuTelnet.Views.Screenshot
     public class ScreenshotViewModel : Prism.Mvvm.BindableBase, IScreenshotViewModel
     {
         private ImageSource _image;
+        private bool _running;
 
         public ScreenshotViewModel(IScreenshotView view, IEventAggregator eventAggregator)
         {
@@ -22,6 +24,11 @@ namespace RokuTelnet.Views.Screenshot
             {
                 Image = CreateBitmapSourceFromGdiBitmap(img as Bitmap);
             }, ThreadOption.UIThread);
+
+            StartCommand = new DelegateCommand(() => eventAggregator.GetEvent<ScreenshotStartEvent>().Publish(null), () => !Running);
+            StopCommand = new DelegateCommand(() => eventAggregator.GetEvent<ScreenshotStopEvent>().Publish(null), () => Running);
+
+            eventAggregator.GetEvent<ScreenshotRunningEvent>().Subscribe(state => Running = state, ThreadOption.UIThread);
         }
 
         public IScreenshotView View { get; set; }
@@ -29,7 +36,22 @@ namespace RokuTelnet.Views.Screenshot
         public ImageSource Image
         {
             get { return _image; }
-            set { _image = value; OnPropertyChanged(()=> Image); }
+            set { _image = value; OnPropertyChanged(() => Image); }
+        }
+
+        public DelegateCommand StartCommand { get; set; }
+        public DelegateCommand StopCommand { get; set; }
+
+        public bool Running
+        {
+            get { return _running; }
+            set
+            {
+                _running = value;
+                OnPropertyChanged(() => Running);
+                StartCommand.RaiseCanExecuteChanged();
+                StopCommand.RaiseCanExecuteChanged();
+            }
         }
 
         public static BitmapSource CreateBitmapSourceFromGdiBitmap(Bitmap bitmap)

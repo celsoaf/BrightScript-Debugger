@@ -71,7 +71,7 @@
                 <Button Grid.Column="1" Margin="0" 
                         Command="{Binding ConfigCommand}"
 				        IsEnabled="{Binding Connected}"
-                        ToolTip="Select folder">
+                        ToolTip="Configurations">
                     <Image Source="../../Resources/config.png" Width="24" Height="24"/>
                 </Button>
 

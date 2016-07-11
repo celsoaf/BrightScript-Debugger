@@ -75,7 +75,8 @@ namespace RokuTelnet.Views.Output
                 View.SetFocus();
             });
 
-            _eventAggregator.GetEvent<DebugEvent>().Subscribe(enable => Enable = enable, ThreadOption.UIThread);
+            //_eventAggregator.GetEvent<DebugEvent>().Subscribe(enable => Enable = enable, ThreadOption.UIThread);
+            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Contains("Debugger>"), ThreadOption.UIThread);
         }
 
         public IOutputView View { get; set; }

@@ -89,7 +89,7 @@ namespace RokuTelnet.Views.Toolbar
                     _eventAggregator.GetEvent<CommandEvent>().Publish(cmd.ToString());
             });
 
-            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Contains("Debugger>"));
+            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Contains("Debugger>"), ThreadOption.UIThread);
 
             LoadLastIp();
             LoadLastFolder();

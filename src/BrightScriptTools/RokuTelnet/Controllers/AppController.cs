@@ -117,7 +117,7 @@ namespace RokuTelnet.Controllers
                 _remoteService.SendAsync(cmd);
             });
 
-            _eventAggregator.GetEvent<DebugEvent>().Subscribe(enabled => _debug = enabled);
+            //_eventAggregator.GetEvent<DebugEvent>().Subscribe(enabled => _debug = enabled);
 
             _eventAggregator.GetEvent<DeployEvent>().Subscribe(model => Deploy(model.Ip, model.Folder), ThreadOption.BackgroundThread);
 
@@ -240,6 +240,8 @@ namespace RokuTelnet.Controllers
 
                 _lasCommand = null;
             }
+
+            _debug = msg.Contains("Debugger>");
 
             _eventAggregator.GetEvent<LogEvent>().Publish(msg);
         }

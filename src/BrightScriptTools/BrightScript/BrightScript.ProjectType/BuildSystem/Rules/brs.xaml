@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+    
+ <!--
+TODO: Update the following files with the specified content
+    
+*ProjectItemsSchema.xaml*
+    
+    <ContentType
+	    Name="brsSourceFile" 
+	    DisplayName="brs source file" 
+	    ItemType="brsCompile">
+    </ContentType>
+    
+    <ItemType Name="brsCompile" DisplayName="brs source file"/>
+    
+    <FileExtension Name=".brs" ContentType="brsSourceFile" />
+
+*.targets*
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\brs.xaml;">
+      <Context>File;BrowseObject</Context>
+    </PropertyPageSchema>
+ -->
+<Rule
+	Name="brs"
+	DisplayName="brs"
+	PageTemplate="tool"
+	Description="brs build items"
+	xmlns="http://schemas.microsoft.com/build/2009/properties">
+    <Rule.DataSource>
+        <DataSource Persistence="ProjectFile" HasConfigurationCondition="True" ItemType="brsCompile" />
+    </Rule.DataSource>
+
+    <StringProperty Name="MyProperty" DisplayName="My Property" Visible="True" Description="Sample property"/>
+
+    <StringProperty Name="Identity" DisplayName="File Name" ReadOnly="true" Category="Misc">
+        <StringProperty.DataSource>
+            <DataSource Persistence="Intrinsic" ItemType="brsCompile" PersistedName="Identity" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="FullPath" DisplayName="Full Path" ReadOnly="true" Category="Misc">
+        <StringProperty.DataSource>
+            <DataSource Persistence="Intrinsic" ItemType="brsCompile" PersistedName="FullPath" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <BoolProperty Name="Visible" Visible="False" />
+    <StringProperty Name="DependentUpon" Visible="false" />
+    <StringProperty Name="Link" Visible="false" />
+</Rule>

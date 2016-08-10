@@ -246,6 +246,10 @@
     </XamlPropertyRule>
   </ItemGroup>
   <ItemGroup>
+    <XamlPropertyRule Include="BuildSystem\Rules\brs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlPropertyRule>
     <Page Include="BuildSystem\Rules\general.browseobject.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

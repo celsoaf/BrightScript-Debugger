@@ -14,5 +14,9 @@
     <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\csharp.browseobject.xaml;">
       <Context>BrowseObject</Context>
     </PropertyPageSchema>
+
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\brs.xaml;">
+      <Context>File;BrowseObject</Context>
+    </PropertyPageSchema>
   </ItemGroup>
 </Project>

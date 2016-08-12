@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tools", "Tools", "{4B7C9AC6-96B9-4CA9-B3D5-D29D980748B0}"
 EndProject
@@ -20,6 +20,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RokuTelnet", "RokuTelnet\RokuTelnet.csproj", "{68BBAF22-1E42-420D-A569-CDA9487901D2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScriptDebug.Compiler", "BrightScriptDebug.Compiler\BrightScriptDebug.Compiler.csproj", "{53E771E5-FDE0-43CE-AC69-6D1A1B62D835}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VisualStudio", "VisualStudio", "{56C55D84-E0CE-4BD7-ABB6-0CAE37FE3B03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScript.ProjectTemplate", "BrightScript\BrightScript.ProjectTemplate\BrightScript.ProjectTemplate.csproj", "{883B80E1-4DDE-40BD-AA9F-22CBEABA4ED9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScript.ProjectType", "BrightScript\BrightScript.ProjectType\BrightScript.ProjectType.csproj", "{63FA05F6-832E-455D-972B-5ABBBC7F5DDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScript.ItemTemplate", "BrightScript.ItemTemplate\BrightScript.ItemTemplate.csproj", "{E28E27C2-E49F-47E3-8FBF-00CB9C2F6107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +63,18 @@ Global
 		{53E771E5-FDE0-43CE-AC69-6D1A1B62D835}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53E771E5-FDE0-43CE-AC69-6D1A1B62D835}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53E771E5-FDE0-43CE-AC69-6D1A1B62D835}.Release|Any CPU.Build.0 = Release|Any CPU
+		{883B80E1-4DDE-40BD-AA9F-22CBEABA4ED9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{883B80E1-4DDE-40BD-AA9F-22CBEABA4ED9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{883B80E1-4DDE-40BD-AA9F-22CBEABA4ED9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{883B80E1-4DDE-40BD-AA9F-22CBEABA4ED9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{63FA05F6-832E-455D-972B-5ABBBC7F5DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63FA05F6-832E-455D-972B-5ABBBC7F5DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63FA05F6-832E-455D-972B-5ABBBC7F5DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63FA05F6-832E-455D-972B-5ABBBC7F5DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E28E27C2-E49F-47E3-8FBF-00CB9C2F6107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E28E27C2-E49F-47E3-8FBF-00CB9C2F6107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E28E27C2-E49F-47E3-8FBF-00CB9C2F6107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E28E27C2-E49F-47E3-8FBF-00CB9C2F6107}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -65,5 +85,8 @@ Global
 		{F9E856DE-8322-4556-8C5D-D9ED9DBBE894} = {21C516E6-8CBC-4E58-9ED3-88DD41817303}
 		{8E6C1395-5ABD-416A-9721-28AA5CC45263} = {21C516E6-8CBC-4E58-9ED3-88DD41817303}
 		{53E771E5-FDE0-43CE-AC69-6D1A1B62D835} = {21C516E6-8CBC-4E58-9ED3-88DD41817303}
+		{883B80E1-4DDE-40BD-AA9F-22CBEABA4ED9} = {56C55D84-E0CE-4BD7-ABB6-0CAE37FE3B03}
+		{63FA05F6-832E-455D-972B-5ABBBC7F5DDE} = {56C55D84-E0CE-4BD7-ABB6-0CAE37FE3B03}
+		{E28E27C2-E49F-47E3-8FBF-00CB9C2F6107} = {56C55D84-E0CE-4BD7-ABB6-0CAE37FE3B03}
 	EndGlobalSection
 EndGlobal

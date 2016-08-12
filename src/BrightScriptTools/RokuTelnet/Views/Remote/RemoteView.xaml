@@ -118,6 +118,7 @@
                 <KeyBinding Key="Right" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Right}"/>
 
                 <KeyBinding Key="Enter" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Select}"/>
+                <KeyBinding Key="Back" Modifiers="Control" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Back}"/>
             </TextBox.InputBindings>
         </TextBox>
     </Grid>

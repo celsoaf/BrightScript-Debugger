@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.ObjectBuilder2;
+﻿using System.Threading.Tasks;
+using Microsoft.Practices.ObjectBuilder2;
 using Prism.Commands;
 using Prism.Events;
 using RokuTelnet.Enums;
@@ -67,7 +68,15 @@ namespace RokuTelnet.Views.Remote
         
         private void ProcessInput(string value)
         {
-            value.ForEach(c => _eventAggregator.GetEvent<SendCommandEvent>().Publish(new EventModel(EventType.KeyPress, EventKey.Lit_, c.ToString())));
+            Task.Factory.StartNew(() =>
+            {
+                value.ForEach(c =>
+                {
+                    _eventAggregator.GetEvent<SendCommandEvent>()
+                        .Publish(new EventModel(EventType.KeyPress, EventKey.Lit_, c.ToString()));
+                    Task.Delay(100).Wait();
+                });
+            });
         }
     }
 }

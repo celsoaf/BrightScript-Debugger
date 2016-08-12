@@ -94,6 +94,11 @@
             </Grid>
         </ToolBar>
         <ToolBar IsEnabled="{Binding Enable}">
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.exit}"
+                    ToolTip="Exit shell - F4">
+                <Image Source="../../Resources/exit.png" Height="24" Width="24"/>
+            </Button>
+            
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.c}"
                     ToolTip="Continue Script Execution - F5">
                 <Image Source="../../Resources/Continue.png" Height="24" Width="24"/>
@@ -101,7 +106,17 @@
 
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.s}"
                     ToolTip="Step one program statement - F11">
-                <Image Source="../../Resources/step.png" Height="24" Width="24"/>
+                <Image Source="../../Resources/stepin.png" Height="24" Width="24"/>
+            </Button>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.over}"
+                    ToolTip="Step over function - F10">
+                <Image Source="../../Resources/stepover.png" Height="24" Width="24"/>
+            </Button>
+
+            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.out}"
+                    ToolTip="Step out of a function - Shift + F11">
+                <Image Source="../../Resources/stepout.png" Height="24" Width="24"/>
             </Button>
 
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.d}"
@@ -115,10 +130,7 @@
             </Button>
 
 
-            <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.exit}"
-                    ToolTip="Exit shell - F4">
-                <Image Source="../../Resources/stop.png" Height="24" Width="24"/>
-            </Button>
+            
         </ToolBar>
         <ToolBar IsEnabled="{Binding Enable}">
             <Button Command="{Binding Command}" CommandParameter="{x:Static enums:DebuggerCommandEnum.bt}"

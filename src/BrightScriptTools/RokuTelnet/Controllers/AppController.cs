@@ -182,14 +182,16 @@ namespace RokuTelnet.Controllers
         {
             App.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
-                RegisterDebuggerCommand(GlobalCommands.DebuggerStep, DebuggerCommandEnum.s);
+                RegisterDebuggerCommand(GlobalCommands.DebuggerStepIn, DebuggerCommandEnum.s);
+                RegisterDebuggerCommand(GlobalCommands.DebuggerStepOver, DebuggerCommandEnum.over);
+                RegisterDebuggerCommand(GlobalCommands.DebuggerStepOut, DebuggerCommandEnum.@out);
                 RegisterDebuggerCommand(GlobalCommands.DebuggerContinue, DebuggerCommandEnum.c);
 
                 RegisterDebuggerCommand(GlobalCommands.DebuggerStop, DebuggerCommandEnum.exit);
                 RegisterDebuggerCommand(GlobalCommands.DebuggerDown, DebuggerCommandEnum.d);
                 RegisterDebuggerCommand(GlobalCommands.DebuggerUp, DebuggerCommandEnum.u);
                 RegisterDebuggerCommand(GlobalCommands.DebuggerBacktrace, DebuggerCommandEnum.bt);
-                RegisterDebuggerCommand(GlobalCommands.DebuggerVariables, DebuggerCommandEnum.var);
+                //RegisterDebuggerCommand(GlobalCommands.DebuggerVariables, DebuggerCommandEnum.var);
                 RegisterDebuggerCommand(GlobalCommands.DebuggerFunction, DebuggerCommandEnum.list);
 
                 App.Current.MainWindow.CommandBindings.Add(new CommandBinding(GlobalCommands.Deploy, (s, e) =>

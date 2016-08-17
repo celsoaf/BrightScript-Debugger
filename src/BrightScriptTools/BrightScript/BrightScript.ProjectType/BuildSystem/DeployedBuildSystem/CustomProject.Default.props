@@ -30,5 +30,8 @@
   <PropertyGroup Condition="'$(Configuration)'=='Release'" Label="Configuration">
     <Optimize>true</Optimize>
   </PropertyGroup>
+  <PropertyGroup>
+    <DebuggerFlavor>BrightScriptDebugger</DebuggerFlavor>
+  </PropertyGroup>
 
 </Project>

@@ -206,9 +206,9 @@ namespace RokuTelnet.Services.Deploy
                     using (var sr = new StreamReader(manifest))
                         content = sr.ReadToEnd();
 
-                    content = content.Replace("#MAJOR_VERSION#", parts[0]);
-                    content = content.Replace("#MINOR_VERSION#", parts[1]);
-                    content = content.Replace("#FIX_VERSION#", parts[2]);
+                    content = content.Replace("#MAJOR_VERSION#", parts.Length > 0 ? parts[0] : "0");
+                    content = content.Replace("#MINOR_VERSION#", parts.Length > 1 ? parts[1] : "0");
+                    content = content.Replace("#FIX_VERSION#", parts.Length > 2 ? parts[2] : "0");
 
                     using (var sw = new StreamWriter(manifest))
                         sw.Write(content);

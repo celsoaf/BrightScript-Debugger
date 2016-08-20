@@ -48,6 +48,12 @@
         //     Step one program statement
         s,
         // Summary:
+        //     Step over function
+        over,
+        // Summary:
+        //     Step out of a function
+        @out,
+        // Summary:
         //     Move up the function context chain one
         u,
         // Summary:

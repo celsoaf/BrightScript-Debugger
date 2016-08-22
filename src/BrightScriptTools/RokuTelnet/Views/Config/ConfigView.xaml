@@ -108,6 +108,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Key" Binding="{Binding Key}" />
                     <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+                    <DataGridCheckBoxColumn Header="Enable" Binding="{Binding Enable}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

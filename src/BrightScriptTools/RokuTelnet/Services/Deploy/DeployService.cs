@@ -227,6 +227,7 @@ namespace RokuTelnet.Services.Deploy
         private Dictionary<string, string> GetReplaces(ConfigModel options)
         {
             var replaces = options.Replaces
+                    .Where(c=> c.Enable)
                     .ToDictionary(item => item.Key, item => item.Value);
 
             var elements = options.ExtraConfigs.ToList();

@@ -175,6 +175,7 @@
     <Compile Include="Models\BusyModel.cs" />
     <Compile Include="Models\ConfigKeyValueModel.cs" />
     <Compile Include="Models\ConfigModel.cs" />
+    <Compile Include="Models\ConfigReplaceModel.cs" />
     <Compile Include="Models\ConfigValueModel.cs" />
     <Compile Include="Models\DeployModel.cs" />
     <Compile Include="Models\EventModel.cs" />

@@ -13,7 +13,7 @@ namespace RokuTelnet.Models
         private List<ConfigValueModel> _includes = new List<ConfigValueModel>();
         private List<ConfigValueModel> _excludes = new List<ConfigValueModel>();
         private List<ConfigKeyValueModel> _extraConfigs = new List<ConfigKeyValueModel>();
-        private List<ConfigKeyValueModel> _replaces = new List<ConfigKeyValueModel>();
+        private List<ConfigReplaceModel> _replaces = new List<ConfigReplaceModel>();
 
         public string User
         {
@@ -69,7 +69,7 @@ namespace RokuTelnet.Models
             set { _extraConfigs = value; OnPropertyChanged(()=> ExtraConfigs); }
         }
 
-        public List<ConfigKeyValueModel> Replaces
+        public List<ConfigReplaceModel> Replaces
         {
             get { return _replaces; }
             set { _replaces = value; OnPropertyChanged(()=> Replaces); }

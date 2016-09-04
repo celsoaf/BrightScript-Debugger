@@ -103,7 +103,7 @@ namespace BrightScript.Language.Classification
         public BsCmnt()
         {
             DisplayName = "ook."; //human readable version of the name
-            ForegroundColor = Colors.Gray;
+            ForegroundColor = Colors.DarkGray;
         }
     }
 
@@ -147,7 +147,7 @@ namespace BrightScript.Language.Classification
         public BsTyps()
         {
             DisplayName = "ook."; //human readable version of the name
-            ForegroundColor = Colors.DeepSkyBlue;
+            ForegroundColor = Colors.Black;
         }
     }
 
@@ -213,7 +213,7 @@ namespace BrightScript.Language.Classification
         public BsNumber()
         {
             DisplayName = "ook."; //human readable version of the name
-            ForegroundColor = Colors.White;
+            ForegroundColor = Colors.Black;
         }
     }
 
@@ -257,7 +257,7 @@ namespace BrightScript.Language.Classification
         public BsOpr()
         {
             DisplayName = "ook."; //human readable version of the name
-            ForegroundColor = Colors.WhiteSmoke;
+            ForegroundColor = Colors.Black;
         }
     }
     #endregion //Format definition

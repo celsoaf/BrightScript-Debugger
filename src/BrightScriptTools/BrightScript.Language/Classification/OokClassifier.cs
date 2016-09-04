@@ -32,7 +32,7 @@ namespace OokLanguage
         internal static ContentTypeDefinition OokContentType = null;
 
         [Export]
-        [FileExtension(".ook")]
+        [FileExtension(".brs")]
         [ContentType("ook!")]
         internal static FileExtensionToContentTypeDefinition OokFileType = null;
 

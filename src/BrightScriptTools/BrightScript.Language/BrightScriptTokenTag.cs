@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using BrightScriptTools.Compiler;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
@@ -44,15 +45,25 @@ namespace BrightScript.Language
     {
 
         ITextBuffer _buffer;
-        IDictionary<string, BrightScriptTokenTypes> _bsTypes;
+        IDictionary<int, BrightScriptTokenTypes> _bsTypes;
+        private ScannerColor _scanner;
+
 
         internal BrightScriptTokenTagger(ITextBuffer buffer)
         {
             _buffer = buffer;
-            _bsTypes = new Dictionary<string, BrightScriptTokenTypes>();
-            _bsTypes["ook!"] = BrightScriptTokenTypes.OokExclamation;
-            _bsTypes["ook."] = BrightScriptTokenTypes.OokPeriod;
-            _bsTypes["ook?"] = BrightScriptTokenTypes.OokQuestion;
+            _scanner = new ScannerColor();
+
+            _bsTypes = new Dictionary<int, BrightScriptTokenTypes>();
+
+            _bsTypes[(int)TokensColor.cmnt] = BrightScriptTokenTypes.Cmnt;
+            _bsTypes[(int)TokensColor.funcs] = BrightScriptTokenTypes.Funcs;
+            _bsTypes[(int)TokensColor.ident] = BrightScriptTokenTypes.Ident;
+            _bsTypes[(int)TokensColor.number] = BrightScriptTokenTypes.Number;
+            _bsTypes[(int)TokensColor.str] = BrightScriptTokenTypes.Str;
+            _bsTypes[(int)TokensColor.opr] = BrightScriptTokenTypes.Opr;
+            _bsTypes[(int)TokensColor.keyword] = BrightScriptTokenTypes.Keyword;
+            _bsTypes[(int)TokensColor.type] = BrightScriptTokenTypes.Typs;
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged
@@ -68,19 +79,24 @@ namespace BrightScript.Language
             {
                 ITextSnapshotLine containingLine = curSpan.Start.GetContainingLine();
                 int curLoc = containingLine.Start.Position;
-                string[] tokens = containingLine.GetText().ToLower().Split(' ');
+                var line = containingLine.GetText();
 
-                foreach (string bsToken in tokens)
+                _scanner.SetSource(line, 0);
+
+                int token;
+
+                while ((token = _scanner.yylex()) != (int)TokensColor.EOF)
                 {
-                    if (_bsTypes.ContainsKey(bsToken))
+                    var bsToken = _scanner.yytext;
+                      
+                    if (_bsTypes.ContainsKey(token))
                     {
-                        var tokenSpan = new SnapshotSpan(curSpan.Snapshot, new Span(curLoc, bsToken.Length));
-                        if( tokenSpan.IntersectsWith(curSpan) ) 
-                            yield return new TagSpan<BrightScriptTokenTag>(tokenSpan, 
-                                                                  new BrightScriptTokenTag(_bsTypes[bsToken]));
+                        var tokenSpan = new SnapshotSpan(curSpan.Snapshot, new Span(_scanner.GetPos(), _scanner.yyleng));
+                        if (tokenSpan.IntersectsWith(curSpan))
+                            yield return new TagSpan<BrightScriptTokenTag>(tokenSpan, new BrightScriptTokenTag(_bsTypes[token]));
+
                     }
 
-                    //add an extra char location because of the space
                     curLoc += bsToken.Length + 1;
                 }
             }

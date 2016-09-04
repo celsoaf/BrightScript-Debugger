@@ -70,6 +70,15 @@ namespace BrightScript.Language.Classification
             _bsTypes[BrightScriptTokenTypes.OokExclamation] = typeService.GetClassificationType("ook!");
             _bsTypes[BrightScriptTokenTypes.OokPeriod] = typeService.GetClassificationType("ook.");
             _bsTypes[BrightScriptTokenTypes.OokQuestion] = typeService.GetClassificationType("ook?");
+
+            _bsTypes[BrightScriptTokenTypes.Opr] = typeService.GetClassificationType("Opr");
+            _bsTypes[BrightScriptTokenTypes.Funcs] = typeService.GetClassificationType("Funcs");
+            _bsTypes[BrightScriptTokenTypes.Ident] = typeService.GetClassificationType("Ident");
+            _bsTypes[BrightScriptTokenTypes.Keyword] = typeService.GetClassificationType("Keyword");
+            _bsTypes[BrightScriptTokenTypes.Number] = typeService.GetClassificationType("Number");
+            _bsTypes[BrightScriptTokenTypes.Str] = typeService.GetClassificationType("Str");
+            _bsTypes[BrightScriptTokenTypes.Typs] = typeService.GetClassificationType("Typs");
+            _bsTypes[BrightScriptTokenTypes.Cmnt] = typeService.GetClassificationType("Cmnt");
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged

@@ -12,6 +12,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Diagnostics;
+using System.Linq;
 using BrightScriptTools.Compiler;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
@@ -46,14 +48,11 @@ namespace BrightScript.Language
 
         ITextBuffer _buffer;
         IDictionary<int, BrightScriptTokenTypes> _bsTypes;
-        private ScannerColor _scanner;
-
 
         internal BrightScriptTokenTagger(ITextBuffer buffer)
         {
             _buffer = buffer;
-            _scanner = new ScannerColor();
-
+            
             _bsTypes = new Dictionary<int, BrightScriptTokenTypes>();
 
             _bsTypes[(int)TokensColor.cmnt] = BrightScriptTokenTypes.Cmnt;
@@ -74,30 +73,26 @@ namespace BrightScript.Language
 
         public IEnumerable<ITagSpan<BrightScriptTokenTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
-
             foreach (SnapshotSpan curSpan in spans)
             {
                 ITextSnapshotLine containingLine = curSpan.Start.GetContainingLine();
-                int curLoc = containingLine.Start.Position;
                 var line = containingLine.GetText();
 
-                _scanner.SetSource(line, 0);
+                var scanner = new ScannerColor();
+                scanner.SetSource(line, 0);
 
                 int token;
 
-                while ((token = _scanner.yylex()) != (int)TokensColor.EOF)
+                while ((token = scanner.yylex()) != (int)TokensColor.EOF)
                 {
-                    var bsToken = _scanner.yytext;
-                      
                     if (_bsTypes.ContainsKey(token))
                     {
-                        var tokenSpan = new SnapshotSpan(curSpan.Snapshot, new Span(_scanner.GetPos(), _scanner.yyleng));
+                        var tokenSpan = new SnapshotSpan(curSpan.Snapshot, new Span(scanner.GetPos(), scanner.yyleng));
+                        Debug.WriteLine("{0} - pos:{1} len:{2}", scanner.yytext, scanner.GetPos(), scanner.yyleng);
                         if (tokenSpan.IntersectsWith(curSpan))
                             yield return new TagSpan<BrightScriptTokenTag>(tokenSpan, new BrightScriptTokenTag(_bsTypes[token]));
 
                     }
-
-                    curLoc += bsToken.Length + 1;
                 }
             }
             

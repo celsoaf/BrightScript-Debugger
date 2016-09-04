@@ -124,8 +124,18 @@ namespace RokuTelnet.Views.Cygwin
 
         private void ChangeDirectory()
         {
-            var dir = GetLastFolder().Substring(2).Replace("\\", "/");
-            _process.StandardInput.WriteLine("cd /cygdrive/c{0}", dir);
+            var dir = GetLastFolder();
+
+            if (dir != null)
+            {
+                dir = dir.Substring(2).Replace("\\", "/");
+
+                _process.StandardInput.WriteLine("cd /cygdrive/c{0}", dir);
+            }
+            else
+            {
+                _process.StandardInput.WriteLine("cd /cygdrive/c");
+            }
         }
 
         private void _processDataReceived(object sender, DataReceivedEventArgs e)

@@ -9,23 +9,20 @@
 //
 //***************************************************************************
 
-using BrightScript.Language;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Classification;
+using Microsoft.VisualStudio.Text.Tagging;
+using Microsoft.VisualStudio.Utilities;
 
-namespace OokLanguage
+namespace BrightScript.Language.Classification
 {
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using Microsoft.VisualStudio.Text;
-    using Microsoft.VisualStudio.Text.Classification;
-    using Microsoft.VisualStudio.Text.Editor;
-    using Microsoft.VisualStudio.Text.Tagging;
-    using Microsoft.VisualStudio.Utilities;
-
     [Export(typeof(ITaggerProvider))]
     [ContentType(BrightScriptConstants.ContentType)]
     [TagType(typeof(ClassificationTag))]
-    internal sealed class OokClassifierProvider : ITaggerProvider
+    internal sealed class BrightScriptClassifierProvider : ITaggerProvider
     {
 
         [Export]
@@ -50,11 +47,11 @@ namespace OokLanguage
             ITagAggregator<BrightScriptTokenTag> bsTagAggregator = 
                                             aggregatorFactory.CreateTagAggregator<BrightScriptTokenTag>(buffer);
 
-            return new OokClassifier(buffer, bsTagAggregator, ClassificationTypeRegistry) as ITagger<T>;
+            return new BrightScriptClassifier(buffer, bsTagAggregator, ClassificationTypeRegistry) as ITagger<T>;
         }
     }
 
-    internal sealed class OokClassifier : ITagger<ClassificationTag>
+    internal sealed class BrightScriptClassifier : ITagger<ClassificationTag>
     {
         ITextBuffer _buffer;
         ITagAggregator<BrightScriptTokenTag> _aggregator;
@@ -63,7 +60,7 @@ namespace OokLanguage
         /// <summary>
         /// Construct the classifier and define search tokens
         /// </summary>
-        internal OokClassifier(ITextBuffer buffer, 
+        internal BrightScriptClassifier(ITextBuffer buffer, 
                                ITagAggregator<BrightScriptTokenTag> bsTagAggregator, 
                                IClassificationTypeRegistryService typeService)
         {

@@ -13,7 +13,7 @@ using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 
-namespace OokLanguage
+namespace BrightScript.Language.Classification
 {
     internal static class OrdinaryClassificationDefinition
     {

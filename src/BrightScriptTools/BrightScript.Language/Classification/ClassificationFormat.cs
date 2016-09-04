@@ -14,7 +14,7 @@ using System.Windows.Media;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
 
-namespace OokLanguage
+namespace BrightScript.Language.Classification
 {
     #region Format definition
     /// <summary>

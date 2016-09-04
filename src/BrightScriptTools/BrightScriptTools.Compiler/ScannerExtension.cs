@@ -11,4 +11,12 @@ namespace BrightScriptTools.Compiler
             Console.WriteLine("Line {0} - Col {1} - {2}", tokLin, tokCol, format);
         }
     }
+
+    public partial class ScannerColor
+    {
+        public int GetPos()
+        {
+            return yypos;
+        }
+    }
 }

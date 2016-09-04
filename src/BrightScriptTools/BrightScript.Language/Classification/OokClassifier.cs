@@ -32,7 +32,7 @@ namespace OokLanguage
         internal static ContentTypeDefinition OokContentType = null;
 
         [Export]
-        [FileExtension(".brs")]
+        [FileExtension(BrightScriptConstants.FileExtention)]
         [ContentType(BrightScriptConstants.ContentType)]
         internal static FileExtensionToContentTypeDefinition OokFileType = null;
 
@@ -56,7 +56,7 @@ namespace OokLanguage
     {
         ITextBuffer _buffer;
         ITagAggregator<OokTokenTag> _aggregator;
-        IDictionary<OokTokenTypes, IClassificationType> _ookTypes;
+        IDictionary<BrightScriptTokenTypes, IClassificationType> _bsTypes;
 
         /// <summary>
         /// Construct the classifier and define search tokens
@@ -67,10 +67,10 @@ namespace OokLanguage
         {
             _buffer = buffer;
             _aggregator = ookTagAggregator;
-            _ookTypes = new Dictionary<OokTokenTypes, IClassificationType>();
-            _ookTypes[OokTokenTypes.OokExclamation] = typeService.GetClassificationType("ook!");
-            _ookTypes[OokTokenTypes.OokPeriod] = typeService.GetClassificationType("ook.");
-            _ookTypes[OokTokenTypes.OokQuestion] = typeService.GetClassificationType("ook?");
+            _bsTypes = new Dictionary<BrightScriptTokenTypes, IClassificationType>();
+            _bsTypes[BrightScriptTokenTypes.OokExclamation] = typeService.GetClassificationType("ook!");
+            _bsTypes[BrightScriptTokenTypes.OokPeriod] = typeService.GetClassificationType("ook.");
+            _bsTypes[BrightScriptTokenTypes.OokQuestion] = typeService.GetClassificationType("ook?");
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged
@@ -89,7 +89,7 @@ namespace OokLanguage
                 var tagSpans = tagSpan.Span.GetSpans(spans[0].Snapshot);
                 yield return 
                     new TagSpan<ClassificationTag>(tagSpans[0], 
-                                                   new ClassificationTag(_ookTypes[tagSpan.Tag.type]));
+                                                   new ClassificationTag(_bsTypes[tagSpan.Tag.type]));
             }
         }
     }

@@ -34,9 +34,9 @@ namespace OokLanguage
 
     public class OokTokenTag : ITag 
     {
-        public OokTokenTypes type { get; private set; }
+        public BrightScriptTokenTypes type { get; private set; }
 
-        public OokTokenTag(OokTokenTypes type)
+        public OokTokenTag(BrightScriptTokenTypes type)
         {
             this.type = type;
         }
@@ -46,15 +46,15 @@ namespace OokLanguage
     {
 
         ITextBuffer _buffer;
-        IDictionary<string, OokTokenTypes> _ookTypes;
+        IDictionary<string, BrightScriptTokenTypes> _bsTypes;
 
         internal OokTokenTagger(ITextBuffer buffer)
         {
             _buffer = buffer;
-            _ookTypes = new Dictionary<string, OokTokenTypes>();
-            _ookTypes["ook!"] = OokTokenTypes.OokExclamation;
-            _ookTypes["ook."] = OokTokenTypes.OokPeriod;
-            _ookTypes["ook?"] = OokTokenTypes.OokQuestion;
+            _bsTypes = new Dictionary<string, BrightScriptTokenTypes>();
+            _bsTypes["ook!"] = BrightScriptTokenTypes.OokExclamation;
+            _bsTypes["ook."] = BrightScriptTokenTypes.OokPeriod;
+            _bsTypes["ook?"] = BrightScriptTokenTypes.OokQuestion;
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged
@@ -74,12 +74,12 @@ namespace OokLanguage
 
                 foreach (string ookToken in tokens)
                 {
-                    if (_ookTypes.ContainsKey(ookToken))
+                    if (_bsTypes.ContainsKey(ookToken))
                     {
                         var tokenSpan = new SnapshotSpan(curSpan.Snapshot, new Span(curLoc, ookToken.Length));
                         if( tokenSpan.IntersectsWith(curSpan) ) 
                             yield return new TagSpan<OokTokenTag>(tokenSpan, 
-                                                                  new OokTokenTag(_ookTypes[ookToken]));
+                                                                  new OokTokenTag(_bsTypes[ookToken]));
                     }
 
                     //add an extra char location because of the space

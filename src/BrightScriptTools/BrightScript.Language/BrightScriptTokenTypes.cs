@@ -16,8 +16,10 @@ using System.Text;
 
 namespace OokLanguage
 {
-    public enum OokTokenTypes
+    public enum BrightScriptTokenTypes
     {
-       OokExclamation, OokQuestion, OokPeriod
+       OokExclamation,
+       OokQuestion,
+       OokPeriod
     }
 }

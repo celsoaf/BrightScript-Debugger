@@ -73,19 +73,19 @@ namespace OokLanguage
 
             foreach (IMappingTagSpan<OokTokenTag> curTag in _aggregator.GetTags(new SnapshotSpan(triggerPoint, triggerPoint)))
             {
-                if (curTag.Tag.type == OokTokenTypes.OokExclamation)
+                if (curTag.Tag.type == BrightScriptTokenTypes.OokExclamation)
                 {
                     var tagSpan = curTag.Span.GetSpans(_buffer).First();
                     applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);
                     quickInfoContent.Add("Exclaimed Ook!");
                 }
-                else if (curTag.Tag.type == OokTokenTypes.OokQuestion)
+                else if (curTag.Tag.type == BrightScriptTokenTypes.OokQuestion)
                 {
                     var tagSpan = curTag.Span.GetSpans(_buffer).First();
                     applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);
                     quickInfoContent.Add("Question Ook?");
                 }
-                else if (curTag.Tag.type == OokTokenTypes.OokPeriod)
+                else if (curTag.Tag.type == BrightScriptTokenTypes.OokPeriod)
                 {
                     var tagSpan = curTag.Span.GetSpans(_buffer).First();
                     applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);

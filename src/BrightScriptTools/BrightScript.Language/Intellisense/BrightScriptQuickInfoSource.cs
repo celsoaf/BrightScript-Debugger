@@ -11,25 +11,22 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
-using System.Text;
 using Microsoft.VisualStudio.Language.Intellisense;
-using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
-using System.ComponentModel.Composition;
-using BrightScript.Language;
 using Microsoft.VisualStudio.Utilities;
 
-namespace OokLanguage
+namespace BrightScript.Language.Intellisense
 {
     /// <summary>
     /// Factory for quick info sources
     /// </summary>
     [Export(typeof(IQuickInfoSourceProvider))]
     [ContentType(BrightScriptConstants.ContentType)]
-    [Name("ookQuickInfo")]
-    class OokQuickInfoSourceProvider : IQuickInfoSourceProvider
+    [Name("brightScriptQuickInfo")]
+    class BrightScriptQuickInfoSourceProvider : IQuickInfoSourceProvider
     {
 
         [Import]
@@ -37,21 +34,21 @@ namespace OokLanguage
 
         public IQuickInfoSource TryCreateQuickInfoSource(ITextBuffer textBuffer)
         {
-            return new OokQuickInfoSource(textBuffer, aggService.CreateTagAggregator<BrightScriptTokenTag>(textBuffer));
+            return new BrightScriptQuickInfoSource(textBuffer, aggService.CreateTagAggregator<BrightScriptTokenTag>(textBuffer));
         }
     }
 
     /// <summary>
     /// Provides QuickInfo information to be displayed in a text buffer
     /// </summary>
-    class OokQuickInfoSource : IQuickInfoSource
+    class BrightScriptQuickInfoSource : IQuickInfoSource
     {
         private ITagAggregator<BrightScriptTokenTag> _aggregator;
         private ITextBuffer _buffer;
         private bool _disposed = false;
 
 
-        public OokQuickInfoSource(ITextBuffer buffer, ITagAggregator<BrightScriptTokenTag> aggregator)
+        public BrightScriptQuickInfoSource(ITextBuffer buffer, ITagAggregator<BrightScriptTokenTag> aggregator)
         {
             _aggregator = aggregator;
             _buffer = buffer;

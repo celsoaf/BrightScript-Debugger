@@ -11,21 +11,17 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.VisualStudio.Language.Intellisense;
-using System.Collections.ObjectModel;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Tagging;
 using System.ComponentModel.Composition;
-using BrightScript.Language;
+using System.Linq;
+using Microsoft.VisualStudio.Language.Intellisense;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Utilities;
 
-namespace OokLanguage
+namespace BrightScript.Language.Intellisense
 {
     [Export(typeof(ICompletionSourceProvider))]
     [ContentType(BrightScriptConstants.ContentType)]
-    [Name("ookCompletion")]
+    [Name("brightScriptCompletion")]
     class OokCompletionSourceProvider : ICompletionSourceProvider
     {
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
@@ -47,7 +43,7 @@ namespace OokLanguage
         public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
         {
             if (_disposed)
-                throw new ObjectDisposedException("OokCompletionSource");
+                throw new ObjectDisposedException("BrightScriptCompletionSource");
 
             List<Completion> completions = new List<Completion>()
             {

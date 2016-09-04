@@ -1,6 +1,7 @@
 ﻿{
   "frameworks": {
-    "net45": { }
+    "net45": {},
+    "net461": {} 
   },
   "dependencies": {
     "Microsoft.VisualStudio.Editor": "14.0.23205",

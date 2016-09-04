@@ -1,10 +1,9 @@
 {
   "locked": false,
-  "version": 2,
+  "version": 1,
   "targets": {
     ".NETFramework,Version=v4.5": {
       "Microsoft.VisualStudio.CoreUtility/14.0.23205": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.CoreUtility.dll": {}
         },
@@ -13,7 +12,6 @@
         }
       },
       "Microsoft.VisualStudio.Editor/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
@@ -32,7 +30,6 @@
         }
       },
       "Microsoft.VisualStudio.Imaging/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Utilities": "14.0.23205"
         },
@@ -44,7 +41,6 @@
         }
       },
       "Microsoft.VisualStudio.Language.Intellisense/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205",
@@ -58,7 +54,6 @@
         }
       },
       "Microsoft.VisualStudio.OLE.Interop/7.10.6070": {
-        "type": "package",
         "compile": {
           "lib/Microsoft.VisualStudio.OLE.Interop.dll": {}
         },
@@ -66,11 +61,8 @@
           "lib/Microsoft.VisualStudio.OLE.Interop.dll": {}
         }
       },
-      "Microsoft.VisualStudio.SDK.EmbedInteropTypes/14.1.2": {
-        "type": "package"
-      },
+      "Microsoft.VisualStudio.SDK.EmbedInteropTypes/14.1.2": {},
       "Microsoft.VisualStudio.Shell.14.0/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Imaging": "14.0.23205",
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
@@ -93,7 +85,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.10.0/10.0.30319": {
-        "type": "package",
         "compile": {
           "lib/net40/Microsoft.VisualStudio.Shell.Immutable.10.0.dll": {}
         },
@@ -102,7 +93,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.11.0/11.0.50727": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071"
@@ -115,7 +105,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.12.0/12.0.21003": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Shell.Immutable.12.0.dll": {}
         },
@@ -124,7 +113,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.14.0/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Shell.Immutable.11.0": "11.0.50727"
         },
@@ -136,7 +124,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop/7.10.6071": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.TextManager.Interop": "7.10.6070"
@@ -149,7 +136,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.10.0/10.0.30319": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071"
@@ -162,7 +148,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.11.0/11.0.61030": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -177,7 +162,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.12.0/12.0.30110": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -193,7 +177,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.8.0/8.0.50727": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -208,7 +191,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.9.0/9.0.30729": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -223,7 +205,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.Data/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205"
         },
@@ -235,7 +216,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.Logic/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205"
@@ -248,7 +228,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.UI/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205",
@@ -262,7 +241,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.UI.Wpf/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205",
@@ -277,7 +255,6 @@
         }
       },
       "Microsoft.VisualStudio.TextManager.Interop/7.10.6070": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070"
         },
@@ -289,7 +266,6 @@
         }
       },
       "Microsoft.VisualStudio.TextManager.Interop.8.0/8.0.50727": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -303,7 +279,6 @@
         }
       },
       "Microsoft.VisualStudio.Threading/14.0.50702": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Validation": "14.0.50702"
         },
@@ -315,7 +290,6 @@
         }
       },
       "Microsoft.VisualStudio.Utilities/14.0.23205": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Utilities.dll": {}
         },
@@ -324,7 +298,6 @@
         }
       },
       "Microsoft.VisualStudio.Validation/14.0.50702": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Validation.dll": {}
         },
@@ -333,7 +306,6 @@
         }
       },
       "Microsoft.VSSDK.BuildTools/14.0.23205": {
-        "type": "package",
         "frameworkAssemblies": [
           "Microsoft.Build.Framework.dll"
         ]
@@ -341,7 +313,6 @@
     },
     ".NETFramework,Version=v4.5/win": {
       "Microsoft.VisualStudio.CoreUtility/14.0.23205": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.CoreUtility.dll": {}
         },
@@ -350,7 +321,6 @@
         }
       },
       "Microsoft.VisualStudio.Editor/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
@@ -369,7 +339,6 @@
         }
       },
       "Microsoft.VisualStudio.Imaging/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Utilities": "14.0.23205"
         },
@@ -381,7 +350,6 @@
         }
       },
       "Microsoft.VisualStudio.Language.Intellisense/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205",
@@ -395,7 +363,6 @@
         }
       },
       "Microsoft.VisualStudio.OLE.Interop/7.10.6070": {
-        "type": "package",
         "compile": {
           "lib/Microsoft.VisualStudio.OLE.Interop.dll": {}
         },
@@ -403,11 +370,8 @@
           "lib/Microsoft.VisualStudio.OLE.Interop.dll": {}
         }
       },
-      "Microsoft.VisualStudio.SDK.EmbedInteropTypes/14.1.2": {
-        "type": "package"
-      },
+      "Microsoft.VisualStudio.SDK.EmbedInteropTypes/14.1.2": {},
       "Microsoft.VisualStudio.Shell.14.0/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Imaging": "14.0.23205",
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
@@ -430,7 +394,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.10.0/10.0.30319": {
-        "type": "package",
         "compile": {
           "lib/net40/Microsoft.VisualStudio.Shell.Immutable.10.0.dll": {}
         },
@@ -439,7 +402,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.11.0/11.0.50727": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071"
@@ -452,7 +414,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.12.0/12.0.21003": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Shell.Immutable.12.0.dll": {}
         },
@@ -461,7 +422,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.14.0/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Shell.Immutable.11.0": "11.0.50727"
         },
@@ -473,7 +433,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop/7.10.6071": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.TextManager.Interop": "7.10.6070"
@@ -486,7 +445,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.10.0/10.0.30319": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071"
@@ -499,7 +457,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.11.0/11.0.61030": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -514,7 +471,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.12.0/12.0.30110": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -530,7 +486,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.8.0/8.0.50727": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -545,7 +500,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.9.0/9.0.30729": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -560,7 +514,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.Data/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205"
         },
@@ -572,7 +525,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.Logic/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205"
@@ -585,7 +537,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.UI/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205",
@@ -599,7 +550,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.UI.Wpf/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205",
@@ -614,7 +564,6 @@
         }
       },
       "Microsoft.VisualStudio.TextManager.Interop/7.10.6070": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070"
         },
@@ -626,7 +575,6 @@
         }
       },
       "Microsoft.VisualStudio.TextManager.Interop.8.0/8.0.50727": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -640,7 +588,6 @@
         }
       },
       "Microsoft.VisualStudio.Threading/14.0.50702": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Validation": "14.0.50702"
         },
@@ -652,7 +599,6 @@
         }
       },
       "Microsoft.VisualStudio.Utilities/14.0.23205": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Utilities.dll": {}
         },
@@ -661,7 +607,6 @@
         }
       },
       "Microsoft.VisualStudio.Validation/14.0.50702": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Validation.dll": {}
         },
@@ -670,7 +615,6 @@
         }
       },
       "Microsoft.VSSDK.BuildTools/14.0.23205": {
-        "type": "package",
         "frameworkAssemblies": [
           "Microsoft.Build.Framework.dll"
         ]
@@ -678,7 +622,6 @@
     },
     ".NETFramework,Version=v4.6.1": {
       "Microsoft.VisualStudio.CoreUtility/14.0.23205": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.CoreUtility.dll": {}
         },
@@ -687,7 +630,6 @@
         }
       },
       "Microsoft.VisualStudio.Editor/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
@@ -706,7 +648,6 @@
         }
       },
       "Microsoft.VisualStudio.Imaging/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Utilities": "14.0.23205"
         },
@@ -718,7 +659,6 @@
         }
       },
       "Microsoft.VisualStudio.Language.Intellisense/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205",
@@ -732,7 +672,6 @@
         }
       },
       "Microsoft.VisualStudio.OLE.Interop/7.10.6070": {
-        "type": "package",
         "compile": {
           "lib/Microsoft.VisualStudio.OLE.Interop.dll": {}
         },
@@ -740,11 +679,8 @@
           "lib/Microsoft.VisualStudio.OLE.Interop.dll": {}
         }
       },
-      "Microsoft.VisualStudio.SDK.EmbedInteropTypes/14.1.2": {
-        "type": "package"
-      },
+      "Microsoft.VisualStudio.SDK.EmbedInteropTypes/14.1.2": {},
       "Microsoft.VisualStudio.Shell.14.0/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Imaging": "14.0.23205",
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
@@ -767,7 +703,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.10.0/10.0.30319": {
-        "type": "package",
         "compile": {
           "lib/net40/Microsoft.VisualStudio.Shell.Immutable.10.0.dll": {}
         },
@@ -776,7 +711,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.11.0/11.0.50727": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071"
@@ -789,7 +723,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.12.0/12.0.21003": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Shell.Immutable.12.0.dll": {}
         },
@@ -798,7 +731,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.14.0/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Shell.Immutable.11.0": "11.0.50727"
         },
@@ -810,7 +742,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop/7.10.6071": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.TextManager.Interop": "7.10.6070"
@@ -823,7 +754,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.10.0/10.0.30319": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071"
@@ -836,7 +766,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.11.0/11.0.61030": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -851,7 +780,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.12.0/12.0.30110": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -867,7 +795,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.8.0/8.0.50727": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -882,7 +809,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.9.0/9.0.30729": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -897,7 +823,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.Data/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205"
         },
@@ -909,7 +834,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.Logic/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205"
@@ -922,7 +846,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.UI/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205",
@@ -936,7 +859,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.UI.Wpf/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205",
@@ -951,7 +873,6 @@
         }
       },
       "Microsoft.VisualStudio.TextManager.Interop/7.10.6070": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070"
         },
@@ -963,7 +884,6 @@
         }
       },
       "Microsoft.VisualStudio.TextManager.Interop.8.0/8.0.50727": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -977,7 +897,6 @@
         }
       },
       "Microsoft.VisualStudio.Threading/14.0.50702": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Validation": "14.0.50702"
         },
@@ -989,7 +908,6 @@
         }
       },
       "Microsoft.VisualStudio.Utilities/14.0.23205": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Utilities.dll": {}
         },
@@ -998,7 +916,6 @@
         }
       },
       "Microsoft.VisualStudio.Validation/14.0.50702": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Validation.dll": {}
         },
@@ -1007,7 +924,6 @@
         }
       },
       "Microsoft.VSSDK.BuildTools/14.0.23205": {
-        "type": "package",
         "frameworkAssemblies": [
           "Microsoft.Build.Framework.dll"
         ]
@@ -1015,7 +931,6 @@
     },
     ".NETFramework,Version=v4.6.1/win": {
       "Microsoft.VisualStudio.CoreUtility/14.0.23205": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.CoreUtility.dll": {}
         },
@@ -1024,7 +939,6 @@
         }
       },
       "Microsoft.VisualStudio.Editor/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
@@ -1043,7 +957,6 @@
         }
       },
       "Microsoft.VisualStudio.Imaging/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Utilities": "14.0.23205"
         },
@@ -1055,7 +968,6 @@
         }
       },
       "Microsoft.VisualStudio.Language.Intellisense/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205",
@@ -1069,7 +981,6 @@
         }
       },
       "Microsoft.VisualStudio.OLE.Interop/7.10.6070": {
-        "type": "package",
         "compile": {
           "lib/Microsoft.VisualStudio.OLE.Interop.dll": {}
         },
@@ -1077,11 +988,8 @@
           "lib/Microsoft.VisualStudio.OLE.Interop.dll": {}
         }
       },
-      "Microsoft.VisualStudio.SDK.EmbedInteropTypes/14.1.2": {
-        "type": "package"
-      },
+      "Microsoft.VisualStudio.SDK.EmbedInteropTypes/14.1.2": {},
       "Microsoft.VisualStudio.Shell.14.0/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Imaging": "14.0.23205",
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
@@ -1104,7 +1012,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.10.0/10.0.30319": {
-        "type": "package",
         "compile": {
           "lib/net40/Microsoft.VisualStudio.Shell.Immutable.10.0.dll": {}
         },
@@ -1113,7 +1020,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.11.0/11.0.50727": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071"
@@ -1126,7 +1032,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.12.0/12.0.21003": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Shell.Immutable.12.0.dll": {}
         },
@@ -1135,7 +1040,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Immutable.14.0/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Shell.Immutable.11.0": "11.0.50727"
         },
@@ -1147,7 +1051,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop/7.10.6071": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.TextManager.Interop": "7.10.6070"
@@ -1160,7 +1063,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.10.0/10.0.30319": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071"
@@ -1173,7 +1075,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.11.0/11.0.61030": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -1188,7 +1089,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.12.0/12.0.30110": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -1204,7 +1104,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.8.0/8.0.50727": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -1219,7 +1118,6 @@
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.9.0/9.0.30729": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -1234,7 +1132,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.Data/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205"
         },
@@ -1246,7 +1143,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.Logic/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205"
@@ -1259,7 +1155,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.UI/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205",
@@ -1273,7 +1168,6 @@
         }
       },
       "Microsoft.VisualStudio.Text.UI.Wpf/14.0.23205": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
           "Microsoft.VisualStudio.Text.Data": "14.0.23205",
@@ -1288,7 +1182,6 @@
         }
       },
       "Microsoft.VisualStudio.TextManager.Interop/7.10.6070": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070"
         },
@@ -1300,7 +1193,6 @@
         }
       },
       "Microsoft.VisualStudio.TextManager.Interop.8.0/8.0.50727": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
           "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
@@ -1314,7 +1206,6 @@
         }
       },
       "Microsoft.VisualStudio.Threading/14.0.50702": {
-        "type": "package",
         "dependencies": {
           "Microsoft.VisualStudio.Validation": "14.0.50702"
         },
@@ -1326,7 +1217,6 @@
         }
       },
       "Microsoft.VisualStudio.Utilities/14.0.23205": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Utilities.dll": {}
         },
@@ -1335,7 +1225,6 @@
         }
       },
       "Microsoft.VisualStudio.Validation/14.0.50702": {
-        "type": "package",
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Validation.dll": {}
         },
@@ -1344,7 +1233,6 @@
         }
       },
       "Microsoft.VSSDK.BuildTools/14.0.23205": {
-        "type": "package",
         "frameworkAssemblies": [
           "Microsoft.Build.Framework.dll"
         ]
@@ -1708,7 +1596,5 @@
     ],
     ".NETFramework,Version=v4.5": [],
     ".NETFramework,Version=v4.6.1": []
-  },
-  "tools": {},
-  "projectFileToolGroups": {}
+  }
 }

@@ -18,7 +18,7 @@ namespace BrightScript.Language
         OokPeriod,
 
         Cmnt,
-        Keywords,
+        Keyword,
         Typs,
         Str,
         Funcs,

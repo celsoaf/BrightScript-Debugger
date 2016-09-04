@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="BrightScript.ProjectType..dd78b51f-0ecb-40db-be6d-ef3a850f3c69" Version="1.0" Language="en-US" Publisher="BrightScript.ProjectType" />
+    <Identity Id="BrightScript.ProjectType..dd78b51f-0ecb-40db-be6d-ef3a850f3c69" Version="1.0" Language="en-US" Publisher="CelsoAF" />
     <DisplayName>BrightScript VSIX</DisplayName>
     <Description xml:space="preserve">A template for creating a BrightScript project.</Description>
   </Metadata>

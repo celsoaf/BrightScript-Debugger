@@ -162,7 +162,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrightScriptDebuggerLaunchProvider.cs" />
     <Compile Include="MyConfiguredProject.cs" />
     <Compile Include="MyUnconfiguredProject.cs" />
     <Compile Include="ProjectProperties.cs" />

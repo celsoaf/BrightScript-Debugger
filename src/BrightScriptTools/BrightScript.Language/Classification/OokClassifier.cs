@@ -9,6 +9,8 @@
 //
 //***************************************************************************
 
+using BrightScript.Language;
+
 namespace OokLanguage
 {
     using System;
@@ -29,12 +31,12 @@ namespace OokLanguage
         [Export]
         [Name(BrightScriptConstants.ContentType)]
         [BaseDefinition("code")]
-        internal static ContentTypeDefinition OokContentType = null;
+        internal static ContentTypeDefinition BrightScriptContentType = null;
 
         [Export]
         [FileExtension(BrightScriptConstants.FileExtention)]
         [ContentType(BrightScriptConstants.ContentType)]
-        internal static FileExtensionToContentTypeDefinition OokFileType = null;
+        internal static FileExtensionToContentTypeDefinition BrightScriptFileType = null;
 
         [Import]
         internal IClassificationTypeRegistryService ClassificationTypeRegistry = null;
@@ -45,28 +47,28 @@ namespace OokLanguage
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
 
-            ITagAggregator<OokTokenTag> ookTagAggregator = 
-                                            aggregatorFactory.CreateTagAggregator<OokTokenTag>(buffer);
+            ITagAggregator<BrightScriptTokenTag> bsTagAggregator = 
+                                            aggregatorFactory.CreateTagAggregator<BrightScriptTokenTag>(buffer);
 
-            return new OokClassifier(buffer, ookTagAggregator, ClassificationTypeRegistry) as ITagger<T>;
+            return new OokClassifier(buffer, bsTagAggregator, ClassificationTypeRegistry) as ITagger<T>;
         }
     }
 
     internal sealed class OokClassifier : ITagger<ClassificationTag>
     {
         ITextBuffer _buffer;
-        ITagAggregator<OokTokenTag> _aggregator;
+        ITagAggregator<BrightScriptTokenTag> _aggregator;
         IDictionary<BrightScriptTokenTypes, IClassificationType> _bsTypes;
 
         /// <summary>
         /// Construct the classifier and define search tokens
         /// </summary>
         internal OokClassifier(ITextBuffer buffer, 
-                               ITagAggregator<OokTokenTag> ookTagAggregator, 
+                               ITagAggregator<BrightScriptTokenTag> bsTagAggregator, 
                                IClassificationTypeRegistryService typeService)
         {
             _buffer = buffer;
-            _aggregator = ookTagAggregator;
+            _aggregator = bsTagAggregator;
             _bsTypes = new Dictionary<BrightScriptTokenTypes, IClassificationType>();
             _bsTypes[BrightScriptTokenTypes.OokExclamation] = typeService.GetClassificationType("ook!");
             _bsTypes[BrightScriptTokenTypes.OokPeriod] = typeService.GetClassificationType("ook.");

@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System.ComponentModel.Composition;
+using BrightScript.Language;
 using Microsoft.VisualStudio.Utilities;
 
 namespace OokLanguage
@@ -36,7 +37,7 @@ namespace OokLanguage
 
         public IQuickInfoSource TryCreateQuickInfoSource(ITextBuffer textBuffer)
         {
-            return new OokQuickInfoSource(textBuffer, aggService.CreateTagAggregator<OokTokenTag>(textBuffer));
+            return new OokQuickInfoSource(textBuffer, aggService.CreateTagAggregator<BrightScriptTokenTag>(textBuffer));
         }
     }
 
@@ -45,12 +46,12 @@ namespace OokLanguage
     /// </summary>
     class OokQuickInfoSource : IQuickInfoSource
     {
-        private ITagAggregator<OokTokenTag> _aggregator;
+        private ITagAggregator<BrightScriptTokenTag> _aggregator;
         private ITextBuffer _buffer;
         private bool _disposed = false;
 
 
-        public OokQuickInfoSource(ITextBuffer buffer, ITagAggregator<OokTokenTag> aggregator)
+        public OokQuickInfoSource(ITextBuffer buffer, ITagAggregator<BrightScriptTokenTag> aggregator)
         {
             _aggregator = aggregator;
             _buffer = buffer;
@@ -71,7 +72,7 @@ namespace OokLanguage
             if (triggerPoint == null)
                 return;
 
-            foreach (IMappingTagSpan<OokTokenTag> curTag in _aggregator.GetTags(new SnapshotSpan(triggerPoint, triggerPoint)))
+            foreach (IMappingTagSpan<BrightScriptTokenTag> curTag in _aggregator.GetTags(new SnapshotSpan(triggerPoint, triggerPoint)))
             {
                 if (curTag.Tag.type == BrightScriptTokenTypes.OokExclamation)
                 {

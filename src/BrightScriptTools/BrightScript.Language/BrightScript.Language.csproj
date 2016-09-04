@@ -38,8 +38,8 @@
     <ProjectGuid>{F091221E-FD10-41A7-AAC4-C9359178BDB1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OokLanguage</RootNamespace>
-    <AssemblyName>OokLanguage</AssemblyName>
+    <RootNamespace>BrightScript.Language</RootNamespace>
+    <AssemblyName>BrightScript.Language</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <GeneratePkgDefFile>false</GeneratePkgDefFile>
@@ -86,8 +86,8 @@
     <Compile Include="Intellisense\CompletionController.cs" />
     <Compile Include="Intellisense\CompletionSource.cs" />
     <Compile Include="Intellisense\OokQuickInfoSource.cs" />
-    <Compile Include="OokTokenTag.cs" />
-    <Compile Include="OokTokenTypes.cs" />
+    <Compile Include="BrightScriptTokenTag.cs" />
+    <Compile Include="BrightScriptTokenTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classification\OokClassifier.cs" />
     <Compile Include="Intellisense\QuickInfoController.cs" />

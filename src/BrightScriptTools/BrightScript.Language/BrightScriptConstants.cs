@@ -1,4 +1,4 @@
-﻿namespace OokLanguage
+﻿namespace BrightScript.Language
 {
     public static class BrightScriptConstants
     {

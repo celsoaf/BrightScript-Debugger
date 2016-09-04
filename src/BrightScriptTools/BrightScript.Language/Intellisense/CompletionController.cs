@@ -23,6 +23,7 @@ using Microsoft.VisualStudio.Utilities;
 using Microsoft.VisualStudio;
 using System.Windows;
 using System.Runtime.InteropServices;
+using BrightScript.Language;
 
 namespace OokLanguage
 {

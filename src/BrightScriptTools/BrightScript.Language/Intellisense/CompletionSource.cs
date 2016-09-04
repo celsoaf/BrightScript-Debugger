@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using System.ComponentModel.Composition;
+using BrightScript.Language;
 using Microsoft.VisualStudio.Utilities;
 
 namespace OokLanguage

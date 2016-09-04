@@ -9,46 +9,44 @@
 //
 //***************************************************************************
 
-namespace OokLanguage
-{
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.Composition;
-    using Microsoft.VisualStudio.Text;
-    using Microsoft.VisualStudio.Text.Classification;
-    using Microsoft.VisualStudio.Text.Editor;
-    using Microsoft.VisualStudio.Text.Tagging;
-    using Microsoft.VisualStudio.Utilities;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Tagging;
+using Microsoft.VisualStudio.Utilities;
 
+namespace BrightScript.Language
+{
     [Export(typeof(ITaggerProvider))]
     [ContentType(BrightScriptConstants.ContentType)]
-    [TagType(typeof(OokTokenTag))]
-    internal sealed class OokTokenTagProvider : ITaggerProvider
+    [TagType(typeof(BrightScriptTokenTag))]
+    internal sealed class BrightScriptTokenTagProvider : ITaggerProvider
     {
 
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
-            return new OokTokenTagger(buffer) as ITagger<T>;
+            return new BrightScriptTokenTagger(buffer) as ITagger<T>;
         }
     }
 
-    public class OokTokenTag : ITag 
+    public class BrightScriptTokenTag : ITag 
     {
         public BrightScriptTokenTypes type { get; private set; }
 
-        public OokTokenTag(BrightScriptTokenTypes type)
+        public BrightScriptTokenTag(BrightScriptTokenTypes type)
         {
             this.type = type;
         }
     }
 
-    internal sealed class OokTokenTagger : ITagger<OokTokenTag>
+    internal sealed class BrightScriptTokenTagger : ITagger<BrightScriptTokenTag>
     {
 
         ITextBuffer _buffer;
         IDictionary<string, BrightScriptTokenTypes> _bsTypes;
 
-        internal OokTokenTagger(ITextBuffer buffer)
+        internal BrightScriptTokenTagger(ITextBuffer buffer)
         {
             _buffer = buffer;
             _bsTypes = new Dictionary<string, BrightScriptTokenTypes>();
@@ -63,7 +61,7 @@ namespace OokLanguage
             remove { }
         }
 
-        public IEnumerable<ITagSpan<OokTokenTag>> GetTags(NormalizedSnapshotSpanCollection spans)
+        public IEnumerable<ITagSpan<BrightScriptTokenTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
 
             foreach (SnapshotSpan curSpan in spans)
@@ -72,18 +70,18 @@ namespace OokLanguage
                 int curLoc = containingLine.Start.Position;
                 string[] tokens = containingLine.GetText().ToLower().Split(' ');
 
-                foreach (string ookToken in tokens)
+                foreach (string bsToken in tokens)
                 {
-                    if (_bsTypes.ContainsKey(ookToken))
+                    if (_bsTypes.ContainsKey(bsToken))
                     {
-                        var tokenSpan = new SnapshotSpan(curSpan.Snapshot, new Span(curLoc, ookToken.Length));
+                        var tokenSpan = new SnapshotSpan(curSpan.Snapshot, new Span(curLoc, bsToken.Length));
                         if( tokenSpan.IntersectsWith(curSpan) ) 
-                            yield return new TagSpan<OokTokenTag>(tokenSpan, 
-                                                                  new OokTokenTag(_bsTypes[ookToken]));
+                            yield return new TagSpan<BrightScriptTokenTag>(tokenSpan, 
+                                                                  new BrightScriptTokenTag(_bsTypes[bsToken]));
                     }
 
                     //add an extra char location because of the space
-                    curLoc += ookToken.Length + 1;
+                    curLoc += bsToken.Length + 1;
                 }
             }
             

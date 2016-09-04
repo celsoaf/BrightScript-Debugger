@@ -40,6 +40,63 @@ namespace BrightScript.Language.Classification
         [Name("ook.")]
         internal static ClassificationTypeDefinition ookPeriod = null;
 
+
+        /// <summary>
+        /// Defines the "bsOpr" classification type.
+        /// </summary>
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name("Opr")]
+        internal static ClassificationTypeDefinition bsOpr = null;
+
+        /// <summary>
+        /// Defines the "bsFuncs" classification type.
+        /// </summary>
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name("Funcs")]
+        internal static ClassificationTypeDefinition bsFuncs = null;
+
+        /// <summary>
+        /// Defines the "bsIdent" classification type.
+        /// </summary>
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name("Ident")]
+        internal static ClassificationTypeDefinition bsIdent = null;
+
+        /// <summary>
+        /// Defines the "bsKeyword" classification type.
+        /// </summary>
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name("Keyword")]
+        internal static ClassificationTypeDefinition bsKeyword = null;
+
+        /// <summary>
+        /// Defines the "bsNumber" classification type.
+        /// </summary>
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name("Number")]
+        internal static ClassificationTypeDefinition bsNumber = null;
+
+        /// <summary>
+        /// Defines the "bsStr" classification type.
+        /// </summary>
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name("Str")]
+        internal static ClassificationTypeDefinition bsStr = null;
+
+        /// <summary>
+        /// Defines the "bsTyps" classification type.
+        /// </summary>
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name("Typs")]
+        internal static ClassificationTypeDefinition bsTyps = null;
+
+        /// <summary>
+        /// Defines the "bsCmnt" classification type.
+        /// </summary>
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name("Cmnt")]
+        internal static ClassificationTypeDefinition bsCmnt = null;
+
         #endregion
     }
 }

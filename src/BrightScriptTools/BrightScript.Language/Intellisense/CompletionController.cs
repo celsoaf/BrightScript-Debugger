@@ -29,7 +29,7 @@ namespace OokLanguage
     #region Command Filter
 
     [Export(typeof(IVsTextViewCreationListener))]
-    [ContentType("ook!")]
+    [ContentType(BrightScriptConstants.ContentType)]
     [TextViewRole(PredefinedTextViewRoles.Interactive)]
     internal sealed class VsTextViewCreationListener : IVsTextViewCreationListener
     {

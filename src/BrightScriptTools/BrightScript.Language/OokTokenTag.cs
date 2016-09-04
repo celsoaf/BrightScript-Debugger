@@ -21,7 +21,7 @@ namespace OokLanguage
     using Microsoft.VisualStudio.Utilities;
 
     [Export(typeof(ITaggerProvider))]
-    [ContentType("ook!")]
+    [ContentType(BrightScriptConstants.ContentType)]
     [TagType(typeof(OokTokenTag))]
     internal sealed class OokTokenTagProvider : ITaggerProvider
     {

@@ -23,7 +23,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace OokLanguage
 {
     [Export(typeof(ICompletionSourceProvider))]
-    [ContentType("ook!")]
+    [ContentType(BrightScriptConstants.ContentType)]
     [Name("ookCompletion")]
     class OokCompletionSourceProvider : ICompletionSourceProvider
     {

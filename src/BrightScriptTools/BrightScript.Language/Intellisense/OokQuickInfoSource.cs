@@ -26,7 +26,7 @@ namespace OokLanguage
     /// Factory for quick info sources
     /// </summary>
     [Export(typeof(IQuickInfoSourceProvider))]
-    [ContentType("ook!")]
+    [ContentType(BrightScriptConstants.ContentType)]
     [Name("ookQuickInfo")]
     class OokQuickInfoSourceProvider : IQuickInfoSourceProvider
     {

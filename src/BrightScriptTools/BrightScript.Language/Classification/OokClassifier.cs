@@ -21,19 +21,19 @@ namespace OokLanguage
     using Microsoft.VisualStudio.Utilities;
 
     [Export(typeof(ITaggerProvider))]
-    [ContentType("ook!")]
+    [ContentType(BrightScriptConstants.ContentType)]
     [TagType(typeof(ClassificationTag))]
     internal sealed class OokClassifierProvider : ITaggerProvider
     {
 
         [Export]
-        [Name("ook!")]
+        [Name(BrightScriptConstants.ContentType)]
         [BaseDefinition("code")]
         internal static ContentTypeDefinition OokContentType = null;
 
         [Export]
         [FileExtension(".brs")]
-        [ContentType("ook!")]
+        [ContentType(BrightScriptConstants.ContentType)]
         internal static FileExtensionToContentTypeDefinition OokFileType = null;
 
         [Import]

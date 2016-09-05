@@ -22,20 +22,20 @@ namespace BrightScript.Language.Intellisense
     [Export(typeof(ICompletionSourceProvider))]
     [ContentType(BrightScriptConstants.ContentType)]
     [Name("brightScriptCompletion")]
-    class OokCompletionSourceProvider : ICompletionSourceProvider
+    class BrightScriptCompletionSourceProvider : ICompletionSourceProvider
     {
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
         {
-            return new OokCompletionSource(textBuffer);
+            return new BrightScriptCompletionSource(textBuffer);
         }
     }
 
-    class OokCompletionSource : ICompletionSource
+    class BrightScriptCompletionSource : ICompletionSource
     {
         private ITextBuffer _buffer;
         private bool _disposed = false;
         
-        public OokCompletionSource(ITextBuffer buffer)
+        public BrightScriptCompletionSource(ITextBuffer buffer)
         {
             _buffer = buffer;
         }

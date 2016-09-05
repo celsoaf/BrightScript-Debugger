@@ -13,10 +13,6 @@ namespace BrightScript.Language
 {
     public enum BrightScriptTokenTypes
     {
-        OokExclamation,
-        OokQuestion,
-        OokPeriod,
-
         Cmnt,
         Keyword,
         Typs,

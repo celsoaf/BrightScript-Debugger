@@ -17,74 +17,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace BrightScript.Language.Classification
 {
     #region Format definition
-    /// <summary>
-    /// Defines the editor format for the ookExclamation classification type. Text is colored BlueViolet
-    /// </summary>
-    [Export(typeof(EditorFormatDefinition))]
-    [ClassificationType(ClassificationTypeNames = "ook!")]
-    [Name("ook!")]
-    //this should be visible to the end user
-    [UserVisible(false)]
-    //set the priority to be after the default classifiers
-    [Order(Before = Priority.Default)]
-    internal sealed class OokE : ClassificationFormatDefinition
-    {
-        /// <summary>
-        /// Defines the visual format for the "exclamation" classification type
-        /// </summary>
-        public OokE()
-        {
-            DisplayName = "ook!"; //human readable version of the name
-            ForegroundColor = Colors.BlueViolet;
-        }
-    }
-
-    /// <summary>
-    /// Defines the editor format for the ookQuestion classification type. Text is colored Green
-    /// </summary>
-    [Export(typeof(EditorFormatDefinition))]
-    [ClassificationType(ClassificationTypeNames = "ook?")]
-    [Name("ook?")]
-    //this should be visible to the end user
-    [UserVisible(false)]
-    //set the priority to be after the default classifiers
-    [Order(Before = Priority.Default)]
-    internal sealed class OokQ : ClassificationFormatDefinition
-    {
-        /// <summary>
-        /// Defines the visual format for the "question" classification type
-        /// </summary>
-        public OokQ()
-        {
-            DisplayName = "ook?"; //human readable version of the name
-            ForegroundColor = Colors.Green;
-        }
-    }
-
-    /// <summary>
-    /// Defines the editor format for the ookPeriod classification type. Text is colored Orange
-    /// </summary>
-    [Export(typeof(EditorFormatDefinition))]
-    [ClassificationType(ClassificationTypeNames = "ook.")]
-    [Name("ook.")]
-    //this should be visible to the end user
-    [UserVisible(false)]
-    //set the priority to be after the default classifiers
-    [Order(Before = Priority.Default)]
-    internal sealed class OokP : ClassificationFormatDefinition
-    {
-        /// <summary>
-        /// Defines the visual format for the "period" classification type
-        /// </summary>
-        public OokP()
-        {
-            DisplayName = "ook."; //human readable version of the name
-            ForegroundColor = Colors.Orange;
-        }
-    }
-
-
-
+    
     /// <summary>
     /// Defines the editor format for the bsCmnt classification type. Text is colored Orange
     /// </summary>

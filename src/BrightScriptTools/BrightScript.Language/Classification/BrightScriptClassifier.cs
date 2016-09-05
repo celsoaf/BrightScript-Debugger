@@ -67,10 +67,6 @@ namespace BrightScript.Language.Classification
             _buffer = buffer;
             _aggregator = bsTagAggregator;
             _bsTypes = new Dictionary<BrightScriptTokenTypes, IClassificationType>();
-            _bsTypes[BrightScriptTokenTypes.OokExclamation] = typeService.GetClassificationType("ook!");
-            _bsTypes[BrightScriptTokenTypes.OokPeriod] = typeService.GetClassificationType("ook.");
-            _bsTypes[BrightScriptTokenTypes.OokQuestion] = typeService.GetClassificationType("ook?");
-
             _bsTypes[BrightScriptTokenTypes.Opr] = typeService.GetClassificationType("Opr");
             _bsTypes[BrightScriptTokenTypes.Funcs] = typeService.GetClassificationType("Funcs");
             _bsTypes[BrightScriptTokenTypes.Ident] = typeService.GetClassificationType("Ident");

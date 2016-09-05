@@ -76,6 +76,7 @@ namespace BrightScript.Language
             foreach (SnapshotSpan curSpan in spans)
             {
                 ITextSnapshotLine containingLine = curSpan.Start.GetContainingLine();
+                int startPos = containingLine.Start.Position;
                 var line = containingLine.GetText();
 
                 var scanner = new ScannerColor();
@@ -87,8 +88,7 @@ namespace BrightScript.Language
                 {
                     if (_bsTypes.ContainsKey(token))
                     {
-                        var tokenSpan = new SnapshotSpan(curSpan.Snapshot, new Span(scanner.GetPos(), scanner.yyleng));
-                        Debug.WriteLine("{0} - pos:{1} len:{2}", scanner.yytext, scanner.GetPos(), scanner.yyleng);
+                        var tokenSpan = new SnapshotSpan(curSpan.Snapshot, new Span(startPos + scanner.GetPos(), scanner.yyleng));
                         if (tokenSpan.IntersectsWith(curSpan))
                             yield return new TagSpan<BrightScriptTokenTag>(tokenSpan, new BrightScriptTokenTag(_bsTypes[token]));
 

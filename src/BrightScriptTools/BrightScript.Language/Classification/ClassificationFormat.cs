@@ -102,30 +102,8 @@ namespace BrightScript.Language.Classification
         /// </summary>
         public BsCmnt()
         {
-            DisplayName = "ook."; //human readable version of the name
-            ForegroundColor = Colors.DarkGray;
-        }
-    }
-
-    /// <summary>
-    /// Defines the editor format for the bsKeyword classification type. Text is colored Orange
-    /// </summary>
-    [Export(typeof(EditorFormatDefinition))]
-    [ClassificationType(ClassificationTypeNames = "Keyword")]
-    [Name("Keyword")]
-    //this should be visible to the end user
-    [UserVisible(false)]
-    //set the priority to be after the default classifiers
-    [Order(Before = Priority.Default)]
-    internal sealed class BsKeyword : ClassificationFormatDefinition
-    {
-        /// <summary>
-        /// Defines the visual format for the "period" classification type
-        /// </summary>
-        public BsKeyword()
-        {
-            DisplayName = "ook."; //human readable version of the name
-            ForegroundColor = Colors.Purple;
+            DisplayName = "Cmnt"; //human readable version of the name
+            ForegroundColor = Colors.DimGray;
         }
     }
 
@@ -146,8 +124,8 @@ namespace BrightScript.Language.Classification
         /// </summary>
         public BsTyps()
         {
-            DisplayName = "ook."; //human readable version of the name
-            ForegroundColor = Colors.Black;
+            DisplayName = "Typs"; //human readable version of the name
+            ForegroundColor = Colors.DeepPink;
         }
     }
 
@@ -168,8 +146,8 @@ namespace BrightScript.Language.Classification
         /// </summary>
         public BsStr()
         {
-            DisplayName = "ook."; //human readable version of the name
-            ForegroundColor = Colors.Orange;
+            DisplayName = "Str"; //human readable version of the name
+            ForegroundColor = Colors.Yellow;
         }
     }
 
@@ -190,30 +168,8 @@ namespace BrightScript.Language.Classification
         /// </summary>
         public BsFuncs()
         {
-            DisplayName = "ook."; //human readable version of the name
+            DisplayName = "Funcs"; //human readable version of the name
             ForegroundColor = Colors.Chartreuse;
-        }
-    }
-
-    /// <summary>
-    /// Defines the editor format for the bsNumber classification type. Text is colored Orange
-    /// </summary>
-    [Export(typeof(EditorFormatDefinition))]
-    [ClassificationType(ClassificationTypeNames = "Number")]
-    [Name("Number")]
-    //this should be visible to the end user
-    [UserVisible(false)]
-    //set the priority to be after the default classifiers
-    [Order(Before = Priority.Default)]
-    internal sealed class BsNumber : ClassificationFormatDefinition
-    {
-        /// <summary>
-        /// Defines the visual format for the "period" classification type
-        /// </summary>
-        public BsNumber()
-        {
-            DisplayName = "ook."; //human readable version of the name
-            ForegroundColor = Colors.Black;
         }
     }
 
@@ -234,8 +190,8 @@ namespace BrightScript.Language.Classification
         /// </summary>
         public BsIdent()
         {
-            DisplayName = "ook."; //human readable version of the name
-            ForegroundColor = Colors.Chocolate;
+            DisplayName = "Ident"; //human readable version of the name
+            ForegroundColor = Colors.BurlyWood;
         }
     }
 
@@ -256,8 +212,8 @@ namespace BrightScript.Language.Classification
         /// </summary>
         public BsOpr()
         {
-            DisplayName = "ook."; //human readable version of the name
-            ForegroundColor = Colors.Black;
+            DisplayName = "Opr"; //human readable version of the name
+            ForegroundColor = Colors.White;
         }
     }
     #endregion //Format definition

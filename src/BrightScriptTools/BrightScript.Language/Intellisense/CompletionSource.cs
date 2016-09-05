@@ -47,9 +47,16 @@ namespace BrightScript.Language.Intellisense
 
             List<Completion> completions = new List<Completion>()
             {
-                new Completion("Ook!"),
-                new Completion("Ook."),
-                new Completion("Ook?")
+                new Completion("boolean"),
+                new Completion("integer"),
+                new Completion("float"),
+                new Completion("double"),
+                new Completion("string"),
+                new Completion("object"),
+                new Completion("interface"),
+                new Completion("invalid"),
+                new Completion("brsub"),
+                new Completion("void")
             };
             
             ITextSnapshot snapshot = _buffer.CurrentSnapshot;

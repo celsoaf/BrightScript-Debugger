@@ -20,6 +20,7 @@ namespace BrightScript.Language
         Funcs,
         Number,
         Ident,
-        Opr
+        Opr,
+        Literal
     }
 }

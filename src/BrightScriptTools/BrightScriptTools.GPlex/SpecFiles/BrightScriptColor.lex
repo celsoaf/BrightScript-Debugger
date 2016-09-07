@@ -22,7 +22,7 @@ Num				[0-9]+
 Real			([0-9]+"."[0-9]*)|([0-9]*"."[0-9]+)
 
 // BrightScript Type.txt
-Typs			(string|in(te(rface|ger)|valid)|object|double|float|b(oolean|rsub)|void)
+Typs			(string|inte(rface|ger)|object|double|float|b(oolean|rsub)|void)
 
 // BrightScript Statements.txt
 Keywords		(s(t(op|ep)|ub)|i(n|f)|t(hen|o)|dim|print|e(nd(if|(sub|f(or|unction)|while))?|lse(if)?|xit(for|while)?|ach)|f(or|unction)|as|while|re(turn|m)|goto)
@@ -41,22 +41,21 @@ Number			{Num}|{Real}
 Cmnt			\'{DotChr}*
 Str				\"{DotChr}*\"
 Funcs			{BuiltInFuncs}|{GlobalFuncs}|{StringFuncs}|{MathFuns}
+Literal			true|false|Invalid
 
 
 // =============================================================
 %%  // Start of rules
 // =============================================================
 
-FALSE 			|
 LINE_NUM 		|
-M				|
 NEXT  			|
 OBJFUN			|
 POS 			|
 RND 			|
-TAB				|
-TRUE			{ return (int)TokensColor.reserved; }
+TAB				{ return (int)TokensColor.reserved; }
 
+{Literal}		{ return (int)TokensColor.literal; }
 {Cmnt}			{ return (int)TokensColor.cmnt; }
 {Keywords}		{ return (int)TokensColor.keyword; }
 {Typs}			{ return (int)TokensColor.type; }

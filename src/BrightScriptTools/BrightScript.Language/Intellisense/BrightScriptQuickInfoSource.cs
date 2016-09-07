@@ -113,6 +113,12 @@ namespace BrightScript.Language.Intellisense
                     applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);
                     quickInfoContent.Add("BrightScript string");
                 }
+                else if (curTag.Tag.type == BrightScriptTokenTypes.Literal)
+                {
+                    var tagSpan = curTag.Span.GetSpans(_buffer).First();
+                    applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);
+                    quickInfoContent.Add("BrightScript literal");
+                }
             }
         }
 

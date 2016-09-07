@@ -3,7 +3,7 @@
   "version": 1,
   "targets": {
     ".NETFramework,Version=v4.5": {
-      "Microsoft.VisualStudio.CoreUtility/14.0.23205": {
+      "Microsoft.VisualStudio.CoreUtility/14.3.25407": {
         "compile": {
           "lib/net45/Microsoft.VisualStudio.CoreUtility.dll": {}
         },
@@ -51,6 +51,17 @@
         },
         "runtime": {
           "lib/net45/Microsoft.VisualStudio.Language.Intellisense.dll": {}
+        }
+      },
+      "Microsoft.VisualStudio.Language.StandardClassification/14.3.25407": {
+        "dependencies": {
+          "Microsoft.VisualStudio.Text.Logic": "14.3.25407"
+        },
+        "compile": {
+          "lib/net45/Microsoft.VisualStudio.Language.StandardClassification.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.VisualStudio.Language.StandardClassification.dll": {}
         }
       },
       "Microsoft.VisualStudio.OLE.Interop/7.10.6070": {
@@ -204,9 +215,9 @@
           "lib/Microsoft.VisualStudio.Shell.Interop.9.0.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Text.Data/14.0.23205": {
+      "Microsoft.VisualStudio.Text.Data/14.3.25407": {
         "dependencies": {
-          "Microsoft.VisualStudio.CoreUtility": "14.0.23205"
+          "Microsoft.VisualStudio.CoreUtility": "14.3.25407"
         },
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Text.Data.dll": {}
@@ -215,10 +226,10 @@
           "lib/net45/Microsoft.VisualStudio.Text.Data.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Text.Logic/14.0.23205": {
+      "Microsoft.VisualStudio.Text.Logic/14.3.25407": {
         "dependencies": {
-          "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
-          "Microsoft.VisualStudio.Text.Data": "14.0.23205"
+          "Microsoft.VisualStudio.CoreUtility": "14.3.25407",
+          "Microsoft.VisualStudio.Text.Data": "14.3.25407"
         },
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Text.Logic.dll": {}
@@ -312,7 +323,7 @@
       }
     },
     ".NETFramework,Version=v4.5/win": {
-      "Microsoft.VisualStudio.CoreUtility/14.0.23205": {
+      "Microsoft.VisualStudio.CoreUtility/14.3.25407": {
         "compile": {
           "lib/net45/Microsoft.VisualStudio.CoreUtility.dll": {}
         },
@@ -360,6 +371,17 @@
         },
         "runtime": {
           "lib/net45/Microsoft.VisualStudio.Language.Intellisense.dll": {}
+        }
+      },
+      "Microsoft.VisualStudio.Language.StandardClassification/14.3.25407": {
+        "dependencies": {
+          "Microsoft.VisualStudio.Text.Logic": "14.3.25407"
+        },
+        "compile": {
+          "lib/net45/Microsoft.VisualStudio.Language.StandardClassification.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.VisualStudio.Language.StandardClassification.dll": {}
         }
       },
       "Microsoft.VisualStudio.OLE.Interop/7.10.6070": {
@@ -513,9 +535,9 @@
           "lib/Microsoft.VisualStudio.Shell.Interop.9.0.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Text.Data/14.0.23205": {
+      "Microsoft.VisualStudio.Text.Data/14.3.25407": {
         "dependencies": {
-          "Microsoft.VisualStudio.CoreUtility": "14.0.23205"
+          "Microsoft.VisualStudio.CoreUtility": "14.3.25407"
         },
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Text.Data.dll": {}
@@ -524,10 +546,10 @@
           "lib/net45/Microsoft.VisualStudio.Text.Data.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Text.Logic/14.0.23205": {
+      "Microsoft.VisualStudio.Text.Logic/14.3.25407": {
         "dependencies": {
-          "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
-          "Microsoft.VisualStudio.Text.Data": "14.0.23205"
+          "Microsoft.VisualStudio.CoreUtility": "14.3.25407",
+          "Microsoft.VisualStudio.Text.Data": "14.3.25407"
         },
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Text.Logic.dll": {}
@@ -621,7 +643,7 @@
       }
     },
     ".NETFramework,Version=v4.6.1": {
-      "Microsoft.VisualStudio.CoreUtility/14.0.23205": {
+      "Microsoft.VisualStudio.CoreUtility/14.3.25407": {
         "compile": {
           "lib/net45/Microsoft.VisualStudio.CoreUtility.dll": {}
         },
@@ -669,6 +691,17 @@
         },
         "runtime": {
           "lib/net45/Microsoft.VisualStudio.Language.Intellisense.dll": {}
+        }
+      },
+      "Microsoft.VisualStudio.Language.StandardClassification/14.3.25407": {
+        "dependencies": {
+          "Microsoft.VisualStudio.Text.Logic": "14.3.25407"
+        },
+        "compile": {
+          "lib/net45/Microsoft.VisualStudio.Language.StandardClassification.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.VisualStudio.Language.StandardClassification.dll": {}
         }
       },
       "Microsoft.VisualStudio.OLE.Interop/7.10.6070": {
@@ -822,9 +855,9 @@
           "lib/Microsoft.VisualStudio.Shell.Interop.9.0.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Text.Data/14.0.23205": {
+      "Microsoft.VisualStudio.Text.Data/14.3.25407": {
         "dependencies": {
-          "Microsoft.VisualStudio.CoreUtility": "14.0.23205"
+          "Microsoft.VisualStudio.CoreUtility": "14.3.25407"
         },
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Text.Data.dll": {}
@@ -833,10 +866,10 @@
           "lib/net45/Microsoft.VisualStudio.Text.Data.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Text.Logic/14.0.23205": {
+      "Microsoft.VisualStudio.Text.Logic/14.3.25407": {
         "dependencies": {
-          "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
-          "Microsoft.VisualStudio.Text.Data": "14.0.23205"
+          "Microsoft.VisualStudio.CoreUtility": "14.3.25407",
+          "Microsoft.VisualStudio.Text.Data": "14.3.25407"
         },
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Text.Logic.dll": {}
@@ -930,7 +963,7 @@
       }
     },
     ".NETFramework,Version=v4.6.1/win": {
-      "Microsoft.VisualStudio.CoreUtility/14.0.23205": {
+      "Microsoft.VisualStudio.CoreUtility/14.3.25407": {
         "compile": {
           "lib/net45/Microsoft.VisualStudio.CoreUtility.dll": {}
         },
@@ -978,6 +1011,17 @@
         },
         "runtime": {
           "lib/net45/Microsoft.VisualStudio.Language.Intellisense.dll": {}
+        }
+      },
+      "Microsoft.VisualStudio.Language.StandardClassification/14.3.25407": {
+        "dependencies": {
+          "Microsoft.VisualStudio.Text.Logic": "14.3.25407"
+        },
+        "compile": {
+          "lib/net45/Microsoft.VisualStudio.Language.StandardClassification.dll": {}
+        },
+        "runtime": {
+          "lib/net45/Microsoft.VisualStudio.Language.StandardClassification.dll": {}
         }
       },
       "Microsoft.VisualStudio.OLE.Interop/7.10.6070": {
@@ -1131,9 +1175,9 @@
           "lib/Microsoft.VisualStudio.Shell.Interop.9.0.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Text.Data/14.0.23205": {
+      "Microsoft.VisualStudio.Text.Data/14.3.25407": {
         "dependencies": {
-          "Microsoft.VisualStudio.CoreUtility": "14.0.23205"
+          "Microsoft.VisualStudio.CoreUtility": "14.3.25407"
         },
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Text.Data.dll": {}
@@ -1142,10 +1186,10 @@
           "lib/net45/Microsoft.VisualStudio.Text.Data.dll": {}
         }
       },
-      "Microsoft.VisualStudio.Text.Logic/14.0.23205": {
+      "Microsoft.VisualStudio.Text.Logic/14.3.25407": {
         "dependencies": {
-          "Microsoft.VisualStudio.CoreUtility": "14.0.23205",
-          "Microsoft.VisualStudio.Text.Data": "14.0.23205"
+          "Microsoft.VisualStudio.CoreUtility": "14.3.25407",
+          "Microsoft.VisualStudio.Text.Data": "14.3.25407"
         },
         "compile": {
           "lib/net45/Microsoft.VisualStudio.Text.Logic.dll": {}
@@ -1240,12 +1284,12 @@
     }
   },
   "libraries": {
-    "Microsoft.VisualStudio.CoreUtility/14.0.23205": {
-      "sha512": "eNia9xJzb4chidpdCiq9iEDZA22/wUsg0AFUo2gFLy2sBZMqHsOm1xfaD+3HEYNPZmWf9uMrfcETtQilq8+YEQ==",
+    "Microsoft.VisualStudio.CoreUtility/14.3.25407": {
+      "sha512": "UNXy/ATk8JFEfItA1NQA1oczxg3aHdV01gtiKjkBbiD9xc74jFp99Xj9tPvki16gsD+ceHxdBLd6qg+kxLOeyg==",
       "type": "package",
-      "path": "Microsoft.VisualStudio.CoreUtility/14.0.23205",
+      "path": "Microsoft.VisualStudio.CoreUtility/14.3.25407",
       "files": [
-        "Microsoft.VisualStudio.CoreUtility.14.0.23205.nupkg.sha512",
+        "Microsoft.VisualStudio.CoreUtility.14.3.25407.nupkg.sha512",
         "Microsoft.VisualStudio.CoreUtility.nuspec",
         "lib/net45/Microsoft.VisualStudio.CoreUtility.dll",
         "lib/net45/microsoft.visualstudio.coreutility.xml"
@@ -1282,6 +1326,17 @@
         "Microsoft.VisualStudio.Language.Intellisense.nuspec",
         "lib/net45/Microsoft.VisualStudio.Language.Intellisense.dll",
         "lib/net45/microsoft.visualstudio.language.intellisense.xml"
+      ]
+    },
+    "Microsoft.VisualStudio.Language.StandardClassification/14.3.25407": {
+      "sha512": "Q31g1swW8D3AGZpxISWn+EI6qeBQ8Uye+QKxh5DkHrNVWqlTkbfytlkXxrAIRInux4a0lO3Q5Ey9ZzEW7WhWkA==",
+      "type": "package",
+      "path": "Microsoft.VisualStudio.Language.StandardClassification/14.3.25407",
+      "files": [
+        "Microsoft.VisualStudio.Language.StandardClassification.14.3.25407.nupkg.sha512",
+        "Microsoft.VisualStudio.Language.StandardClassification.nuspec",
+        "lib/net45/Microsoft.VisualStudio.Language.StandardClassification.dll",
+        "lib/net45/microsoft.visualstudio.language.standardclassification.xml"
       ]
     },
     "Microsoft.VisualStudio.OLE.Interop/7.10.6070": {
@@ -1426,23 +1481,23 @@
         "lib/Microsoft.VisualStudio.Shell.Interop.9.0.xml"
       ]
     },
-    "Microsoft.VisualStudio.Text.Data/14.0.23205": {
-      "sha512": "IWgXn6bJtAdCK2Mab21fPaV1ujNZjio9n6gBP6NHM/aNfUedZqQCRCdUQO/g2GnmhdtGHWu2mhGic0OeJaf3GA==",
+    "Microsoft.VisualStudio.Text.Data/14.3.25407": {
+      "sha512": "CdCp6HGKarjZBs13KeS0aAnwyUmohhpzAUykpz23NUNOE5OtjYNKxPoy0m9K0O3mciwu8w7oMHDrgZrockD+rw==",
       "type": "package",
-      "path": "Microsoft.VisualStudio.Text.Data/14.0.23205",
+      "path": "Microsoft.VisualStudio.Text.Data/14.3.25407",
       "files": [
-        "Microsoft.VisualStudio.Text.Data.14.0.23205.nupkg.sha512",
+        "Microsoft.VisualStudio.Text.Data.14.3.25407.nupkg.sha512",
         "Microsoft.VisualStudio.Text.Data.nuspec",
         "lib/net45/Microsoft.VisualStudio.Text.Data.dll",
         "lib/net45/microsoft.visualstudio.text.data.xml"
       ]
     },
-    "Microsoft.VisualStudio.Text.Logic/14.0.23205": {
-      "sha512": "dYpu42quoggB8u8bcT/53QE1OT51WF92U6gLwchiMAUZyGSrPhPeYN9CULmMd1g1bDAkr7flFBLhv1qCaCF8yQ==",
+    "Microsoft.VisualStudio.Text.Logic/14.3.25407": {
+      "sha512": "QV4BjdNK6PdyLee7PwIhlJ8Fqoqh3sbIplizU5UDyA1NakCosTRwDcntKbwPBDAbMaX1nWPcbQ0v2P0fzyjwdg==",
       "type": "package",
-      "path": "Microsoft.VisualStudio.Text.Logic/14.0.23205",
+      "path": "Microsoft.VisualStudio.Text.Logic/14.3.25407",
       "files": [
-        "Microsoft.VisualStudio.Text.Logic.14.0.23205.nupkg.sha512",
+        "Microsoft.VisualStudio.Text.Logic.14.3.25407.nupkg.sha512",
         "Microsoft.VisualStudio.Text.Logic.nuspec",
         "lib/net45/Microsoft.VisualStudio.Text.Logic.dll",
         "lib/net45/microsoft.visualstudio.text.logic.xml"
@@ -1590,6 +1645,7 @@
       "Microsoft.VSSDK.BuildTools >= 14.0.23205",
       "Microsoft.VisualStudio.Editor >= 14.0.23205",
       "Microsoft.VisualStudio.Language.Intellisense >= 14.0.23205",
+      "Microsoft.VisualStudio.Language.StandardClassification >= 14.3.25407",
       "Microsoft.VisualStudio.SDK.EmbedInteropTypes >= 14.1.2",
       "Microsoft.VisualStudio.Shell.14.0 >= 14.0.23205",
       "Microsoft.VisualStudio.Shell.Interop.12.0 >= 12.0.30110"

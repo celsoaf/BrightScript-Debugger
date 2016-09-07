@@ -1,48 +1,11 @@
-﻿//***************************************************************************
-// 
-//    Copyright (c) Microsoft Corporation. All rights reserved.
-//    This code is licensed under the Visual Studio SDK license terms.
-//    THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-//    ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-//    IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-//    PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//
-//***************************************************************************
-
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Diagnostics;
-using System.Linq;
 using BrightScriptTools.Compiler;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
-using Microsoft.VisualStudio.Utilities;
 
-namespace BrightScript.Language
+namespace BrightScript.Language.Classification
 {
-    [Export(typeof(ITaggerProvider))]
-    [ContentType(BrightScriptConstants.ContentType)]
-    [TagType(typeof(BrightScriptTokenTag))]
-    internal sealed class BrightScriptTokenTagProvider : ITaggerProvider
-    {
-
-        public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
-        {
-            return new BrightScriptTokenTagger(buffer) as ITagger<T>;
-        }
-    }
-
-    public class BrightScriptTokenTag : ITag 
-    {
-        public BrightScriptTokenTypes type { get; private set; }
-
-        public BrightScriptTokenTag(BrightScriptTokenTypes type)
-        {
-            this.type = type;
-        }
-    }
-
     internal sealed class BrightScriptTokenTagger : ITagger<BrightScriptTokenTag>
     {
 

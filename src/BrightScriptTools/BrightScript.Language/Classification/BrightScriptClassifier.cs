@@ -12,6 +12,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using Microsoft.VisualStudio.Language.StandardClassification;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Tagging;
@@ -41,13 +42,17 @@ namespace BrightScript.Language.Classification
         [Import]
         internal IBufferTagAggregatorFactoryService aggregatorFactory = null;
 
+        [Import]
+        private IStandardClassificationService standardClassifications;
+
+
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag
         {
 
             ITagAggregator<BrightScriptTokenTag> bsTagAggregator = 
                                             aggregatorFactory.CreateTagAggregator<BrightScriptTokenTag>(buffer);
 
-            return new BrightScriptClassifier(buffer, bsTagAggregator, ClassificationTypeRegistry) as ITagger<T>;
+            return new BrightScriptClassifier(buffer, bsTagAggregator, standardClassifications, ClassificationTypeRegistry) as ITagger<T>;
         }
     }
 
@@ -61,20 +66,24 @@ namespace BrightScript.Language.Classification
         /// Construct the classifier and define search tokens
         /// </summary>
         internal BrightScriptClassifier(ITextBuffer buffer, 
-                               ITagAggregator<BrightScriptTokenTag> bsTagAggregator, 
+                               ITagAggregator<BrightScriptTokenTag> bsTagAggregator,
+                               IStandardClassificationService standardClassifications,
                                IClassificationTypeRegistryService typeService)
         {
             _buffer = buffer;
             _aggregator = bsTagAggregator;
             _bsTypes = new Dictionary<BrightScriptTokenTypes, IClassificationType>();
-            _bsTypes[BrightScriptTokenTypes.Opr] = typeService.GetClassificationType("Opr");
+
+            _bsTypes[BrightScriptTokenTypes.Cmnt] = standardClassifications.Comment;
+            _bsTypes[BrightScriptTokenTypes.Keyword] = standardClassifications.Keyword;
+            _bsTypes[BrightScriptTokenTypes.Literal] = standardClassifications.Literal;
+            _bsTypes[BrightScriptTokenTypes.Opr] = standardClassifications.Operator;
+            _bsTypes[BrightScriptTokenTypes.Number] = standardClassifications.NumberLiteral;
+            _bsTypes[BrightScriptTokenTypes.Str] = standardClassifications.StringLiteral;
+            _bsTypes[BrightScriptTokenTypes.Ident] = standardClassifications.Identifier;
+
             _bsTypes[BrightScriptTokenTypes.Funcs] = typeService.GetClassificationType("Funcs");
-            _bsTypes[BrightScriptTokenTypes.Ident] = typeService.GetClassificationType("Ident");
-            _bsTypes[BrightScriptTokenTypes.Keyword] = typeService.GetClassificationType("Keyword");
-            _bsTypes[BrightScriptTokenTypes.Number] = typeService.GetClassificationType("Number");
-            _bsTypes[BrightScriptTokenTypes.Str] = typeService.GetClassificationType("Str");
             _bsTypes[BrightScriptTokenTypes.Typs] = typeService.GetClassificationType("Typs");
-            _bsTypes[BrightScriptTokenTypes.Cmnt] = typeService.GetClassificationType("Cmnt");
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged

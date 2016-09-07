@@ -63,6 +63,7 @@ namespace BrightScript.Language
             _bsTypes[(int)TokensColor.opr] = BrightScriptTokenTypes.Opr;
             _bsTypes[(int)TokensColor.keyword] = BrightScriptTokenTypes.Keyword;
             _bsTypes[(int)TokensColor.type] = BrightScriptTokenTypes.Typs;
+            _bsTypes[(int)TokensColor.literal] = BrightScriptTokenTypes.Literal;
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged

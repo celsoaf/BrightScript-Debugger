@@ -25,7 +25,7 @@ namespace BrightScript.Language.Intellisense
     /// Factory for quick info sources
     /// </summary>
     [Export(typeof(IQuickInfoSourceProvider))]
-    [ContentType(BrightScriptConstants.ContentType)]
+    [ContentType(Constants.Language.ContentType)]
     [Name("brightScriptQuickInfo")]
     class BrightScriptQuickInfoSourceProvider : IQuickInfoSourceProvider
     {

@@ -8,19 +8,19 @@ using Microsoft.VisualStudio.Utilities;
 namespace BrightScript.Language.Classification
 {
     [Export(typeof(ITaggerProvider))]
-    [ContentType(BrightScriptConstants.ContentType)]
+    [ContentType(Constants.Language.ContentType)]
     [TagType(typeof(ClassificationTag))]
     internal sealed class BrightScriptClassifierProvider : ITaggerProvider
     {
 
         [Export]
-        [Name(BrightScriptConstants.ContentType)]
+        [Name(Constants.Language.ContentType)]
         [BaseDefinition("code")]
         internal static ContentTypeDefinition BrightScriptContentType = null;
 
         [Export]
-        [FileExtension(BrightScriptConstants.FileExtention)]
-        [ContentType(BrightScriptConstants.ContentType)]
+        [FileExtension(Constants.Language.FileExtension)]
+        [ContentType(Constants.Language.ContentType)]
         internal static FileExtensionToContentTypeDefinition BrightScriptFileType = null;
 
         [Import]

@@ -27,7 +27,7 @@ namespace BrightScript.Language.Intellisense
     #region Command Filter
 
     [Export(typeof(IVsTextViewCreationListener))]
-    [ContentType(BrightScriptConstants.ContentType)]
+    [ContentType(Constants.Language.ContentType)]
     [TextViewRole(PredefinedTextViewRoles.Interactive)]
     internal sealed class VsTextViewCreationListener : IVsTextViewCreationListener
     {

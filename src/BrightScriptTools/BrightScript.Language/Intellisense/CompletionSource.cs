@@ -20,7 +20,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace BrightScript.Language.Intellisense
 {
     [Export(typeof(ICompletionSourceProvider))]
-    [ContentType(BrightScriptConstants.ContentType)]
+    [ContentType(Constants.Language.ContentType)]
     [Name("brightScriptCompletion")]
     class BrightScriptCompletionSourceProvider : ICompletionSourceProvider
     {

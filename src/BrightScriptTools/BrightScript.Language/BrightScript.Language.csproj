@@ -82,7 +82,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrightScriptConstants.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Classification\BrightScriptClassifierProvider.cs" />
     <Compile Include="Classification\BrightScriptTokenTagger.cs" />
     <Compile Include="Classification\BrightScriptTokenTagProvider.cs" />

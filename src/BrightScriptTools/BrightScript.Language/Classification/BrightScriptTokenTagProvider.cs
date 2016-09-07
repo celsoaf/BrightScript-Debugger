@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Utilities;
 namespace BrightScript.Language.Classification
 {
     [Export(typeof(ITaggerProvider))]
-    [ContentType(BrightScriptConstants.ContentType)]
+    [ContentType(Constants.Language.ContentType)]
     [TagType(typeof(BrightScriptTokenTag))]
     internal sealed class BrightScriptTokenTagProvider : ITaggerProvider
     {

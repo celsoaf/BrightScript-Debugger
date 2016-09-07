@@ -9,9 +9,9 @@
 //
 //***************************************************************************
 
-namespace BrightScript.Language
+namespace BrightScript.Language.Classification
 {
-    public enum BrightScriptTokenTypes
+    public enum TokenTypes
     {
         Cmnt,
         Keyword,

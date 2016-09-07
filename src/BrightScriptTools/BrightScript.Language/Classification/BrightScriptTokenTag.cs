@@ -15,9 +15,9 @@ namespace BrightScript.Language.Classification
 {
     public class BrightScriptTokenTag : ITag 
     {
-        public BrightScriptTokenTypes type { get; private set; }
+        public TokenTypes type { get; private set; }
 
-        public BrightScriptTokenTag(BrightScriptTokenTypes type)
+        public BrightScriptTokenTag(TokenTypes type)
         {
             this.type = type;
         }

@@ -10,23 +10,23 @@ namespace BrightScript.Language.Classification
     {
 
         ITextBuffer _buffer;
-        IDictionary<int, BrightScriptTokenTypes> _bsTypes;
+        IDictionary<int, TokenTypes> _bsTypes;
 
         internal BrightScriptTokenTagger(ITextBuffer buffer)
         {
             _buffer = buffer;
             
-            _bsTypes = new Dictionary<int, BrightScriptTokenTypes>();
+            _bsTypes = new Dictionary<int, TokenTypes>();
 
-            _bsTypes[(int)TokensColor.cmnt] = BrightScriptTokenTypes.Cmnt;
-            _bsTypes[(int)TokensColor.funcs] = BrightScriptTokenTypes.Funcs;
-            _bsTypes[(int)TokensColor.ident] = BrightScriptTokenTypes.Ident;
-            _bsTypes[(int)TokensColor.number] = BrightScriptTokenTypes.Number;
-            _bsTypes[(int)TokensColor.str] = BrightScriptTokenTypes.Str;
-            _bsTypes[(int)TokensColor.opr] = BrightScriptTokenTypes.Opr;
-            _bsTypes[(int)TokensColor.keyword] = BrightScriptTokenTypes.Keyword;
-            _bsTypes[(int)TokensColor.type] = BrightScriptTokenTypes.Typs;
-            _bsTypes[(int)TokensColor.literal] = BrightScriptTokenTypes.Literal;
+            _bsTypes[(int)TokensColor.cmnt] = TokenTypes.Cmnt;
+            _bsTypes[(int)TokensColor.funcs] = TokenTypes.Funcs;
+            _bsTypes[(int)TokensColor.ident] = TokenTypes.Ident;
+            _bsTypes[(int)TokensColor.number] = TokenTypes.Number;
+            _bsTypes[(int)TokensColor.str] = TokenTypes.Str;
+            _bsTypes[(int)TokensColor.opr] = TokenTypes.Opr;
+            _bsTypes[(int)TokensColor.keyword] = TokenTypes.Keyword;
+            _bsTypes[(int)TokensColor.type] = TokenTypes.Typs;
+            _bsTypes[(int)TokensColor.literal] = TokenTypes.Literal;
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged

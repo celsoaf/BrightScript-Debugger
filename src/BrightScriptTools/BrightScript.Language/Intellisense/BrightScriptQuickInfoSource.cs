@@ -72,49 +72,49 @@ namespace BrightScript.Language.Intellisense
 
             foreach (IMappingTagSpan<BrightScriptTokenTag> curTag in _aggregator.GetTags(new SnapshotSpan(triggerPoint, triggerPoint)))
             {
-                if (curTag.Tag.type == BrightScriptTokenTypes.Typs)
+                if (curTag.Tag.type == TokenTypes.Typs)
                 {
                     var tagSpan = curTag.Span.GetSpans(_buffer).First();
                     applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);
                     quickInfoContent.Add("BrightScript type");
                 }
-                else if (curTag.Tag.type == BrightScriptTokenTypes.Cmnt)
+                else if (curTag.Tag.type == TokenTypes.Cmnt)
                 {
                     var tagSpan = curTag.Span.GetSpans(_buffer).First();
                     applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);
                     quickInfoContent.Add("BrightScript comment");
                 }
-                else if (curTag.Tag.type == BrightScriptTokenTypes.Funcs)
+                else if (curTag.Tag.type == TokenTypes.Funcs)
                 {
                     var tagSpan = curTag.Span.GetSpans(_buffer).First();
                     applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);
                     quickInfoContent.Add("BrightScript functions");
                 }
-                else if (curTag.Tag.type == BrightScriptTokenTypes.Ident)
+                else if (curTag.Tag.type == TokenTypes.Ident)
                 {
                     var tagSpan = curTag.Span.GetSpans(_buffer).First();
                     applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);
                     quickInfoContent.Add("BrightScript identifier");
                 }
-                else if (curTag.Tag.type == BrightScriptTokenTypes.Keyword)
+                else if (curTag.Tag.type == TokenTypes.Keyword)
                 {
                     var tagSpan = curTag.Span.GetSpans(_buffer).First();
                     applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);
                     quickInfoContent.Add("BrightScript keyword");
                 }
-                else if (curTag.Tag.type == BrightScriptTokenTypes.Number)
+                else if (curTag.Tag.type == TokenTypes.Number)
                 {
                     var tagSpan = curTag.Span.GetSpans(_buffer).First();
                     applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);
                     quickInfoContent.Add("BrightScript number");
                 }
-                else if (curTag.Tag.type == BrightScriptTokenTypes.Str)
+                else if (curTag.Tag.type == TokenTypes.Str)
                 {
                     var tagSpan = curTag.Span.GetSpans(_buffer).First();
                     applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);
                     quickInfoContent.Add("BrightScript string");
                 }
-                else if (curTag.Tag.type == BrightScriptTokenTypes.Literal)
+                else if (curTag.Tag.type == TokenTypes.Literal)
                 {
                     var tagSpan = curTag.Span.GetSpans(_buffer).First();
                     applicableToSpan = _buffer.CurrentSnapshot.CreateTrackingSpan(tagSpan, SpanTrackingMode.EdgeExclusive);

@@ -22,7 +22,7 @@ namespace BrightScript.Language.Classification
     {
         ITextBuffer _buffer;
         ITagAggregator<BrightScriptTokenTag> _aggregator;
-        IDictionary<BrightScriptTokenTypes, IClassificationType> _bsTypes;
+        IDictionary<TokenTypes, IClassificationType> _bsTypes;
 
         /// <summary>
         /// Construct the classifier and define search tokens
@@ -34,18 +34,18 @@ namespace BrightScript.Language.Classification
         {
             _buffer = buffer;
             _aggregator = bsTagAggregator;
-            _bsTypes = new Dictionary<BrightScriptTokenTypes, IClassificationType>();
+            _bsTypes = new Dictionary<TokenTypes, IClassificationType>();
 
-            _bsTypes[BrightScriptTokenTypes.Cmnt] = standardClassifications.Comment;
-            _bsTypes[BrightScriptTokenTypes.Keyword] = standardClassifications.Keyword;
-            _bsTypes[BrightScriptTokenTypes.Literal] = standardClassifications.Literal;
-            _bsTypes[BrightScriptTokenTypes.Opr] = standardClassifications.Operator;
-            _bsTypes[BrightScriptTokenTypes.Number] = standardClassifications.NumberLiteral;
-            _bsTypes[BrightScriptTokenTypes.Str] = standardClassifications.StringLiteral;
-            _bsTypes[BrightScriptTokenTypes.Ident] = standardClassifications.Identifier;
+            _bsTypes[TokenTypes.Cmnt] = standardClassifications.Comment;
+            _bsTypes[TokenTypes.Keyword] = standardClassifications.Keyword;
+            _bsTypes[TokenTypes.Literal] = standardClassifications.Literal;
+            _bsTypes[TokenTypes.Opr] = standardClassifications.Operator;
+            _bsTypes[TokenTypes.Number] = standardClassifications.NumberLiteral;
+            _bsTypes[TokenTypes.Str] = standardClassifications.StringLiteral;
+            _bsTypes[TokenTypes.Ident] = standardClassifications.Identifier;
 
-            _bsTypes[BrightScriptTokenTypes.Funcs] = typeService.GetClassificationType("Funcs");
-            _bsTypes[BrightScriptTokenTypes.Typs] = typeService.GetClassificationType("Typs");
+            _bsTypes[TokenTypes.Funcs] = typeService.GetClassificationType("Funcs");
+            _bsTypes[TokenTypes.Typs] = typeService.GetClassificationType("Typs");
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged

@@ -92,7 +92,7 @@
     <Compile Include="Intellisense\CompletionSource.cs" />
     <Compile Include="Intellisense\BrightScriptQuickInfoSource.cs" />
     <Compile Include="Classification\BrightScriptTokenTag.cs" />
-    <Compile Include="BrightScriptTokenTypes.cs" />
+    <Compile Include="Classification\TokenTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classification\BrightScriptClassifier.cs" />
     <Compile Include="Intellisense\QuickInfoController.cs" />

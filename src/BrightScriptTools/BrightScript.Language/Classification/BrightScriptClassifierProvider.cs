@@ -30,7 +30,7 @@ namespace BrightScript.Language.Classification
         internal IBufferTagAggregatorFactoryService aggregatorFactory = null;
 
         [Import]
-        private IStandardClassificationService standardClassifications;
+        private IStandardClassificationService standardClassifications = null;
 
 
         public ITagger<T> CreateTagger<T>(ITextBuffer buffer) where T : ITag

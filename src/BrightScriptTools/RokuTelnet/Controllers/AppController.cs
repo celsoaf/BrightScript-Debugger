@@ -152,8 +152,13 @@ namespace RokuTelnet.Controllers
             if (File.Exists(optionsFile))
                 _deployService.Deploy(ip, folder, optionsFile);
             else
-                if (ShowConfig(folder) == true)
-                    _deployService.Deploy(ip, folder, optionsFile);
+            {
+                App.Current.Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    if (ShowConfig(folder) == true)
+                        Task.Factory.StartNew(()=> _deployService.Deploy(ip, folder, optionsFile));
+                }));
+            }
         }
 
         private bool? ShowConfig(string folder)

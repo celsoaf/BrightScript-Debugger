@@ -11,7 +11,7 @@
 //***************************************************************************-->
 <PackageManifest Version="2.0.0" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011">
   <Metadata>
-    <Identity Id="c729d6b2-f512-49ed-893d-a8f61f25db98" Version="1.1" Language="en-US" Publisher="CelsoAF" />
+    <Identity Id="6516D06F-4C1E-4AF5-BA1F-989E96C3EA26" Version="1.0" Language="en-US" Publisher="CelsoAF" />
     <DisplayName>BrightScript.Language</DisplayName>
     <Description xml:space="preserve">Classifier extension to the Visual Studio Editor. Implements the 'BrightScript' language</Description>
   </Metadata>

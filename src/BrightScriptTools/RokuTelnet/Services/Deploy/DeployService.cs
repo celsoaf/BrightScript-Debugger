@@ -294,6 +294,9 @@ namespace RokuTelnet.Services.Deploy
                 var src = Path.Combine(folder, value);
                 var dest = Path.Combine(outputFolder, value);
 
+                if (!Directory.Exists(dest))
+                    Directory.CreateDirectory(dest);
+
                 if (Directory.Exists(src))
                     CopyFolder(src, dest);
             }
@@ -315,13 +318,11 @@ namespace RokuTelnet.Services.Deploy
         private static void CopyFolder(string src, string dest)
         {
             //Now Create all of the directories
-            foreach (string dirPath in Directory.GetDirectories(src, "*",
-                SearchOption.AllDirectories))
+            foreach (string dirPath in Directory.GetDirectories(src, "*", SearchOption.AllDirectories))
                 Directory.CreateDirectory(dirPath.Replace(src, dest));
 
             //Copy all the files & Replaces any files with the same name
-            foreach (string newPath in Directory.GetFiles(src, "*.*",
-                SearchOption.AllDirectories))
+            foreach (string newPath in Directory.GetFiles(src, "*.*", SearchOption.AllDirectories))
                 File.Copy(newPath, newPath.Replace(src, dest), true);
         }
     }

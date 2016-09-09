@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using BrightScriptTools.Compiler;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Adornments;
 using Microsoft.VisualStudio.Text.Tagging;
 
 namespace BrightScript.Language.Errors
@@ -44,11 +45,30 @@ namespace BrightScript.Language.Errors
                 Scanner scanner = new Scanner(stream);
 
                 Parser parser = new Parser(scanner);
-                if (!parser.Parse())
+                if (!parser.Parse()) 
                 {
-                    
+                    foreach (var error in scanner.Errors)
+                    {
+                        SnapshotSpan newSnapshotSpan = CreateSnapshotSpan(textSnapshot, error.Position, error.Length);
+
+                        yield return new TagSpan<ErrorTag>(newSnapshotSpan, new ErrorTag(PredefinedErrorTypeNames.SyntaxError, error.Message));
+                    }
                 }
             }
+        }
+
+        internal static SnapshotSpan CreateSnapshotSpan(ITextSnapshot snapshot, int position, int length)
+        {
+            // Assume a bogus (negative) position to be at the end.
+            if (position < 0)
+            {
+                position = snapshot.Length;
+            }
+
+            position = Math.Min(position, snapshot.Length);
+            length = Math.Max(0, Math.Min(length, snapshot.Length - position));
+
+            return new SnapshotSpan(snapshot, position, length);
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;

@@ -194,7 +194,7 @@ namespace RokuTelnet.Controllers
 
             _telnetTasks[cmd.Port].Send(cmd.Command);
 
-            Log(port, cmd + Environment.NewLine);
+            Log(port, cmd.Command + Environment.NewLine);
 
             DebuggerCommandEnum c;
             if (Enum.TryParse(cmd.Command, out c))

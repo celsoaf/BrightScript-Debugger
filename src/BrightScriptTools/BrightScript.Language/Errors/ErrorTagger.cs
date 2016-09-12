@@ -41,23 +41,13 @@ namespace BrightScript.Language.Errors
             }
 
             ITextSnapshot textSnapshot = spans[0].Snapshot.TextBuffer.CurrentSnapshot;
-            SourceText sourceText = this.singletons.SourceTextCache.Get(textSnapshot);
-            
-            using (Stream stream = sourceText.GetStream())
+            var errors = this.singletons.FeatureContainer.DiagnosticsProvider.GetDiagnostics(textSnapshot);
+
+            foreach (var error in errors)
             {
-                // parse input args, and open input file
-                Scanner scanner = new Scanner(stream);
+                SnapshotSpan newSnapshotSpan = EditorUtilities.CreateSnapshotSpan(textSnapshot, error.Position, error.Length);
 
-                Parser parser = new Parser(scanner);
-                if (!parser.Parse()) 
-                {
-                    foreach (var error in scanner.Errors)
-                    {
-                        SnapshotSpan newSnapshotSpan = EditorUtilities.CreateSnapshotSpan(textSnapshot, error.Position, error.Length);
-
-                        yield return new TagSpan<ErrorTag>(newSnapshotSpan, new ErrorTag(PredefinedErrorTypeNames.SyntaxError, error.Message));
-                    }
-                }
+                yield return new TagSpan<ErrorTag>(newSnapshotSpan, new ErrorTag(PredefinedErrorTypeNames.SyntaxError, error.Message));
             }
         }
 

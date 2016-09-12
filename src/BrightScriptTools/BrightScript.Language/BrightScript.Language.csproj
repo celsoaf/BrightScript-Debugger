@@ -90,6 +90,8 @@
     <Compile Include="Classification\BrightScriptTokenTagProvider.cs" />
     <Compile Include="Classification\ClassificationFormat.cs" />
     <Compile Include="Classification\ClassificationType.cs" />
+    <Compile Include="Diagnostics\DiagnosticsProvider.cs" />
+    <Compile Include="Diagnostics\IDiagnosticsProvider.cs" />
     <Compile Include="Errors\ErrorListPresenter.cs" />
     <Compile Include="Errors\ErrorListItem.cs" />
     <Compile Include="Errors\ErrorTagger.cs" />

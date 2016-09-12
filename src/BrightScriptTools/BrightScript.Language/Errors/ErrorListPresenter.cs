@@ -109,7 +109,7 @@ namespace BrightScript.Language.Errors
                 docOperations.NavigateTo(targetTextView, errorListItem.ErrorSpan.Span, selectSpan: true, deferNavigationWithOutlining: false);
             }
         }
-        
+
         private void OnBufferChanged(object sender, TextContentChangedEventArgs e)
         {
             if (this.cancellationTokenSource != null)
@@ -133,29 +133,19 @@ namespace BrightScript.Language.Errors
                 this.errorListProvider.SuspendRefresh();
                 this.ClearErrors();
 
-                SourceText sourceText = this.singletons.SourceTextCache.Get(snapshot);
-                using (Stream stream = sourceText.GetStream())
+                 var errors = this.singletons.FeatureContainer.DiagnosticsProvider.GetDiagnostics(snapshot);
+                foreach (var error in errors)
                 {
-                    // parse input args, and open input file
-                    Scanner scanner = new Scanner(stream);
+                    SnapshotSpan errorSnapshotSpan = EditorUtilities.CreateSnapshotSpan(snapshot, error.Position, error.Length);
 
-                    Parser parser = new Parser(scanner);
-                    if (!parser.Parse())
+                    string filePath = snapshot.TextBuffer.GetFilePath();
+                    Debug.Assert(filePath != null, "We should always be able to get the moniker for a file opened in the editor (even if it hasn't been saved)");
+
+                    if (!string.IsNullOrEmpty(filePath))
                     {
-                        foreach (var error in scanner.Errors)
-                        {
-                            SnapshotSpan errorSnapshotSpan = EditorUtilities.CreateSnapshotSpan(snapshot, error.Position, error.Length);
+                        ErrorListItem errorListItem = this.CreateErrorListItem(errorSnapshotSpan, error, filePath);
 
-                            string filePath = snapshot.TextBuffer.GetFilePath();
-                            Debug.Assert(filePath != null, "We should always be able to get the moniker for a file opened in the editor (even if it hasn't been saved)");
-
-                            if (!string.IsNullOrEmpty(filePath))
-                            {
-                                ErrorListItem errorListItem = this.CreateErrorListItem(errorSnapshotSpan, error, filePath);
-
-                                this.errorListProvider.Tasks.Add(errorListItem);
-                            }
-                        }
+                        this.errorListProvider.Tasks.Add(errorListItem);
                     }
                 }
             }
@@ -163,22 +153,22 @@ namespace BrightScript.Language.Errors
             {
                 this.errorListProvider.ResumeRefresh();
             }
-        }
+}
 
 
-        private void UpdateErrorsWithDelay(ITextSnapshot snapshot, CancellationToken token)
+private void UpdateErrorsWithDelay(ITextSnapshot snapshot, CancellationToken token)
+{
+    Task.Run(async () =>
+    {
+        await Task.Delay(Constants.UIUpdateDelay);
+
+        if (token.IsCancellationRequested)
         {
-            Task.Run(async () =>
-            {
-                await Task.Delay(Constants.UIUpdateDelay);
-
-                if (token.IsCancellationRequested)
-                {
-                    return;
-                }
-
-                this.UpdateErrorList(snapshot);
-            }, token);
+            return;
         }
+
+        this.UpdateErrorList(snapshot);
+    }, token);
+}
     }
 }

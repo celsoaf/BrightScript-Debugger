@@ -10,5 +10,7 @@ namespace RokuTelnet.Views.Shell
 
         bool IsBusy { get; set; }
         BusyModel BusyModel { get; set; }
+
+        int SelectedIndex { get; set; }
     }
 }

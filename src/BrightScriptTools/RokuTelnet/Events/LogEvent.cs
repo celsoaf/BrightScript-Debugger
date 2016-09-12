@@ -1,6 +1,8 @@
-﻿namespace RokuTelnet.Events
+﻿using RokuTelnet.Models;
+
+namespace RokuTelnet.Events
 {
-    public class LogEvent : Prism.Events.PubSubEvent<string>
+    public class LogEvent : Prism.Events.PubSubEvent<LogModel>
     {
          
     }

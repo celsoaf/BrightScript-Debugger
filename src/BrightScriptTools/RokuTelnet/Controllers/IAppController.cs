@@ -1,4 +1,6 @@
-﻿namespace RokuTelnet.Controllers
+﻿using RokuTelnet.Views.Shell;
+
+namespace RokuTelnet.Controllers
 {
     public interface IAppController
     {

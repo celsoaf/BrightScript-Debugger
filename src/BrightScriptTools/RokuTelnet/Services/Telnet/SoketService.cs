@@ -8,14 +8,16 @@ using System.Threading.Tasks;
 
 namespace RokuTelnet.Services.Telnet
 {
-    public class SoketService : ITelenetService
+    public class SoketService : ITelnetService
     {
         private Socket _client;
         private volatile bool _running = false;
 
         public async Task<bool> Connect(string ip, int port)
         {
-            IPEndPoint remoteEP = new IPEndPoint(IPAddress.Parse(ip), 8085);
+            Port = port;
+
+            IPEndPoint remoteEP = new IPEndPoint(IPAddress.Parse(ip), port);
 
             _client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
@@ -79,5 +81,7 @@ namespace RokuTelnet.Services.Telnet
                 _client.Send(msg);
             }
         }
+
+        public int Port { get; private set; }
     }
 }

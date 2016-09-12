@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Microsoft.Practices.ObjectBuilder2;
 using Microsoft.Practices.Unity;
 using Newtonsoft.Json;
 using Prism.Commands;
@@ -23,6 +24,7 @@ using RokuTelnet.Views.Locals;
 using RokuTelnet.Views.Output;
 using RokuTelnet.Views.Remote;
 using RokuTelnet.Views.Screenshot;
+using RokuTelnet.Views.Shell;
 using RokuTelnet.Views.StackPanel;
 using RokuTelnet.Views.Toolbar;
 using RokuTelnet.Views.Watch;
@@ -35,12 +37,14 @@ namespace RokuTelnet.Controllers
 
         private readonly IUnityContainer _container;
         private readonly IEventAggregator _eventAggregator;
-        private ITelenetService _telenetService;
-        private readonly IParserService _parserService;
         private readonly IRemoteService _remoteService;
         private readonly IRegionManager _regionManager;
         private readonly IDeployService _deployService;
         private readonly IScreenshotService _screenshotService;
+        private IShellViewModel _shell;
+
+        private IDictionary<int, ITelnetService> _telnetTasks = new Dictionary<int, ITelnetService>();
+        private IDictionary<int, IParserService> _parserTasks = new Dictionary<int, IParserService>();
 
         private readonly Dictionary<DebuggerCommandEnum, string> _injectStrings;
         private DebuggerCommandEnum? _lasCommand;
@@ -49,12 +53,12 @@ namespace RokuTelnet.Controllers
         private volatile bool _debug;
         private volatile bool _screenshotRunning;
         private IToolbarViewModel _toolbarViewModel;
+        private int _selectedPort;
 
         public AppController(
             IUnityContainer container,
             IEventAggregator eventAggregator,
             IRegionManager regionManager,
-            IParserService parserService,
             IRemoteService remoteService,
             IDeployService deployService,
             IScreenshotService screenshotService)
@@ -62,7 +66,6 @@ namespace RokuTelnet.Controllers
             _container = container;
             _eventAggregator = eventAggregator;
             _regionManager = regionManager;
-            _parserService = parserService;
             _remoteService = remoteService;
             _deployService = deployService;
             _screenshotService = screenshotService;
@@ -76,7 +79,18 @@ namespace RokuTelnet.Controllers
 
         public async void Initialize()
         {
-            _regionManager.RegisterViewWithRegion(RegionNames.OUTPUT, () => _container.Resolve<IOutputViewModel>().View);
+            _regionManager.RegisterViewWithRegion(RegionNames.OUTPUT_MAIN, () =>
+            {
+                var vm = _container.Resolve<IOutputViewModel>();
+                vm.Port = 8085;
+                return vm.View;
+            });
+            _regionManager.RegisterViewWithRegion(RegionNames.OUTPUT_SCENE_GRAPH, () =>
+            {
+                var vm = _container.Resolve<IOutputViewModel>();
+                vm.Port = 8089;
+                return vm.View;
+            });
             _regionManager.RegisterViewWithRegion(RegionNames.TOOLBAR, () =>
             {
                 _toolbarViewModel = _container.Resolve<IToolbarViewModel>();
@@ -88,7 +102,7 @@ namespace RokuTelnet.Controllers
             _regionManager.RegisterViewWithRegion(RegionNames.CONSOLE, () => _container.Resolve<IConsoleViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.REMOTE, () => _container.Resolve<IRemoteViewModel>().View);
             _regionManager.RegisterViewWithRegion(RegionNames.CYGWIN, () => _container.Resolve<ICygwinViewModel>().View);
-            _regionManager.RegisterViewWithRegion(RegionNames.SCREENSHOT, ()=> _container.Resolve<IScreenshotViewModel>().View);
+            _regionManager.RegisterViewWithRegion(RegionNames.SCREENSHOT, () => _container.Resolve<IScreenshotViewModel>().View);
 
             _eventAggregator.GetEvent<CommandEvent>().Subscribe(SendCommand);
 
@@ -96,9 +110,8 @@ namespace RokuTelnet.Controllers
             {
                 _ip = ip;
                 Task.Delay(1000).Wait();
-                _parserService.Start();
-                //_screenshotService.Start(ip);
                 Connect(ip, 8085).Wait();
+                Connect(ip, 8089).Wait();
 
                 var args = JsonConvert.SerializeObject(new { ip = ip });
                 _remoteService.SetArgs(args);
@@ -106,8 +119,10 @@ namespace RokuTelnet.Controllers
 
             _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj =>
             {
-                _telenetService.Disconnect();
-                _parserService.Stop();
+                _telnetTasks.Values.ForEach(t=> t.Disconnect());
+                _telnetTasks.Clear();
+                _parserTasks.Values.ForEach(p=> p.Stop());
+                _parserTasks.Clear();
                 _screenshotService.Stop();
                 _connected = false;
             }, ThreadOption.BackgroundThread);
@@ -126,7 +141,7 @@ namespace RokuTelnet.Controllers
             _eventAggregator.GetEvent<BusyShowEvent>().Subscribe(m => _screenshotService.Stop());
             _eventAggregator.GetEvent<BusyHideEvent>().Subscribe(obj =>
             {
-                if(_screenshotRunning)
+                if (_screenshotRunning)
                     _screenshotService.Start(_ip);
             });
 
@@ -142,6 +157,9 @@ namespace RokuTelnet.Controllers
                 _screenshotService.Stop();
             });
 
+            _eventAggregator.GetEvent<OutputChangeEvent>().Subscribe(p => _selectedPort = p);
+            _eventAggregator.GetEvent<OutputChangeEvent>().Publish(8085);
+
             RegisterCommands();
         }
 
@@ -156,7 +174,7 @@ namespace RokuTelnet.Controllers
                 App.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     if (ShowConfig(folder) == true)
-                        Task.Factory.StartNew(()=> _deployService.Deploy(ip, folder, optionsFile));
+                        Task.Factory.StartNew(() => _deployService.Deploy(ip, folder, optionsFile));
                 }));
             }
         }
@@ -170,17 +188,24 @@ namespace RokuTelnet.Controllers
             return vm.View.ShowDialog() == true;
         }
 
-        private void SendCommand(string cmd)
+        private void SendCommand(CommandModel cmd)
         {
-            _telenetService.Send(cmd);
+            var port = GetCurrentViewPort();
 
-            Log(cmd + Environment.NewLine);
+            _telnetTasks[cmd.Port].Send(cmd.Command);
+
+            Log(port, cmd + Environment.NewLine);
 
             DebuggerCommandEnum c;
-            if (Enum.TryParse(cmd, out c))
+            if (Enum.TryParse(cmd.Command, out c))
                 _lasCommand = c;
             else
                 _lasCommand = null;
+        }
+
+        private int GetCurrentViewPort()
+        {
+            return _selectedPort;
         }
 
         private void RegisterCommands()
@@ -215,30 +240,35 @@ namespace RokuTelnet.Controllers
             {
                 if (_debug)
                 {
-                    SendCommand(cmd.ToString());
+                    SendCommand(new CommandModel(GetCurrentViewPort(), cmd.ToString()));
                 }
             }));
         }
 
         private async Task Connect(string ip, int port)
         {
-            _telenetService = _container.Resolve<ITelenetService>();
-            _telenetService.Log += l => Log(l);
-            _telenetService.Close += () => LogFormat("Connection closed");
-            _connected = await _telenetService.Connect(ip, port);
+            var telnet = _container.Resolve<ITelnetService>();
+            telnet.Log += l => Log(telnet.Port, l);
+            telnet.Close += () => LogFormat(port, "Connection closed");
+            _connected = await telnet.Connect(ip, port);
 
             if (_connected)
             {
-                App.Current.Dispatcher.BeginInvoke(
-                    new Action(() => App.Current.Exit += (s, e) => _telenetService.Disconnect()));
+                _telnetTasks[port] = telnet;
+                var parser = _container.Resolve<IParserService>();
+                parser.Start(port);
+                _parserTasks[port] = parser;
 
-                LogFormat("Connected {0}:{1}" + Environment.NewLine, ip, port);
+                App.Current.Dispatcher.BeginInvoke(
+                    new Action(() => App.Current.Exit += (s, e) => telnet.Disconnect()));
+
+                LogFormat(port, "Connected {0}:{1}" + Environment.NewLine, ip, port);
             }
             else
-                LogFormat("Not connected {0}:{1}" + Environment.NewLine, ip, port);
+                LogFormat(port, "Not connected {0}:{1}" + Environment.NewLine, ip, port);
         }
 
-        private void Log(string msg)
+        private void Log(int port, string msg)
         {
             if (_lasCommand.HasValue)
             {
@@ -250,12 +280,12 @@ namespace RokuTelnet.Controllers
 
             _debug = msg.Contains("Debugger>");
 
-            _eventAggregator.GetEvent<LogEvent>().Publish(msg);
+            _eventAggregator.GetEvent<LogEvent>().Publish(new LogModel(port, msg));
         }
 
-        private void LogFormat(string msg, params object[] args)
+        private void LogFormat(int port, string msg, params object[] args)
         {
-            _eventAggregator.GetEvent<LogEvent>().Publish(string.Format(msg, args));
+            _eventAggregator.GetEvent<LogEvent>().Publish(new LogModel(port, string.Format(msg, args)));
         }
     }
 }

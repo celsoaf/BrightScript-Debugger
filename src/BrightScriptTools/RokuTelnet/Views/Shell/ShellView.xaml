@@ -39,9 +39,12 @@
                     </xcad:LayoutAnchorablePaneGroup>
                     
                     <xcad:LayoutDocumentPaneGroup Orientation="Vertical">
-                        <xcad:LayoutDocumentPane>
-                            <xcad:LayoutDocument ContentId="telnet" Title="Telnet" CanClose="False" >
-                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT}" />
+                        <xcad:LayoutDocumentPane x:Name="telnetPanel" PropertyChanged="LayoutElement_OnPropertyChanged">
+                            <xcad:LayoutDocument ContentId="telnetMain" Title="Telnet 8085" CanClose="False" >
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT_MAIN}" />
+                            </xcad:LayoutDocument>
+                            <xcad:LayoutDocument ContentId="telnetSceneGraph" Title="Telnet 8089" CanClose="False" >
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT_SCENE_GRAPH}" />
                             </xcad:LayoutDocument>
                         </xcad:LayoutDocumentPane>
                     </xcad:LayoutDocumentPaneGroup >

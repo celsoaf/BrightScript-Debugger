@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace RokuTelnet.Services.Telnet
 {
-    public interface ITelenetService
+    public interface ITelnetService
     {
         Task<bool> Connect(string ip, int port);
         void Disconnect();
@@ -11,5 +11,7 @@ namespace RokuTelnet.Services.Telnet
         event Action Close;
 
         void Send(string cmd);
+
+        int Port { get; }
     }
 }

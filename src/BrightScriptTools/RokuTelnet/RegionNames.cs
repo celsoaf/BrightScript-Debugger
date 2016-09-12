@@ -2,7 +2,8 @@
 {
     public static class RegionNames
     {
-        public const string OUTPUT = "Output";
+        public const string OUTPUT_MAIN = "OutputMain";
+        public const string OUTPUT_SCENE_GRAPH = "OutputSceneGraph";
         public const string TOOLBAR = "Toolbar";
         public const string STACK_PANEL = "StackPanel";
         public const string WATCH = "Watch";

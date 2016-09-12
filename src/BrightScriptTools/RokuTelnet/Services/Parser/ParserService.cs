@@ -25,10 +25,12 @@ namespace RokuTelnet.Services.Parser
         }
 
 
-        public void Start()
+        public void Start(int port)
         {
             if (!_running)
             {
+                Port = port;
+
                 _running = true;
                 _stream = new PipeStream();
                 _writer = new StreamWriter(_stream);
@@ -110,10 +112,13 @@ namespace RokuTelnet.Services.Parser
             //_eventAggregator.GetEvent<DebugEvent>().Publish(false);
         }
 
-        private void ProcessLog(string msg)
+        private void ProcessLog(LogModel log)
         {
-            _writer.WriteLine(msg);
-            _writer.Flush();
+            if (log.Port == Port)
+            {
+                _writer.WriteLine(log.Message);
+                _writer.Flush();
+            }
         }
 
         public void Stop()
@@ -127,5 +132,7 @@ namespace RokuTelnet.Services.Parser
                 _stream = null;
             }
         }
+
+        public int Port { get; private set ; }
     }
 }

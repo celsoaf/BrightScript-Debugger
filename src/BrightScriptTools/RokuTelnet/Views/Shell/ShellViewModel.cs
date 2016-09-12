@@ -11,6 +11,7 @@ namespace RokuTelnet.Views.Shell
     {
         private bool _isBusy;
         private BusyModel _busyModel;
+        private int _selectedIndex;
 
         public ShellViewModel(IShellView view, IEventAggregator eventAggregator)
         {
@@ -42,6 +43,12 @@ namespace RokuTelnet.Views.Shell
         {
             get { return _busyModel; }
             set { _busyModel = value; OnPropertyChanged(() => BusyModel); }
+        }
+
+        public int SelectedIndex
+        {
+            get { return _selectedIndex; }
+            set { _selectedIndex = value; OnPropertyChanged(()=> SelectedIndex); }
         }
     }
 }

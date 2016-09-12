@@ -24,6 +24,7 @@ namespace RokuTelnet.Views.Toolbar
         private bool _connected;
         private string _selectedIp;
         private string _folder;
+        private int _port;
 
         public ToolbarViewModel(IToolbarView view, IEventAggregator eventAggregator)
         {
@@ -86,10 +87,11 @@ namespace RokuTelnet.Views.Toolbar
             Command = new DelegateCommand<DebuggerCommandEnum?>(cmd =>
             {
                 if (cmd.HasValue)
-                    _eventAggregator.GetEvent<CommandEvent>().Publish(cmd.ToString());
+                    _eventAggregator.GetEvent<CommandEvent>().Publish(new CommandModel(_port, cmd.ToString()));
             });
 
-            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Contains("Debugger>"), ThreadOption.UIThread);
+            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Message.Contains("Debugger>"), ThreadOption.UIThread);
+            _eventAggregator.GetEvent<OutputChangeEvent>().Subscribe(p => _port = p);
 
             LoadLastIp();
             LoadLastFolder();

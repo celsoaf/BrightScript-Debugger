@@ -4,6 +4,7 @@ using System.Linq;
 using Prism.Commands;
 using Prism.Events;
 using RokuTelnet.Events;
+using RokuTelnet.Models;
 
 namespace RokuTelnet.Views.Output
 {
@@ -30,15 +31,18 @@ namespace RokuTelnet.Views.Output
 
             _eventAggregator.GetEvent<LogEvent>().Subscribe(msg =>
             {
-                Logs += msg;
+                if (msg.Port == Port)
+                {
+                    Logs += msg.Message;
 
-                if (Logs.Length > LOGS_LENGHT)
-                    Logs = Logs.Substring(Logs.Length - LOGS_LENGHT);
+                    if (Logs.Length > LOGS_LENGHT)
+                        Logs = Logs.Substring(Logs.Length - LOGS_LENGHT);
+                }
             }, ThreadOption.UIThread);
 
             EnterCommand = new DelegateCommand(() =>
             {
-                _eventAggregator.GetEvent<CommandEvent>().Publish(Command);
+                _eventAggregator.GetEvent<CommandEvent>().Publish(new CommandModel(Port, Command));
                 LastCommands.Add(Command);
                 if (LastCommands.Count > 100)
                     LastCommands.RemoveAt(0);
@@ -76,7 +80,7 @@ namespace RokuTelnet.Views.Output
             });
 
             //_eventAggregator.GetEvent<DebugEvent>().Subscribe(enable => Enable = enable, ThreadOption.UIThread);
-            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Contains("Debugger>"), ThreadOption.UIThread);
+            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Message.Contains("Debugger>"), ThreadOption.UIThread);
         }
 
         public IOutputView View { get; set; }
@@ -112,6 +116,13 @@ namespace RokuTelnet.Views.Output
                 OnPropertyChanged(() => Enable);
                 View.SetFocus();
             }
+        }
+
+        public int Port { get; set; }
+
+        public void SetActive()
+        {
+            _eventAggregator.GetEvent<OutputChangeEvent>().Publish(Port);
         }
     }
 }

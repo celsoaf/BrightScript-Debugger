@@ -163,6 +163,7 @@
     <Compile Include="Events\DeployEvent.cs" />
     <Compile Include="Events\DisconnectEvent.cs" />
     <Compile Include="Events\LogEvent.cs" />
+    <Compile Include="Events\OutputChangeEvent.cs" />
     <Compile Include="Events\ScreenshotEvent.cs" />
     <Compile Include="Events\ScreenshotRunningEvent.cs" />
     <Compile Include="Events\ScreenshotStartEvent.cs" />
@@ -173,12 +174,14 @@
     <Compile Include="GlobalCommands.cs" />
     <Compile Include="Models\BacktraceModel.cs" />
     <Compile Include="Models\BusyModel.cs" />
+    <Compile Include="Models\CommandModel.cs" />
     <Compile Include="Models\ConfigKeyValueModel.cs" />
     <Compile Include="Models\ConfigModel.cs" />
     <Compile Include="Models\ConfigReplaceModel.cs" />
     <Compile Include="Models\ConfigValueModel.cs" />
     <Compile Include="Models\DeployModel.cs" />
     <Compile Include="Models\EventModel.cs" />
+    <Compile Include="Models\LogModel.cs" />
     <Compile Include="Models\VariableModel.cs" />
     <Compile Include="RegionNames.cs" />
     <Compile Include="Services\Deploy\DeployService.cs" />
@@ -195,7 +198,7 @@
     <Compile Include="Services\Remote\RemoteService.cs" />
     <Compile Include="Services\Screenshot\IScreenshotService.cs" />
     <Compile Include="Services\Screenshot\ScreenshotService.cs" />
-    <Compile Include="Services\Telnet\ITelenetService.cs" />
+    <Compile Include="Services\Telnet\ITelnetService.cs" />
     <Compile Include="Services\Telnet\SoketService.cs" />
     <Compile Include="Services\Telnet\Utils\RokuStringParser.cs" />
     <Compile Include="Services\Telnet\Utils\RokuReceiverFilter.cs" />

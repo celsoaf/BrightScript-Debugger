@@ -54,31 +54,31 @@
 
         <TextBlock Grid.Row="0" Grid.Column="0" Text="User:"/>
 
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Model.User}"/>
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Model.User, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBlock Grid.Row="1" Grid.Column="0" Text="Password:"/>
 
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Model.Pass}"/>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Model.Pass, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBlock Grid.Row="2" Grid.Column="0" Text="AppName:"/>
 
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Model.AppName}"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Model.AppName, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBlock Grid.Row="3" Grid.Column="0" Text="ArchiveName:"/>
 
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Model.ArchiveName}"/>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Model.ArchiveName, UpdateSourceTrigger=PropertyChanged}"/>
 
         <TextBlock Grid.Row="4" Grid.Column="0" Text="BuildDirectory:"/>
 
-        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Model.BuildDirectory}"/>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Model.BuildDirectory, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <CheckBox Grid.Row="5" Grid.Column="0" Content="Optimize" IsChecked="{Binding Model.Optimize}"/>
+        <CheckBox Grid.Row="5" Grid.Column="0" Content="Optimize" IsChecked="{Binding Model.Optimize, UpdateSourceTrigger=PropertyChanged}"/>
 
         <GroupBox Grid.Row="6" Grid.ColumnSpan="2" Header="Includes">
             <DataGrid ItemsSource="{Binding Model.Includes}" CanUserAddRows="True" CanUserDeleteRows="True"
                   SelectionMode="Single" Margin="5" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Item" Binding="{Binding Value}" />
+                    <DataGridTextColumn Header="Item" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
@@ -87,7 +87,7 @@
             <DataGrid ItemsSource="{Binding Model.Excludes}" CanUserAddRows="True" CanUserDeleteRows="True"
                   SelectionMode="Single" Margin="5" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Item" Binding="{Binding Value}" />
+                    <DataGridTextColumn Header="Item" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
@@ -96,8 +96,8 @@
             <DataGrid ItemsSource="{Binding Model.ExtraConfigs}" CanUserAddRows="True" CanUserDeleteRows="True"
                   SelectionMode="Single" Margin="5" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Key" Binding="{Binding Key}" />
-                    <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
+                    <DataGridTextColumn Header="Key" Binding="{Binding Key, UpdateSourceTrigger=PropertyChanged}" />
+                    <DataGridTextColumn Header="Value" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
@@ -106,9 +106,9 @@
             <DataGrid ItemsSource="{Binding Model.Replaces}" CanUserAddRows="True" CanUserDeleteRows="True"
                   SelectionMode="Single" Margin="5" AutoGenerateColumns="False">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Key" Binding="{Binding Key}" />
-                    <DataGridTextColumn Header="Value" Binding="{Binding Value}" />
-                    <DataGridCheckBoxColumn Header="Enable" Binding="{Binding Enable}" />
+                    <DataGridTextColumn Header="Key" Binding="{Binding Key, UpdateSourceTrigger=PropertyChanged}" />
+                    <DataGridTextColumn Header="Value" Binding="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
+                    <DataGridCheckBoxColumn Header="Enable" Binding="{Binding Enable, UpdateSourceTrigger=PropertyChanged}" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

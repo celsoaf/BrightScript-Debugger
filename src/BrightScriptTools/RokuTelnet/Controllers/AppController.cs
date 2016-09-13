@@ -50,7 +50,7 @@ namespace RokuTelnet.Controllers
         private DebuggerCommandEnum? _lasCommand;
         private volatile bool _connected;
         private string _ip;
-        private volatile bool _debug;
+        private volatile bool _debug = true;
         private volatile bool _screenshotRunning;
         private IToolbarViewModel _toolbarViewModel;
         private int _selectedPort;
@@ -300,7 +300,7 @@ namespace RokuTelnet.Controllers
                 _lasCommand = null;
             }
 
-            _debug = msg.Contains("Debugger>");
+            //_debug = msg.Contains("Debugger>");
 
             _eventAggregator.GetEvent<LogEvent>().Publish(new LogModel(port, msg));
         }

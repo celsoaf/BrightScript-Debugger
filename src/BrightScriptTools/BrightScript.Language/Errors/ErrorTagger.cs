@@ -4,6 +4,8 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BrightScript.Language.Shared;
+using BrightScript.Language.Text;
 using BrightScriptTools.Compiler;
 using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.Text;
@@ -16,10 +18,12 @@ namespace BrightScript.Language.Errors
     {
         private ITextBuffer buffer;
         private CancellationTokenSource cancellationTokenSource;
+        private ISingletons singletons;
 
-        public ErrorTagger(ITextBuffer buffer)
+        public ErrorTagger(ITextBuffer buffer, ISingletons singletons)
         {
             this.buffer = buffer;
+            this.singletons = singletons;
         }
 
         public IEnumerable<ITagSpan<ErrorTag>> GetTags(NormalizedSnapshotSpanCollection spans)
@@ -37,38 +41,14 @@ namespace BrightScript.Language.Errors
             }
 
             ITextSnapshot textSnapshot = spans[0].Snapshot.TextBuffer.CurrentSnapshot;
-            var text = textSnapshot.GetText();
+            var errors = this.singletons.FeatureContainer.DiagnosticsProvider.GetDiagnostics(textSnapshot);
 
-            using (Stream stream = new MemoryStream(Encoding.UTF8.GetBytes(text)))
+            foreach (var error in errors)
             {
-                // parse input args, and open input file
-                Scanner scanner = new Scanner(stream);
+                SnapshotSpan newSnapshotSpan = EditorUtilities.CreateSnapshotSpan(textSnapshot, error.Position, error.Length);
 
-                Parser parser = new Parser(scanner);
-                if (!parser.Parse()) 
-                {
-                    foreach (var error in scanner.Errors)
-                    {
-                        SnapshotSpan newSnapshotSpan = CreateSnapshotSpan(textSnapshot, error.Position, error.Length);
-
-                        yield return new TagSpan<ErrorTag>(newSnapshotSpan, new ErrorTag(PredefinedErrorTypeNames.SyntaxError, error.Message));
-                    }
-                }
+                yield return new TagSpan<ErrorTag>(newSnapshotSpan, new ErrorTag(PredefinedErrorTypeNames.SyntaxError, error.Message));
             }
-        }
-
-        internal static SnapshotSpan CreateSnapshotSpan(ITextSnapshot snapshot, int position, int length)
-        {
-            // Assume a bogus (negative) position to be at the end.
-            if (position < 0)
-            {
-                position = snapshot.Length;
-            }
-
-            position = Math.Min(position, snapshot.Length);
-            length = Math.Max(0, Math.Min(length, snapshot.Length - position));
-
-            return new SnapshotSpan(snapshot, position, length);
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;

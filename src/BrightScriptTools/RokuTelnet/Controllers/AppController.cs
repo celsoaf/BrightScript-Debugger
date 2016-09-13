@@ -79,6 +79,13 @@ namespace RokuTelnet.Controllers
 
         public async void Initialize()
         {
+            RegisterTelnet(RegionNames.OUTPUT_MAIN, 8085);
+            RegisterTelnet(RegionNames.OUTPUT_SCENE_GRAPH, 8089);
+            RegisterTelnet(RegionNames.OUTPUT_TASK_1, 8090);
+            RegisterTelnet(RegionNames.OUTPUT_TASK_2, 8091);
+            RegisterTelnet(RegionNames.OUTPUT_TASK_3, 8092);
+            RegisterTelnet(RegionNames.OUTPUT_TASK_REST, 8093);
+            RegisterTelnet(RegionNames.OUTPUT_SPECIAL, 8080);
             _regionManager.RegisterViewWithRegion(RegionNames.OUTPUT_MAIN, () =>
             {
                 var vm = _container.Resolve<IOutputViewModel>();
@@ -112,6 +119,11 @@ namespace RokuTelnet.Controllers
                 Task.Delay(1000).Wait();
                 Connect(ip, 8085).Wait();
                 Connect(ip, 8089).Wait();
+                Connect(ip, 8090).Wait();
+                Connect(ip, 8091).Wait();
+                Connect(ip, 8092).Wait();
+                Connect(ip, 8093).Wait();
+                Connect(ip, 8080).Wait();
 
                 var args = JsonConvert.SerializeObject(new { ip = ip });
                 _remoteService.SetArgs(args);
@@ -161,6 +173,16 @@ namespace RokuTelnet.Controllers
             _eventAggregator.GetEvent<OutputChangeEvent>().Publish(8085);
 
             RegisterCommands();
+        }
+
+        private void RegisterTelnet(string region, int port)
+        {
+            _regionManager.RegisterViewWithRegion(region, () =>
+            {
+                var vm = _container.Resolve<IOutputViewModel>();
+                vm.Port = port;
+                return vm.View;
+            });
         }
 
         private void Deploy(string ip, string folder)

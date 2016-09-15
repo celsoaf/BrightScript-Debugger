@@ -59,8 +59,8 @@ namespace BrightScript.Language.Shared
                     Guid guid = Guids.Package;
                     IVsPackage package;
                     ErrorHandler.ThrowOnFailure(shell.LoadPackage(ref guid, out package));
-                    LanguageServicePackage luaPackage = (LanguageServicePackage)package;
-                    this.userSettings = luaPackage.FormattingUserSettings;
+                    LanguageServicePackage bsPackage = (LanguageServicePackage)package;
+                    this.userSettings = bsPackage.FormattingUserSettings;
                     this.globalEditorOptions.Value.Initialize();
                 }
 

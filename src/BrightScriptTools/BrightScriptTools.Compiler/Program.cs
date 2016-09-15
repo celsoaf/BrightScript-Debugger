@@ -27,7 +27,13 @@ namespace BrightScriptTools.Compiler
                 Scanner scanner = new Scanner(file);
 
                 Parser parser = new Parser(scanner);
-                parser.Parse();
+                if (!parser.Parse())
+                {
+                    scanner.Errors.ToList().ForEach(e =>
+                    {
+                        Console.WriteLine(e.Message);
+                    });
+                }
             }
         }
 

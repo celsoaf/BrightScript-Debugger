@@ -58,9 +58,9 @@
                             <xcad:LayoutDocument ContentId="telnetSceneGraph" Title="Telnet Other Tasks" CanClose="False" >
                                 <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT_TASK_REST}" />
                             </xcad:LayoutDocument>
-                            <xcad:LayoutDocument ContentId="telnetSceneGraph" Title="Telnet Special" CanClose="False" >
+                            <!--<xcad:LayoutDocument ContentId="telnetSceneGraph" Title="Telnet Special" CanClose="False" >
                                 <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT_SPECIAL}" />
-                            </xcad:LayoutDocument>
+                            </xcad:LayoutDocument>-->
                         </xcad:LayoutDocumentPane>
                     </xcad:LayoutDocumentPaneGroup >
                     

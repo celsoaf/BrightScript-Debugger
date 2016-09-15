@@ -85,7 +85,7 @@ namespace RokuTelnet.Controllers
             RegisterTelnet(RegionNames.OUTPUT_TASK_2, 8091);
             RegisterTelnet(RegionNames.OUTPUT_TASK_3, 8092);
             RegisterTelnet(RegionNames.OUTPUT_TASK_REST, 8093);
-            RegisterTelnet(RegionNames.OUTPUT_SPECIAL, 8080);
+            //RegisterTelnet(RegionNames.OUTPUT_SPECIAL, 8080);
             _regionManager.RegisterViewWithRegion(RegionNames.OUTPUT_MAIN, () =>
             {
                 var vm = _container.Resolve<IOutputViewModel>();

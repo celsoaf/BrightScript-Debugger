@@ -35,7 +35,7 @@ namespace BrightScript.Language.Shared
             LANGPREFERENCES2[] languagePreferences = new LANGPREFERENCES2[] { new LANGPREFERENCES2() { guidLang = Guids.Service } };
 
             int hresult = textManager.GetUserPreferences2(viewPreferences, pFramePrefs: null, pLangPrefs: languagePreferences, pColorPrefs: null);
-            ErrorHandler.ThrowOnFailure(hresult);
+            //ErrorHandler.ThrowOnFailure(hresult);
 
             this.UpdatePreferences(viewPreferences, languagePreferences);
 

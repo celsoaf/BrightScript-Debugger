@@ -167,7 +167,7 @@ namespace BrightScript.Language.Formatting
 
         public void FormatOnEnter()
         {
-            if (this.core.FormattingUserSettings.FormatOnEnter != true)
+            if (this.core.FormattingUserSettings == null || this.core.FormattingUserSettings.FormatOnEnter != true)
             {
                 return;
             }

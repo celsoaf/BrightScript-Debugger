@@ -24,7 +24,7 @@ namespace RokuTelnet.Views.Toolbar
         private bool _connected;
         private string _selectedIp;
         private string _folder;
-        private int _port;
+        private int _port = 8085;
 
         public ToolbarViewModel(IToolbarView view, IEventAggregator eventAggregator)
         {

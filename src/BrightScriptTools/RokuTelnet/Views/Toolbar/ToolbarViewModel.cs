@@ -20,7 +20,7 @@ namespace RokuTelnet.Views.Toolbar
         private const string LAST_FOLDER_NAME = "lastFolder.json";
 
         private IEventAggregator _eventAggregator;
-        private bool _enable;
+        private bool _enable = true;
         private bool _connected;
         private string _selectedIp;
         private string _folder;
@@ -90,7 +90,7 @@ namespace RokuTelnet.Views.Toolbar
                     _eventAggregator.GetEvent<CommandEvent>().Publish(new CommandModel(_port, cmd.ToString()));
             });
 
-            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Message.Contains("Debugger>"), ThreadOption.UIThread);
+            //_eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Message.Contains("Debugger>"), ThreadOption.UIThread);
             _eventAggregator.GetEvent<OutputChangeEvent>().Subscribe(p => _port = p);
 
             LoadLastIp();

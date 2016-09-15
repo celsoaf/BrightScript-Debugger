@@ -40,11 +40,26 @@
                     
                     <xcad:LayoutDocumentPaneGroup Orientation="Vertical">
                         <xcad:LayoutDocumentPane x:Name="telnetPanel" PropertyChanged="LayoutElement_OnPropertyChanged">
-                            <xcad:LayoutDocument ContentId="telnetMain" Title="Telnet 8085" CanClose="False" >
+                            <xcad:LayoutDocument ContentId="telnetMain" Title="Telnet Main" CanClose="False" >
                                 <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT_MAIN}" />
                             </xcad:LayoutDocument>
-                            <xcad:LayoutDocument ContentId="telnetSceneGraph" Title="Telnet 8089" CanClose="False" >
+                            <xcad:LayoutDocument ContentId="telnetSceneGraph" Title="Telnet Scene Graph" CanClose="False" >
                                 <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT_SCENE_GRAPH}" />
+                            </xcad:LayoutDocument>
+                            <xcad:LayoutDocument ContentId="telnetSceneGraph" Title="Telnet Task 1" CanClose="False" >
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT_TASK_1}" />
+                            </xcad:LayoutDocument>
+                            <xcad:LayoutDocument ContentId="telnetSceneGraph" Title="Telnet Task 2" CanClose="False" >
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT_TASK_2}" />
+                            </xcad:LayoutDocument>
+                            <xcad:LayoutDocument ContentId="telnetSceneGraph" Title="Telnet Task 3" CanClose="False" >
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT_TASK_3}" />
+                            </xcad:LayoutDocument>
+                            <xcad:LayoutDocument ContentId="telnetSceneGraph" Title="Telnet Other Tasks" CanClose="False" >
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT_TASK_REST}" />
+                            </xcad:LayoutDocument>
+                            <xcad:LayoutDocument ContentId="telnetSceneGraph" Title="Telnet Special" CanClose="False" >
+                                <ContentControl regions:RegionManager.RegionName="{x:Static rokuTelnet:RegionNames.OUTPUT_SPECIAL}" />
                             </xcad:LayoutDocument>
                         </xcad:LayoutDocumentPane>
                     </xcad:LayoutDocumentPaneGroup >

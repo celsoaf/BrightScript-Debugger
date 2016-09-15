@@ -17,7 +17,7 @@ namespace RokuTelnet.Views.Output
 
         private string _commands;
         private int _cmdIndex = 0;
-        private bool _enable;
+        private bool _enable = true;
 
         public OutputViewModel(IOutputView view, IEventAggregator eventAggregator)
         {
@@ -80,7 +80,7 @@ namespace RokuTelnet.Views.Output
             });
 
             //_eventAggregator.GetEvent<DebugEvent>().Subscribe(enable => Enable = enable, ThreadOption.UIThread);
-            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Message.Contains("Debugger>"), ThreadOption.UIThread);
+            //_eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Message.Contains("Debugger>"), ThreadOption.UIThread);
         }
 
         public IOutputView View { get; set; }

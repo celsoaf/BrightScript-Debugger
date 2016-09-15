@@ -74,7 +74,7 @@ EolOpt
 
 StatementList
 	: EolOpt /* Empty */
-	| EolOpt Statement StatementList 
+	| Eol EolOpt Statement StatementList 
 	;
 
 Statement

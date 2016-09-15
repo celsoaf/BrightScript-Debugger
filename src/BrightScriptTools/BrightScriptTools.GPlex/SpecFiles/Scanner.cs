@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.0.0.0
 //  Machine:  CELSO-PC
-//  DateTime: 21/06/2016 16:46:08
+//  DateTime: 15/09/2016 00:32:59
 //  UserName: Celso
-//  GPLEX input file <SpecFiles\BrightScriptLexer.lex - 25/05/2016 18:28:39>
+//  GPLEX input file <SpecFiles\BrightScriptLexer.lex - 04/09/2016 11:24:55>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize

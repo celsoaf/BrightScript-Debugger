@@ -136,7 +136,7 @@ namespace BrightScript.Language.Errors
                 var errors = this.singletons.FeatureContainer.DiagnosticsProvider.GetDiagnostics(snapshot);
                 foreach (var error in errors)
                 {
-                    SnapshotSpan errorSnapshotSpan = EditorUtilities.CreateSnapshotSpan(snapshot, error.Position, error.Length);
+                    SnapshotSpan errorSnapshotSpan = EditorUtilities.CreateSnapshotSpan(snapshot, error.Span.endIndex, error.Span.Length);
 
                     string filePath = snapshot.TextBuffer.GetFilePath();
                     Debug.Assert(filePath != null, "We should always be able to get the moniker for a file opened in the editor (even if it hasn't been saved)");

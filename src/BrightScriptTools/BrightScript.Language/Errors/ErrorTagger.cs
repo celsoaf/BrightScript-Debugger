@@ -45,7 +45,7 @@ namespace BrightScript.Language.Errors
 
             foreach (var error in errors)
             {
-                SnapshotSpan newSnapshotSpan = EditorUtilities.CreateSnapshotSpan(textSnapshot, error.Position, error.Length);
+                SnapshotSpan newSnapshotSpan = EditorUtilities.CreateSnapshotSpan(textSnapshot, error.Span.startIndex, error.Span.Length);
 
                 yield return new TagSpan<ErrorTag>(newSnapshotSpan, new ErrorTag(PredefinedErrorTypeNames.SyntaxError, error.Message));
             }

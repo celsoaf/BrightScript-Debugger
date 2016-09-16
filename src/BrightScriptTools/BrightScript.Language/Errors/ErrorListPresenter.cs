@@ -133,10 +133,10 @@ namespace BrightScript.Language.Errors
                 this.errorListProvider.SuspendRefresh();
                 this.ClearErrors();
 
-                 var errors = this.singletons.FeatureContainer.DiagnosticsProvider.GetDiagnostics(snapshot);
+                var errors = this.singletons.FeatureContainer.DiagnosticsProvider.GetDiagnostics(snapshot);
                 foreach (var error in errors)
                 {
-                    SnapshotSpan errorSnapshotSpan = EditorUtilities.CreateSnapshotSpan(snapshot, error.Position, error.Length);
+                    SnapshotSpan errorSnapshotSpan = EditorUtilities.CreateSnapshotSpan(snapshot, error.Span.endIndex, error.Span.Length);
 
                     string filePath = snapshot.TextBuffer.GetFilePath();
                     Debug.Assert(filePath != null, "We should always be able to get the moniker for a file opened in the editor (even if it hasn't been saved)");
@@ -153,22 +153,22 @@ namespace BrightScript.Language.Errors
             {
                 this.errorListProvider.ResumeRefresh();
             }
-}
-
-
-private void UpdateErrorsWithDelay(ITextSnapshot snapshot, CancellationToken token)
-{
-    Task.Run(async () =>
-    {
-        await Task.Delay(Constants.UIUpdateDelay);
-
-        if (token.IsCancellationRequested)
-        {
-            return;
         }
 
-        this.UpdateErrorList(snapshot);
-    }, token);
-}
+
+        private void UpdateErrorsWithDelay(ITextSnapshot snapshot, CancellationToken token)
+        {
+            Task.Run(async () =>
+            {
+                await Task.Delay(Constants.UIUpdateDelay);
+
+                if (token.IsCancellationRequested)
+                {
+                    return;
+                }
+
+                this.UpdateErrorList(snapshot);
+            }, token);
+        }
     }
 }

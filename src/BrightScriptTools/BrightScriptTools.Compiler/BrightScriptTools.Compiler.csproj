@@ -53,6 +53,8 @@
       <Link>Parser.cs</Link>
     </Compile>
     <Compile Include="Error.cs" />
+    <Compile Include="ErrorHandler.cs" />
+    <Compile Include="LexSpan.cs" />
     <Compile Include="ParserExtension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

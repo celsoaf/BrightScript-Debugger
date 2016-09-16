@@ -1,26 +1,35 @@
-﻿namespace BrightScriptTools.Compiler
+﻿using System;
+using BrightScriptTools.GPlex.Parser;
+
+namespace BrightScriptTools.Compiler
 {
-    public class Error
+    public class Error : IComparable<Error>
     {
-        public Error(int position, int length, string message)
-        {
-            Position = position;
-            Message = message;
-            Length = length;
-        }
+        internal const int minErr = 50;
+        internal const int minWrn = 100;
 
-        public Error(int line, int column, int position, int length, string message)
-            : this(position, length, message)
-        {
-            Line = line;
-            Column = column;
-        }
-
-        public int Line { get; private set; }
-        public int Column { get; private set; }
-        public int Position { get; private set; }
-        public int Length { get; private set; }
+        internal int code;
+        public bool IsWarn { get; private set; }
         public string Message { get; private set; }
+        public LexSpan Span { get; private set; }
+
+
+        internal Error(int code, string msg, LexSpan spn, bool wrn)
+        {
+            this.code = code;
+            IsWarn = wrn;
+            Message = msg;
+            Span = spn;
+        }
+
+        public int CompareTo(Error r)
+        {
+            if (Span.startLine < r.Span.startLine) return -1;
+            else if (Span.startLine > r.Span.startLine) return 1;
+            else if (Span.startColumn < r.Span.startColumn) return -1;
+            else if (Span.startColumn > r.Span.startColumn) return 1;
+            else return 0;
+        }
 
     }
 }

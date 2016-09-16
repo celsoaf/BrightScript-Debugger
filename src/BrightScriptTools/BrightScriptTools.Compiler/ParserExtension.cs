@@ -5,10 +5,13 @@ namespace BrightScriptTools.Compiler
 {
     public partial class Parser : ShiftReduceParser<int, LexSpan>
     {
-        public Parser(AbstractScanner<int, LexSpan> scanner)
+        internal ErrorHandler handler;
+
+
+        public Parser(AbstractScanner<int, LexSpan> scanner, ErrorHandler handler)
             :base(scanner)
         {
-            
+            this.handler = handler;
         }
     }
 }

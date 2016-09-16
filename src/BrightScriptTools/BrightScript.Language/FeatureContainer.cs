@@ -5,7 +5,7 @@ using BrightScript.Language.Shared;
 namespace BrightScript.Language
 {
     /// <summary>
-    /// Contains all the Lua language service features
+    /// Contains all the BrightScript language service features
     /// </summary>
     internal sealed class FeatureContainer
     {

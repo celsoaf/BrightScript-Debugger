@@ -37,13 +37,15 @@ namespace BrightScript.Language.Diagnostics
             SourceText sourceText = _singletons.SourceTextCache.Get(text);
             using (Stream stream = sourceText.GetStream())
             {
+                ErrorHandler handler = new ErrorHandler();
                 // parse input args, and open input file
                 Scanner scanner = new Scanner(stream);
+                scanner.SetHandler(handler);
 
-                Parser parser = new Parser(scanner);
+                Parser parser = new Parser(scanner, handler);
                 if (!parser.Parse())
                 {
-                    errors = scanner.Errors;
+                    errors = handler.SortedErrorList();
                 }
                 else
                 {

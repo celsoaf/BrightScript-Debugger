@@ -79,6 +79,9 @@ namespace RokuTelnet.Services.Deploy
 
                     DeployZip(zipFile, ip, options);
 
+                    File.Delete(zipFile);
+                    Directory.Delete(outputFolder, true);
+
                     _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Deploy complete", 7, options));
                 }
                 catch (Exception ex)
@@ -227,7 +230,7 @@ namespace RokuTelnet.Services.Deploy
         private Dictionary<string, string> GetReplaces(ConfigModel options)
         {
             var replaces = options.Replaces
-                    .Where(c=> c.Enable)
+                    .Where(c => c.Enable)
                     .ToDictionary(item => item.Key, item => item.Value);
 
             var elements = options.ExtraConfigs.ToList();
@@ -303,7 +306,7 @@ namespace RokuTelnet.Services.Deploy
 
             var excludes = options.Excludes;
 
-            foreach (var value in excludes.Select(x => x.Value))
+            foreach (var value in excludes.Where(v => v.Value != null).Select(x => x.Value))
             {
                 var dest = Path.Combine(outputFolder, value);
 

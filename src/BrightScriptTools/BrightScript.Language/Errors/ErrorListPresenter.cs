@@ -133,7 +133,8 @@ namespace BrightScript.Language.Errors
                 this.errorListProvider.SuspendRefresh();
                 this.ClearErrors();
 
-                var errors = this.singletons.FeatureContainer.DiagnosticsProvider.GetDiagnostics(snapshot);
+                SourceText sourceText = this.singletons.SourceTextCache.Get(snapshot);
+                var errors = this.singletons.FeatureContainer.DiagnosticsProvider.GetDiagnostics(sourceText);
                 foreach (var error in errors)
                 {
                     SnapshotSpan errorSnapshotSpan = EditorUtilities.CreateSnapshotSpan(snapshot, error.Span.endIndex, error.Span.Length);

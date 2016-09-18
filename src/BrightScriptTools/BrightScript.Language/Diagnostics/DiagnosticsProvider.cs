@@ -14,48 +14,22 @@ namespace BrightScript.Language.Diagnostics
 {
     internal class DiagnosticsProvider : IDiagnosticsProvider
     {
-        private ISingletons _singletons;
+        private ParseTreeCache parseTreeCache;
 
-        private readonly ConditionalWeakTable<ITextSnapshot, IEnumerable<Error>> sources =
-               new ConditionalWeakTable<ITextSnapshot, IEnumerable<Error>>();
-
-        public DiagnosticsProvider(ISingletons singletons)
+        public DiagnosticsProvider(ParseTreeCache parseTreeCache)
         {
-            _singletons = singletons;
+            Requires.NotNull(parseTreeCache, nameof(parseTreeCache));
+
+            this.parseTreeCache = parseTreeCache;
         }
 
-        public IEnumerable<Error> GetDiagnostics(ITextSnapshot text)
+        public IReadOnlyList<Error> GetDiagnostics(SourceText sourceText)
         {
-            Requires.NotNull(text, nameof(text));
+            Requires.NotNull(sourceText, nameof(sourceText));
 
-            IEnumerable<Error> errors;
-            if (this.sources.TryGetValue(text, out errors))
-            {
-                return errors;
-            }
+            SyntaxTree syntaxTree = this.parseTreeCache.Get(sourceText);
 
-            SourceText sourceText = _singletons.SourceTextCache.Get(text);
-            using (Stream stream = sourceText.GetStream())
-            {
-                ErrorHandler handler = new ErrorHandler();
-                // parse input args, and open input file
-                Scanner scanner = new Scanner(stream);
-                scanner.SetHandler(handler);
-
-                Parser parser = new Parser(scanner, handler);
-                if (!parser.Parse())
-                {
-                    errors = handler.SortedErrorList();
-                }
-                else
-                {
-                    errors = new List<Error>();
-                }
-            }
-
-            sources.Add(text, errors);
-
-            return errors;
+            return syntaxTree.ErrorList;
         }
     }
 }

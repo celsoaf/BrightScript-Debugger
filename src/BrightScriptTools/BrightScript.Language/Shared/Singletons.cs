@@ -41,7 +41,7 @@ namespace BrightScript.Language.Shared
             {
                 if (this.featureContainer == null)
                 {
-                    this.featureContainer = new FeatureContainer(this);
+                    this.featureContainer = new FeatureContainer();
                 }
 
                 return this.featureContainer;

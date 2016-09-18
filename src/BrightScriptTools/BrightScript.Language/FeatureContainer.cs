@@ -9,13 +9,14 @@ namespace BrightScript.Language
     /// </summary>
     internal sealed class FeatureContainer
     {
-        private ISingletons _singletons;
+        private ParseTreeCache parseTreeCache;
 
-        internal FeatureContainer(ISingletons singletons)
+
+        internal FeatureContainer()
         {
-            _singletons = singletons;
+            this.parseTreeCache = new ParseTreeCache();
             this.Formatter = new Formatter();
-            this.DiagnosticsProvider = new DiagnosticsProvider(singletons);
+            this.DiagnosticsProvider = new DiagnosticsProvider(this.parseTreeCache);
         }
 
         public IDiagnosticsProvider DiagnosticsProvider { get; }

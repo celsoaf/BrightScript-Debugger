@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using BrightScript.Language.Text;
 using BrightScriptTools.Compiler;
 using Microsoft.VisualStudio.Text;
 
@@ -18,6 +19,6 @@ namespace BrightScript.Language.Diagnostics
         /// </summary>
         /// <param name="sourceText">The source text to analyze and return messages for</param>
         /// <returns>The diagnostics for a given <paramref name="sourceText"/></returns>
-        IEnumerable<Error> GetDiagnostics(ITextSnapshot sourceText);
+        IReadOnlyList<Error> GetDiagnostics(SourceText sourceText);
     }
 }

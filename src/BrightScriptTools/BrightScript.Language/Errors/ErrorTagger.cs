@@ -41,7 +41,8 @@ namespace BrightScript.Language.Errors
             }
 
             ITextSnapshot textSnapshot = spans[0].Snapshot.TextBuffer.CurrentSnapshot;
-            var errors = this.singletons.FeatureContainer.DiagnosticsProvider.GetDiagnostics(textSnapshot);
+            SourceText sourceText = this.singletons.SourceTextCache.Get(textSnapshot);
+            var errors = this.singletons.FeatureContainer.DiagnosticsProvider.GetDiagnostics(sourceText);
 
             foreach (var error in errors)
             {

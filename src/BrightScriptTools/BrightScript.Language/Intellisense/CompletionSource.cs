@@ -283,7 +283,7 @@ namespace BrightScript.Language.Intellisense
                 "RemoveTail",
                 "Reset",
                 "ResetIndex",
-                "RETURN",
+                "return",
                 "Right",
                 "Rnd",
                 "roArray",
@@ -338,7 +338,7 @@ namespace BrightScript.Language.Intellisense
                 "Void",
                 "Wait",
                 "WaitMessage",
-                "While",
+                "while",
                 "WriteAsciiFile",
                 "WriteFile"
             };

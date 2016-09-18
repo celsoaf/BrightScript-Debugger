@@ -41,11 +41,22 @@ namespace BrightScriptTools.Compiler
 
             switch (t)
             {
-
+                case Tokens.bsNumber:
+                    return SyntaxKind.Number;
 
                 default:
                     return SyntaxKind.MissingToken;
             }
+        }
+
+        public string GetText()
+        {
+            return yytext;
+        }
+
+        public int GetPosition()
+        {
+            return tokPos;
         }
     }
 

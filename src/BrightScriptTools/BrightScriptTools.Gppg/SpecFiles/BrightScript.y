@@ -4,6 +4,7 @@
 %using System.Collections;
 %using BrightScriptTools.GPlex;
 %using BrightScriptTools.GPlex.Parser;
+%using BrightScriptTools.Compiler.AST
 
 %namespace BrightScriptTools.Compiler
 
@@ -12,6 +13,7 @@
 %partial
 
 %YYLTYPE LexSpan
+%YYSTYPE SyntaxNodeOrToken
 
 %token	bar, dot, semi, star, lt, gt, ltEqual, gtEqual, notEqual, comma, slash, lBrac, rBrac, lPar, rPar, lBrace, rBrace, Eol, equal, plus, minus, questionMark, colon
 
@@ -228,7 +230,7 @@ StringLiteral
 	;
 
 NumericLiteral
-	: bsNumber
+	: bsNumber { $$ = BuildNumberNode($1); }
 	;
 
 EmptyBlock

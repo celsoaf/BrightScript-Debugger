@@ -73,6 +73,7 @@
     <Compile Include="ASTScanner.cs" />
     <Compile Include="AST\BlockNode.cs" />
     <Compile Include="AST\ChunkNode.cs" />
+    <Compile Include="AST\NumberNode.cs" />
     <Compile Include="AST\StatementNode.cs" />
     <Compile Include="AST\SyntaxKind.cs" />
     <Compile Include="AST\SyntaxNode.cs" />

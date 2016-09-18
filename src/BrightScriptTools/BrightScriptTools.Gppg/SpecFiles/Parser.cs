@@ -3,10 +3,10 @@
 // (see accompanying GPPGcopyright.rtf)
 
 // GPPG version 1.0.0.0
-// Machine:  CELSO-PC
-// DateTime: 15/09/2016 00:54:57
-// UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 15/09/2016 00:54:34>
+// Machine:  OSTLT0248323
+// DateTime: 18/09/2016 23:10:18
+// UserName: CFE05
+// Input file <SpecFiles\BrightScript.y - 18/09/2016 23:04:19>
 
 // options: babel lines diagnose & report gplex
 
@@ -19,6 +19,7 @@ using BrightScriptTools.Gppg.GPGen;
 using System.Collections;
 using BrightScriptTools.GPlex;
 using BrightScriptTools.GPlex.Parser;
+using BrightScriptTools.Compiler.AST;
 
 namespace BrightScriptTools.Compiler
 {
@@ -35,7 +36,7 @@ public enum Tokens {error=2,EOF=3,bar=4,dot=5,semi=6,
 
 // Abstract base class for GPLEX scanners
 [GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.0.0.0")]
-public abstract class ScanBase : AbstractScanner<int,LexSpan> {
+public abstract class ScanBase : AbstractScanner<SyntaxNodeOrToken,LexSpan> {
   private LexSpan __yylloc = new LexSpan();
   public override LexSpan yylloc { get { return __yylloc; } set { __yylloc = value; } }
   protected virtual bool yywrap() { return true; }
@@ -58,15 +59,15 @@ public interface IColorScan {
 [GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.0.0.0")]
 public class ScanObj {
   public int token;
-  public int yylval;
+  public SyntaxNodeOrToken yylval;
   public LexSpan yylloc;
-  public ScanObj( int t, int val, LexSpan loc ) {
+  public ScanObj( int t, SyntaxNodeOrToken val, LexSpan loc ) {
     this.token = t; this.yylval = val; this.yylloc = loc;
   }
 }
 
 [GeneratedCodeAttribute( "Gardens Point Parser Generator", "1.0.0.0")]
-public partial class Parser: ShiftReduceParser<int, LexSpan>
+public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
 {
 #pragma warning disable 649
   private static Dictionary<int, string> aliases;
@@ -385,6 +386,11 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
 #pragma warning disable 162, 1522
     switch (action)
     {
+      case 90: // NumericLiteral -> bsNumber
+#line 233 "SpecFiles\BrightScript.y"
+            { CurrentSemanticValue = BuildNumberNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
     }
 #pragma warning restore 162, 1522
   }
@@ -399,7 +405,7 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
         return CharToString((char)terminal);
   }
 
-#line 252 "SpecFiles\BrightScript.y"
+#line 254 "SpecFiles\BrightScript.y"
  #line default
 }
 }

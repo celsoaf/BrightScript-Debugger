@@ -91,7 +91,7 @@ namespace BrightScriptTools.Compiler
     // If the compiler can't find the scanner base class maybe you
     // need to run GPPG with the /gplex option, or GPLEX with /noparser
 #if BABEL
-     public sealed partial class Scanner : ScanBase, IColorScan
+     public partial class Scanner : ScanBase, IColorScan
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal

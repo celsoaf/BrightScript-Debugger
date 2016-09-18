@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using BrightScriptTools.Compiler.AST;
 using BrightScriptTools.Gppg.GPGen.Parser;
 using BrightScriptTools.GPlex.Parser;
 
@@ -27,6 +28,24 @@ namespace BrightScriptTools.Compiler
         private LexSpan TokenSpan()
         {
             return new LexSpan(tokLin, tokCol, tokELin, tokECol, tokPos, tokEPos, buffer);
+        }
+
+        public BrightScriptTools.Compiler.AST.Token GetToken(int token)
+        {
+            return new Token(GetSyntaxLind(token), yytext, new List<Trivia>(), tokPos, tokPos);
+        }
+
+        private SyntaxKind GetSyntaxLind(int token)
+        {
+            var t = (Tokens)token;
+
+            switch (t)
+            {
+
+
+                default:
+                    return SyntaxKind.MissingToken;
+            }
         }
     }
 

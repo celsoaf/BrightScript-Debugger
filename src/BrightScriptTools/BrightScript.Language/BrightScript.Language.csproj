@@ -124,6 +124,7 @@
     <Compile Include="Shared\Guids.cs" />
     <Compile Include="Shared\IMiniCommandFilter.cs" />
     <Compile Include="Shared\ISingletons.cs" />
+    <Compile Include="Shared\ParseTreeCache.cs" />
     <Compile Include="Shared\Range.cs" />
     <Compile Include="Shared\Singletons.cs" />
     <Compile Include="Text\SourceText.cs" />

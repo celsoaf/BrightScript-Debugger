@@ -70,9 +70,15 @@
     <Compile Include="..\BrightScriptTools.Gppg\SpecFiles\Parser.cs">
       <Link>Parser.cs</Link>
     </Compile>
+    <Compile Include="ASTScanner.cs" />
+    <Compile Include="AST\BlockNode.cs" />
+    <Compile Include="AST\ChunkNode.cs" />
+    <Compile Include="AST\StatementNode.cs" />
+    <Compile Include="AST\SyntaxKind.cs" />
     <Compile Include="AST\SyntaxNode.cs" />
     <Compile Include="AST\SyntaxNodeOrToken.cs" />
     <Compile Include="AST\Token.cs" />
+    <Compile Include="AST\Trivia.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="ErrorHandler.cs" />
     <Compile Include="LexSpan.cs" />

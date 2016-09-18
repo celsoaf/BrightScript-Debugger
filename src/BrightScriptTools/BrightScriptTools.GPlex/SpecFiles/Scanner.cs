@@ -5,10 +5,10 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  1.0.0.0
-//  Machine:  CELSO-PC
-//  DateTime: 15/09/2016 00:32:59
-//  UserName: Celso
-//  GPLEX input file <SpecFiles\BrightScriptLexer.lex - 04/09/2016 11:24:55>
+//  Machine:  OSTLT0248323
+//  DateTime: 18/09/2016 15:15:01
+//  UserName: CFE05
+//  GPLEX input file <SpecFiles\BrightScriptLexer.lex - 04/09/2016 21:24:39>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize
@@ -108,7 +108,7 @@ namespace BrightScriptTools.Compiler
                    currentStart = startState[value]; }
         }
 #else  // BABEL
-     public sealed partial class Scanner : ScanBase
+     public partial class Scanner : ScanBase
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal

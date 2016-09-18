@@ -187,7 +187,7 @@ namespace BrightScript.Language.Formatting
 
         public void FormatOnPaste()
         {
-            if (this.core.FormattingUserSettings.FormatOnPaste != true)
+            if (this.core.FormattingUserSettings == null || this.core.FormattingUserSettings.FormatOnPaste != true)
             {
                 return;
             }

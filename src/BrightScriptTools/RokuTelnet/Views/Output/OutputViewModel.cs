@@ -17,8 +17,8 @@ namespace RokuTelnet.Views.Output
 
         private string _commands;
         private int _cmdIndex = 0;
-        private bool _enable = true;
-
+        private bool _connected;
+        
         public OutputViewModel(IOutputView view, IEventAggregator eventAggregator)
         {
             View = view;
@@ -48,7 +48,7 @@ namespace RokuTelnet.Views.Output
                     LastCommands.RemoveAt(0);
                 _cmdIndex = LastCommands.Count;
                 Command = string.Empty;
-            });
+            }, () => Connected);
 
             UpCommand = new DelegateCommand(() =>
             {
@@ -60,7 +60,7 @@ namespace RokuTelnet.Views.Output
                     View.SetCursorPosition();
                 }
                 View.SetFocus();
-            });
+            }, () => Connected);
 
             DownCommand = new DelegateCommand(() =>
             {
@@ -77,10 +77,10 @@ namespace RokuTelnet.Views.Output
                     Command = String.Empty;
                 }
                 View.SetFocus();
-            });
+            }, () => Connected);
 
-            //_eventAggregator.GetEvent<DebugEvent>().Subscribe(enable => Enable = enable, ThreadOption.UIThread);
-            //_eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Message.Contains("Debugger>"), ThreadOption.UIThread);
+            _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip => Connected = true);
+            _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj => Connected = false);
         }
 
         public IOutputView View { get; set; }
@@ -107,14 +107,16 @@ namespace RokuTelnet.Views.Output
         public DelegateCommand UpCommand { get; set; }
         public DelegateCommand DownCommand { get; set; }
 
-        public bool Enable
+        public bool Connected
         {
-            get { return _enable; }
+            get { return _connected; }
             set
             {
-                _enable = value;
-                OnPropertyChanged(() => Enable);
-                View.SetFocus();
+                _connected = value;
+                OnPropertyChanged(() => Connected);
+                EnterCommand.RaiseCanExecuteChanged();
+                UpCommand.RaiseCanExecuteChanged();
+                DownCommand.RaiseCanExecuteChanged();
             }
         }
 

@@ -23,6 +23,8 @@ namespace RokuTelnet.Controls
             IsReadOnly = true;
             Background = new SolidColorBrush { Opacity = 0 };
             BorderThickness = new Thickness(0);
+
+            Loaded += (s, e) => ScrollToEnd();
         }
 
         public string RichText

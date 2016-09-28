@@ -57,32 +57,36 @@ namespace RokuTelnet.Services.Deploy
 
                     ProcessManifest(outputFolder, folder, options);
 
-                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Processing Replaces", 3, options));
+                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Processing Container Registration", 3, options));
+
+                    ProcessRegisterTypes(outputFolder, options);
+
+                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Processing Replaces", 4, options));
 
                     ProcessReplaces(outputFolder, GetReplaces(options));
 
                     if (options.Optimize)
                     {
                         _eventAggregator.GetEvent<BusyShowEvent>()
-                            .Publish(GetBusy("Processing Optimization", 4, options));
+                            .Publish(GetBusy("Processing Optimization", 5, options));
 
                         ProcessOptimize(outputFolder);
                     }
 
-                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Creating Archive", 5, options));
+                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Creating Archive", 6, options));
 
                     zipFile = Path.Combine(folder, options.ArchiveName + ".zip");
 
                     CreateArchive(outputFolder, zipFile);
 
-                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy($"Deploying app to '{ip}'", 6, options));
+                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy($"Deploying app to '{ip}'", 7, options));
 
                     DeployZip(zipFile, ip, options);
 
                     File.Delete(zipFile);
                     Directory.Delete(outputFolder, true);
 
-                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Deploy complete", 7, options));
+                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Deploy complete", 8, options));
                 }
                 catch (Exception ex)
                 {
@@ -100,13 +104,53 @@ namespace RokuTelnet.Services.Deploy
             }
         }
 
+        private void ProcessRegisterTypes(string outputFolder, ConfigModel options)
+        {
+            var types = new List<string>();
+            var files = Directory.GetFiles(outputFolder, "*.brs", SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                using (var sr = new StreamReader(file))
+                {
+                    var scriptName = Path.GetFileNameWithoutExtension(file);
+                    while (!sr.EndOfStream)
+                    {
+                        var line = sr.ReadLine();
+                        if (!string.IsNullOrWhiteSpace(line))
+                        {
+                            line = line.Trim().ToLower();
+                            var tokens = line.Split(' ');
+                            if (tokens[0] == "function")
+                            {
+                                var fname = tokens[1];
+                                tokens = fname.Split('(');
+                                fname = tokens[0];
+                                if (!string.IsNullOrWhiteSpace(fname) && scriptName.ToLower() == fname)
+                                {
+                                    types.Add(fname);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            var sb = new StringBuilder();
+            types.ForEach(t =>
+            {
+                sb.AppendFormat("ioc.registerType(\"{0}\", {0}){1}", t, Environment.NewLine);
+            });
+
+            options.ExtraConfigs.Add(new ConfigKeyValueModel { Key = "register_types", Value = sb.ToString() });
+        }
+
         private BusyModel GetBusy(string message, double step, ConfigModel options)
         {
             return new BusyModel
             {
                 Title = $"Deploying '{options.AppName}'",
                 Message = message,
-                Percentage = (step / 7d) * 100
+                Percentage = (step / 8d) * 100
             };
         }
 

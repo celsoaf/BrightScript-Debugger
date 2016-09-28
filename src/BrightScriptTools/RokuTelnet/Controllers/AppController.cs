@@ -187,6 +187,11 @@ namespace RokuTelnet.Controllers
 
         private void Deploy(string ip, string folder)
         {
+            _telnetTasks.ForEach(kv =>
+            {
+                kv.Value.Send(DebuggerCommandEnum.exit.ToString());
+            });
+
             var optionsFile = Path.Combine(folder, OPTIONS_FILE);
 
             if (File.Exists(optionsFile))

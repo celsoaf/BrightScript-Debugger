@@ -4,10 +4,8 @@ using ImmutableObjectGraph.Generation;
 
 namespace BrightScriptTools.Compiler.AST
 {
-    [GenerateImmutable(GenerateBuilder = true)]
     public partial class BlockNode : SyntaxNode
     {
-        [Required, NotRecursive]
         readonly ImmutableList<StatementNode> statements;
 
         public override ImmutableList<SyntaxNodeOrToken> Children

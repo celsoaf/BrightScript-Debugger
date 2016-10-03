@@ -5,6 +5,7 @@
 %using BrightScriptTools.GPlex;
 %using BrightScriptTools.GPlex.Parser;
 %using BrightScriptTools.Compiler.AST
+%using BrightScriptTools.Compiler.AST.Tokens
 
 %namespace BrightScriptTools.Compiler
 
@@ -217,20 +218,20 @@ Literal
 	;
 
 NullLiteral
-	: bsInvalid
+	: bsInvalid { $$ = BuildInvalidNode(@$); }
 	;
 
-BooleanLiteral
-	: bsTrue
-	| bsFalse
+BooleanLiteral 
+	: bsTrue	{ $$ = BuildBooleanNode(@$, true); }
+	| bsFalse	{ $$ = BuildBooleanNode(@$, false); }
 	;
 
 StringLiteral
-	: bsStr
+	: bsStr { $$ = BuildStringNode(@$); }
 	;
 
 NumericLiteral
-	: bsNumber { $$ = BuildNumberNode($1); }
+	: bsNumber { $$ = BuildNumberNode(@$); }
 	;
 
 EmptyBlock

@@ -73,11 +73,14 @@
     <Compile Include="ASTScanner.cs" />
     <Compile Include="AST\BlockNode.cs" />
     <Compile Include="AST\ChunkNode.cs" />
-    <Compile Include="AST\NumberNode.cs" />
+    <Compile Include="AST\Tokens\BooleanNode.cs" />
+    <Compile Include="AST\Tokens\InvalidNode.cs" />
+    <Compile Include="AST\Tokens\NumberNode.cs" />
     <Compile Include="AST\StatementNode.cs" />
     <Compile Include="AST\SyntaxKind.cs" />
     <Compile Include="AST\SyntaxNode.cs" />
     <Compile Include="AST\SyntaxNodeOrToken.cs" />
+    <Compile Include="AST\Tokens\StringNode.cs" />
     <Compile Include="AST\Token.cs" />
     <Compile Include="AST\Trivia.cs" />
     <Compile Include="Error.cs" />
@@ -109,6 +112,9 @@
       <Project>{ddda2561-e4d5-4870-ad42-f8855d243d49}</Project>
       <Name>BrightScriptTools.Gppg</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AST\Syntax\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CodeGeneration.Roslyn.BuildTime.0.1.57\build\CodeGeneration.Roslyn.BuildTime.targets" Condition="Exists('..\packages\CodeGeneration.Roslyn.BuildTime.0.1.57\build\CodeGeneration.Roslyn.BuildTime.targets')" />

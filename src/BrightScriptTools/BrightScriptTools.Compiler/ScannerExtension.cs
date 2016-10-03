@@ -11,7 +11,21 @@ namespace BrightScriptTools.Compiler
     public partial class Scanner
     {
         private ErrorHandler yyhdlr;
+        private LexSpan _yylloc;
         public void SetHandler(ErrorHandler hdlr) { yyhdlr = hdlr; }
+
+        public override LexSpan yylloc
+        {
+            get
+            {
+                _yylloc = TokenSpan();
+                return _yylloc;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         public override void yyerror(string format, params object[] args)
         {
@@ -27,7 +41,7 @@ namespace BrightScriptTools.Compiler
 
         private LexSpan TokenSpan()
         {
-            return new LexSpan(tokLin, tokCol, tokELin, tokECol, tokPos, tokEPos, buffer);
+            return new LexSpan(tokLin, tokCol, tokELin, tokECol, tokPos, tokEPos, buffer) { text = yytext };
         }
 
         public BrightScriptTools.Compiler.AST.Token GetToken(int token)

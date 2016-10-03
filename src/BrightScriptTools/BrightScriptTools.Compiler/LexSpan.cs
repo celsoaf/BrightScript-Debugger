@@ -11,6 +11,7 @@ namespace BrightScriptTools.Compiler
         public int endColumn;       // end column of span
         public int startIndex;      // start position in the buffer
         public int endIndex;        // end position in the buffer
+        public string text;
         internal ScanBuff buffer;     // reference to the buffer
 
         public int Length { get { return endIndex - startIndex; } }

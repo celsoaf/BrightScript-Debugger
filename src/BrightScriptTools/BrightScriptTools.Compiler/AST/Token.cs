@@ -7,11 +7,7 @@ namespace BrightScriptTools.Compiler.AST
     public class Token : SyntaxNodeOrToken
     {
         public int FullStart { get; private set; }
-        public int Start { get; private set; }
         public string Text { get; private set; }
-        public int Length { get; private set; }
-        public int End => this.Start + this.Length;
-        public SyntaxKind Kind { get; private set; }
 
         public List<Trivia> LeadingTrivia { get; private set; } //TODO: change to Immutable List
 

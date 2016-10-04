@@ -3,10 +3,10 @@
 // (see accompanying GPPGcopyright.rtf)
 
 // GPPG version 1.0.0.0
-// Machine:  OSTLT0248323
-// DateTime: 18/09/2016 23:10:18
-// UserName: CFE05
-// Input file <SpecFiles\BrightScript.y - 18/09/2016 23:04:19>
+// Machine:  CELSO-PC
+// DateTime: 04/10/2016 01:22:03
+// UserName: Celso
+// Input file <SpecFiles\BrightScript.y - 04/10/2016 01:21:47>
 
 // options: babel lines diagnose & report gplex
 
@@ -20,6 +20,7 @@ using System.Collections;
 using BrightScriptTools.GPlex;
 using BrightScriptTools.GPlex.Parser;
 using BrightScriptTools.Compiler.AST;
+using BrightScriptTools.Compiler.AST.Tokens;
 
 namespace BrightScriptTools.Compiler
 {
@@ -386,9 +387,79 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
 #pragma warning disable 162, 1522
     switch (action)
     {
+      case 13: // Parameter -> bsIdent, Type
+#line 64 "SpecFiles\BrightScript.y"
+                    { CurrentSemanticValue = BuildParameterNode(LocationStack[LocationStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 14: // Parameter -> bsIdent, equal, Literal, Type
+#line 65 "SpecFiles\BrightScript.y"
+                              { CurrentSemanticValue = BuildParameterNode(LocationStack[LocationStack.Depth-4], LocationStack[LocationStack.Depth-3], ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 16: // Type -> bsAs, bsType
+#line 70 "SpecFiles\BrightScript.y"
+                  { CurrentSemanticValue = BuildTypeNode(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 80: // Literal -> EmptyBlock
+#line 212 "SpecFiles\BrightScript.y"
+               { CurrentSemanticValue = BuildLiteralNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 81: // Literal -> Array
+#line 213 "SpecFiles\BrightScript.y"
+            { CurrentSemanticValue = BuildLiteralNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 82: // Literal -> NullLiteral
+#line 214 "SpecFiles\BrightScript.y"
+                { CurrentSemanticValue = BuildLiteralNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 83: // Literal -> BooleanLiteral
+#line 215 "SpecFiles\BrightScript.y"
+                  { CurrentSemanticValue = BuildLiteralNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 84: // Literal -> StringLiteral
+#line 216 "SpecFiles\BrightScript.y"
+                  { CurrentSemanticValue = BuildLiteralNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 85: // Literal -> NumericLiteral
+#line 217 "SpecFiles\BrightScript.y"
+                  { CurrentSemanticValue = BuildLiteralNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 86: // NullLiteral -> bsInvalid
+#line 221 "SpecFiles\BrightScript.y"
+               { CurrentSemanticValue = BuildInvalidNode(CurrentLocationSpan); }
+#line default
+        break;
+      case 87: // BooleanLiteral -> bsTrue
+#line 225 "SpecFiles\BrightScript.y"
+            { CurrentSemanticValue = BuildBooleanNode(CurrentLocationSpan, true); }
+#line default
+        break;
+      case 88: // BooleanLiteral -> bsFalse
+#line 226 "SpecFiles\BrightScript.y"
+             { CurrentSemanticValue = BuildBooleanNode(CurrentLocationSpan, false); }
+#line default
+        break;
+      case 89: // StringLiteral -> bsStr
+#line 230 "SpecFiles\BrightScript.y"
+            { CurrentSemanticValue = BuildStringNode(CurrentLocationSpan); }
+#line default
+        break;
       case 90: // NumericLiteral -> bsNumber
-#line 233 "SpecFiles\BrightScript.y"
-            { CurrentSemanticValue = BuildNumberNode(ValueStack[ValueStack.Depth-1]); }
+#line 234 "SpecFiles\BrightScript.y"
+              { CurrentSemanticValue = BuildNumberNode(CurrentLocationSpan); }
+#line default
+        break;
+      case 91: // EmptyBlock -> lBrace, rBrace
+#line 238 "SpecFiles\BrightScript.y"
+                  { CurrentSemanticValue = BuildEmptyBlock(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
 #line default
         break;
     }
@@ -405,7 +476,7 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
         return CharToString((char)terminal);
   }
 
-#line 254 "SpecFiles\BrightScript.y"
+#line 255 "SpecFiles\BrightScript.y"
  #line default
 }
 }

@@ -2,6 +2,10 @@
 
 namespace BrightScriptTools.Compiler.AST
 {
-    [GenerateImmutable(GenerateBuilder = true)]
-    public abstract partial class StatementNode : SyntaxNode { }
+    public abstract partial class StatementNode : SyntaxNode {
+        public StatementNode(SyntaxKind kind, int startPosition, int length) 
+            : base(kind, startPosition, length)
+        {
+        }
+    }
 }

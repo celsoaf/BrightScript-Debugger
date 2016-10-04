@@ -1,21 +1,17 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
+using BrightScriptTools.Compiler.AST.Tokens;
 using ImmutableObjectGraph.Generation;
 
 namespace BrightScriptTools.Compiler.AST
 {
-    [GenerateImmutable(GenerateBuilder = true)]
-    public partial class BlockNode : SyntaxNode
+    public class BlockNode : SyntaxNode
     {
-        [Required, NotRecursive]
-        readonly ImmutableList<StatementNode> statements;
-
-        public override ImmutableList<SyntaxNodeOrToken> Children
+        public BlockNode(SyntaxKind kind, BracketToken open, BracketToken close) 
+            : base(kind, open.Start, close.End - open.Start)
         {
-            get
-            {
-                return statements.Cast<SyntaxNodeOrToken>().ToImmutableList();
-            }
+            list.Add(open);
+            list.Add(close);
         }
     }
 }

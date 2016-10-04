@@ -4,17 +4,22 @@ using ImmutableObjectGraph.Generation;
 
 namespace BrightScriptTools.Compiler.AST
 {
-    [GenerateImmutable(GenerateBuilder = true)]
     public abstract partial class SyntaxNode : SyntaxNodeOrToken
     {
-        [Required]
         readonly SyntaxKind kind;
-        [Required]
-        readonly int startPosition;
-        [Required]
-        readonly int length;
+        protected IList<SyntaxNodeOrToken> list = new List<SyntaxNodeOrToken>();
+
+        public SyntaxNode(SyntaxKind kind, int startPosition, int length)
+        {
+            this.kind = kind;
+            this.Start = startPosition;
+            this.Length = length;
+        }
+
         public override bool IsToken => false;
         public override bool IsLeafNode => this.Children.Count == 0;
+
+        public override ImmutableList<SyntaxNodeOrToken> Children => list.ToImmutableList();
 
         public IEnumerable<SyntaxNodeOrToken> Descendants()
         {

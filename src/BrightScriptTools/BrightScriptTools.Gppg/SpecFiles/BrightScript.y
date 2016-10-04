@@ -5,6 +5,7 @@
 %using BrightScriptTools.GPlex;
 %using BrightScriptTools.GPlex.Parser;
 %using BrightScriptTools.Compiler.AST
+%using BrightScriptTools.Compiler.AST.Tokens
 
 %namespace BrightScriptTools.Compiler
 
@@ -60,13 +61,13 @@ ParameterTail
 	;
 
 Parameter
-	: bsIdent Type 
-	| bsIdent equal Literal Type
+	: bsIdent Type					{ $$ = BuildParameterNode(@1, $2); }
+	| bsIdent equal Literal Type	{ $$ = BuildParameterNode(@1, @2, $3, $4); }
 	;
 
 Type
 	: /* Empty */
-	| bsAs bsType
+	| bsAs bsType				{ $$ = BuildTypeNode(@1, @2); }
 	;
 
 EolOpt
@@ -208,33 +209,33 @@ BooleanOperator
 	;
 	
 Literal
-	: EmptyBlock
-	| Array
-	| NullLiteral
-	| BooleanLiteral
-	| StringLiteral
-	| NumericLiteral
+	: EmptyBlock		{ $$ = BuildLiteralNode($1); }
+	| Array				{ $$ = BuildLiteralNode($1); }
+	| NullLiteral		{ $$ = BuildLiteralNode($1); }
+	| BooleanLiteral	{ $$ = BuildLiteralNode($1); }
+	| StringLiteral		{ $$ = BuildLiteralNode($1); }
+	| NumericLiteral	{ $$ = BuildLiteralNode($1); }
 	;
 
 NullLiteral
-	: bsInvalid
+	: bsInvalid			{ $$ = BuildInvalidNode(@$); }
 	;
 
-BooleanLiteral
-	: bsTrue
-	| bsFalse
+BooleanLiteral 
+	: bsTrue			{ $$ = BuildBooleanNode(@$, true); }
+	| bsFalse			{ $$ = BuildBooleanNode(@$, false); }
 	;
 
 StringLiteral
-	: bsStr
+	: bsStr				{ $$ = BuildStringNode(@$); }
 	;
 
 NumericLiteral
-	: bsNumber { $$ = BuildNumberNode($1); }
+	: bsNumber			{ $$ = BuildNumberNode(@$); }
 	;
 
 EmptyBlock
-	:  lBrace rBrace
+	:  lBrace rBrace	{ $$ = BuildEmptyBlock(@1, @2); }
 	;
 
 Array

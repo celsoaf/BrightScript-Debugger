@@ -52,7 +52,7 @@ namespace BrightScriptTools.Compiler
             parser.Parse();
 
             var statementNodeList = new List<StatementNode>();
-            ChunkNode root = new ChunkNode();
+            ChunkNode root = new ChunkNode(SyntaxKind.ChunkNode, 0, (int)stream.Length);
             return new SyntaxTree(root, scanner.GetTokens(), statementNodeList, handler.SortedErrorList().ToImmutableList());
         }
 

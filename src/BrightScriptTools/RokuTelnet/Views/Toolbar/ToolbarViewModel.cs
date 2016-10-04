@@ -93,6 +93,9 @@ namespace RokuTelnet.Views.Toolbar
             //_eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Message.Contains("Debugger>"), ThreadOption.UIThread);
             _eventAggregator.GetEvent<OutputChangeEvent>().Subscribe(p => _port = p);
 
+            _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip => Connected = true, ThreadOption.UIThread);
+            _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj => Connected = false, ThreadOption.UIThread);
+
             LoadLastIp();
             LoadLastFolder();
         }
@@ -130,15 +133,18 @@ namespace RokuTelnet.Views.Toolbar
             get { return _connected; }
             set
             {
-                _connected = value;
-                OnPropertyChanged(() => Connected);
-                DeployCommand.RaiseCanExecuteChanged();
-                LaunchAppCommand.RaiseCanExecuteChanged();
+                if (_connected != value)
+                {
+                    _connected = value;
+                    OnPropertyChanged(() => Connected);
+                    DeployCommand.RaiseCanExecuteChanged();
+                    LaunchAppCommand.RaiseCanExecuteChanged();
 
-                if (_connected)
-                    _eventAggregator.GetEvent<ConnectEvent>().Publish(SelectedIP);
-                else
-                    _eventAggregator.GetEvent<DisconnectEvent>().Publish(null);
+                    if (_connected)
+                        _eventAggregator.GetEvent<ConnectEvent>().Publish(SelectedIP);
+                    else
+                        _eventAggregator.GetEvent<DisconnectEvent>().Publish(null);
+                }
             }
         }
 

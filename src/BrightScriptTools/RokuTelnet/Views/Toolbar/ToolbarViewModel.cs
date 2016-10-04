@@ -16,6 +16,7 @@ namespace RokuTelnet.Views.Toolbar
     public class ToolbarViewModel : Prism.Mvvm.BindableBase, IToolbarViewModel
     {
         private const string FILE_NAME = "ips.json";
+        private const string FOLDER_LIST_NAME = "listFolder.json";
         private const string LAST_FILE_NAME = "lastIp.json";
         private const string LAST_FOLDER_NAME = "lastFolder.json";
 
@@ -34,6 +35,7 @@ namespace RokuTelnet.Views.Toolbar
             _eventAggregator = eventAggregator;
 
             IPList = new ObservableCollection<string>(LoadIpList());
+            FolderList = new ObservableCollection<string>(LoadFolderList());
 
             AddCommand = new DelegateCommand(() =>
             {
@@ -71,6 +73,8 @@ namespace RokuTelnet.Views.Toolbar
                 {
                     Folder = dialog.SelectedPath;
                     UpdateLastFolder();
+                    FolderList.Add(Folder);
+                    UpdateFolderList();
                 }
             });
 
@@ -159,6 +163,8 @@ namespace RokuTelnet.Views.Toolbar
             set { _folder = value; OnPropertyChanged(() => Folder); }
         }
 
+        public ObservableCollection<string> FolderList { get; set; }
+
         private void UpdateFileList()
         {
             var content = JsonConvert.SerializeObject(IPList.ToList());
@@ -244,6 +250,34 @@ namespace RokuTelnet.Views.Toolbar
             {
                 sw.Write(content);
             }
+        }
+
+        private void UpdateFolderList()
+        {
+            var content = JsonConvert.SerializeObject(FolderList.ToList());
+
+            if (File.Exists(FOLDER_LIST_NAME))
+                File.Delete(FOLDER_LIST_NAME);
+
+            using (var sw = new StreamWriter(FOLDER_LIST_NAME))
+            {
+                sw.Write(content);
+            }
+        }
+
+        private List<string> LoadFolderList()
+        {
+            if (File.Exists(FOLDER_LIST_NAME))
+            {
+                using (var sr = new StreamReader(FOLDER_LIST_NAME))
+                {
+                    var content = sr.ReadToEnd();
+
+                    return JsonConvert.DeserializeObject<List<string>>(content);
+                }
+            }
+
+            return new List<string>();
         }
 
         private bool ValidateIP(string value)

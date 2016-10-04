@@ -1,8 +1,8 @@
 ﻿namespace BrightScriptTools.Compiler.AST.Tokens
 {
-    public class InvalidNode : Token
+    public class InvalidToken : LiteralToken
     {
-        public InvalidNode(SyntaxKind kind, string text, int start) 
+        public InvalidToken(SyntaxKind kind, string text, int start) 
             : base(kind, text, null, start, start)
         {
             

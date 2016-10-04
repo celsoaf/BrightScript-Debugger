@@ -1,8 +1,8 @@
 ﻿namespace BrightScriptTools.Compiler.AST.Tokens
 {
-    public class NumberNode : Token
+    public class NumberToken : LiteralToken
     {
-        public NumberNode(SyntaxKind kind, string text, int start) 
+        public NumberToken(SyntaxKind kind, string text, int start) 
             : base(kind, text, null, start, start)
         {
             Value = decimal.Parse(text);

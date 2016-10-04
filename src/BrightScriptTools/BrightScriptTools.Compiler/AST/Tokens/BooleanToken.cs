@@ -1,8 +1,8 @@
 ﻿namespace BrightScriptTools.Compiler.AST.Tokens
 {
-    public class BooleanNode : Token
+    public class BooleanToken : LiteralToken
     {
-        public BooleanNode(SyntaxKind kind, string text, int start) 
+        public BooleanToken(SyntaxKind kind, string text, int start) 
             : base(kind, text, null, start, start)
         {
             Value = bool.Parse(text);

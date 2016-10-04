@@ -56,7 +56,7 @@
         IfKeyword,
         InKeyword,
         LocalKeyword,
-        NilKeyValue,
+        InvalidKeyValue,
         NotUnop,
         OrBinop,
         WhileKeyword,
@@ -66,6 +66,8 @@
         VarArgOperator,
         UnterminatedString,
         IgnoreNewLineString,
+        AsKeyword,
+        Type,
 
         //Node Types
         ChunkNode,
@@ -114,6 +116,9 @@
         FuncNameNode,
         DotSeparatedNameList,
         SeparatedListElement,
+        TypeNode,
+        ParameterNode,
+        LiteralNode,
 
         //Trivia type
         Whitespace,

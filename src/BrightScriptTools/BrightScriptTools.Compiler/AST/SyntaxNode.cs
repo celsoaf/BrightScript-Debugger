@@ -7,10 +7,26 @@ namespace BrightScriptTools.Compiler.AST
     public abstract partial class SyntaxNode : SyntaxNodeOrToken
     {
         readonly SyntaxKind kind;
-        readonly int startPosition;
-        readonly int length;
+        protected IList<SyntaxNodeOrToken> list = new List<SyntaxNodeOrToken>();
+
+        public SyntaxNode(SyntaxKind kind, int startPosition, int length)
+        {
+            this.kind = kind;
+            this.Start = startPosition;
+            this.Length = length;
+        }
+
+        public int Start { get; }
+
+
+        public int Length { get; }
+
+        public int End => this.Start + this.Length;
+
         public override bool IsToken => false;
         public override bool IsLeafNode => this.Children.Count == 0;
+
+        public override ImmutableList<SyntaxNodeOrToken> Children => list.ToImmutableList();
 
         public IEnumerable<SyntaxNodeOrToken> Descendants()
         {

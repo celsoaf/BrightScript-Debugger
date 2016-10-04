@@ -3,7 +3,6 @@ using ImmutableObjectGraph.Generation;
 
 namespace BrightScriptTools.Compiler.AST
 {
-    [GenerateImmutable(GenerateBuilder = true)]
     public partial class ChunkNode : SyntaxNode
     {
         readonly BlockNode programBlock;
@@ -15,6 +14,11 @@ namespace BrightScriptTools.Compiler.AST
             {
                 return ImmutableList.Create<SyntaxNodeOrToken>(programBlock, endOfFile);
             }
+        }
+
+        public ChunkNode(SyntaxKind kind, int startPosition, int length) 
+            : base(kind, startPosition, length)
+        {
         }
     }
 }

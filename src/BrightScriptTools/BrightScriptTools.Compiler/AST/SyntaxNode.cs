@@ -16,13 +16,6 @@ namespace BrightScriptTools.Compiler.AST
             this.Length = length;
         }
 
-        public int Start { get; }
-
-
-        public int Length { get; }
-
-        public int End => this.Start + this.Length;
-
         public override bool IsToken => false;
         public override bool IsLeafNode => this.Children.Count == 0;
 

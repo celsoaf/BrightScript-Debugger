@@ -73,6 +73,7 @@
     <Compile Include="ASTScanner.cs" />
     <Compile Include="AST\BlockNode.cs" />
     <Compile Include="AST\ChunkNode.cs" />
+    <Compile Include="AST\Enums\OperatorEnum.cs" />
     <Compile Include="AST\Enums\TypeEnum.cs" />
     <Compile Include="AST\Syntax\LiteralNode.cs" />
     <Compile Include="AST\Syntax\ParameterNode.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="AST\SyntaxKind.cs" />
     <Compile Include="AST\SyntaxNode.cs" />
     <Compile Include="AST\SyntaxNodeOrToken.cs" />
+    <Compile Include="AST\Tokens\OperatorToken.cs" />
     <Compile Include="AST\Tokens\StringToken.cs" />
     <Compile Include="AST\Token.cs" />
     <Compile Include="AST\Tokens\TypeToken.cs" />

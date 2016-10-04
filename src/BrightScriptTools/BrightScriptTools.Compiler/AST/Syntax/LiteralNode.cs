@@ -6,7 +6,7 @@ namespace BrightScriptTools.Compiler.AST.Syntax
 {
     public class LiteralNode : SyntaxNode
     {
-        public LiteralNode(SyntaxKind kind, LiteralToken token) : 
+        public LiteralNode(SyntaxKind kind, SyntaxNodeOrToken token) : 
             base(kind, token.Start, token.Length)
         {
             list.Add(token);

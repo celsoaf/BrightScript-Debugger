@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 04/10/2016 00:36:05
+// DateTime: 04/10/2016 01:22:03
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 04/10/2016 00:35:41>
+// Input file <SpecFiles\BrightScript.y - 04/10/2016 01:21:47>
 
 // options: babel lines diagnose & report gplex
 
@@ -389,12 +389,42 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
     {
       case 13: // Parameter -> bsIdent, Type
 #line 64 "SpecFiles\BrightScript.y"
-                { CurrentSemanticValue = BuildParameterNode(LocationStack[LocationStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+                    { CurrentSemanticValue = BuildParameterNode(LocationStack[LocationStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 14: // Parameter -> bsIdent, equal, Literal, Type
+#line 65 "SpecFiles\BrightScript.y"
+                              { CurrentSemanticValue = BuildParameterNode(LocationStack[LocationStack.Depth-4], LocationStack[LocationStack.Depth-3], ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 16: // Type -> bsAs, bsType
 #line 70 "SpecFiles\BrightScript.y"
-               { CurrentSemanticValue = BuildTypeNode(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+                  { CurrentSemanticValue = BuildTypeNode(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 80: // Literal -> EmptyBlock
+#line 212 "SpecFiles\BrightScript.y"
+               { CurrentSemanticValue = BuildLiteralNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 81: // Literal -> Array
+#line 213 "SpecFiles\BrightScript.y"
+            { CurrentSemanticValue = BuildLiteralNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 82: // Literal -> NullLiteral
+#line 214 "SpecFiles\BrightScript.y"
+                { CurrentSemanticValue = BuildLiteralNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 83: // Literal -> BooleanLiteral
+#line 215 "SpecFiles\BrightScript.y"
+                  { CurrentSemanticValue = BuildLiteralNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 84: // Literal -> StringLiteral
+#line 216 "SpecFiles\BrightScript.y"
+                  { CurrentSemanticValue = BuildLiteralNode(ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 85: // Literal -> NumericLiteral
@@ -404,27 +434,27 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
         break;
       case 86: // NullLiteral -> bsInvalid
 #line 221 "SpecFiles\BrightScript.y"
-             { CurrentSemanticValue = BuildInvalidNode(CurrentLocationSpan); }
+               { CurrentSemanticValue = BuildInvalidNode(CurrentLocationSpan); }
 #line default
         break;
       case 87: // BooleanLiteral -> bsTrue
 #line 225 "SpecFiles\BrightScript.y"
-          { CurrentSemanticValue = BuildBooleanNode(CurrentLocationSpan, true); }
+            { CurrentSemanticValue = BuildBooleanNode(CurrentLocationSpan, true); }
 #line default
         break;
       case 88: // BooleanLiteral -> bsFalse
 #line 226 "SpecFiles\BrightScript.y"
-           { CurrentSemanticValue = BuildBooleanNode(CurrentLocationSpan, false); }
+             { CurrentSemanticValue = BuildBooleanNode(CurrentLocationSpan, false); }
 #line default
         break;
       case 89: // StringLiteral -> bsStr
 #line 230 "SpecFiles\BrightScript.y"
-         { CurrentSemanticValue = BuildStringNode(CurrentLocationSpan); }
+            { CurrentSemanticValue = BuildStringNode(CurrentLocationSpan); }
 #line default
         break;
       case 90: // NumericLiteral -> bsNumber
 #line 234 "SpecFiles\BrightScript.y"
-            { CurrentSemanticValue = BuildNumberNode(CurrentLocationSpan); }
+              { CurrentSemanticValue = BuildNumberNode(CurrentLocationSpan); }
 #line default
         break;
       case 91: // EmptyBlock -> lBrace, rBrace

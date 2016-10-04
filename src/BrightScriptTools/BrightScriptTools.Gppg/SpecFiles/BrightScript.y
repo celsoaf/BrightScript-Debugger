@@ -61,13 +61,13 @@ ParameterTail
 	;
 
 Parameter
-	: bsIdent Type { $$ = BuildParameterNode(@1, $2); }
-	| bsIdent equal Literal Type
+	: bsIdent Type					{ $$ = BuildParameterNode(@1, $2); }
+	| bsIdent equal Literal Type	{ $$ = BuildParameterNode(@1, @2, $3, $4); }
 	;
 
 Type
 	: /* Empty */
-	| bsAs bsType	{ $$ = BuildTypeNode(@1, @2); }
+	| bsAs bsType				{ $$ = BuildTypeNode(@1, @2); }
 	;
 
 EolOpt
@@ -218,20 +218,20 @@ Literal
 	;
 
 NullLiteral
-	: bsInvalid { $$ = BuildInvalidNode(@$); }
+	: bsInvalid			{ $$ = BuildInvalidNode(@$); }
 	;
 
 BooleanLiteral 
-	: bsTrue	{ $$ = BuildBooleanNode(@$, true); }
-	| bsFalse	{ $$ = BuildBooleanNode(@$, false); }
+	: bsTrue			{ $$ = BuildBooleanNode(@$, true); }
+	| bsFalse			{ $$ = BuildBooleanNode(@$, false); }
 	;
 
 StringLiteral
-	: bsStr { $$ = BuildStringNode(@$); }
+	: bsStr				{ $$ = BuildStringNode(@$); }
 	;
 
 NumericLiteral
-	: bsNumber { $$ = BuildNumberNode(@$); }
+	: bsNumber			{ $$ = BuildNumberNode(@$); }
 	;
 
 EmptyBlock

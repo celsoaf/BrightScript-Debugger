@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Microsoft.Practices.ObjectBuilder2;
@@ -131,9 +132,9 @@ namespace RokuTelnet.Controllers
 
             _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj =>
             {
-                _telnetTasks.Values.ForEach(t=> t.Disconnect());
+                _telnetTasks.Values.ToList().ForEach(t=> t.Disconnect());
                 _telnetTasks.Clear();
-                _parserTasks.Values.ForEach(p=> p.Stop());
+                _parserTasks.Values.ToList().ForEach(p=> p.Stop());
                 _parserTasks.Clear();
                 _screenshotService.Stop();
                 _connected = false;
@@ -187,10 +188,10 @@ namespace RokuTelnet.Controllers
 
         private void Deploy(string ip, string folder)
         {
-            _telnetTasks.ForEach(kv =>
-            {
-                kv.Value.Send(DebuggerCommandEnum.exit.ToString());
-            });
+            //_telnetTasks.ForEach(kv =>
+            //{
+            //    kv.Value.Send(DebuggerCommandEnum.exit.ToString());
+            //});
 
             var optionsFile = Path.Combine(folder, OPTIONS_FILE);
 

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Prism.Commands;
@@ -160,7 +161,7 @@ namespace RokuTelnet.Views.Toolbar
         public string Folder
         {
             get { return _folder; }
-            set { _folder = value; OnPropertyChanged(() => Folder); }
+            set { _folder = value; OnPropertyChanged(() => Folder); Task.Delay(100).ContinueWith(t=> UpdateLastFolder()); }
         }
 
         public ObservableCollection<string> FolderList { get; set; }

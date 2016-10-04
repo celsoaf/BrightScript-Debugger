@@ -58,16 +58,27 @@ namespace BrightScriptTools.Compiler
 
         public ParameterNode BuildParameterNode(LexSpan ident, SyntaxNodeOrToken typeNode)
         {
-            return  new ParameterNode(
-                SyntaxKind.ParameterNode, 
-                new IdentToken(SyntaxKind.Identifier, ident.text, ident.startIndex), 
+            return new ParameterNode(
+                SyntaxKind.ParameterNode,
+                new IdentToken(SyntaxKind.Identifier, ident.text, ident.startIndex),
+                (TypeNode)typeNode
+                );
+        }
+
+        public ParameterNode BuildParameterNode(LexSpan ident, LexSpan equal, SyntaxNodeOrToken literal, SyntaxNodeOrToken typeNode)
+        {
+            return new ParameterNode(
+                SyntaxKind.ParameterNode,
+                new IdentToken(SyntaxKind.Identifier, ident.text, ident.startIndex),
+                new OperatorToken(SyntaxKind.OperatorKeyword, equal.text, equal.startIndex),
+                (LiteralNode)literal,
                 (TypeNode)typeNode
                 );
         }
 
         public LiteralNode BuildLiteralNode(SyntaxNodeOrToken literalToken)
         {
-            return new LiteralNode(SyntaxKind.LiteralNode, (LiteralToken)literalToken);
+            return new LiteralNode(SyntaxKind.LiteralNode, literalToken);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BrightScriptTools.Compiler.AST;
+using BrightScriptTools.Compiler.AST.Syntax;
 using BrightScriptTools.Compiler.AST.Tokens;
 using BrightScriptTools.GPlex;
 using BrightScriptTools.GPlex.Parser;
@@ -17,26 +18,56 @@ namespace BrightScriptTools.Compiler
             this.handler = handler;
         }
 
-        public NumberNode BuildNumberNode(LexSpan lex)
+        public NumberToken BuildNumberNode(LexSpan lex)
         {
-            return new NumberNode(SyntaxKind.Number, lex.text, lex.startIndex);
+            return new NumberToken(SyntaxKind.Number, lex.text, lex.startIndex);
         }
 
-        public StringNode BuildStringNode(LexSpan lex)
+        public StringToken BuildStringNode(LexSpan lex)
         {
-            return new StringNode(SyntaxKind.String, lex.text, lex.startIndex);
+            return new StringToken(SyntaxKind.String, lex.text, lex.startIndex);
         }
 
-        public BooleanNode BuildBooleanNode(LexSpan lex, bool value)
+        public BooleanToken BuildBooleanNode(LexSpan lex, bool value)
         {
-            return new BooleanNode(
+            return new BooleanToken(
                 value ? SyntaxKind.TrueKeyValue : SyntaxKind.FalseKeyValue,
                 lex.text, lex.startIndex);
         }
 
-        public InvalidNode BuildInvalidNode(LexSpan lex)
+        public InvalidToken BuildInvalidNode(LexSpan lex)
         {
-            return new InvalidNode(SyntaxKind.NilKeyValue, lex.text, lex.startIndex);
+            return new InvalidToken(SyntaxKind.InvalidKeyValue, lex.text, lex.startIndex);
+        }
+
+        public BlockNode BuildEmptyBlock(LexSpan lexStart, LexSpan lexEnd)
+        {
+            return new BlockNode(SyntaxKind.BlockNode, 
+                new BracketToken(SyntaxKind.OpenBracket, lexStart.text, lexStart.startIndex), 
+                new BracketToken(SyntaxKind.CloseBracket, lexEnd.text, lexEnd.startIndex));
+        }
+
+        public TypeNode BuildTypeNode(LexSpan lexStart, LexSpan lexEnd)
+        {
+            return new TypeNode(
+                SyntaxKind.TypeNode,
+                new AsToken(SyntaxKind.AsKeyword, lexStart.text, lexStart.startIndex),
+                new TypeToken(SyntaxKind.Type, lexEnd.text, lexEnd.startIndex)
+                );
+        }
+
+        public ParameterNode BuildParameterNode(LexSpan ident, SyntaxNodeOrToken typeNode)
+        {
+            return  new ParameterNode(
+                SyntaxKind.ParameterNode, 
+                new IdentToken(SyntaxKind.Identifier, ident.text, ident.startIndex), 
+                (TypeNode)typeNode
+                );
+        }
+
+        public LiteralNode BuildLiteralNode(SyntaxNodeOrToken literalToken)
+        {
+            return new LiteralNode(SyntaxKind.LiteralNode, (LiteralToken)literalToken);
         }
     }
 }

@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 03/10/2016 22:10:27
+// DateTime: 04/10/2016 00:36:05
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 03/10/2016 22:06:13>
+// Input file <SpecFiles\BrightScript.y - 04/10/2016 00:35:41>
 
 // options: babel lines diagnose & report gplex
 
@@ -387,6 +387,21 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
 #pragma warning disable 162, 1522
     switch (action)
     {
+      case 13: // Parameter -> bsIdent, Type
+#line 64 "SpecFiles\BrightScript.y"
+                { CurrentSemanticValue = BuildParameterNode(LocationStack[LocationStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 16: // Type -> bsAs, bsType
+#line 70 "SpecFiles\BrightScript.y"
+               { CurrentSemanticValue = BuildTypeNode(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 85: // Literal -> NumericLiteral
+#line 217 "SpecFiles\BrightScript.y"
+                  { CurrentSemanticValue = BuildLiteralNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
       case 86: // NullLiteral -> bsInvalid
 #line 221 "SpecFiles\BrightScript.y"
              { CurrentSemanticValue = BuildInvalidNode(CurrentLocationSpan); }
@@ -410,6 +425,11 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
       case 90: // NumericLiteral -> bsNumber
 #line 234 "SpecFiles\BrightScript.y"
             { CurrentSemanticValue = BuildNumberNode(CurrentLocationSpan); }
+#line default
+        break;
+      case 91: // EmptyBlock -> lBrace, rBrace
+#line 238 "SpecFiles\BrightScript.y"
+                  { CurrentSemanticValue = BuildEmptyBlock(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
 #line default
         break;
     }

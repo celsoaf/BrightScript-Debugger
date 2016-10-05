@@ -311,6 +311,44 @@ namespace BrightScriptTools.Compiler
             return (StatementNode)node;
         }
 
+        private IfStatementNode BuildIfStatementNode(
+            LexSpan lIf,
+            SyntaxNodeOrToken condition,
+            SyntaxNodeOrToken body,
+            LexSpan end,
+            LexSpan rIf)
+        {
+            var ifExp = new IfStatementNode();
+            ifExp.AddNode(new IfToken(lIf));
+            ifExp.AddNode(condition);
+            ifExp.AddNode(body);
+            ifExp.AddNode(new EndToken(end));
+            ifExp.AddNode(new IfToken(rIf));
+
+            return ifExp;
+        }
+
+        private IfStatementNode BuildIfStatementNode(
+            LexSpan lIf,
+            SyntaxNodeOrToken condition,
+            SyntaxNodeOrToken body,
+            LexSpan el,
+            SyntaxNodeOrToken elBody,
+            LexSpan end,
+            LexSpan rIf)
+        {
+            var ifExp = new IfStatementNode();
+            ifExp.AddNode(new IfToken(lIf));
+            ifExp.AddNode(condition);
+            ifExp.AddNode(body);
+            ifExp.AddNode(new ElseToken(el));
+            ifExp.AddNode(elBody);
+            ifExp.AddNode(new EndToken(end));
+            ifExp.AddNode(new IfToken(rIf));
+
+            return ifExp;
+        }
+
         private StatementListNode BuildStatementListNode()
         {
             var list = new StatementListNode();

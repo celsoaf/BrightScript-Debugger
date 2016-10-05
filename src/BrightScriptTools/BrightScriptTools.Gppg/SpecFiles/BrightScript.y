@@ -95,8 +95,8 @@ AssignStatement
 	;
 
 IfStatement
-	: bsIf SequenceExpression StatementList bsEnd bsIf
-	| bsIf SequenceExpression StatementList bsElse StatementList bsEnd bsIf
+	: bsIf SequenceExpression StatementList bsEnd bsIf						{ $$ = BuildIfStatementNode(@1, $2, $3, @4, @5); }
+	| bsIf SequenceExpression StatementList bsElse StatementList bsEnd bsIf	{ $$ = BuildIfStatementNode(@1, $2, $3, @4, $5, @6, @7); }
 	;
 
 IterationStatement

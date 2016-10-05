@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 05/10/2016 17:35:46
+// DateTime: 05/10/2016 18:22:03
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 05/10/2016 17:34:00>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 18:20:52>
 
 // options: babel lines diagnose & report gplex
 
@@ -470,6 +470,17 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
       case 28: // AssignStatement -> SequenceExpression, equal, SequenceExpression
 #line 94 "SpecFiles\BrightScript.y"
                                                 { CurrentSemanticValue = BuildAssignStatementNode(ValueStack[ValueStack.Depth-3], LocationStack[LocationStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 29: // IfStatement -> bsIf, SequenceExpression, StatementList, bsEnd, bsIf
+#line 98 "SpecFiles\BrightScript.y"
+                                                         { CurrentSemanticValue = BuildIfStatementNode(LocationStack[LocationStack.Depth-5], ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-3], LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 30: // IfStatement -> bsIf, SequenceExpression, StatementList, bsElse, StatementList, 
+               //                bsEnd, bsIf
+#line 99 "SpecFiles\BrightScript.y"
+                                                                         { CurrentSemanticValue = BuildIfStatementNode(LocationStack[LocationStack.Depth-7], ValueStack[ValueStack.Depth-6], ValueStack[ValueStack.Depth-5], LocationStack[LocationStack.Depth-4], ValueStack[ValueStack.Depth-3], LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
 #line default
         break;
       case 34: // ReturnStatement -> bsReturn, SequenceExpression

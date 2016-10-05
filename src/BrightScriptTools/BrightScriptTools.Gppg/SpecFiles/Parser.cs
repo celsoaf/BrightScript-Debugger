@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 05/10/2016 12:40:01
+// DateTime: 05/10/2016 13:48:18
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 05/10/2016 12:36:13>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 12:55:33>
 
 // options: babel lines diagnose & report gplex
 
@@ -455,6 +455,26 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
       case 47: // SingleExpression -> Literal
 #line 134 "SpecFiles\BrightScript.y"
                 { CurrentSemanticValue = BuildSingleExpressionNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 63: // UnaryExpression -> lPar, SequenceExpression, rPar
+#line 177 "SpecFiles\BrightScript.y"
+                                { CurrentSemanticValue = BuildUnaryExpressionNode(LocationStack[LocationStack.Depth-3], ValueStack[ValueStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 64: // UnaryExpression -> minus, SingleExpression
+#line 178 "SpecFiles\BrightScript.y"
+                           { CurrentSemanticValue = BuildUnaryExpressionNode(LocationStack[LocationStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 65: // UnaryExpression -> bsNot, SingleExpression
+#line 179 "SpecFiles\BrightScript.y"
+                           { CurrentSemanticValue = BuildUnaryExpressionNode(LocationStack[LocationStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 68: // MemberExpression -> bsIdent
+#line 188 "SpecFiles\BrightScript.y"
+             { CurrentSemanticValue = BuildMemberExpressionNode(CurrentLocationSpan); }
 #line default
         break;
       case 70: // MathOperator -> plus

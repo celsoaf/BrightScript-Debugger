@@ -12,6 +12,7 @@ namespace BrightScriptTools.Compiler
         public int startIndex;      // start position in the buffer
         public int endIndex;        // end position in the buffer
         public string text;
+        public int token;
         internal ScanBuff buffer;     // reference to the buffer
 
         public int Length { get { return endIndex - startIndex; } }

@@ -18,6 +18,7 @@ namespace BrightScriptTools.Compiler
         {
             var token = base.yylex();
 
+            yylloc = GetTokenSpan(token);
             _tokenList.Add(GetToken(token));
 
             return token;

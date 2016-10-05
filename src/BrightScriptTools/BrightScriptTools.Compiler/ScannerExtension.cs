@@ -14,39 +14,25 @@ namespace BrightScriptTools.Compiler
         private LexSpan _yylloc;
         public void SetHandler(ErrorHandler hdlr) { yyhdlr = hdlr; }
 
-        public override LexSpan yylloc
-        {
-            get
-            {
-                _yylloc = TokenSpan();
-                return _yylloc;
-            }
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
         public override void yyerror(string format, params object[] args)
         {
             if (yyhdlr != null)
             {
-                LexSpan span = TokenSpan();
                 if (args == null || args.Length == 0)
-                    yyhdlr.AddError(2, format, span);
+                    yyhdlr.AddError(2, format, yylloc);
                 else
-                    yyhdlr.AddError(3, String.Format(CultureInfo.InvariantCulture, format, args), span);
+                    yyhdlr.AddError(3, String.Format(CultureInfo.InvariantCulture, format, args), yylloc);
             }
         }
 
-        private LexSpan TokenSpan()
+        protected LexSpan GetTokenSpan(int token)
         {
-            return new LexSpan(tokLin, tokCol, tokELin, tokECol, tokPos, tokEPos, buffer) { text = yytext };
+            return new LexSpan(tokLin, tokCol, tokELin, tokECol, tokPos, tokEPos, buffer) { text = yytext, token = token };
         }
 
         public BrightScriptTools.Compiler.AST.Token GetToken(int token)
         {
-            return new Token(GetSyntaxkind(token), TokenSpan());
+            return new Token(GetSyntaxkind(token), GetTokenSpan(token));
         }
 
         private SyntaxKind GetSyntaxkind(int token)

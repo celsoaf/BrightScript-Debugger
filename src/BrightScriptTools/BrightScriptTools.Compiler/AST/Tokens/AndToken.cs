@@ -2,7 +2,7 @@
 
 namespace BrightScriptTools.Compiler.AST.Tokens
 {
-    public class AndToken : Token
+    public class AndToken : KeywordToken
     {
         public AndToken(LexSpan lex) 
             : base(SyntaxKind.AndBinop, lex)

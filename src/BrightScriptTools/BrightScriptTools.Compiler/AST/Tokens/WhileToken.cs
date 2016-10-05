@@ -2,7 +2,7 @@
 
 namespace BrightScriptTools.Compiler.AST.Tokens
 {
-    public class WhileToken : Token
+    public class WhileToken : KeywordToken
     {
         public WhileToken(LexSpan lex) 
             : base(SyntaxKind.WhileKeyword, lex)

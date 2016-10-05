@@ -2,7 +2,7 @@
 
 namespace BrightScriptTools.Compiler.AST.Tokens
 {
-    public class StopToken : Token
+    public class StopToken : KeywordToken
     {
         public StopToken(LexSpan lex) 
             : base(SyntaxKind.StopKeyword, lex)

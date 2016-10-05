@@ -2,7 +2,7 @@
 
 namespace BrightScriptTools.Compiler.AST.Tokens
 {
-    public class ReturnToken : Token
+    public class ReturnToken : KeywordToken
     {
         public ReturnToken(LexSpan lex) 
             : base(SyntaxKind.ReturnKeyword, lex)

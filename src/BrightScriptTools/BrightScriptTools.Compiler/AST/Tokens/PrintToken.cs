@@ -2,7 +2,7 @@
 
 namespace BrightScriptTools.Compiler.AST.Tokens
 {
-    public class PrintToken : Token
+    public class PrintToken : KeywordToken
     {
         public PrintToken(LexSpan lex) 
             : base(SyntaxKind.PrintKeyword, lex)

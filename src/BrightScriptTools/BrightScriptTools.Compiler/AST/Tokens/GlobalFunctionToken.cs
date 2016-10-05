@@ -2,7 +2,7 @@
 
 namespace BrightScriptTools.Compiler.AST.Tokens
 {
-    public class GlobalFunctionToken : Token
+    public class GlobalFunctionToken : KeywordToken
     {
         public GlobalFunctionToken(LexSpan lex) 
             : base(SyntaxKind.GlobalFunctionToken, lex)

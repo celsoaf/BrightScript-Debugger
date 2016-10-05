@@ -2,7 +2,7 @@
 
 namespace BrightScriptTools.Compiler.AST.Tokens
 {
-    public class ForToken : Token
+    public class ForToken : KeywordToken
     {
         public ForToken(LexSpan lex) 
             : base(SyntaxKind.ForKeyword, lex)

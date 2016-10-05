@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 05/10/2016 19:21:47
+// DateTime: 05/10/2016 19:54:41
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 05/10/2016 19:14:00>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 19:44:06>
 
 // options: babel lines diagnose & report gplex
 
@@ -83,7 +83,7 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
       "ReturnStatement", "ConditionExpression", "SingleExpression", "Block", 
       "IndexExpression", "MemberExpression", "BinaryExpression", "UnaryExpression", 
       "CallExpression", "LabelledStatementList", "LabelledStatement", "LabelledStatementTail", 
-      "LabelSeparator", "FunctionStatement", "Arguments", "MathOperator", "BooleanOperator", 
+      "LabelSeparator", "FunctionExpression", "Arguments", "MathOperator", "BooleanOperator", 
       "EmptyBlock", "Array", "NullLiteral", "BooleanLiteral", "StringLiteral", 
       "NumericLiteral", "ArrayList", "ArrayTail", };
 
@@ -592,6 +592,48 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
       case 50: // SingleExpression -> Literal
 #line 140 "SpecFiles\BrightScript.y"
                 { CurrentSemanticValue = BuildSingleExpressionNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 51: // Block -> lBrace, LabelledStatementList, rBrace
+#line 144 "SpecFiles\BrightScript.y"
+                                            { CurrentSemanticValue = BuildBlockNode(LocationStack[LocationStack.Depth-3], ValueStack[ValueStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 52: // LabelledStatementList -> EolOpt
+#line 148 "SpecFiles\BrightScript.y"
+                               { CurrentSemanticValue = BuildBlockNode(); }
+#line default
+        break;
+      case 53: // LabelledStatementList -> EolOpt, LabelledStatement, LabelledStatementTail
+#line 149 "SpecFiles\BrightScript.y"
+                                                    { CurrentSemanticValue = BuildBlockNode(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 54: // LabelledStatementTail -> EolOpt
+#line 153 "SpecFiles\BrightScript.y"
+                               { CurrentSemanticValue = BuildBlockNode(); }
+#line default
+        break;
+      case 55: // LabelledStatementTail -> LabelSeparator, LabelledStatement, 
+               //                          LabelledStatementTail
+#line 154 "SpecFiles\BrightScript.y"
+                                                          { CurrentSemanticValue = BuildBlockNode(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 56: // LabelledStatement -> bsIdent, colon, FunctionExpression
+#line 158 "SpecFiles\BrightScript.y"
+                                     {  CurrentSemanticValue = BuildLabelledStatementNode(LocationStack[LocationStack.Depth-3], LocationStack[LocationStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 57: // LabelledStatement -> bsIdent, colon, SequenceExpression
+#line 159 "SpecFiles\BrightScript.y"
+                                     {  CurrentSemanticValue = BuildLabelledStatementNode(LocationStack[LocationStack.Depth-3], LocationStack[LocationStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 58: // FunctionExpression -> bsFunction, lPar, ParameterList, rPar, Type, 
+               //                       StatementList, bsEnd, bsFunction
+#line 163 "SpecFiles\BrightScript.y"
+                                                                          { CurrentSemanticValue = BuildFunctionExpressionNode(LocationStack[LocationStack.Depth-8], LocationStack[LocationStack.Depth-7], ValueStack[ValueStack.Depth-6], LocationStack[LocationStack.Depth-5], ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-3], LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
 #line default
         break;
       case 59: // LabelSeparator -> Eol, EolOpt

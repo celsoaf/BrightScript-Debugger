@@ -82,6 +82,7 @@
         BinaryOperatorExpression,
         UnaryOperatorExpression,
         FunctionDef,
+        FunctionStatementDef,
         BracketField,
         AssignmentField,
         ExpField,
@@ -96,7 +97,6 @@
         MemberExpressionNode,
         SequenceExpressionNode,
         ArgumentsNode,
-        CallExpressionNode,
         LabelSeparatorNode,
         ArrayNode,
         IndexExpressionNode,
@@ -104,6 +104,7 @@
         DebuggerStatementNode,
         StatementListNode,
         ConditionExpressionNode,
+        LabelledStatementNode,
 
         //Trivia type
         Whitespace,

@@ -3,7 +3,7 @@
     public class CallExpressionNode : SyntaxNode
     {
         public CallExpressionNode() 
-            : base(SyntaxKind.CallExpressionNode)
+            : base(SyntaxKind.FunctionCallExp)
         {
         }
     }

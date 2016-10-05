@@ -41,7 +41,11 @@ namespace BrightScriptTools.Compiler
 
         private BlockNode BuildEmptyBlock(LexSpan lexStart, LexSpan lexEnd)
         {
-            return new BlockNode(new BraceToken(lexStart), new BraceToken(lexEnd));
+            var exp = new BlockNode();
+            exp.AddNode(new BraceToken(lexStart));
+            exp.AddNode(new BraceToken(lexEnd));
+
+            return exp;
         }
 
         private TypeNode BuildTypeNode(LexSpan lexAs, LexSpan lexType)
@@ -445,6 +449,84 @@ namespace BrightScriptTools.Compiler
             else
                 throw new NotImplementedException();
             exp.AddNode(right);
+
+            return exp;
+        }
+
+        private FunctionExpressionNode BuildFunctionExpressionNode(
+            LexSpan lFunc,
+            LexSpan lPar,
+            SyntaxNodeOrToken paramters,
+            LexSpan rPar,
+            SyntaxNodeOrToken type,
+            SyntaxNodeOrToken body,
+            LexSpan end,
+            LexSpan rFunc)
+        {
+            var exp = new FunctionExpressionNode();
+            exp.AddNode(new FunctionToken(lFunc));
+            exp.AddNode(new ParenToken(lPar));
+            exp.AddNode(paramters);
+            exp.AddNode(new ParenToken(rPar));
+            exp.AddNode(type);
+            exp.AddNode(body);
+            exp.AddNode(new EndToken(end));
+            exp.AddNode(new FunctionToken(rFunc));
+
+            return exp;
+        }
+
+        private LabelledStatementNode BuildLabelledStatementNode(
+            LexSpan ident,
+            LexSpan colon,
+            SyntaxNodeOrToken node
+            )
+        {
+            var exp = new LabelledStatementNode();
+            exp.AddNode(new IdentToken(ident));
+            exp.AddNode(new ColonToken(colon));
+            exp.AddNode(node);
+
+            return exp;
+        }
+
+        private BlockNode BuildBlockNode()
+        {
+            var exp = new BlockNode();
+
+            return exp;
+        }
+
+        private BlockNode BuildBlockNode(
+            SyntaxNodeOrToken statment,
+            SyntaxNodeOrToken list)
+        {
+            var exp = list as BlockNode ?? new BlockNode();
+            exp.AddNode(statment);
+
+            return exp;
+        }
+
+        private BlockNode BuildBlockNode(
+            SyntaxNodeOrToken sep,
+            SyntaxNodeOrToken statment,
+            SyntaxNodeOrToken list)
+        {
+            var exp = list as BlockNode ?? new BlockNode();
+            exp.AddNode(sep);
+            exp.AddNode(statment);
+
+            return exp;
+        }
+
+        private BlockNode BuildBlockNode(
+            LexSpan lBrace,
+            SyntaxNodeOrToken list,
+            LexSpan rBrace)
+        {
+            var exp = list as BlockNode ?? new BlockNode();
+            exp.AddNode(new BracketToken(lBrace));
+            exp.AddNode(new BracketToken(rBrace));
 
             return exp;
         }

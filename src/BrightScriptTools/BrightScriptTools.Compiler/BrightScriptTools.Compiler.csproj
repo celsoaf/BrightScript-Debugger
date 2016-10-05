@@ -77,7 +77,9 @@
     <Compile Include="AST\Enums\TypeEnum.cs" />
     <Compile Include="AST\Statements\ForEachStatementNode.cs" />
     <Compile Include="AST\Statements\ForStatementNode.cs" />
+    <Compile Include="AST\Syntax\FunctionExpressionNode.cs" />
     <Compile Include="AST\Statements\IfStatementNode.cs" />
+    <Compile Include="AST\Statements\LabelledStatementNode.cs" />
     <Compile Include="AST\Statements\WhileStatementNode.cs" />
     <Compile Include="AST\Syntax\ConditionExpressionNode.cs" />
     <Compile Include="AST\Syntax\StatementListNode.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="AST\Tokens\BooleanToken.cs" />
     <Compile Include="AST\Tokens\BraceToken.cs" />
     <Compile Include="AST\Tokens\BracketToken.cs" />
+    <Compile Include="AST\Tokens\ColonToken.cs" />
     <Compile Include="AST\Tokens\CommaToken.cs" />
     <Compile Include="AST\Tokens\DotToken.cs" />
     <Compile Include="AST\Tokens\EachToken.cs" />
@@ -112,6 +115,7 @@
     <Compile Include="AST\Tokens\EndToken.cs" />
     <Compile Include="AST\Tokens\EolToken.cs" />
     <Compile Include="AST\Tokens\ForToken.cs" />
+    <Compile Include="AST\Tokens\FunctionToken.cs" />
     <Compile Include="AST\Tokens\GlobalFunctionToken.cs" />
     <Compile Include="AST\Tokens\IdentToken.cs" />
     <Compile Include="AST\Tokens\IfToken.cs" />

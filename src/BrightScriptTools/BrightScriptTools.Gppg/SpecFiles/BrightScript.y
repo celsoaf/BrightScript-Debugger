@@ -141,26 +141,26 @@ SingleExpression
 	;
 
 Block
-	: lBrace LabelledStatementList rBrace
+	: lBrace LabelledStatementList rBrace						{ $$ = BuildBlockNode(@1, $2, @3); }
 	;
 
 LabelledStatementList
-	: EolOpt /* Empty */
-	| EolOpt LabelledStatement LabelledStatementTail
+	: EolOpt /* Empty */										{ $$ = BuildBlockNode(); }
+	| EolOpt LabelledStatement LabelledStatementTail			{ $$ = BuildBlockNode($2, $3); }
 	;
 
 LabelledStatementTail
-	: EolOpt /* Empty */
-	| LabelSeparator LabelledStatement LabelledStatementTail
+	: EolOpt /* Empty */										{ $$ = BuildBlockNode(); }
+	| LabelSeparator LabelledStatement LabelledStatementTail	{ $$ = BuildBlockNode($1, $2, $3); }
 	;
 
 LabelledStatement
-	: bsIdent colon FunctionStatement
-	| bsIdent colon SequenceExpression
+	: bsIdent colon FunctionExpression		{  $$ = BuildLabelledStatementNode(@1, @2, $3); }
+	| bsIdent colon SequenceExpression		{  $$ = BuildLabelledStatementNode(@1, @2, $3); }
 	;
 
-FunctionStatement
-	: bsFunction lPar ParameterList rPar Type StatementList bsEnd bsFunction
+FunctionExpression
+	: bsFunction lPar ParameterList rPar Type StatementList bsEnd bsFunction { $$ = BuildFunctionExpressionNode(@1, @2, $3, @4, $5, $6, @7, @8); }
 	;
 
 LabelSeparator

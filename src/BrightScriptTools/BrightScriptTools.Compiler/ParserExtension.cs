@@ -599,16 +599,16 @@ namespace BrightScriptTools.Compiler
             return exp;
         }
 
-        private ProgramNode BuildProgramNode(SyntaxNodeOrToken node)
+        private RootNode BuildProgramNode(SyntaxNodeOrToken node)
         {
-            var exp = new ProgramNode();
+            var exp = new RootNode();
             exp.AddNode(node);
             return exp;
         }
 
-        public ProgramNode GetASTRoot()
+        public RootNode GetASTRoot()
         {
-            return (ProgramNode)CurrentSemanticValue;
+            return CurrentSemanticValue as RootNode;
         }
     }
 }

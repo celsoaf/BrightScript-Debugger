@@ -4,23 +4,22 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Text;
 using BrightScriptTools.Compiler.AST;
+using BrightScriptTools.Compiler.AST.Statements;
 
 namespace BrightScriptTools.Compiler
 {
     public class SyntaxTree
     {
-        public SyntaxTree(ChunkNode root, List<Token> tokens, List<StatementNode> statementNodeList, ImmutableList<Error> errorList)
+        public SyntaxTree(RootNode root, List<Token> tokens, ImmutableList<Error> errorList)
         {
             this.Root = root;
             this.Tokens = tokens;
             this.ErrorList = errorList;
-            this.StatementNodeList = statementNodeList;
         }
 
-        public ChunkNode Root { get; }
+        public RootNode Root { get; }
         public ImmutableList<Error> ErrorList { get; }
         public List<Token> Tokens { get; }
-        public List<StatementNode> StatementNodeList { get; }
 
         public static SyntaxTree Create(TextReader reader)
         {
@@ -51,9 +50,8 @@ namespace BrightScriptTools.Compiler
             Parser parser = new Parser(scanner, handler);
             parser.Parse();
 
-            var statementNodeList = new List<StatementNode>();
-            ChunkNode root = new ChunkNode(SyntaxKind.ChunkNode, 0, (int)stream.Length);
-            return new SyntaxTree(root, scanner.GetTokens(), statementNodeList, handler.SortedErrorList().ToImmutableList());
+            RootNode root = parser.GetASTRoot();
+            return new SyntaxTree(root, scanner.GetTokens(), handler.SortedErrorList().ToImmutableList());
         }
 
         public SyntaxNode GetNodeAt(int position)

@@ -1,8 +1,8 @@
 ﻿namespace BrightScriptTools.Compiler.AST.Statements
 {
-    public class ProgramNode : SyntaxNode
+    public class RootNode : SyntaxNode
     {
-        public ProgramNode()
+        public RootNode()
             : base(SyntaxKind.ProgramNode)
         {
         }

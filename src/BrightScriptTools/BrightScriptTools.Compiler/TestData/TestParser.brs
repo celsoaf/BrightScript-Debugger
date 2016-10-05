@@ -8,4 +8,8 @@ sub Main(args={} as Object)
 		end function
 	}
 end sub
+
+function test(s as String) as Integer
+	return len(s)
+end function
  

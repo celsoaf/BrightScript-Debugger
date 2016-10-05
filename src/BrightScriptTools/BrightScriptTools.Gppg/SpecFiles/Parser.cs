@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 05/10/2016 19:54:41
+// DateTime: 05/10/2016 22:26:46
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 05/10/2016 19:44:06>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 22:26:25>
 
 // options: babel lines diagnose & report gplex
 
@@ -395,6 +395,11 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
 #pragma warning disable 162, 1522
     switch (action)
     {
+      case 7: // FunctionDeclaration -> bsFunction, bsIdent, lPar, ParameterList, rPar, Type, 
+              //                        StatementList, bsEnd, bsFunction
+#line 46 "SpecFiles\BrightScript.y"
+                                                                                  { CurrentSemanticValue = BuildFunctionDeclarationNode(LocationStack[LocationStack.Depth-9], LocationStack[LocationStack.Depth-8], LocationStack[LocationStack.Depth-7], ValueStack[ValueStack.Depth-6], LocationStack[LocationStack.Depth-5], ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-3], LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
         break;
       case 8: // SubDeclaration -> bsSub, bsIdent, lPar, ParameterList, rPar, StatementList, 
               //                   bsEnd, bsSub

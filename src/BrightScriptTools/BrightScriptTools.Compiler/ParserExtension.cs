@@ -553,5 +553,30 @@ namespace BrightScriptTools.Compiler
 
             return exp;
         }
+
+        private FunctionDeclarationNode BuildFunctionDeclarationNode(
+            LexSpan lFunc,
+            LexSpan ident,
+            LexSpan lPar,
+            SyntaxNodeOrToken parameters,
+            LexSpan rPar,
+            SyntaxNodeOrToken type,
+            SyntaxNodeOrToken body,
+            LexSpan end,
+            LexSpan rFunc)
+        {
+            var exp = new FunctionDeclarationNode();
+            exp.AddNode(new FunctionToken(lFunc));
+            exp.AddNode(new IdentToken(ident));
+            exp.AddNode(new ParenToken(lPar));
+            exp.AddNode(parameters);
+            exp.AddNode(new ParenToken(rPar));
+            exp.AddNode(type);
+            exp.AddNode(body);
+            exp.AddNode(new EndToken(end));
+            exp.AddNode(new FunctionToken(rFunc));
+
+            return exp;
+        }
     }
 }

@@ -77,6 +77,7 @@
     <Compile Include="AST\Enums\TypeEnum.cs" />
     <Compile Include="AST\Statements\ForEachStatementNode.cs" />
     <Compile Include="AST\Statements\ForStatementNode.cs" />
+    <Compile Include="AST\Statements\FunctionDeclarationNode.cs" />
     <Compile Include="AST\Statements\SubDeclarationNode.cs" />
     <Compile Include="AST\Syntax\FunctionExpressionNode.cs" />
     <Compile Include="AST\Statements\IfStatementNode.cs" />

@@ -43,7 +43,7 @@ SourceElement
 	;
 
 FunctionDeclaration
-	: bsFunction bsIdent lPar ParameterList rPar Type StatementList bsEnd bsFunction
+	: bsFunction bsIdent lPar ParameterList rPar Type StatementList bsEnd bsFunction { $$ = BuildFunctionDeclarationNode(@1, @2, @3, $4, @5, $6, $7, @8, @9); }
 	;
 
 SubDeclaration

@@ -11,6 +11,7 @@ sub Main(args={} as Object)
    c()
    d(2)
    e(a.t, t, i)
+   ty = type("teste")
 end sub
 
 function test(t as String, b as Boolean, v) as Void

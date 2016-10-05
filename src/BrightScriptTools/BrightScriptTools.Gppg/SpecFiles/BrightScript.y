@@ -163,8 +163,8 @@ LabelSeparator
 	;
 
 CallExpression
-	: bsFuncs lPar Arguments rPar
-	| SequenceExpression lPar Arguments rPar
+	: bsFuncs lPar Arguments rPar				{ $$ = BuildCallExpressionNode(@1, @2, $3, @4); }
+	| SequenceExpression lPar Arguments rPar	{ $$ = BuildCallExpressionNode($1, @2, $3, @4); }
 	;
 
 Arguments

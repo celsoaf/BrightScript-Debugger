@@ -76,6 +76,7 @@
     <Compile Include="AST\Enums\OperatorEnum.cs" />
     <Compile Include="AST\Enums\TypeEnum.cs" />
     <Compile Include="AST\Syntax\ArgumentsNode.cs" />
+    <Compile Include="AST\Syntax\CallExpressionNode.cs" />
     <Compile Include="AST\Syntax\LiteralNode.cs" />
     <Compile Include="AST\Syntax\MemberExpressionNode.cs" />
     <Compile Include="AST\Syntax\ParameterListNode.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="AST\Tokens\BracketToken.cs" />
     <Compile Include="AST\Tokens\CommaToken.cs" />
     <Compile Include="AST\Tokens\DotToken.cs" />
+    <Compile Include="AST\Tokens\GlobalFunctionToken.cs" />
     <Compile Include="AST\Tokens\IdentToken.cs" />
     <Compile Include="AST\Tokens\InvalidToken.cs" />
     <Compile Include="AST\Tokens\LiteralToken.cs" />

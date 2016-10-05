@@ -54,6 +54,7 @@
         AsKeyword,
         Type,
         OperatorKeyword,
+        GlobalFunctionToken,
 
         //Node Types
         ChunkNode,
@@ -91,6 +92,7 @@
         UnaryExpressionNode,
         SequenceExpressionNode,
         ArgumentsNode,
+        CallExpressionNode,
 
         //Trivia type
         Whitespace,

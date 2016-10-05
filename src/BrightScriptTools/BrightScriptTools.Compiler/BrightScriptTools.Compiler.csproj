@@ -79,6 +79,7 @@
     <Compile Include="AST\Statements\ForStatementNode.cs" />
     <Compile Include="AST\Statements\IfStatementNode.cs" />
     <Compile Include="AST\Statements\WhileStatementNode.cs" />
+    <Compile Include="AST\Syntax\ConditionExpressionNode.cs" />
     <Compile Include="AST\Syntax\StatementListNode.cs" />
     <Compile Include="AST\Syntax\ArgumentsNode.cs" />
     <Compile Include="AST\Syntax\ArrayNode.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="AST\Syntax\SingleExpressionNode.cs" />
     <Compile Include="AST\Syntax\TypeNode.cs" />
     <Compile Include="AST\Syntax\UnaryExpressionNode.cs" />
+    <Compile Include="AST\Tokens\AndToken.cs" />
     <Compile Include="AST\Tokens\AsToken.cs" />
     <Compile Include="AST\Tokens\BooleanOperatorToken.cs" />
     <Compile Include="AST\Tokens\BooleanToken.cs" />
@@ -124,6 +126,7 @@
     <Compile Include="AST\SyntaxNode.cs" />
     <Compile Include="AST\SyntaxNodeOrToken.cs" />
     <Compile Include="AST\Tokens\OperatorToken.cs" />
+    <Compile Include="AST\Tokens\OrToken.cs" />
     <Compile Include="AST\Tokens\ParenToken.cs" />
     <Compile Include="AST\Tokens\PrintToken.cs" />
     <Compile Include="AST\Tokens\ReturnToken.cs" />

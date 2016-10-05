@@ -18,7 +18,7 @@
 
 %token	bar, dot, semi, star, lt, gt, ltEqual, gtEqual, notEqual, comma, slash, lBrac, rBrac, lPar, rPar, lBrace, rBrace, Eol, equal, plus, minus, questionMark, colon
 
-%token bsIdent, bsNumber, bsStr, bsCmnt, bsFuncs, bsType, bsAs, bsTrue, bsFalse, bsInvalid, bsNot, bsM, bsStop, bsReturn, bsPrint
+%token bsIdent, bsNumber, bsStr, bsCmnt, bsFuncs, bsType, bsAs, bsTrue, bsFalse, bsInvalid, bsNot, bsAnd, bsOr, bsM, bsStop, bsReturn, bsPrint
 
 %token bsIf, bsElse, bsFor, bsTo, bsEach, bsStep, bsIn, bsWhile
 
@@ -29,8 +29,8 @@
 %%
 
 Program
-    : SourceElements EOF
-    ;
+	: SourceElements EOF
+	;
 
 SourceElements
 	: EolOpt /* Empty */
@@ -95,14 +95,20 @@ AssignStatement
 	;
 
 IfStatement
-	: bsIf SequenceExpression StatementList bsEnd bsIf						{ $$ = BuildIfStatementNode(@1, $2, $3, @4, @5); }
-	| bsIf SequenceExpression StatementList bsElse StatementList bsEnd bsIf	{ $$ = BuildIfStatementNode(@1, $2, $3, @4, $5, @6, @7); }
+	: bsIf ConditionExpression StatementList bsEnd bsIf						{ $$ = BuildIfStatementNode(@1, $2, $3, @4, @5); }
+	| bsIf ConditionExpression StatementList bsElse StatementList bsEnd bsIf	{ $$ = BuildIfStatementNode(@1, $2, $3, @4, $5, @6, @7); }
 	;
 
 IterationStatement
 	: bsFor AssignStatement bsTo SequenceExpression StatementList bsEnd bsFor	{ $$ = BuildForStatementNode(@1, $2, @3, $4, $5, @6, @7); }
 	| bsFor bsEach bsIdent bsIn SequenceExpression StatementList bsEnd bsFor	{ $$ = BuildForEachStatementNode(@1, @2, @3, @4, $5, $6, @7, @8); }
-	| bsWhile SequenceExpression StatementList bsEnd bsWhile					{ $$ = BuildWhileStatementNode(@1, $2, $3, @4, @5); }
+	| bsWhile ConditionExpression StatementList bsEnd bsWhile					{ $$ = BuildWhileStatementNode(@1, $2, $3, @4, @5); }
+	;
+
+ConditionExpression
+	: SequenceExpression							{ $$ = BuildConditionExpressionNode($1); }
+	| SequenceExpression bsAnd SequenceExpression	{ $$ = BuildConditionExpressionNode($1, @2, $3); }
+	| SequenceExpression bsOr SequenceExpression	{ $$ = BuildConditionExpressionNode($1, @2, $3); }
 	;
 
 ReturnStatement

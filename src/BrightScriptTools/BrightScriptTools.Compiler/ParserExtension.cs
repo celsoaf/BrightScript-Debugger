@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using BrightScriptTools.Compiler.AST;
 using BrightScriptTools.Compiler.AST.Statements;
 using BrightScriptTools.Compiler.AST.Syntax;
@@ -421,6 +422,29 @@ namespace BrightScriptTools.Compiler
             exp.AddNode(body);
             exp.AddNode(new EndToken(end));
             exp.AddNode(new WhileToken(rWhile));
+
+            return exp;
+        }
+
+        private ConditionExpressionNode BuildConditionExpressionNode(SyntaxNodeOrToken node)
+        {
+            var exp = new ConditionExpressionNode();
+            exp.AddNode(node);
+
+            return exp;
+        }
+
+        private ConditionExpressionNode BuildConditionExpressionNode(SyntaxNodeOrToken left, LexSpan op, SyntaxNodeOrToken right)
+        {
+            var exp = new ConditionExpressionNode();
+            exp.AddNode(left);
+            if(op.token == (int)Tokens.bsAnd)
+                exp.AddNode(new AndToken(op));
+            else if (op.token == (int)Tokens.bsOr)
+                exp.AddNode(new OrToken(op));
+            else
+                throw new NotImplementedException();
+            exp.AddNode(right);
 
             return exp;
         }

@@ -103,6 +103,7 @@
         PrintStatementMode,
         DebuggerStatementNode,
         StatementListNode,
+        ConditionExpressionNode,
 
         //Trivia type
         Whitespace,

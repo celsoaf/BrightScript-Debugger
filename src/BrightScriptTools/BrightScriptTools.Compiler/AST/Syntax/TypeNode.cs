@@ -9,8 +9,8 @@ namespace BrightScriptTools.Compiler.AST.Syntax
         public TypeNode(SyntaxKind kind, AsToken asToken, TypeToken typeToken)
             : base(kind)
         {
-            list.Add(asToken);
-            list.Add(typeToken);
+            AddNode(asToken);
+            AddNode(typeToken);
         }
     }
 }

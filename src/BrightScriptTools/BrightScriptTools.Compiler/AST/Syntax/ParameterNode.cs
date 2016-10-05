@@ -10,18 +10,18 @@ namespace BrightScriptTools.Compiler.AST.Syntax
         public ParameterNode(SyntaxKind kind, IdentToken ident, TypeNode typeNode)
             : base(kind)
         {
-            list.Add(ident);
+            AddNode(ident);
             if (typeNode != null)
-                list.Add(typeNode);
+                AddNode(typeNode);
         }
 
         public ParameterNode(SyntaxKind kind, IdentToken ident, OperatorToken opr, LiteralNode literal, TypeNode typeNode)
             : base(kind)
         {
-            list.Add(ident);
-            list.Add(opr);
-            list.Add(literal);
-            list.Add(typeNode);
+            AddNode(ident);
+            AddNode(opr);
+            AddNode(literal);
+            AddNode(typeNode);
         }
     }
 }

@@ -8,13 +8,5 @@ namespace BrightScriptTools.Compiler.AST.Syntax
             : base(kind)
         {
         }
-
-        public void AddNode(SyntaxNodeOrToken elem)
-        {
-            list.Add(elem);
-            list = list
-                .OrderBy(e => e.Start)
-                .ToList();
-        }
     }
 }

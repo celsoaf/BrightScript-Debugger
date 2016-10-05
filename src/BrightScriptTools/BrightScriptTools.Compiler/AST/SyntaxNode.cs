@@ -9,7 +9,7 @@ namespace BrightScriptTools.Compiler.AST
     public abstract partial class SyntaxNode : SyntaxNodeOrToken
     {
         readonly SyntaxKind kind;
-        protected IList<SyntaxNodeOrToken> list = new List<SyntaxNodeOrToken>();
+        private IList<SyntaxNodeOrToken> list = new List<SyntaxNodeOrToken>();
 
         public SyntaxNode(SyntaxKind kind)
         {
@@ -39,6 +39,17 @@ namespace BrightScriptTools.Compiler.AST
                 return 0;
             }
             protected set { throw new NotImplementedException(); }
+        }
+
+        internal void AddNode(SyntaxNodeOrToken elem)
+        {
+            if (elem != null)
+            {
+                list.Add(elem);
+                list = list
+                    .OrderBy(e => e.Start)
+                    .ToList();
+            }
         }
 
         public override ImmutableList<SyntaxNodeOrToken> Children => list.ToImmutableList();

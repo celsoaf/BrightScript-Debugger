@@ -80,5 +80,15 @@ namespace BrightScriptTools.Compiler
         {
             return new LiteralNode(SyntaxKind.LiteralNode, literalToken);
         }
+
+        public MathOperatorToken BuildMathOperatorNode(LexSpan lex)
+        {
+            return new MathOperatorToken(SyntaxKind.OperatorKeyword, lex);
+        }
+
+        public BooleanOperatorToken BuildBooleanOperatorNode(LexSpan lex)
+        {
+            return new BooleanOperatorToken(SyntaxKind.OperatorKeyword, lex);
+        }
     }
 }

@@ -3,8 +3,11 @@
     public enum OperatorEnum
     {
         Equal,
+        NotEqual,
         Less,
+        LessOrEqual,
         Greater,
+        GreaterOrEqual,
         Plus,
         Minus,
         Star,

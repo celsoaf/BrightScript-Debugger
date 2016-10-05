@@ -79,11 +79,13 @@
     <Compile Include="AST\Syntax\ParameterNode.cs" />
     <Compile Include="AST\Syntax\TypeNode.cs" />
     <Compile Include="AST\Tokens\AsToken.cs" />
+    <Compile Include="AST\Tokens\BooleanOperatorToken.cs" />
     <Compile Include="AST\Tokens\BooleanToken.cs" />
     <Compile Include="AST\Tokens\BracketToken.cs" />
     <Compile Include="AST\Tokens\IdentToken.cs" />
     <Compile Include="AST\Tokens\InvalidToken.cs" />
     <Compile Include="AST\Tokens\LiteralToken.cs" />
+    <Compile Include="AST\Tokens\MathOperatorToken.cs" />
     <Compile Include="AST\Tokens\NumberToken.cs" />
     <Compile Include="AST\StatementNode.cs" />
     <Compile Include="AST\SyntaxKind.cs" />

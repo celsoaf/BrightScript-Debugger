@@ -72,7 +72,6 @@
     </Compile>
     <Compile Include="ASTScanner.cs" />
     <Compile Include="AST\BlockNode.cs" />
-    <Compile Include="AST\ChunkNode.cs" />
     <Compile Include="AST\Enums\OperatorEnum.cs" />
     <Compile Include="AST\Enums\TypeEnum.cs" />
     <Compile Include="AST\Statements\ForEachStatementNode.cs" />

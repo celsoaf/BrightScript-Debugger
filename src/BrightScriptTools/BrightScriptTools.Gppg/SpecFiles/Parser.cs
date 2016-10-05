@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 05/10/2016 12:11:04
+// DateTime: 05/10/2016 12:40:01
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 05/10/2016 12:10:39>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 12:36:13>
 
 // options: babel lines diagnose & report gplex
 
@@ -420,6 +420,41 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
       case 16: // Type -> bsAs, bsType
 #line 70 "SpecFiles\BrightScript.y"
                    { CurrentSemanticValue = BuildTypeNode(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 41: // SingleExpression -> Block
+#line 128 "SpecFiles\BrightScript.y"
+               { CurrentSemanticValue = BuildSingleExpressionNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 42: // SingleExpression -> IndexExpression
+#line 129 "SpecFiles\BrightScript.y"
+                      { CurrentSemanticValue = BuildSingleExpressionNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 43: // SingleExpression -> MemberExpression
+#line 130 "SpecFiles\BrightScript.y"
+                       { CurrentSemanticValue = BuildSingleExpressionNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 44: // SingleExpression -> BinaryExpression
+#line 131 "SpecFiles\BrightScript.y"
+                       { CurrentSemanticValue = BuildSingleExpressionNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 45: // SingleExpression -> UnaryExpression
+#line 132 "SpecFiles\BrightScript.y"
+                      { CurrentSemanticValue = BuildSingleExpressionNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 46: // SingleExpression -> CallExpression
+#line 133 "SpecFiles\BrightScript.y"
+                     { CurrentSemanticValue = BuildSingleExpressionNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 47: // SingleExpression -> Literal
+#line 134 "SpecFiles\BrightScript.y"
+                { CurrentSemanticValue = BuildSingleExpressionNode(ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 70: // MathOperator -> plus

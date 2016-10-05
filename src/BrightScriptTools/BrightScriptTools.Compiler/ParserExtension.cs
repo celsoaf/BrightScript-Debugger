@@ -310,5 +310,20 @@ namespace BrightScriptTools.Compiler
         {
             return (StatementNode)node;
         }
+
+        private StatementListNode BuildStatementListNode()
+        {
+            var list = new StatementListNode();
+
+            return list;
+        }
+
+        private StatementListNode BuildStatementListNode(SyntaxNodeOrToken statement, SyntaxNodeOrToken list)
+        {
+            var stList = list as StatementListNode ?? new StatementListNode();
+            stList.AddNode(statement);
+
+            return stList;
+        }
     }
 }

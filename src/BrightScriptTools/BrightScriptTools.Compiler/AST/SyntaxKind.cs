@@ -99,7 +99,7 @@
         IndexExpressionNode,
         PrintStatementMode,
         DebuggerStatementNode,
-
+        StatementListNode,
 
         //Trivia type
         Whitespace,

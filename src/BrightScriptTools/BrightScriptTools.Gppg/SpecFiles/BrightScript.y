@@ -76,8 +76,8 @@ EolOpt
 	;
 
 StatementList
-	: EolOpt /* Empty */
-	| Eol EolOpt Statement StatementList 
+	: EolOpt /* Empty */					{ $$ = BuildStatementListNode(); }
+	| Eol EolOpt Statement StatementList	{ $$ = BuildStatementListNode($3, $4); }
 	;
 
 Statement

@@ -422,6 +422,16 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
                    { CurrentSemanticValue = BuildTypeNode(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
 #line default
         break;
+      case 19: // StatementList -> EolOpt
+#line 79 "SpecFiles\BrightScript.y"
+                          { CurrentSemanticValue = BuildStatementListNode(); }
+#line default
+        break;
+      case 20: // StatementList -> Eol, EolOpt, Statement, StatementList
+#line 80 "SpecFiles\BrightScript.y"
+                                      { CurrentSemanticValue = BuildStatementListNode(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
       case 21: // Statement -> DebuggerStatement
 #line 84 "SpecFiles\BrightScript.y"
                        { CurrentSemanticValue = BuildStatementNode(ValueStack[ValueStack.Depth-1]); }

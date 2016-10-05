@@ -270,5 +270,22 @@ namespace BrightScriptTools.Compiler
 
             return assign;
         }
+
+        private ReturnStatementNode BuildReturnStatementNode(LexSpan lex)
+        {
+            var res = new ReturnStatementNode();
+            res.AddNode(new ReturnToken(lex));
+
+            return res;
+        }
+
+        private ReturnStatementNode BuildReturnStatementNode(LexSpan lex, SyntaxNodeOrToken node)
+        {
+            var res = new ReturnStatementNode();
+            res.AddNode(new ReturnToken(lex));
+            res.AddNode(node);
+
+            return res;
+        }
     }
 }

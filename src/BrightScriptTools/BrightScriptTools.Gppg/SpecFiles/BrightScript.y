@@ -106,8 +106,8 @@ IterationStatement
 	;
 
 ReturnStatement
-	: bsReturn SequenceExpression
-	| bsReturn Eol
+	: bsReturn SequenceExpression	{ $$ = BuildReturnStatementNode(@1, $2); }
+	| bsReturn Eol					{ $$ = BuildReturnStatementNode(@1); }
 	;
 
 DebuggerStatement

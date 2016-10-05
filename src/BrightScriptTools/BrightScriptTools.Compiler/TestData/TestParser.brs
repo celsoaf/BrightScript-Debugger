@@ -22,6 +22,6 @@ sub Main(args={} as Object)
 end sub
 
 function test(t as String, b as Boolean, v) as Void
-
+	return 22
 end function
  

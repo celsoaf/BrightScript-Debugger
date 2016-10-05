@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 05/10/2016 15:22:14
+// DateTime: 05/10/2016 15:37:37
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 05/10/2016 15:22:04>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 15:37:19>
 
 // options: babel lines diagnose & report gplex
 
@@ -505,6 +505,16 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
       case 65: // UnaryExpression -> bsNot, SingleExpression
 #line 179 "SpecFiles\BrightScript.y"
                            { CurrentSemanticValue = BuildUnaryExpressionNode(LocationStack[LocationStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 66: // BinaryExpression -> SequenceExpression, MathOperator, SequenceExpression
+#line 183 "SpecFiles\BrightScript.y"
+                                                       { CurrentSemanticValue = BuildBinaryExpressionNode(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 67: // BinaryExpression -> SequenceExpression, BooleanOperator, SequenceExpression
+#line 184 "SpecFiles\BrightScript.y"
+                                                          { CurrentSemanticValue = BuildBinaryExpressionNode(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 68: // MemberExpression -> bsIdent

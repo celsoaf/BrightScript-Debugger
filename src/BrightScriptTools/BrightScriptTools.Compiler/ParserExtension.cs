@@ -180,7 +180,11 @@ namespace BrightScriptTools.Compiler
             return callExp;
         }
 
-        public CallExpressionNode BuildCallExpressionNode(SyntaxNodeOrToken member, LexSpan lPar, SyntaxNodeOrToken args, LexSpan rPar)
+        public CallExpressionNode BuildCallExpressionNode(
+            SyntaxNodeOrToken member, 
+            LexSpan lPar, 
+            SyntaxNodeOrToken args, 
+            LexSpan rPar)
         {
             var callExp = new CallExpressionNode();
             callExp.AddNode(member);
@@ -189,6 +193,19 @@ namespace BrightScriptTools.Compiler
             callExp.AddNode(new ParenToken(rPar));
 
             return callExp;
+        }
+
+        public BinaryExpressionNode BuildBinaryExpressionNode(
+            SyntaxNodeOrToken left, 
+            SyntaxNodeOrToken opr, 
+            SyntaxNodeOrToken right)
+        {
+            var exp = new BinaryExpressionNode();
+            exp.AddNode(left);
+            exp.AddNode(opr);
+            exp.AddNode(right);
+
+            return exp;
         }
     }
 }

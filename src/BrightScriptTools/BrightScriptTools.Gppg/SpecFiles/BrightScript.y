@@ -180,8 +180,8 @@ UnaryExpression
 	;
 
 BinaryExpression
-	: SequenceExpression MathOperator SequenceExpression
-	| SequenceExpression BooleanOperator SequenceExpression
+	: SequenceExpression MathOperator SequenceExpression		{ $$ = BuildBinaryExpressionNode($1, $2, $3); }
+	| SequenceExpression BooleanOperator SequenceExpression		{ $$ = BuildBinaryExpressionNode($1, $2, $3); }
 	;
 
 MemberExpression

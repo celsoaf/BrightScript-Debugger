@@ -76,6 +76,7 @@
     <Compile Include="AST\Enums\OperatorEnum.cs" />
     <Compile Include="AST\Enums\TypeEnum.cs" />
     <Compile Include="AST\Syntax\ArgumentsNode.cs" />
+    <Compile Include="AST\Syntax\BinaryExpressionNode.cs" />
     <Compile Include="AST\Syntax\CallExpressionNode.cs" />
     <Compile Include="AST\Syntax\LiteralNode.cs" />
     <Compile Include="AST\Syntax\MemberExpressionNode.cs" />

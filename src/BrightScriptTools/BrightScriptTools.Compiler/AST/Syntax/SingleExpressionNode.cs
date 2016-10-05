@@ -3,7 +3,7 @@
     public class SingleExpressionNode : SyntaxNode
     {
         public SingleExpressionNode(SyntaxNode node) 
-            : base(SyntaxKind.SingleExpressionNode)
+            : base(SyntaxKind.SimpleExpression)
         {
             AddNode(node);
         }

@@ -36,6 +36,10 @@ namespace BrightScriptTools.Compiler
                         Console.WriteLine(e.Message);
                     });
                 }
+                else
+                {
+                    var ast = parser.GetASTRoot();
+                }
             }
         }
 

@@ -605,5 +605,10 @@ namespace BrightScriptTools.Compiler
             exp.AddNode(node);
             return exp;
         }
+
+        public ProgramNode GetASTRoot()
+        {
+            return (ProgramNode)CurrentSemanticValue;
+        }
     }
 }

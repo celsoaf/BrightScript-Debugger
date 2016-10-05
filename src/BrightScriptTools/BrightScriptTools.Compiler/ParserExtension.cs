@@ -39,7 +39,7 @@ namespace BrightScriptTools.Compiler
 
         private BlockNode BuildEmptyBlock(LexSpan lexStart, LexSpan lexEnd)
         {
-            return new BlockNode(new BracketToken(lexStart), new BracketToken(lexEnd));
+            return new BlockNode(new BraceToken(lexStart), new BraceToken(lexEnd));
         }
 
         private TypeNode BuildTypeNode(LexSpan lexAs, LexSpan lexType)

@@ -89,6 +89,7 @@
     <Compile Include="AST\Tokens\AsToken.cs" />
     <Compile Include="AST\Tokens\BooleanOperatorToken.cs" />
     <Compile Include="AST\Tokens\BooleanToken.cs" />
+    <Compile Include="AST\Tokens\BraceToken.cs" />
     <Compile Include="AST\Tokens\BracketToken.cs" />
     <Compile Include="AST\Tokens\CommaToken.cs" />
     <Compile Include="AST\Tokens\DotToken.cs" />

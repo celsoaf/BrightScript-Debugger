@@ -17,8 +17,13 @@ namespace BrightScriptTools.Compiler.AST
         }
 
         public ChunkNode(SyntaxKind kind, int startPosition, int length) 
-            : base(kind, startPosition, length)
+            : base(kind)
         {
+            Start = startPosition;
+            Length = length;
         }
+
+        public override int Start { get; protected set; }
+        public override int Length { get; protected set; }
     }
 }

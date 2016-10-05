@@ -8,14 +8,14 @@ namespace BrightScriptTools.Compiler.AST.Syntax
     public class ParameterNode : SyntaxNode
     {
         public ParameterNode(SyntaxKind kind, IdentToken ident, TypeNode typeNode)
-            : base(kind, ident.Start, typeNode.End - ident.Start)
+            : base(kind)
         {
             list.Add(ident);
             list.Add(typeNode);
         }
 
         public ParameterNode(SyntaxKind kind, IdentToken ident, OperatorToken opr, LiteralNode literal, TypeNode typeNode)
-            : base(kind, ident.Start, typeNode.End - ident.Start)
+            : base(kind)
         {
             list.Add(ident);
             list.Add(opr);

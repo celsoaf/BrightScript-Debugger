@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Linq;
 using ImmutableObjectGraph.Generation;
 
 namespace BrightScriptTools.Compiler.AST
@@ -9,15 +11,35 @@ namespace BrightScriptTools.Compiler.AST
         readonly SyntaxKind kind;
         protected IList<SyntaxNodeOrToken> list = new List<SyntaxNodeOrToken>();
 
-        public SyntaxNode(SyntaxKind kind, int startPosition, int length)
+        public SyntaxNode(SyntaxKind kind)
         {
             this.kind = kind;
-            this.Start = startPosition;
-            this.Length = length;
         }
 
         public override bool IsToken => false;
         public override bool IsLeafNode => this.Children.Count == 0;
+
+        public override int Start
+        {
+            get
+            {
+                if (list.Count > 0)
+                    return list.First().Start;
+                return 0;
+            }
+            protected set { throw new NotImplementedException(); }
+        }
+
+        public override int Length
+        {
+            get
+            {
+                if (list.Count > 0)
+                    return list.Last().End - list.First().Start;
+                return 0;
+            }
+            protected set { throw new NotImplementedException(); }
+        }
 
         public override ImmutableList<SyntaxNodeOrToken> Children => list.ToImmutableList();
 

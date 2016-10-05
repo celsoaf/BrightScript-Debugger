@@ -185,7 +185,7 @@ BinaryExpression
 	;
 
 MemberExpression
-	: bsIdent 
+	: bsIdent			{ $$ = BuildMemberExpressionNode(@$); }
 	;
 
 IndexExpression

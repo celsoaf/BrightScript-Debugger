@@ -117,5 +117,12 @@ namespace BrightScriptTools.Compiler
         {
             return new SingleExpressionNode(SyntaxKind.SingleExpressionNode, (SyntaxNode)node);
         }
+
+        public MemberExpressionNode BuildMemberExpressionNode(LexSpan lex)
+        {
+            return new MemberExpressionNode(
+                SyntaxKind.MemberExpressionNode,
+                new IdentToken(SyntaxKind.Identifier, lex));
+        }
     }
 }

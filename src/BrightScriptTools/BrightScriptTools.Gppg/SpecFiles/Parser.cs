@@ -395,6 +395,13 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
 #pragma warning disable 162, 1522
     switch (action)
     {
+        break;
+      case 8: // SubDeclaration -> bsSub, bsIdent, lPar, ParameterList, rPar, StatementList, 
+              //                   bsEnd, bsSub
+#line 50 "SpecFiles\BrightScript.y"
+                                                                   { CurrentSemanticValue = BuildSubDeclarationNode(LocationStack[LocationStack.Depth-8], LocationStack[LocationStack.Depth-7], LocationStack[LocationStack.Depth-6], ValueStack[ValueStack.Depth-5], LocationStack[LocationStack.Depth-4], ValueStack[ValueStack.Depth-3], LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
       case 9: // ParameterList -> /* empty */
 #line 54 "SpecFiles\BrightScript.y"
                    { CurrentSemanticValue = BuildParameterListNode(); }

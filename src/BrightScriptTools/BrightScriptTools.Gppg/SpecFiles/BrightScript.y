@@ -47,7 +47,7 @@ FunctionDeclaration
 	;
 
 SubDeclaration
-	: bsSub bsIdent lPar ParameterList rPar StatementList bsEnd bsSub 
+	: bsSub bsIdent lPar ParameterList rPar StatementList bsEnd bsSub { $$ = BuildSubDeclarationNode(@1, @2, @3, $4, @5, $6, @7, @8); }
 	;
 
 ParameterList

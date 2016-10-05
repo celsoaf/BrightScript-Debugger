@@ -530,5 +530,28 @@ namespace BrightScriptTools.Compiler
 
             return exp;
         }
+
+        private SubDeclarationNode BuildSubDeclarationNode(
+            LexSpan lSub,
+            LexSpan ident,
+            LexSpan lPar,
+            SyntaxNodeOrToken parameters,
+            LexSpan rPar,
+            SyntaxNodeOrToken body,
+            LexSpan end,
+            LexSpan rSub)
+        {
+            var exp = new SubDeclarationNode();
+            exp.AddNode(new SubToken(lSub));
+            exp.AddNode(new IdentToken(ident));
+            exp.AddNode(new ParenToken(lPar));
+            exp.AddNode(parameters);
+            exp.AddNode(new ParenToken(rPar));
+            exp.AddNode(body);
+            exp.AddNode(new EndToken(end));
+            exp.AddNode(new SubToken(rSub));
+
+            return exp;
+        }
     }
 }

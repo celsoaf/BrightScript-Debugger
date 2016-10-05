@@ -18,6 +18,7 @@
         ElseIfKeyword,
         MinusOperator,
         EqualityOperator,
+        NotEqualOperator,
         PlusOperator,
         MultiplyOperator,
         DivideOperator,
@@ -32,7 +33,9 @@
         DoubleColon,
         AssignmentOperator,
         LessThanOperator,
+        LessThanOrEqualOperator,
         GreaterThanOperator,
+        GreaterOrEqualThanOperator,
         StringConcatOperator,
         BitwiseLeftOperator,
         AndBinop,
@@ -59,6 +62,7 @@
         ToKeyword,
         EachKeyword,
         SubKeyword,
+        StepKeyword,
 
         //Node Types
         ChunkNode,

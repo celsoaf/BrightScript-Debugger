@@ -193,19 +193,19 @@ IndexExpression
 	;
 
 MathOperator
-	: plus
-	| minus
-	| star
-	| slash
+	: plus				{ $$ = BuildMathOperatorNode(@$); }
+	| minus				{ $$ = BuildMathOperatorNode(@$); }
+	| star				{ $$ = BuildMathOperatorNode(@$); }
+	| slash				{ $$ = BuildMathOperatorNode(@$); }
 	;
 
 BooleanOperator
-	: lt
-	| ltEqual
-	| gt
-	| gtEqual
-	| equal
-	| notEqual
+	: lt				{ $$ = BuildBooleanOperatorNode(@$); }
+	| ltEqual			{ $$ = BuildBooleanOperatorNode(@$); }
+	| gt				{ $$ = BuildBooleanOperatorNode(@$); }
+	| gtEqual			{ $$ = BuildBooleanOperatorNode(@$); }
+	| equal				{ $$ = BuildBooleanOperatorNode(@$); }
+	| notEqual			{ $$ = BuildBooleanOperatorNode(@$); }
 	;
 	
 Literal

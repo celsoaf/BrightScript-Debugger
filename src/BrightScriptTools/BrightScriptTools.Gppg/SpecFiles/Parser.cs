@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 04/10/2016 01:22:03
+// DateTime: 05/10/2016 11:12:22
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 04/10/2016 01:21:47>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 11:12:06>
 
 // options: babel lines diagnose & report gplex
 
@@ -400,6 +400,56 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
       case 16: // Type -> bsAs, bsType
 #line 70 "SpecFiles\BrightScript.y"
                   { CurrentSemanticValue = BuildTypeNode(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 70: // MathOperator -> plus
+#line 196 "SpecFiles\BrightScript.y"
+           { CurrentSemanticValue = BuildMathOperatorNode(CurrentLocationSpan); }
+#line default
+        break;
+      case 71: // MathOperator -> minus
+#line 197 "SpecFiles\BrightScript.y"
+            { CurrentSemanticValue = BuildMathOperatorNode(CurrentLocationSpan); }
+#line default
+        break;
+      case 72: // MathOperator -> star
+#line 198 "SpecFiles\BrightScript.y"
+           { CurrentSemanticValue = BuildMathOperatorNode(CurrentLocationSpan); }
+#line default
+        break;
+      case 73: // MathOperator -> slash
+#line 199 "SpecFiles\BrightScript.y"
+            { CurrentSemanticValue = BuildMathOperatorNode(CurrentLocationSpan); }
+#line default
+        break;
+      case 74: // BooleanOperator -> lt
+#line 203 "SpecFiles\BrightScript.y"
+         { CurrentSemanticValue = BuildBooleanOperatorNode(CurrentLocationSpan); }
+#line default
+        break;
+      case 75: // BooleanOperator -> ltEqual
+#line 204 "SpecFiles\BrightScript.y"
+             { CurrentSemanticValue = BuildBooleanOperatorNode(CurrentLocationSpan); }
+#line default
+        break;
+      case 76: // BooleanOperator -> gt
+#line 205 "SpecFiles\BrightScript.y"
+         { CurrentSemanticValue = BuildBooleanOperatorNode(CurrentLocationSpan); }
+#line default
+        break;
+      case 77: // BooleanOperator -> gtEqual
+#line 206 "SpecFiles\BrightScript.y"
+             { CurrentSemanticValue = BuildBooleanOperatorNode(CurrentLocationSpan); }
+#line default
+        break;
+      case 78: // BooleanOperator -> equal
+#line 207 "SpecFiles\BrightScript.y"
+            { CurrentSemanticValue = BuildBooleanOperatorNode(CurrentLocationSpan); }
+#line default
+        break;
+      case 79: // BooleanOperator -> notEqual
+#line 208 "SpecFiles\BrightScript.y"
+              { CurrentSemanticValue = BuildBooleanOperatorNode(CurrentLocationSpan); }
 #line default
         break;
       case 80: // Literal -> EmptyBlock

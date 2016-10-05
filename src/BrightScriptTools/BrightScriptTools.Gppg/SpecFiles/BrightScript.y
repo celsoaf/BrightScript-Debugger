@@ -239,17 +239,17 @@ EmptyBlock
 	;
 
 Array
-	: lBrac ArrayList rBrac
+	: lBrac ArrayList rBrac							{ $$ = BuildArrayNode(@1, $2, @3); }
 	;
 
 ArrayList
-	: EolOpt /* Empty */
-	| EolOpt SequenceExpression ArrayTail
+	: EolOpt /* Empty */							{ $$ = BuildArrayNode(); }
+	| EolOpt SequenceExpression ArrayTail			{ $$ = BuildArrayNode($2, $3); }
 	;
 
 ArrayTail
-	: EolOpt /* Empty */
-	| LabelSeparator SequenceExpression ArrayTail
+	: EolOpt /* Empty */							{ $$ = BuildArrayNode(); }
+	| LabelSeparator SequenceExpression ArrayTail	{ $$ = BuildArrayNode($1, $2, $3); }
 	;
 
 %%

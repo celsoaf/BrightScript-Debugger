@@ -5,6 +5,7 @@
         public LabelSeparatorNode(Token separator) 
             : base(SyntaxKind.LabelSeparatorNode)
         {
+            AddNode(separator);
         }
     }
 }

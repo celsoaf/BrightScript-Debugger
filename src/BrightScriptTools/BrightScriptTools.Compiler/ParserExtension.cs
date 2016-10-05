@@ -218,5 +218,36 @@ namespace BrightScriptTools.Compiler
 
             return null;
         }
+
+        private ArrayNode BuildArrayNode()
+        {
+            return new ArrayNode();
+        }
+
+        private ArrayNode BuildArrayNode(SyntaxNodeOrToken node, SyntaxNodeOrToken list)
+        {
+            var arr = list as ArrayNode ?? new ArrayNode();
+            arr.AddNode(node);
+
+            return arr;
+        }
+
+        private ArrayNode BuildArrayNode(SyntaxNodeOrToken sep, SyntaxNodeOrToken node, SyntaxNodeOrToken list)
+        {
+            var arr = list as ArrayNode ?? new ArrayNode();
+            arr.AddNode(sep);
+            arr.AddNode(node);
+
+            return arr;
+        }
+
+        private ArrayNode BuildArrayNode(LexSpan lBrac, SyntaxNodeOrToken list, LexSpan rBrac)
+        {
+            var arr = list as ArrayNode ?? new ArrayNode();
+            arr.AddNode(new BracketToken(lBrac));
+            arr.AddNode(new BracketToken(rBrac));
+
+            return arr;
+        }
     }
 }

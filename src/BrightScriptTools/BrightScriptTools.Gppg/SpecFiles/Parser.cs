@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 05/10/2016 16:09:43
+// DateTime: 05/10/2016 16:18:09
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 05/10/2016 16:02:38>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 16:17:50>
 
 // options: babel lines diagnose & report gplex
 
@@ -640,6 +640,31 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
       case 91: // EmptyBlock -> lBrace, rBrace
 #line 238 "SpecFiles\BrightScript.y"
                   { CurrentSemanticValue = BuildEmptyBlock(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 92: // Array -> lBrac, ArrayList, rBrac
+#line 242 "SpecFiles\BrightScript.y"
+                               { CurrentSemanticValue = BuildArrayNode(LocationStack[LocationStack.Depth-3], ValueStack[ValueStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 93: // ArrayList -> EolOpt
+#line 246 "SpecFiles\BrightScript.y"
+                            { CurrentSemanticValue = BuildArrayNode(); }
+#line default
+        break;
+      case 94: // ArrayList -> EolOpt, SequenceExpression, ArrayTail
+#line 247 "SpecFiles\BrightScript.y"
+                                         { CurrentSemanticValue = BuildArrayNode(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 95: // ArrayTail -> EolOpt
+#line 251 "SpecFiles\BrightScript.y"
+                            { CurrentSemanticValue = BuildArrayNode(); }
+#line default
+        break;
+      case 96: // ArrayTail -> LabelSeparator, SequenceExpression, ArrayTail
+#line 252 "SpecFiles\BrightScript.y"
+                                               { CurrentSemanticValue = BuildArrayNode(ValueStack[ValueStack.Depth-3], ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
     }

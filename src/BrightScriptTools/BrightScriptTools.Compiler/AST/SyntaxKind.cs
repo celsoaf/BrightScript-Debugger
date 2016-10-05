@@ -93,6 +93,7 @@
         ArgumentsNode,
         CallExpressionNode,
         LabelSeparatorNode,
+        ArrayNode,
 
         //Trivia type
         Whitespace,

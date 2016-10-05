@@ -5,7 +5,7 @@ using ImmutableObjectGraph.Generation;
 
 namespace BrightScriptTools.Compiler.AST
 {
-    public class BlockNode : SyntaxNode
+    public class BlockNode : SyntaxListNode
     {
         public BlockNode() 
             : base(SyntaxKind.BlockNode)

@@ -129,5 +129,22 @@ namespace BrightScriptTools.Compiler
         {
             return new UnaryExpressionNode(new ParenToken(lPar), (SyntaxNode)node, new ParenToken(rPar));
         }
+
+        public SequenceExpressionNode BuildSequenceExpressionNode(SyntaxNodeOrToken node)
+        {
+            var sequence = new SequenceExpressionNode();
+            sequence.AddNode(node);
+
+            return sequence;
+        }
+
+        public SequenceExpressionNode BuildSequenceExpressionNode(SyntaxNodeOrToken node, LexSpan dot, SyntaxNodeOrToken list)
+        {
+            var sequence = list as SequenceExpressionNode ?? new SequenceExpressionNode();
+            sequence.AddNode(new DotToken(dot));
+            sequence.AddNode(node);
+
+            return sequence;
+        }
     }
 }

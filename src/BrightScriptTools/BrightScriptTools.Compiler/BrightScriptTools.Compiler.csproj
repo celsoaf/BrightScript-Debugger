@@ -79,6 +79,7 @@
     <Compile Include="AST\Syntax\MemberExpressionNode.cs" />
     <Compile Include="AST\Syntax\ParameterListNode.cs" />
     <Compile Include="AST\Syntax\ParameterNode.cs" />
+    <Compile Include="AST\Syntax\SequenceExpressionNode.cs" />
     <Compile Include="AST\Syntax\SingleExpressionNode.cs" />
     <Compile Include="AST\Syntax\TypeNode.cs" />
     <Compile Include="AST\Syntax\UnaryExpressionNode.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="AST\Tokens\BooleanToken.cs" />
     <Compile Include="AST\Tokens\BracketToken.cs" />
     <Compile Include="AST\Tokens\CommaToken.cs" />
+    <Compile Include="AST\Tokens\DotToken.cs" />
     <Compile Include="AST\Tokens\IdentToken.cs" />
     <Compile Include="AST\Tokens\InvalidToken.cs" />
     <Compile Include="AST\Tokens\LiteralToken.cs" />

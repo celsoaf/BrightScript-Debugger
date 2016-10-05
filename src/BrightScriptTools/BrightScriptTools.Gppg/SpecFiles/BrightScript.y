@@ -120,8 +120,8 @@ PrintStatement
 	;
 	
 SequenceExpression
-	: SingleExpression
-	| SingleExpression dot SequenceExpression
+	: SingleExpression							{ $$ = BuildSequenceExpressionNode($1); }
+	| SingleExpression dot SequenceExpression	{ $$ = BuildSequenceExpressionNode($1, @2, $3); }
 	;
 
 SingleExpression

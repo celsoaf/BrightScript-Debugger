@@ -25,7 +25,7 @@ namespace BrightScriptTools.Compiler
             {
                 ErrorHandler handler = new ErrorHandler();
                 // parse input args, and open input file
-                Scanner scanner = new Scanner(file);
+                Scanner scanner = new ASTScanner(file);
                 scanner.SetHandler(handler);
 
                 Parser parser = new Parser(scanner, handler);

@@ -2,10 +2,10 @@
 {
     public class IdentToken : Token
     {
-        public IdentToken(SyntaxKind kind, string text, int start) 
-            : base(kind, text, null, start, start)
+        public IdentToken(SyntaxKind kind, LexSpan lex) 
+            : base(kind, lex)
         {
-            Name = text;
+            Name = lex.text;
         }
 
         public string Name { get; }

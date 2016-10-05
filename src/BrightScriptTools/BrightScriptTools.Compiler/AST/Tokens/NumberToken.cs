@@ -2,10 +2,10 @@
 {
     public class NumberToken : LiteralToken
     {
-        public NumberToken(SyntaxKind kind, string text, int start) 
-            : base(kind, text, null, start, start)
+        public NumberToken(SyntaxKind kind, LexSpan lex) 
+            : base(kind, lex)
         {
-            Value = decimal.Parse(text);
+            Value = decimal.Parse(lex.text);
         }
 
         public decimal Value { get; }

@@ -46,10 +46,10 @@ namespace BrightScriptTools.Compiler
 
         public BrightScriptTools.Compiler.AST.Token GetToken(int token)
         {
-            return new Token(GetSyntaxLind(token), yytext, new List<Trivia>(), tokPos, tokPos);
+            return new Token(GetSyntaxkind(token), TokenSpan());
         }
 
-        private SyntaxKind GetSyntaxLind(int token)
+        private SyntaxKind GetSyntaxkind(int token)
         {
             var t = (Tokens)token;
 

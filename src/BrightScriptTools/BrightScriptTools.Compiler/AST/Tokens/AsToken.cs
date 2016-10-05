@@ -2,8 +2,8 @@
 {
     public class AsToken : Token
     {
-        public AsToken(SyntaxKind kind, string text, int start) 
-            : base(kind, text, null, start, start)
+        public AsToken(SyntaxKind kind, LexSpan lex) 
+            : base(kind, lex)
         {
         }
     }

@@ -6,21 +6,24 @@ namespace BrightScriptTools.Compiler.AST.Tokens
 {
     public class OperatorToken : Token
     {
-        private static IDictionary<string, OperatorEnum> operatorMap = new Dictionary<string, OperatorEnum>()
+        private static readonly IDictionary<string, OperatorEnum> OperatorMap = new Dictionary<string, OperatorEnum>()
         {
             { "=", OperatorEnum.Equal },
+            { "<>", OperatorEnum.NotEqual },
             { "<", OperatorEnum.Less },
+            { "<=", OperatorEnum.LessOrEqual },
             { ">", OperatorEnum.Greater },
+            { ">=", OperatorEnum.GreaterOrEqual },
             { "+", OperatorEnum.Plus },
             { "-", OperatorEnum.Minus },
             { "*", OperatorEnum.Star },
             { "/", OperatorEnum.Slash },
         };
 
-        public OperatorToken(SyntaxKind kind, string text, int start) 
-            : base(kind, text, null, start, start)
+        public OperatorToken(SyntaxKind kind, LexSpan lex) 
+            : base(kind, lex)
         {
-            Value = operatorMap[text];
+            Value = OperatorMap[lex.text];
         }
 
         public OperatorEnum Value { get; }

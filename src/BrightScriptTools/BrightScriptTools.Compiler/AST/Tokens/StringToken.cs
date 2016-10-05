@@ -2,10 +2,10 @@
 {
     public class StringToken : LiteralToken
     {
-        public StringToken(SyntaxKind kind, string text, int start) 
-            : base(kind, text, null, start, start)
+        public StringToken(SyntaxKind kind, LexSpan lex) 
+            : base(kind, lex)
         {
-            Value = text;
+            Value = lex.text;
         }
 
         public string Value { get; }

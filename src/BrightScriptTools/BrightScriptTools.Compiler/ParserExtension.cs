@@ -20,39 +20,39 @@ namespace BrightScriptTools.Compiler
 
         public NumberToken BuildNumberNode(LexSpan lex)
         {
-            return new NumberToken(SyntaxKind.Number, lex.text, lex.startIndex);
+            return new NumberToken(SyntaxKind.Number, lex);
         }
 
         public StringToken BuildStringNode(LexSpan lex)
         {
-            return new StringToken(SyntaxKind.String, lex.text, lex.startIndex);
+            return new StringToken(SyntaxKind.String, lex);
         }
 
         public BooleanToken BuildBooleanNode(LexSpan lex, bool value)
         {
             return new BooleanToken(
                 value ? SyntaxKind.TrueKeyValue : SyntaxKind.FalseKeyValue,
-                lex.text, lex.startIndex);
+                lex);
         }
 
         public InvalidToken BuildInvalidNode(LexSpan lex)
         {
-            return new InvalidToken(SyntaxKind.InvalidKeyValue, lex.text, lex.startIndex);
+            return new InvalidToken(SyntaxKind.InvalidKeyValue, lex);
         }
 
         public BlockNode BuildEmptyBlock(LexSpan lexStart, LexSpan lexEnd)
         {
             return new BlockNode(SyntaxKind.BlockNode, 
-                new BracketToken(SyntaxKind.OpenBracket, lexStart.text, lexStart.startIndex), 
-                new BracketToken(SyntaxKind.CloseBracket, lexEnd.text, lexEnd.startIndex));
+                new BracketToken(SyntaxKind.OpenBracket, lexStart), 
+                new BracketToken(SyntaxKind.CloseBracket, lexEnd));
         }
 
         public TypeNode BuildTypeNode(LexSpan lexStart, LexSpan lexEnd)
         {
             return new TypeNode(
                 SyntaxKind.TypeNode,
-                new AsToken(SyntaxKind.AsKeyword, lexStart.text, lexStart.startIndex),
-                new TypeToken(SyntaxKind.Type, lexEnd.text, lexEnd.startIndex)
+                new AsToken(SyntaxKind.AsKeyword, lexStart),
+                new TypeToken(SyntaxKind.Type, lexEnd)
                 );
         }
 
@@ -60,7 +60,7 @@ namespace BrightScriptTools.Compiler
         {
             return new ParameterNode(
                 SyntaxKind.ParameterNode,
-                new IdentToken(SyntaxKind.Identifier, ident.text, ident.startIndex),
+                new IdentToken(SyntaxKind.Identifier, ident),
                 (TypeNode)typeNode
                 );
         }
@@ -69,8 +69,8 @@ namespace BrightScriptTools.Compiler
         {
             return new ParameterNode(
                 SyntaxKind.ParameterNode,
-                new IdentToken(SyntaxKind.Identifier, ident.text, ident.startIndex),
-                new OperatorToken(SyntaxKind.OperatorKeyword, equal.text, equal.startIndex),
+                new IdentToken(SyntaxKind.Identifier, ident),
+                new OperatorToken(SyntaxKind.OperatorKeyword, equal),
                 (LiteralNode)literal,
                 (TypeNode)typeNode
                 );

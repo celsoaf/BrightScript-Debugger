@@ -6,22 +6,28 @@ namespace BrightScriptTools.Compiler.AST
 {
     public class Token : SyntaxNodeOrToken
     {
+        public LexSpan Lex { get; }
+
         public int FullStart { get; private set; }
         public string Text { get; private set; }
 
-        public List<Trivia> LeadingTrivia { get; private set; } //TODO: change to Immutable List
+        public List<Trivia> LeadingTrivia { get; } //TODO: change to Immutable List
 
 
-        public Token(SyntaxKind kind, string text, List<Trivia> trivia, int fullStart, int start)
+        private Token(SyntaxKind kind, string text, List<Trivia> trivia, int fullStart, int start)
         {
-            this.Kind = kind;
-            this.Text = text;
             this.Kind = kind;
             this.Text = text;
             this.LeadingTrivia = trivia == null ? new List<Trivia>() : trivia;
             this.FullStart = fullStart;
             this.Start = start;
             this.Length = Text.Length;
+        }
+
+        public Token(SyntaxKind kind, LexSpan lex, List<Trivia> trivia=null)
+            : this(kind, lex.text, trivia, lex.startIndex, lex.startIndex)
+        {
+            Lex = lex;
         }
 
         public static Token CreateMissingToken(int position)

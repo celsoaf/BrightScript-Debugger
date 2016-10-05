@@ -4,8 +4,8 @@ namespace BrightScriptTools.Compiler.AST.Tokens
 {
     public class BracketToken : Token
     {
-        public BracketToken(SyntaxKind kind, string text, int start) 
-            : base(kind, text, null, start, start)
+        public BracketToken(SyntaxKind kind, LexSpan lex) 
+            : base(kind, lex)
         {
         }
     }

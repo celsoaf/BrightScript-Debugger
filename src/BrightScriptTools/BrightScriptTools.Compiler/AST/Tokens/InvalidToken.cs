@@ -2,8 +2,8 @@
 {
     public class InvalidToken : LiteralToken
     {
-        public InvalidToken(SyntaxKind kind, string text, int start) 
-            : base(kind, text, null, start, start)
+        public InvalidToken(SyntaxKind kind, LexSpan lex) 
+            : base(kind, lex)
         {
             
         }

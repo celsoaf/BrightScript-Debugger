@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 05/10/2016 11:12:22
+// DateTime: 05/10/2016 12:11:04
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 05/10/2016 11:12:06>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 12:10:39>
 
 // options: babel lines diagnose & report gplex
 
@@ -387,6 +387,26 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
 #pragma warning disable 162, 1522
     switch (action)
     {
+      case 9: // ParameterList -> /* empty */
+#line 54 "SpecFiles\BrightScript.y"
+                   { CurrentSemanticValue = BuildParameterListNode(); }
+#line default
+        break;
+      case 10: // ParameterList -> Parameter, ParameterTail
+#line 55 "SpecFiles\BrightScript.y"
+                            { CurrentSemanticValue = BuildParameterListNode(ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 11: // ParameterTail -> /* empty */
+#line 59 "SpecFiles\BrightScript.y"
+                   { CurrentSemanticValue = BuildParameterListNode(); }
+#line default
+        break;
+      case 12: // ParameterTail -> comma, Parameter, ParameterTail
+#line 60 "SpecFiles\BrightScript.y"
+                                 { CurrentSemanticValue = BuildParameterListNode(LocationStack[LocationStack.Depth-3], ValueStack[ValueStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
       case 13: // Parameter -> bsIdent, Type
 #line 64 "SpecFiles\BrightScript.y"
                     { CurrentSemanticValue = BuildParameterNode(LocationStack[LocationStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
@@ -399,7 +419,7 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
         break;
       case 16: // Type -> bsAs, bsType
 #line 70 "SpecFiles\BrightScript.y"
-                  { CurrentSemanticValue = BuildTypeNode(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+                   { CurrentSemanticValue = BuildTypeNode(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
 #line default
         break;
       case 70: // MathOperator -> plus

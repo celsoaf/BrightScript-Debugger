@@ -11,7 +11,8 @@ namespace BrightScriptTools.Compiler.AST.Syntax
             : base(kind)
         {
             list.Add(ident);
-            list.Add(typeNode);
+            if (typeNode != null)
+                list.Add(typeNode);
         }
 
         public ParameterNode(SyntaxKind kind, IdentToken ident, OperatorToken opr, LiteralNode literal, TypeNode typeNode)

@@ -84,6 +84,7 @@
         FuncNameNode,
         TypeNode,
         ParameterNode,
+        ParameterListNode,
         LiteralNode,
 
         //Trivia type

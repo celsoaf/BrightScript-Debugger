@@ -51,13 +51,13 @@ SubDeclaration
 	;
 
 ParameterList
-	: /* Empty */
-	| Parameter ParameterTail
+	: /* Empty */					{ $$ = BuildParameterListNode(); }
+	| Parameter ParameterTail		{ $$ = BuildParameterListNode($1, $2); }
 	;
 
 ParameterTail
-	: /* Empty */
-	| comma Parameter ParameterTail
+	: /* Empty */					{ $$ = BuildParameterListNode(); }
+	| comma Parameter ParameterTail	{ $$ = BuildParameterListNode(@1, $2, $3); }
 	;
 
 Parameter
@@ -67,7 +67,7 @@ Parameter
 
 Type
 	: /* Empty */
-	| bsAs bsType				{ $$ = BuildTypeNode(@1, @2); }
+	| bsAs bsType					{ $$ = BuildTypeNode(@1, @2); }
 	;
 
 EolOpt

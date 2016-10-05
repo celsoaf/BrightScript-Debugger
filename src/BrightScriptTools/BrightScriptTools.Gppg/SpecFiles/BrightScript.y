@@ -189,7 +189,7 @@ MemberExpression
 	;
 
 IndexExpression
-	: SequenceExpression lBrac SequenceExpression rBrac
+	: SequenceExpression lBrac SequenceExpression rBrac		{ $$ = BuildIndexExpressionNode($1, @2, $3, @4); }
 	;
 
 MathOperator

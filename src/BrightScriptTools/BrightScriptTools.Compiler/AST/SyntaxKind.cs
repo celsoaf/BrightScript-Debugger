@@ -94,6 +94,7 @@
         CallExpressionNode,
         LabelSeparatorNode,
         ArrayNode,
+        IndexExpressionNode,
 
         //Trivia type
         Whitespace,

@@ -249,5 +249,16 @@ namespace BrightScriptTools.Compiler
 
             return arr;
         }
+
+        private IndexExpressionNode BuildIndexExpressionNode(SyntaxNodeOrToken left, LexSpan lBrac, SyntaxNodeOrToken index, LexSpan rBrac)
+        {
+            var indexExp = new IndexExpressionNode();
+            indexExp.AddNode(left);
+            indexExp.AddNode(new BracketToken(lBrac));
+            indexExp.AddNode(index);
+            indexExp.AddNode(new BracketToken(rBrac));
+
+            return indexExp;
+        }
     }
 }

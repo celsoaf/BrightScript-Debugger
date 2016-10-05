@@ -18,6 +18,7 @@ sub Main(args={} as Object)
 	2
 	3
    ]
+   v = arr[1]
 end sub
 
 function test(t as String, b as Boolean, v) as Void

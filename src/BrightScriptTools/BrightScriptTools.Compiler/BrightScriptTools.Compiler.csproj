@@ -80,6 +80,7 @@
     <Compile Include="AST\Syntax\AssignStatementNode.cs" />
     <Compile Include="AST\Syntax\BinaryExpressionNode.cs" />
     <Compile Include="AST\Syntax\CallExpressionNode.cs" />
+    <Compile Include="AST\Syntax\DebuggerStatementNode.cs" />
     <Compile Include="AST\Syntax\IndexExpressionNode.cs" />
     <Compile Include="AST\Syntax\LabelSeparatorNode.cs" />
     <Compile Include="AST\Syntax\LiteralNode.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="AST\Tokens\ParenToken.cs" />
     <Compile Include="AST\Tokens\PrintToken.cs" />
     <Compile Include="AST\Tokens\ReturnToken.cs" />
+    <Compile Include="AST\Tokens\StopToken.cs" />
     <Compile Include="AST\Tokens\StringToken.cs" />
     <Compile Include="AST\Token.cs" />
     <Compile Include="AST\Tokens\TypeToken.cs" />

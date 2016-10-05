@@ -5,6 +5,7 @@ sub Main(args={} as Object)
 	s="teste"
 	b=true
 	a={}
+	stop
 	t=1+2
 	t=1=2
 	a.t = 1

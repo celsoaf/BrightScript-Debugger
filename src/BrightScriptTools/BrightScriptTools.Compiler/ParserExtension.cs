@@ -296,5 +296,13 @@ namespace BrightScriptTools.Compiler
 
             return printExp;
         }
+
+        private DebuggerStatementNode BuildDebuggerStatementNode(LexSpan lex)
+        {
+            var debug = new DebuggerStatementNode();
+            debug.AddNode(new StopToken(lex));
+
+            return debug;
+        }
     }
 }

@@ -111,7 +111,7 @@ ReturnStatement
 	;
 
 DebuggerStatement
-	: bsStop
+	: bsStop							{ $$ = BuildDebuggerStatementNode(@1); }
 	;
 
 PrintStatement

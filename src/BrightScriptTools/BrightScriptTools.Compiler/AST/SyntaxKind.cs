@@ -56,7 +56,8 @@
         OperatorKeyword,
         GlobalFunctionToken,
         EolToken,
-        PrintToken,
+        PrintKeyword,
+        StopKeyword,
 
         //Node Types
         ChunkNode,
@@ -97,6 +98,7 @@
         ArrayNode,
         IndexExpressionNode,
         PrintStatementMode,
+        DebuggerStatementNode,
 
 
         //Trivia type

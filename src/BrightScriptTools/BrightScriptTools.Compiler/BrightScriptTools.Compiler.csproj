@@ -78,6 +78,7 @@
     <Compile Include="AST\Syntax\LiteralNode.cs" />
     <Compile Include="AST\Syntax\ParameterListNode.cs" />
     <Compile Include="AST\Syntax\ParameterNode.cs" />
+    <Compile Include="AST\Syntax\SingleExpressionNode.cs" />
     <Compile Include="AST\Syntax\TypeNode.cs" />
     <Compile Include="AST\Tokens\AsToken.cs" />
     <Compile Include="AST\Tokens\BooleanOperatorToken.cs" />

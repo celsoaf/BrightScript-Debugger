@@ -125,13 +125,13 @@ SequenceExpression
 	;
 
 SingleExpression
-	: Block 
-	| IndexExpression
-	| MemberExpression
-	| BinaryExpression
-	| UnaryExpression
-	| CallExpression
-	| Literal
+	: Block							{ $$ = BuildSingleExpressionNode($1); }
+	| IndexExpression				{ $$ = BuildSingleExpressionNode($1); }
+	| MemberExpression				{ $$ = BuildSingleExpressionNode($1); }
+	| BinaryExpression				{ $$ = BuildSingleExpressionNode($1); }
+	| UnaryExpression				{ $$ = BuildSingleExpressionNode($1); }
+	| CallExpression				{ $$ = BuildSingleExpressionNode($1); }
+	| Literal						{ $$ = BuildSingleExpressionNode($1); }
 	;
 
 Block

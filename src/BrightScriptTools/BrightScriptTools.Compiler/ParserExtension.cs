@@ -112,5 +112,10 @@ namespace BrightScriptTools.Compiler
         {
             return new BooleanOperatorToken(SyntaxKind.OperatorKeyword, lex);
         }
+
+        public SingleExpressionNode BuildSingleExpressionNode(SyntaxNodeOrToken node)
+        {
+            return new SingleExpressionNode(SyntaxKind.SingleExpressionNode, (SyntaxNode)node);
+        }
     }
 }

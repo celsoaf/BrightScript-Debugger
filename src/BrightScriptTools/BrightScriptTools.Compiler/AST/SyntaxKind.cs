@@ -86,6 +86,7 @@
         ParameterNode,
         ParameterListNode,
         LiteralNode,
+        SingleExpressionNode,
 
         //Trivia type
         Whitespace,

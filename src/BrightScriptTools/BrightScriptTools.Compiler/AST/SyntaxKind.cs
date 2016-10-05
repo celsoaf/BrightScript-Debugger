@@ -93,6 +93,7 @@
         StatementListNode,
         ConditionExpressionNode,
         LabelledStatementNode,
+        SourceElementListNode,
 
         //Trivia type
         Whitespace,

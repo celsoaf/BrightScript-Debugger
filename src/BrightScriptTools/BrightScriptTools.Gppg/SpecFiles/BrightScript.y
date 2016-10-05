@@ -33,8 +33,8 @@ Program
 	;
 
 SourceElements
-	: EolOpt /* Empty */
-	| EolOpt SourceElement SourceElements
+	: EolOpt /* Empty */					{ $$ = BuildSourceElementsNode();}
+	| EolOpt SourceElement SourceElements	{ $$ = BuildSourceElementsNode($2, $3);}
 	;
 
 SourceElement

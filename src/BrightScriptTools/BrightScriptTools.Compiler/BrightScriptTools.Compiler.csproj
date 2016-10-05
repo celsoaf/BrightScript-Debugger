@@ -78,6 +78,7 @@
     <Compile Include="AST\Statements\ForEachStatementNode.cs" />
     <Compile Include="AST\Statements\ForStatementNode.cs" />
     <Compile Include="AST\Statements\FunctionDeclarationNode.cs" />
+    <Compile Include="AST\Statements\SourceElementListNode.cs" />
     <Compile Include="AST\Statements\SubDeclarationNode.cs" />
     <Compile Include="AST\SyntaxListNode.cs" />
     <Compile Include="AST\Syntax\FunctionExpressionNode.cs" />

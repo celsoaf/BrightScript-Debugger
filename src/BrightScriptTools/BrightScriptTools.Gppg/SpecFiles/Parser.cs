@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 05/10/2016 16:31:10
+// DateTime: 05/10/2016 16:49:48
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 05/10/2016 16:30:46>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 16:49:35>
 
 // options: babel lines diagnose & report gplex
 
@@ -420,6 +420,11 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
       case 16: // Type -> bsAs, bsType
 #line 70 "SpecFiles\BrightScript.y"
                    { CurrentSemanticValue = BuildTypeNode(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 28: // AssignStatement -> SequenceExpression, equal, SequenceExpression
+#line 94 "SpecFiles\BrightScript.y"
+                                                { CurrentSemanticValue = BuildAssignStatementNode(ValueStack[ValueStack.Depth-3], LocationStack[LocationStack.Depth-2], ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 39: // SequenceExpression -> SingleExpression

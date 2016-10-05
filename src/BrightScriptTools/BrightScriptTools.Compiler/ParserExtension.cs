@@ -260,5 +260,15 @@ namespace BrightScriptTools.Compiler
 
             return indexExp;
         }
+
+        private AssignStatementNode BuildAssignStatementNode(SyntaxNodeOrToken left, LexSpan equal, SyntaxNodeOrToken right)
+        {
+            var assign = new AssignStatementNode();
+            assign.AddNode(left);
+            assign.AddNode(new OperatorToken(equal));
+            assign.AddNode(right);
+
+            return assign;
+        }
     }
 }

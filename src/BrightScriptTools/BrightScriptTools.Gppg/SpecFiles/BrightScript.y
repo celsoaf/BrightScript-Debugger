@@ -91,7 +91,7 @@ Statement
 	;
 
 AssignStatement
-	: SequenceExpression equal SequenceExpression
+	: SequenceExpression equal SequenceExpression		{ $$ = BuildAssignStatementNode($1, @2, $3); }
 	;
 
 IfStatement

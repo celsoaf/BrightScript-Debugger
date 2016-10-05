@@ -75,7 +75,10 @@
     <Compile Include="AST\ChunkNode.cs" />
     <Compile Include="AST\Enums\OperatorEnum.cs" />
     <Compile Include="AST\Enums\TypeEnum.cs" />
+    <Compile Include="AST\Statements\ForEachStatementNode.cs" />
+    <Compile Include="AST\Statements\ForStatementNode.cs" />
     <Compile Include="AST\Statements\IfStatementNode.cs" />
+    <Compile Include="AST\Statements\WhileStatementNode.cs" />
     <Compile Include="AST\Syntax\StatementListNode.cs" />
     <Compile Include="AST\Syntax\ArgumentsNode.cs" />
     <Compile Include="AST\Syntax\ArrayNode.cs" />
@@ -102,12 +105,15 @@
     <Compile Include="AST\Tokens\BracketToken.cs" />
     <Compile Include="AST\Tokens\CommaToken.cs" />
     <Compile Include="AST\Tokens\DotToken.cs" />
+    <Compile Include="AST\Tokens\EachToken.cs" />
     <Compile Include="AST\Tokens\ElseToken.cs" />
     <Compile Include="AST\Tokens\EndToken.cs" />
     <Compile Include="AST\Tokens\EolToken.cs" />
+    <Compile Include="AST\Tokens\ForToken.cs" />
     <Compile Include="AST\Tokens\GlobalFunctionToken.cs" />
     <Compile Include="AST\Tokens\IdentToken.cs" />
     <Compile Include="AST\Tokens\IfToken.cs" />
+    <Compile Include="AST\Tokens\InToken.cs" />
     <Compile Include="AST\Tokens\InvalidToken.cs" />
     <Compile Include="AST\Tokens\LiteralToken.cs" />
     <Compile Include="AST\Tokens\MathOperatorToken.cs" />
@@ -124,7 +130,9 @@
     <Compile Include="AST\Tokens\StopToken.cs" />
     <Compile Include="AST\Tokens\StringToken.cs" />
     <Compile Include="AST\Token.cs" />
+    <Compile Include="AST\Tokens\ToToken.cs" />
     <Compile Include="AST\Tokens\TypeToken.cs" />
+    <Compile Include="AST\Tokens\WhileToken.cs" />
     <Compile Include="AST\Trivia.cs" />
     <Compile Include="Error.cs" />
     <Compile Include="ErrorHandler.cs" />

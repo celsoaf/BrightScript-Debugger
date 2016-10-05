@@ -58,6 +58,8 @@
         EolToken,
         PrintKeyword,
         StopKeyword,
+        ToKeyword,
+        EachKeyword,
 
         //Node Types
         ChunkNode,
@@ -70,7 +72,8 @@
         GlobalFunctionStatementNode,
         LocalAssignmentStatementNode,
         LocalFunctionStatementNode,
-        SimpleForStatementNode,
+        ForStatementNode,
+        ForEachStatementNode,
         AssignmentStatementNode,
         IfStatementNode,
         ElseBlockNode,

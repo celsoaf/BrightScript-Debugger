@@ -363,5 +363,66 @@ namespace BrightScriptTools.Compiler
 
             return stList;
         }
+
+        private ForStatementNode BuildForStatementNode(
+            LexSpan lFor,
+            SyntaxNodeOrToken assign,
+            LexSpan to,
+            SyntaxNodeOrToken limit,
+            SyntaxNodeOrToken body,
+            LexSpan end,
+            LexSpan rFor)
+        {
+            var exp = new ForStatementNode();
+            exp.AddNode(new ForToken(lFor));
+            exp.AddNode(assign);
+            exp.AddNode(new ToToken(to));
+            exp.AddNode(limit);
+            exp.AddNode(body);
+            exp.AddNode(new EndToken(end));
+            exp.AddNode(new ForToken(rFor));
+
+            return exp;
+        }
+
+        private ForEachStatementNode BuildForEachStatementNode(
+            LexSpan lFor,
+            LexSpan each,
+            LexSpan ident,
+            LexSpan inSpan, 
+            SyntaxNodeOrToken list,
+            SyntaxNodeOrToken body,
+            LexSpan end, 
+            LexSpan rFor)
+        {
+            var exp = new ForEachStatementNode();
+            exp.AddNode(new ForToken(lFor));
+            exp.AddNode(new EachToken(each));
+            exp.AddNode(new IdentToken(ident));
+            exp.AddNode(new InToken(inSpan));
+            exp.AddNode(list);
+            exp.AddNode(body);
+            exp.AddNode(new EndToken(end));
+            exp.AddNode(new ForToken(rFor));
+
+            return exp;
+        }
+
+        private WhileStatementNode BuildWhileStatementNode(
+            LexSpan lWhile,
+            SyntaxNodeOrToken condition,
+            SyntaxNodeOrToken body,
+            LexSpan end,
+            LexSpan rWhile)
+        {
+            var exp = new WhileStatementNode();
+            exp.AddNode(new WhileToken(lWhile));
+            exp.AddNode(condition);
+            exp.AddNode(body);
+            exp.AddNode(new EndToken(end));
+            exp.AddNode(new WhileToken(rWhile));
+
+            return exp;
+        }
     }
 }

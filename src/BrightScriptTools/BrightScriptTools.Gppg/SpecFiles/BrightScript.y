@@ -100,9 +100,9 @@ IfStatement
 	;
 
 IterationStatement
-	: bsFor AssignStatement bsTo SequenceExpression StatementList bsEnd bsFor
-	| bsFor bsEach bsIdent bsIn SequenceExpression StatementList bsEnd bsFor
-	| bsWhile SequenceExpression StatementList bsEnd bsWhile
+	: bsFor AssignStatement bsTo SequenceExpression StatementList bsEnd bsFor	{ $$ = BuildForStatementNode(@1, $2, @3, $4, $5, @6, @7); }
+	| bsFor bsEach bsIdent bsIn SequenceExpression StatementList bsEnd bsFor	{ $$ = BuildForEachStatementNode(@1, @2, @3, @4, $5, $6, @7, @8); }
+	| bsWhile SequenceExpression StatementList bsEnd bsWhile					{ $$ = BuildWhileStatementNode(@1, $2, $3, @4, @5); }
 	;
 
 ReturnStatement

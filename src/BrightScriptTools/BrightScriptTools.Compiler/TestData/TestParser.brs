@@ -1,10 +1,8 @@
 ﻿
 
 sub Main(args={} as Object)
-	if true
-		print "true"
-	else 
-		print "false"
-	end if
+	while true
+		print 3
+	end while
 end sub
  

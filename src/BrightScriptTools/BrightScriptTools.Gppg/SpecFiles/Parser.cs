@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 05/10/2016 18:22:03
+// DateTime: 05/10/2016 19:04:46
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 05/10/2016 18:20:52>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 19:04:13>
 
 // options: babel lines diagnose & report gplex
 
@@ -481,6 +481,24 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
                //                bsEnd, bsIf
 #line 99 "SpecFiles\BrightScript.y"
                                                                          { CurrentSemanticValue = BuildIfStatementNode(LocationStack[LocationStack.Depth-7], ValueStack[ValueStack.Depth-6], ValueStack[ValueStack.Depth-5], LocationStack[LocationStack.Depth-4], ValueStack[ValueStack.Depth-3], LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 31: // IterationStatement -> bsFor, AssignStatement, bsTo, SequenceExpression, 
+               //                       StatementList, bsEnd, bsFor
+#line 103 "SpecFiles\BrightScript.y"
+                                                                           { CurrentSemanticValue = BuildForStatementNode(LocationStack[LocationStack.Depth-7], ValueStack[ValueStack.Depth-6], LocationStack[LocationStack.Depth-5], ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-3], LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 32: // IterationStatement -> bsFor, bsEach, bsIdent, bsIn, SequenceExpression, 
+               //                       StatementList, bsEnd, bsFor
+#line 104 "SpecFiles\BrightScript.y"
+                                                                          { CurrentSemanticValue = BuildForEachStatementNode(LocationStack[LocationStack.Depth-8], LocationStack[LocationStack.Depth-7], LocationStack[LocationStack.Depth-6], LocationStack[LocationStack.Depth-5], ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-3], LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 33: // IterationStatement -> bsWhile, SequenceExpression, StatementList, bsEnd, 
+               //                       bsWhile
+#line 105 "SpecFiles\BrightScript.y"
+                                                              { CurrentSemanticValue = BuildWhileStatementNode(LocationStack[LocationStack.Depth-5], ValueStack[ValueStack.Depth-4], ValueStack[ValueStack.Depth-3], LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
 #line default
         break;
       case 34: // ReturnStatement -> bsReturn, SequenceExpression

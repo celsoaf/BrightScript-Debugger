@@ -79,6 +79,7 @@
     <Compile Include="AST\Statements\ForStatementNode.cs" />
     <Compile Include="AST\Statements\FunctionDeclarationNode.cs" />
     <Compile Include="AST\Statements\SubDeclarationNode.cs" />
+    <Compile Include="AST\SyntaxListNode.cs" />
     <Compile Include="AST\Syntax\FunctionExpressionNode.cs" />
     <Compile Include="AST\Statements\IfStatementNode.cs" />
     <Compile Include="AST\Statements\LabelledStatementNode.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="AST\Tokens\IfToken.cs" />
     <Compile Include="AST\Tokens\InToken.cs" />
     <Compile Include="AST\Tokens\InvalidToken.cs" />
+    <Compile Include="AST\Tokens\KeywordToken.cs" />
     <Compile Include="AST\Tokens\LiteralToken.cs" />
     <Compile Include="AST\Tokens\MathOperatorToken.cs" />
     <Compile Include="AST\Tokens\NotToken.cs" />

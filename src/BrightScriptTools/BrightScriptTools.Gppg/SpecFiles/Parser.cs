@@ -395,6 +395,16 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
 #pragma warning disable 162, 1522
     switch (action)
     {
+      case 5: // SourceElement -> SubDeclaration
+#line 41 "SpecFiles\BrightScript.y"
+                    { CurrentSemanticValue = BuildSourceElementNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 6: // SourceElement -> FunctionDeclaration
+#line 42 "SpecFiles\BrightScript.y"
+                        { CurrentSemanticValue = BuildSourceElementNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
       case 7: // FunctionDeclaration -> bsFunction, bsIdent, lPar, ParameterList, rPar, Type, 
               //                        StatementList, bsEnd, bsFunction
 #line 46 "SpecFiles\BrightScript.y"

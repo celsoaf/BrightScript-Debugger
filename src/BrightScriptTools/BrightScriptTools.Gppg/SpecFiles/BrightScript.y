@@ -38,8 +38,8 @@ SourceElements
 	;
 
 SourceElement
-	: SubDeclaration 
-	| FunctionDeclaration
+	: SubDeclaration			{ $$ = BuildSourceElementNode($1); }
+	| FunctionDeclaration		{ $$ = BuildSourceElementNode($1); }
 	;
 
 FunctionDeclaration

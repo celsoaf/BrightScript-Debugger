@@ -578,5 +578,10 @@ namespace BrightScriptTools.Compiler
 
             return exp;
         }
+
+        private SourceElementNode BuildSourceElementNode(SyntaxNodeOrToken node)
+        {
+            return (SourceElementNode) node;
+        }
     }
 }

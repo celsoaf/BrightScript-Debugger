@@ -1,6 +1,6 @@
 ﻿namespace BrightScriptTools.Compiler.AST.Statements
 {
-    public class SubDeclarationNode : StatementNode
+    public class SubDeclarationNode : SourceElementNode
     {
         public SubDeclarationNode() 
             : base(SyntaxKind.SubStatementDef)

@@ -85,6 +85,7 @@
     <Compile Include="AST\Statements\LabelledStatementNode.cs" />
     <Compile Include="AST\Statements\WhileStatementNode.cs" />
     <Compile Include="AST\Syntax\ConditionExpressionNode.cs" />
+    <Compile Include="AST\Statements\SourceElementNode.cs" />
     <Compile Include="AST\Syntax\StatementListNode.cs" />
     <Compile Include="AST\Syntax\ArgumentsNode.cs" />
     <Compile Include="AST\Syntax\ArrayNode.cs" />

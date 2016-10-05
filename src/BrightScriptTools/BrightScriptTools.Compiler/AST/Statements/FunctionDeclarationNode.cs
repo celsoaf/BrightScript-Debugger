@@ -1,6 +1,6 @@
 ﻿namespace BrightScriptTools.Compiler.AST.Statements
 {
-    public class FunctionDeclarationNode : StatementNode
+    public class FunctionDeclarationNode : SourceElementNode
     {
         public FunctionDeclarationNode() 
             : base(SyntaxKind.FunctionStatementDef)

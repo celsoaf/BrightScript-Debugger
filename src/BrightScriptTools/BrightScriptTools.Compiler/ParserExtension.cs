@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using BrightScriptTools.Compiler.AST;
+using BrightScriptTools.Compiler.AST.Statements;
 using BrightScriptTools.Compiler.AST.Syntax;
 using BrightScriptTools.Compiler.AST.Tokens;
 using BrightScriptTools.GPlex;
@@ -303,6 +304,11 @@ namespace BrightScriptTools.Compiler
             debug.AddNode(new StopToken(lex));
 
             return debug;
+        }
+
+        private StatementNode BuildStatementNode(SyntaxNodeOrToken node)
+        {
+            return (StatementNode)node;
         }
     }
 }

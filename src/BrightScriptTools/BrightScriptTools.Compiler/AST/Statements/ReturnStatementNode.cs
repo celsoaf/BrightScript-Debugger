@@ -1,6 +1,6 @@
-﻿namespace BrightScriptTools.Compiler.AST.Syntax
+﻿namespace BrightScriptTools.Compiler.AST.Statements
 {
-    public class ReturnStatementNode : SyntaxNode
+    public class ReturnStatementNode : StatementNode
     {
         public ReturnStatementNode() 
             : base(SyntaxKind.ReturnStatementNode)

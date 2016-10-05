@@ -81,13 +81,13 @@ StatementList
 	;
 
 Statement
-	: DebuggerStatement
-	| PrintStatement
-	| SequenceExpression
-	| IterationStatement
-	| IfStatement
-	| AssignStatement
-	| ReturnStatement
+	: DebuggerStatement			{ $$ = BuildStatementNode($1); }
+	| PrintStatement			{ $$ = BuildStatementNode($1); }
+	| SequenceExpression		{ $$ = BuildStatementNode($1); }
+	| IterationStatement		{ $$ = BuildStatementNode($1); }
+	| IfStatement				{ $$ = BuildStatementNode($1); }
+	| AssignStatement			{ $$ = BuildStatementNode($1); }
+	| ReturnStatement			{ $$ = BuildStatementNode($1); }
 	;
 
 AssignStatement

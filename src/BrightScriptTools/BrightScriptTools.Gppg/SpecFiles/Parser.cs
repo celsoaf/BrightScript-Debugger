@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 05/10/2016 17:22:21
+// DateTime: 05/10/2016 17:35:46
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 05/10/2016 17:18:29>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 17:34:00>
 
 // options: babel lines diagnose & report gplex
 
@@ -420,6 +420,41 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
       case 16: // Type -> bsAs, bsType
 #line 70 "SpecFiles\BrightScript.y"
                    { CurrentSemanticValue = BuildTypeNode(LocationStack[LocationStack.Depth-2], LocationStack[LocationStack.Depth-1]); }
+#line default
+        break;
+      case 21: // Statement -> DebuggerStatement
+#line 84 "SpecFiles\BrightScript.y"
+                       { CurrentSemanticValue = BuildStatementNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 22: // Statement -> PrintStatement
+#line 85 "SpecFiles\BrightScript.y"
+                    { CurrentSemanticValue = BuildStatementNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 23: // Statement -> SequenceExpression
+#line 86 "SpecFiles\BrightScript.y"
+                       { CurrentSemanticValue = BuildStatementNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 24: // Statement -> IterationStatement
+#line 87 "SpecFiles\BrightScript.y"
+                       { CurrentSemanticValue = BuildStatementNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 25: // Statement -> IfStatement
+#line 88 "SpecFiles\BrightScript.y"
+                  { CurrentSemanticValue = BuildStatementNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 26: // Statement -> AssignStatement
+#line 89 "SpecFiles\BrightScript.y"
+                     { CurrentSemanticValue = BuildStatementNode(ValueStack[ValueStack.Depth-1]); }
+#line default
+        break;
+      case 27: // Statement -> ReturnStatement
+#line 90 "SpecFiles\BrightScript.y"
+                     { CurrentSemanticValue = BuildStatementNode(ValueStack[ValueStack.Depth-1]); }
 #line default
         break;
       case 28: // AssignStatement -> SequenceExpression, equal, SequenceExpression

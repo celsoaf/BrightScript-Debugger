@@ -1,6 +1,6 @@
 ﻿namespace BrightScriptTools.Compiler.AST.Syntax
 {
-    public class DebuggerStatementNode : SyntaxNode
+    public class DebuggerStatementNode : StatementNode
     {
         public DebuggerStatementNode() 
             : base(SyntaxKind.DebuggerStatementNode)

@@ -124,5 +124,21 @@ namespace BrightScriptTools.Compiler
                 SyntaxKind.MemberExpressionNode,
                 new IdentToken(SyntaxKind.Identifier, lex));
         }
+
+        public UnaryExpressionNode BuildUnaryExpressionNode(LexSpan lex, SyntaxNodeOrToken node)
+        {
+            if(lex.token == (int)Tokens.minus)
+                return new UnaryExpressionNode(new MathOperatorToken(SyntaxKind.OperatorKeyword, lex), (SyntaxNode)node);
+
+            if(lex.token == (int)Tokens.bsNot)
+                return new UnaryExpressionNode(new NotToken(lex), (SyntaxNode)node);
+
+            return null;
+        }
+
+        public UnaryExpressionNode BuildUnaryExpressionNode(LexSpan lPar, SyntaxNodeOrToken node, LexSpan rPar)
+        {
+            return new UnaryExpressionNode(new ParenToken(lPar), (SyntaxNode)node, new ParenToken(rPar));
+        }
     }
 }

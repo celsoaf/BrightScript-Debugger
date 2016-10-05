@@ -88,6 +88,7 @@
         LiteralNode,
         SingleExpressionNode,
         MemberExpressionNode,
+        UnaryExpressionNode,
 
         //Trivia type
         Whitespace,

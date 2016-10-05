@@ -174,9 +174,9 @@ Arguments
 	;
 
 UnaryExpression
-	: lPar SequenceExpression rPar 
-	| minus SingleExpression
-	| bsNot SingleExpression
+	: lPar SequenceExpression rPar	{ $$ = BuildUnaryExpressionNode(@1, $2, @3); }
+	| minus SingleExpression		{ $$ = BuildUnaryExpressionNode(@1, $2); }
+	| bsNot SingleExpression		{ $$ = BuildUnaryExpressionNode(@1, $2); }
 	;
 
 BinaryExpression

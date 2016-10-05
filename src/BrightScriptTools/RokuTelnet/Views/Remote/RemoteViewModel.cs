@@ -32,8 +32,8 @@ namespace RokuTelnet.Views.Remote
                 _eventAggregator.GetEvent<SendCommandEvent>().Publish(new EventModel(EventType.KeyPress, EventKey.Backspace));
             }, ()=> Connected);
 
-            _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip => Connected = true);
-            _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj => Connected = false);
+            _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip => Connected = true, ThreadOption.UIThread);
+            _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj => Connected = false, ThreadOption.UIThread);
         }
 
         public IRemoteView View { get; set; }

@@ -107,7 +107,7 @@ namespace RokuTelnet.Services.Deploy
         private void ProcessRegisterTypes(string outputFolder, ConfigModel options)
         {
             var types = new List<string>();
-            var files = Directory.GetFiles(outputFolder, "*.brs", SearchOption.AllDirectories);
+            var files = Directory.GetFiles(Path.Combine(outputFolder, "source"), "*.brs", SearchOption.AllDirectories);
             foreach (var file in files)
             {
                 using (var sr = new StreamReader(file))

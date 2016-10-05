@@ -26,5 +26,6 @@ namespace RokuTelnet.Views.Toolbar
         DelegateCommand LaunchAppCommand { get; set; }
 
         string Folder { get; set; }
+        ObservableCollection<string> FolderList { get; set; }
     }
 }

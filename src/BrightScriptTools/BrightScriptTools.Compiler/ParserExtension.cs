@@ -598,5 +598,12 @@ namespace BrightScriptTools.Compiler
 
             return exp;
         }
+
+        private ProgramNode BuildProgramNode(SyntaxNodeOrToken node)
+        {
+            var exp = new ProgramNode();
+            exp.AddNode(node);
+            return exp;
+        }
     }
 }

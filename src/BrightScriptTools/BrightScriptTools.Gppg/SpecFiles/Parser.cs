@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  CELSO-PC
-// DateTime: 05/10/2016 22:26:46
+// DateTime: 05/10/2016 23:25:45
 // UserName: Celso
-// Input file <SpecFiles\BrightScript.y - 05/10/2016 22:26:25>
+// Input file <SpecFiles\BrightScript.y - 05/10/2016 23:15:04>
 
 // options: babel lines diagnose & report gplex
 
@@ -395,6 +395,11 @@ public partial class Parser: ShiftReduceParser<SyntaxNodeOrToken, LexSpan>
 #pragma warning disable 162, 1522
     switch (action)
     {
+      case 2: // Program -> SourceElements, EOF
+#line 32 "SpecFiles\BrightScript.y"
+                          { CurrentSemanticValue = BuildProgramNode(ValueStack[ValueStack.Depth-2]); }
+#line default
+        break;
       case 3: // SourceElements -> EolOpt
 #line 36 "SpecFiles\BrightScript.y"
                           { CurrentSemanticValue = BuildSourceElementsNode();}

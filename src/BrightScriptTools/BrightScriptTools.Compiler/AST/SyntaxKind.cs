@@ -94,6 +94,7 @@
         ConditionExpressionNode,
         LabelledStatementNode,
         SourceElementListNode,
+        ProgramNode,
 
         //Trivia type
         Whitespace,

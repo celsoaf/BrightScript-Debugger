@@ -29,7 +29,7 @@
 %%
 
 Program
-	: SourceElements EOF
+	: SourceElements EOF					{ $$ = BuildProgramNode($1); }
 	;
 
 SourceElements

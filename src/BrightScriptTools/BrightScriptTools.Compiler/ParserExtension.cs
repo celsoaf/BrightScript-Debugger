@@ -19,70 +19,61 @@ namespace BrightScriptTools.Compiler
 
         private NumberToken BuildNumberNode(LexSpan lex)
         {
-            return new NumberToken(SyntaxKind.Number, lex);
+            return new NumberToken(lex);
         }
 
         private StringToken BuildStringNode(LexSpan lex)
         {
-            return new StringToken(SyntaxKind.String, lex);
+            return new StringToken(lex);
         }
 
         private BooleanToken BuildBooleanNode(LexSpan lex, bool value)
         {
-            return new BooleanToken(
-                value ? SyntaxKind.TrueKeyValue : SyntaxKind.FalseKeyValue,
-                lex);
+            return new BooleanToken(lex, value);
         }
 
         private InvalidToken BuildInvalidNode(LexSpan lex)
         {
-            return new InvalidToken(SyntaxKind.InvalidKeyValue, lex);
+            return new InvalidToken(lex);
         }
 
         private BlockNode BuildEmptyBlock(LexSpan lexStart, LexSpan lexEnd)
         {
-            return new BlockNode(SyntaxKind.BlockNode,
-                new BracketToken(SyntaxKind.OpenBracket, lexStart),
-                new BracketToken(SyntaxKind.CloseBracket, lexEnd));
+            return new BlockNode(new BracketToken(lexStart), new BracketToken(lexEnd));
         }
 
-        private TypeNode BuildTypeNode(LexSpan lexStart, LexSpan lexEnd)
+        private TypeNode BuildTypeNode(LexSpan lexAs, LexSpan lexType)
         {
-            return new TypeNode(
-                SyntaxKind.TypeNode,
-                new AsToken(SyntaxKind.AsKeyword, lexStart),
-                new TypeToken(SyntaxKind.Type, lexEnd)
+            return new TypeNode(new AsToken(lexAs), new TypeToken(lexType)
                 );
         }
 
         private ParameterNode BuildParameterNode(LexSpan ident, SyntaxNodeOrToken typeNode)
         {
-            return new ParameterNode(
-                SyntaxKind.ParameterNode,
-                new IdentToken(SyntaxKind.Identifier, ident),
-                (TypeNode)typeNode
-                );
+            return new ParameterNode(new IdentToken(ident), (TypeNode)typeNode);
         }
 
-        private ParameterNode BuildParameterNode(LexSpan ident, LexSpan equal, SyntaxNodeOrToken literal, SyntaxNodeOrToken typeNode)
+        private ParameterNode BuildParameterNode(
+            LexSpan ident, 
+            LexSpan equal, 
+            SyntaxNodeOrToken literal, 
+            SyntaxNodeOrToken typeNode)
         {
             return new ParameterNode(
-                SyntaxKind.ParameterNode,
-                new IdentToken(SyntaxKind.Identifier, ident),
-                new OperatorToken(SyntaxKind.OperatorKeyword, equal),
+                new IdentToken(ident),
+                new OperatorToken(equal),
                 (LiteralNode)literal,
-                (TypeNode)typeNode
-                );
+                (TypeNode)typeNode);
         }
 
         private ParameterListNode BuildParameterListNode()
         {
-            return new ParameterListNode(SyntaxKind.ParameterListNode);
+            return new ParameterListNode();
         }
 
         private ParameterListNode BuildParameterListNode(SyntaxNodeOrToken parameter, SyntaxNodeOrToken list)
         {
-            var tail = list as ParameterListNode ?? new ParameterListNode(SyntaxKind.ParameterListNode);
+            var tail = list as ParameterListNode ?? new ParameterListNode();
 
             tail.AddNode(parameter);
 
@@ -91,8 +82,8 @@ namespace BrightScriptTools.Compiler
 
         private ParameterListNode BuildParameterListNode(LexSpan lex, SyntaxNodeOrToken parameter, SyntaxNodeOrToken list)
         {
-            var tail = list as ParameterListNode ?? new ParameterListNode(SyntaxKind.ParameterListNode);
-            tail.AddNode(new CommaToken(SyntaxKind.Comma, lex));
+            var tail = list as ParameterListNode ?? new ParameterListNode();
+            tail.AddNode(new CommaToken(lex));
             tail.AddNode(parameter);
 
             return tail;
@@ -100,37 +91,35 @@ namespace BrightScriptTools.Compiler
 
         private LiteralNode BuildLiteralNode(SyntaxNodeOrToken literalToken)
         {
-            return new LiteralNode(SyntaxKind.LiteralNode, literalToken);
+            return new LiteralNode(literalToken);
         }
 
         private MathOperatorToken BuildMathOperatorNode(LexSpan lex)
         {
-            return new MathOperatorToken(SyntaxKind.OperatorKeyword, lex);
+            return new MathOperatorToken(lex);
         }
 
         private BooleanOperatorToken BuildBooleanOperatorNode(LexSpan lex)
         {
-            return new BooleanOperatorToken(SyntaxKind.OperatorKeyword, lex);
+            return new BooleanOperatorToken(lex);
         }
 
         public SingleExpressionNode BuildSingleExpressionNode(SyntaxNodeOrToken node)
         {
-            return new SingleExpressionNode(SyntaxKind.SingleExpressionNode, (SyntaxNode)node);
+            return new SingleExpressionNode((SyntaxNode)node);
         }
 
         public MemberExpressionNode BuildMemberExpressionNode(LexSpan lex)
         {
-            return new MemberExpressionNode(
-                SyntaxKind.MemberExpressionNode,
-                new IdentToken(SyntaxKind.Identifier, lex));
+            return new MemberExpressionNode(new IdentToken(lex));
         }
 
         public UnaryExpressionNode BuildUnaryExpressionNode(LexSpan lex, SyntaxNodeOrToken node)
         {
-            if(lex.token == (int)Tokens.minus)
-                return new UnaryExpressionNode(new MathOperatorToken(SyntaxKind.OperatorKeyword, lex), (SyntaxNode)node);
+            if (lex.token == (int)Tokens.minus)
+                return new UnaryExpressionNode(new MathOperatorToken(lex), (SyntaxNode)node);
 
-            if(lex.token == (int)Tokens.bsNot)
+            if (lex.token == (int)Tokens.bsNot)
                 return new UnaryExpressionNode(new NotToken(lex), (SyntaxNode)node);
 
             return null;

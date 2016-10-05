@@ -4,8 +4,8 @@ namespace BrightScriptTools.Compiler.AST.Tokens
 {
     public class BracketToken : Token
     {
-        public BracketToken(SyntaxKind kind, LexSpan lex) 
-            : base(kind, lex)
+        public BracketToken(LexSpan lex) 
+            : base(lex.token == (int)Compiler.Tokens.lBrac ? SyntaxKind.OpenBracket : SyntaxKind.CloseBracket, lex)
         {
         }
     }

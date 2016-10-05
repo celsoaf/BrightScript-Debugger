@@ -4,8 +4,8 @@ namespace BrightScriptTools.Compiler.AST.Tokens
 {
     public class CommaToken : Token
     {
-        public CommaToken(SyntaxKind kind, LexSpan lex) 
-            : base(kind, lex)
+        public CommaToken(LexSpan lex) 
+            : base(SyntaxKind.Comma, lex)
         {
         }
     }

@@ -4,8 +4,8 @@ namespace BrightScriptTools.Compiler.AST.Syntax
 {
     public class MemberExpressionNode : SyntaxNode
     {
-        public MemberExpressionNode(SyntaxKind kind, IdentToken ident) 
-            : base(kind)
+        public MemberExpressionNode(IdentToken ident) 
+            : base(SyntaxKind.MemberExpressionNode)
         {
             AddNode(ident);
         }

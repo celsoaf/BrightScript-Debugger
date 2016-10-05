@@ -2,8 +2,8 @@
 {
     public class SingleExpressionNode : SyntaxNode
     {
-        public SingleExpressionNode(SyntaxKind kind, SyntaxNode node) 
-            : base(kind)
+        public SingleExpressionNode(SyntaxNode node) 
+            : base(SyntaxKind.SingleExpressionNode)
         {
             AddNode(node);
         }

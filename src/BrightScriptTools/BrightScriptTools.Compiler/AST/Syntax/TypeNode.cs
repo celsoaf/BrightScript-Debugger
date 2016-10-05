@@ -6,8 +6,8 @@ namespace BrightScriptTools.Compiler.AST.Syntax
 {
     public class TypeNode : SyntaxNode
     {
-        public TypeNode(SyntaxKind kind, AsToken asToken, TypeToken typeToken)
-            : base(kind)
+        public TypeNode(AsToken asToken, TypeToken typeToken)
+            : base(SyntaxKind.TypeNode)
         {
             AddNode(asToken);
             AddNode(typeToken);

@@ -2,8 +2,8 @@
 {
     public class AsToken : Token
     {
-        public AsToken(SyntaxKind kind, LexSpan lex) 
-            : base(kind, lex)
+        public AsToken(LexSpan lex) 
+            : base(SyntaxKind.AsKeyword, lex)
         {
         }
     }

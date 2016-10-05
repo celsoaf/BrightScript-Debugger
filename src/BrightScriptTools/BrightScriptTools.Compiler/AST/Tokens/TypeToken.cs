@@ -5,8 +5,8 @@ namespace BrightScriptTools.Compiler.AST.Tokens
 {
     public class TypeToken : Token
     {
-        public TypeToken(SyntaxKind kind, LexSpan lex) 
-            : base(kind, lex)
+        public TypeToken(LexSpan lex) 
+            : base(SyntaxKind.TypeNode, lex)
         {
             Value = (TypeEnum)Enum.Parse(typeof(TypeEnum), lex.text);
         }

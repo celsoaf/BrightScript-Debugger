@@ -2,8 +2,8 @@
 {
     public class MathOperatorToken : OperatorToken
     {
-        public MathOperatorToken(SyntaxKind kind, LexSpan lex) 
-            : base(kind, lex)
+        public MathOperatorToken(LexSpan lex) 
+            : base(lex)
         {
         }
     }

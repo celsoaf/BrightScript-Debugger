@@ -2,10 +2,10 @@
 {
     public class BooleanToken : LiteralToken
     {
-        public BooleanToken(SyntaxKind kind, LexSpan lex) 
-            : base(kind, lex)
+        public BooleanToken(LexSpan lex, bool value) 
+            : base(value ? SyntaxKind.TrueKeyValue : SyntaxKind.FalseKeyValue,  lex)
         {
-            Value = bool.Parse(lex.text);
+            Value = value;
         }
 
         public bool Value { get; }

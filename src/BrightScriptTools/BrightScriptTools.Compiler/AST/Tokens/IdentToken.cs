@@ -2,8 +2,8 @@
 {
     public class IdentToken : Token
     {
-        public IdentToken(SyntaxKind kind, LexSpan lex) 
-            : base(kind, lex)
+        public IdentToken(LexSpan lex) 
+            : base(SyntaxKind.Identifier, lex)
         {
             Name = lex.text;
         }

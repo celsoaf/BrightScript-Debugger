@@ -7,8 +7,8 @@ namespace BrightScriptTools.Compiler.AST
 {
     public class BlockNode : SyntaxNode
     {
-        public BlockNode(SyntaxKind kind, BracketToken open, BracketToken close) 
-            : base(kind)
+        public BlockNode(BracketToken open, BracketToken close) 
+            : base(SyntaxKind.BlockNode)
         {
             AddNode(open);
             AddNode(close);

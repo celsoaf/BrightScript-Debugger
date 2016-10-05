@@ -20,8 +20,8 @@ namespace BrightScriptTools.Compiler.AST.Tokens
             { "/", OperatorEnum.Slash },
         };
 
-        public OperatorToken(SyntaxKind kind, LexSpan lex) 
-            : base(kind, lex)
+        public OperatorToken(LexSpan lex) 
+            : base(SyntaxKind.OperatorKeyword, lex)
         {
             Value = OperatorMap[lex.text];
         }

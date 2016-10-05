@@ -2,8 +2,8 @@
 {
     public class StringToken : LiteralToken
     {
-        public StringToken(SyntaxKind kind, LexSpan lex) 
-            : base(kind, lex)
+        public StringToken(LexSpan lex) 
+            : base(SyntaxKind.String, lex)
         {
             Value = lex.text;
         }

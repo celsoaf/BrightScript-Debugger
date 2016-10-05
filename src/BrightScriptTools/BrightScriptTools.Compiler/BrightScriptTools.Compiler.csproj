@@ -86,6 +86,7 @@
     <Compile Include="AST\Syntax\MemberExpressionNode.cs" />
     <Compile Include="AST\Syntax\ParameterListNode.cs" />
     <Compile Include="AST\Syntax\ParameterNode.cs" />
+    <Compile Include="AST\Syntax\PrintStatementMode.cs" />
     <Compile Include="AST\Syntax\ReturnStatementNode.cs" />
     <Compile Include="AST\Syntax\SequenceExpressionNode.cs" />
     <Compile Include="AST\Syntax\SingleExpressionNode.cs" />
@@ -112,6 +113,7 @@
     <Compile Include="AST\SyntaxNodeOrToken.cs" />
     <Compile Include="AST\Tokens\OperatorToken.cs" />
     <Compile Include="AST\Tokens\ParenToken.cs" />
+    <Compile Include="AST\Tokens\PrintToken.cs" />
     <Compile Include="AST\Tokens\ReturnToken.cs" />
     <Compile Include="AST\Tokens\StringToken.cs" />
     <Compile Include="AST\Token.cs" />

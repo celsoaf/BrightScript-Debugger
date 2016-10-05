@@ -115,8 +115,8 @@ DebuggerStatement
 	;
 
 PrintStatement
-	: bsPrint SequenceExpression
-	| questionMark SequenceExpression
+	: bsPrint SequenceExpression		{ $$ = BuildPrintStatementMode(@1, $2); }
+	| questionMark SequenceExpression	{ $$ = BuildPrintStatementMode(@1, $2); }
 	;
 	
 SequenceExpression

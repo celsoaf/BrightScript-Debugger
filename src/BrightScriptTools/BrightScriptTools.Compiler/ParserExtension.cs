@@ -287,5 +287,14 @@ namespace BrightScriptTools.Compiler
 
             return res;
         }
+
+        private PrintStatementMode BuildPrintStatementMode(LexSpan print, SyntaxNodeOrToken node)
+        {
+            var printExp = new PrintStatementMode();
+            printExp.AddNode(new PrintToken(print));
+            printExp.AddNode(node);
+
+            return printExp;
+        }
     }
 }

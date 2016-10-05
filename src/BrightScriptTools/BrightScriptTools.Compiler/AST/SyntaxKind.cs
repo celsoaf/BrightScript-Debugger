@@ -56,6 +56,7 @@
         OperatorKeyword,
         GlobalFunctionToken,
         EolToken,
+        PrintToken,
 
         //Node Types
         ChunkNode,
@@ -95,6 +96,8 @@
         LabelSeparatorNode,
         ArrayNode,
         IndexExpressionNode,
+        PrintStatementMode,
+
 
         //Trivia type
         Whitespace,

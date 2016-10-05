@@ -104,17 +104,17 @@ namespace BrightScriptTools.Compiler
             return new BooleanOperatorToken(lex);
         }
 
-        public SingleExpressionNode BuildSingleExpressionNode(SyntaxNodeOrToken node)
+        private SingleExpressionNode BuildSingleExpressionNode(SyntaxNodeOrToken node)
         {
             return new SingleExpressionNode((SyntaxNode)node);
         }
 
-        public MemberExpressionNode BuildMemberExpressionNode(LexSpan lex)
+        private MemberExpressionNode BuildMemberExpressionNode(LexSpan lex)
         {
             return new MemberExpressionNode(new IdentToken(lex));
         }
 
-        public UnaryExpressionNode BuildUnaryExpressionNode(LexSpan lex, SyntaxNodeOrToken node)
+        private UnaryExpressionNode BuildUnaryExpressionNode(LexSpan lex, SyntaxNodeOrToken node)
         {
             if (lex.token == (int)Tokens.minus)
                 return new UnaryExpressionNode(new MathOperatorToken(lex), (SyntaxNode)node);
@@ -125,12 +125,12 @@ namespace BrightScriptTools.Compiler
             return null;
         }
 
-        public UnaryExpressionNode BuildUnaryExpressionNode(LexSpan lPar, SyntaxNodeOrToken node, LexSpan rPar)
+        private UnaryExpressionNode BuildUnaryExpressionNode(LexSpan lPar, SyntaxNodeOrToken node, LexSpan rPar)
         {
             return new UnaryExpressionNode(new ParenToken(lPar), (SyntaxNode)node, new ParenToken(rPar));
         }
 
-        public SequenceExpressionNode BuildSequenceExpressionNode(SyntaxNodeOrToken node)
+        private SequenceExpressionNode BuildSequenceExpressionNode(SyntaxNodeOrToken node)
         {
             var sequence = new SequenceExpressionNode();
             sequence.AddNode(node);
@@ -138,7 +138,7 @@ namespace BrightScriptTools.Compiler
             return sequence;
         }
 
-        public SequenceExpressionNode BuildSequenceExpressionNode(SyntaxNodeOrToken node, LexSpan dot, SyntaxNodeOrToken list)
+        private SequenceExpressionNode BuildSequenceExpressionNode(SyntaxNodeOrToken node, LexSpan dot, SyntaxNodeOrToken list)
         {
             var sequence = list as SequenceExpressionNode ?? new SequenceExpressionNode();
             sequence.AddNode(new DotToken(dot));
@@ -147,12 +147,12 @@ namespace BrightScriptTools.Compiler
             return sequence;
         }
 
-        public ArgumentsNode BuildArgumentsNode()
+        private ArgumentsNode BuildArgumentsNode()
         {
             return new ArgumentsNode();
         }
 
-        public ArgumentsNode BuildArgumentsNode(SyntaxNodeOrToken node)
+        private ArgumentsNode BuildArgumentsNode(SyntaxNodeOrToken node)
         {
             var args = new ArgumentsNode();
             args.AddNode(node);
@@ -160,7 +160,7 @@ namespace BrightScriptTools.Compiler
             return args;
         }
 
-        public ArgumentsNode BuildArgumentsNode(SyntaxNodeOrToken node, LexSpan coma, SyntaxNodeOrToken list)
+        private ArgumentsNode BuildArgumentsNode(SyntaxNodeOrToken node, LexSpan coma, SyntaxNodeOrToken list)
         {
             var args = list as ArgumentsNode ?? new ArgumentsNode();
             args.AddNode(node);
@@ -169,7 +169,7 @@ namespace BrightScriptTools.Compiler
             return args;
         }
 
-        public CallExpressionNode BuildCallExpressionNode(LexSpan func, LexSpan lPar, SyntaxNodeOrToken args, LexSpan rPar)
+        private CallExpressionNode BuildCallExpressionNode(LexSpan func, LexSpan lPar, SyntaxNodeOrToken args, LexSpan rPar)
         {
             var callExp = new CallExpressionNode();
             callExp.AddNode(new GlobalFunctionToken(func));
@@ -180,7 +180,7 @@ namespace BrightScriptTools.Compiler
             return callExp;
         }
 
-        public CallExpressionNode BuildCallExpressionNode(
+        private CallExpressionNode BuildCallExpressionNode(
             SyntaxNodeOrToken member, 
             LexSpan lPar, 
             SyntaxNodeOrToken args, 
@@ -195,7 +195,7 @@ namespace BrightScriptTools.Compiler
             return callExp;
         }
 
-        public BinaryExpressionNode BuildBinaryExpressionNode(
+        private BinaryExpressionNode BuildBinaryExpressionNode(
             SyntaxNodeOrToken left, 
             SyntaxNodeOrToken opr, 
             SyntaxNodeOrToken right)
@@ -206,6 +206,17 @@ namespace BrightScriptTools.Compiler
             exp.AddNode(right);
 
             return exp;
+        }
+
+        private LabelSeparatorNode BuildLabelSeparatorNode(LexSpan lex)
+        {
+            if(lex.token==(int)Tokens.comma)
+                return new LabelSeparatorNode(new CommaToken(lex));
+
+            if(lex.token == (int)Tokens.Eol)
+                return new LabelSeparatorNode(new EolToken(lex));
+
+            return null;
         }
     }
 }

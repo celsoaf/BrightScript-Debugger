@@ -78,6 +78,7 @@
     <Compile Include="AST\Syntax\ArgumentsNode.cs" />
     <Compile Include="AST\Syntax\BinaryExpressionNode.cs" />
     <Compile Include="AST\Syntax\CallExpressionNode.cs" />
+    <Compile Include="AST\Syntax\LabelSeparatorNode.cs" />
     <Compile Include="AST\Syntax\LiteralNode.cs" />
     <Compile Include="AST\Syntax\MemberExpressionNode.cs" />
     <Compile Include="AST\Syntax\ParameterListNode.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="AST\Tokens\BracketToken.cs" />
     <Compile Include="AST\Tokens\CommaToken.cs" />
     <Compile Include="AST\Tokens\DotToken.cs" />
+    <Compile Include="AST\Tokens\EolToken.cs" />
     <Compile Include="AST\Tokens\GlobalFunctionToken.cs" />
     <Compile Include="AST\Tokens\IdentToken.cs" />
     <Compile Include="AST\Tokens\InvalidToken.cs" />

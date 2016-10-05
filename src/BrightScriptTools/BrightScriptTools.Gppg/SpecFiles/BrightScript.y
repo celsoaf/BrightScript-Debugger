@@ -158,8 +158,8 @@ FunctionStatement
 	;
 
 LabelSeparator
-	: Eol EolOpt
-	| comma
+	: Eol EolOpt		{ $$ = BuildLabelSeparatorNode(@1); }
+	| comma				{ $$ = BuildLabelSeparatorNode(@1); }
 	;
 
 CallExpression

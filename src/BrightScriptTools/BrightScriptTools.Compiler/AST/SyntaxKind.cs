@@ -55,6 +55,7 @@
         Type,
         OperatorKeyword,
         GlobalFunctionToken,
+        EolToken,
 
         //Node Types
         ChunkNode,
@@ -91,6 +92,7 @@
         SequenceExpressionNode,
         ArgumentsNode,
         CallExpressionNode,
+        LabelSeparatorNode,
 
         //Trivia type
         Whitespace,

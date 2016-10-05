@@ -12,6 +12,12 @@ sub Main(args={} as Object)
    d(2)
    e(a.t, t, i)
    ty = type("teste")
+   arr = [ 1, 2, 3 ]
+   arr = [ 
+	1
+	2
+	3
+   ]
 end sub
 
 function test(t as String, b as Boolean, v) as Void

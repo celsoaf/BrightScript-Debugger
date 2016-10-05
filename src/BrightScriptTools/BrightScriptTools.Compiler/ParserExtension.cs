@@ -146,5 +146,27 @@ namespace BrightScriptTools.Compiler
 
             return sequence;
         }
+
+        public ArgumentsNode BuildArgumentsNode()
+        {
+            return new ArgumentsNode();
+        }
+
+        public ArgumentsNode BuildArgumentsNode(SyntaxNodeOrToken node)
+        {
+            var args = new ArgumentsNode();
+            args.AddNode(node);
+
+            return args;
+        }
+
+        public ArgumentsNode BuildArgumentsNode(SyntaxNodeOrToken node, LexSpan coma, SyntaxNodeOrToken list)
+        {
+            var args = list as ArgumentsNode ?? new ArgumentsNode();
+            args.AddNode(node);
+            args.AddNode(new CommaToken(coma));
+
+            return args;
+        }
     }
 }

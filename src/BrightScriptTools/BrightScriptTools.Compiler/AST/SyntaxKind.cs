@@ -90,6 +90,7 @@
         MemberExpressionNode,
         UnaryExpressionNode,
         SequenceExpressionNode,
+        ArgumentsNode,
 
         //Trivia type
         Whitespace,

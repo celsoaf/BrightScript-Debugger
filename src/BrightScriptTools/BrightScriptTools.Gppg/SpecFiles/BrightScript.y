@@ -168,9 +168,9 @@ CallExpression
 	;
 
 Arguments
-	: /* Empty */
-	| SequenceExpression 
-	| SequenceExpression comma Arguments
+	: /* Empty */							{ $$ = BuildArgumentsNode(); }
+	| SequenceExpression					{ $$ = BuildArgumentsNode($1); }
+	| SequenceExpression comma Arguments	{ $$ = BuildArgumentsNode($1, @2, $3); }
 	;
 
 UnaryExpression

@@ -66,6 +66,8 @@ bsStep			step
 bsIn			in
 bsWhile			while
 bsNot			not
+bsAnd			and
+bsOr			or
 bsTrue			true
 bsFalse			false
 bsInvalid		invalid
@@ -139,6 +141,8 @@ AS				{ return (int)Tokens.bsAs; }
 {bsIn}			{ return (int)Tokens.bsIn;}
 {bsWhile}		{ return (int)Tokens.bsWhile;}
 {bsNot}			{ return (int)Tokens.bsNot;}
+{bsAnd}			{ return (int)Tokens.bsAnd;}
+{bsOr}			{ return (int)Tokens.bsOr;}
 
 {print}			{ return (int)Tokens.bsPrint; }
 {questionMark}	{ return (int)Tokens.questionMark; }

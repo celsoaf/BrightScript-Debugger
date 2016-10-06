@@ -85,7 +85,7 @@ namespace BrightScriptTools.GPlex.Lexer
     // If the compiler can't find the scanner base class maybe you
     // need to run GPPG with the /gplex option, or GPLEX with /noparser
 #if BABEL
-     internal sealed partial class Scanner : ScanBase, IColorScan
+     internal partial class Scanner : ScanBase, IColorScan
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal
@@ -102,7 +102,7 @@ namespace BrightScriptTools.GPlex.Lexer
                    currentStart = startState[value]; }
         }
 #else  // BABEL
-     internal sealed partial class Scanner : ScanBase
+     internal partial class Scanner : ScanBase
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal

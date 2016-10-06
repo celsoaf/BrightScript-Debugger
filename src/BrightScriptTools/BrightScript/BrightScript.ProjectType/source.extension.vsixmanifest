@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="BrightScript.ProjectType..dd78b51f-0ecb-40db-be6d-ef3a850f3c69" Version="1.0" Language="en-US" Publisher="BrightScript.ProjectType" />
+    <Identity Id="BrightScript.ProjectType..dd78b51f-0ecb-40db-be6d-ef3a850f3c69" Version="1.0" Language="en-US" Publisher="CelsoAF" />
     <DisplayName>BrightScript VSIX</DisplayName>
     <Description xml:space="preserve">A template for creating a BrightScript project.</Description>
   </Metadata>
@@ -17,5 +17,7 @@
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="BrightScript.ProjectType" Path="|BrightScript.ProjectType;PkgdefProjectOutputGroup|" />
     <Asset Type="Microsoft.VisualStudio.ProjectTemplate" d:Source="Project" d:ProjectName="BrightScript.ProjectTemplate" d:TargetPath="|BrightScript.ProjectTemplate;TemplateProjectOutputGroup|" Path="ProjectTemplates" d:VsixSubPath="ProjectTemplates" />
     <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="BrightScript.ItemTemplate" d:TargetPath="|BrightScript.ItemTemplate;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="BrightScript.Language" Path="|BrightScript.Language|" />
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="BrightScript.Language" Path="|BrightScript.Language;PkgdefProjectOutputGroup|" />
   </Assets>
 </PackageManifest>

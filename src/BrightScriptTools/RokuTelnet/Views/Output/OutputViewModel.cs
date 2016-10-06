@@ -4,6 +4,7 @@ using System.Linq;
 using Prism.Commands;
 using Prism.Events;
 using RokuTelnet.Events;
+using RokuTelnet.Models;
 
 namespace RokuTelnet.Views.Output
 {
@@ -16,8 +17,8 @@ namespace RokuTelnet.Views.Output
 
         private string _commands;
         private int _cmdIndex = 0;
-        private bool _enable;
-
+        private bool _connected;
+        
         public OutputViewModel(IOutputView view, IEventAggregator eventAggregator)
         {
             View = view;
@@ -30,21 +31,24 @@ namespace RokuTelnet.Views.Output
 
             _eventAggregator.GetEvent<LogEvent>().Subscribe(msg =>
             {
-                Logs += msg;
+                if (msg.Port == Port)
+                {
+                    Logs += msg.Message;
 
-                if (Logs.Length > LOGS_LENGHT)
-                    Logs = Logs.Substring(Logs.Length - LOGS_LENGHT);
+                    if (Logs.Length > LOGS_LENGHT)
+                        Logs = Logs.Substring(Logs.Length - LOGS_LENGHT);
+                }
             }, ThreadOption.UIThread);
 
             EnterCommand = new DelegateCommand(() =>
             {
-                _eventAggregator.GetEvent<CommandEvent>().Publish(Command);
+                _eventAggregator.GetEvent<CommandEvent>().Publish(new CommandModel(Port, Command));
                 LastCommands.Add(Command);
                 if (LastCommands.Count > 100)
                     LastCommands.RemoveAt(0);
                 _cmdIndex = LastCommands.Count;
                 Command = string.Empty;
-            });
+            }, () => Connected);
 
             UpCommand = new DelegateCommand(() =>
             {
@@ -56,7 +60,7 @@ namespace RokuTelnet.Views.Output
                     View.SetCursorPosition();
                 }
                 View.SetFocus();
-            });
+            }, () => Connected);
 
             DownCommand = new DelegateCommand(() =>
             {
@@ -73,10 +77,10 @@ namespace RokuTelnet.Views.Output
                     Command = String.Empty;
                 }
                 View.SetFocus();
-            });
+            }, () => Connected);
 
-            //_eventAggregator.GetEvent<DebugEvent>().Subscribe(enable => Enable = enable, ThreadOption.UIThread);
-            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Contains("Debugger>"), ThreadOption.UIThread);
+            _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip => Connected = true);
+            _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj => Connected = false);
         }
 
         public IOutputView View { get; set; }
@@ -103,15 +107,24 @@ namespace RokuTelnet.Views.Output
         public DelegateCommand UpCommand { get; set; }
         public DelegateCommand DownCommand { get; set; }
 
-        public bool Enable
+        public bool Connected
         {
-            get { return _enable; }
+            get { return _connected; }
             set
             {
-                _enable = value;
-                OnPropertyChanged(() => Enable);
-                View.SetFocus();
+                _connected = value;
+                OnPropertyChanged(() => Connected);
+                EnterCommand.RaiseCanExecuteChanged();
+                UpCommand.RaiseCanExecuteChanged();
+                DownCommand.RaiseCanExecuteChanged();
             }
+        }
+
+        public int Port { get; set; }
+
+        public void SetActive()
+        {
+            _eventAggregator.GetEvent<OutputChangeEvent>().Publish(Port);
         }
     }
 }

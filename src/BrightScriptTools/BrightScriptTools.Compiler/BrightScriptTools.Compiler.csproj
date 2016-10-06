@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,7 +35,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ImmutableObjectGraph, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bfd91f1bd601e0d7, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImmutableObjectGraph.1.1.98-beta\lib\dotnet\ImmutableObjectGraph.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ImmutableObjectGraph.Generation.Attributes, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bfd91f1bd601e0d7, processorArchitecture=MSIL">
+      <HintPath>..\packages\ImmutableObjectGraph.Generation.1.1.98-beta\lib\dotnet\ImmutableObjectGraph.Generation.Attributes.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.1.37.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.1.37\lib\dotnet\System.Collections.Immutable.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,6 +55,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Validation, Version=2.2.0.0, Culture=neutral, PublicKeyToken=2fc06f0d701809a7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Validation.2.2.8\lib\dotnet\Validation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\BrightScriptTools.GPlex\SpecFiles\Scanner.cs">
@@ -52,14 +70,97 @@
     <Compile Include="..\BrightScriptTools.Gppg\SpecFiles\Parser.cs">
       <Link>Parser.cs</Link>
     </Compile>
+    <Compile Include="ASTScanner.cs" />
+    <Compile Include="AST\BlockNode.cs" />
+    <Compile Include="AST\Enums\OperatorEnum.cs" />
+    <Compile Include="AST\Enums\TypeEnum.cs" />
+    <Compile Include="AST\Statements\ForEachStatementNode.cs" />
+    <Compile Include="AST\Statements\ForStatementNode.cs" />
+    <Compile Include="AST\Statements\FunctionDeclarationNode.cs" />
+    <Compile Include="AST\Statements\ProgramNode.cs" />
+    <Compile Include="AST\Statements\SourceElementListNode.cs" />
+    <Compile Include="AST\Statements\SubDeclarationNode.cs" />
+    <Compile Include="AST\SyntaxListNode.cs" />
+    <Compile Include="AST\Syntax\FunctionExpressionNode.cs" />
+    <Compile Include="AST\Statements\IfStatementNode.cs" />
+    <Compile Include="AST\Statements\LabelledStatementNode.cs" />
+    <Compile Include="AST\Statements\WhileStatementNode.cs" />
+    <Compile Include="AST\Syntax\ConditionExpressionNode.cs" />
+    <Compile Include="AST\Statements\SourceElementNode.cs" />
+    <Compile Include="AST\Syntax\StatementListNode.cs" />
+    <Compile Include="AST\Syntax\ArgumentsNode.cs" />
+    <Compile Include="AST\Syntax\ArrayNode.cs" />
+    <Compile Include="AST\Statements\AssignStatementNode.cs" />
+    <Compile Include="AST\Syntax\BinaryExpressionNode.cs" />
+    <Compile Include="AST\Syntax\CallExpressionNode.cs" />
+    <Compile Include="AST\Statements\DebuggerStatementNode.cs" />
+    <Compile Include="AST\Syntax\IndexExpressionNode.cs" />
+    <Compile Include="AST\Syntax\LabelSeparatorNode.cs" />
+    <Compile Include="AST\Syntax\LiteralNode.cs" />
+    <Compile Include="AST\Syntax\MemberExpressionNode.cs" />
+    <Compile Include="AST\Syntax\ParameterListNode.cs" />
+    <Compile Include="AST\Syntax\ParameterNode.cs" />
+    <Compile Include="AST\Statements\PrintStatementMode.cs" />
+    <Compile Include="AST\Statements\ReturnStatementNode.cs" />
+    <Compile Include="AST\Statements\SequenceExpressionNode.cs" />
+    <Compile Include="AST\Syntax\SingleExpressionNode.cs" />
+    <Compile Include="AST\Syntax\TypeNode.cs" />
+    <Compile Include="AST\Syntax\UnaryExpressionNode.cs" />
+    <Compile Include="AST\Tokens\AndToken.cs" />
+    <Compile Include="AST\Tokens\AsToken.cs" />
+    <Compile Include="AST\Tokens\BooleanOperatorToken.cs" />
+    <Compile Include="AST\Tokens\BooleanToken.cs" />
+    <Compile Include="AST\Tokens\BraceToken.cs" />
+    <Compile Include="AST\Tokens\BracketToken.cs" />
+    <Compile Include="AST\Tokens\ColonToken.cs" />
+    <Compile Include="AST\Tokens\CommaToken.cs" />
+    <Compile Include="AST\Tokens\DotToken.cs" />
+    <Compile Include="AST\Tokens\EachToken.cs" />
+    <Compile Include="AST\Tokens\ElseToken.cs" />
+    <Compile Include="AST\Tokens\EndToken.cs" />
+    <Compile Include="AST\Tokens\EolToken.cs" />
+    <Compile Include="AST\Tokens\ForToken.cs" />
+    <Compile Include="AST\Tokens\FunctionToken.cs" />
+    <Compile Include="AST\Tokens\GlobalFunctionToken.cs" />
+    <Compile Include="AST\Tokens\IdentToken.cs" />
+    <Compile Include="AST\Tokens\IfToken.cs" />
+    <Compile Include="AST\Tokens\InToken.cs" />
+    <Compile Include="AST\Tokens\InvalidToken.cs" />
+    <Compile Include="AST\Tokens\KeywordToken.cs" />
+    <Compile Include="AST\Tokens\LiteralToken.cs" />
+    <Compile Include="AST\Tokens\MathOperatorToken.cs" />
+    <Compile Include="AST\Tokens\NotToken.cs" />
+    <Compile Include="AST\Tokens\NumberToken.cs" />
+    <Compile Include="AST\StatementNode.cs" />
+    <Compile Include="AST\SyntaxKind.cs" />
+    <Compile Include="AST\SyntaxNode.cs" />
+    <Compile Include="AST\SyntaxNodeOrToken.cs" />
+    <Compile Include="AST\Tokens\OperatorToken.cs" />
+    <Compile Include="AST\Tokens\OrToken.cs" />
+    <Compile Include="AST\Tokens\ParenToken.cs" />
+    <Compile Include="AST\Tokens\PrintToken.cs" />
+    <Compile Include="AST\Tokens\ReturnToken.cs" />
+    <Compile Include="AST\Tokens\StopToken.cs" />
+    <Compile Include="AST\Tokens\StringToken.cs" />
+    <Compile Include="AST\Token.cs" />
+    <Compile Include="AST\Tokens\SubToken.cs" />
+    <Compile Include="AST\Tokens\ToToken.cs" />
+    <Compile Include="AST\Tokens\TypeToken.cs" />
+    <Compile Include="AST\Tokens\WhileToken.cs" />
+    <Compile Include="AST\Trivia.cs" />
+    <Compile Include="Error.cs" />
+    <Compile Include="ErrorHandler.cs" />
+    <Compile Include="LexSpan.cs" />
     <Compile Include="ParserExtension.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScannerExtension.cs" />
+    <Compile Include="SyntaxTree.cs" />
     <Compile Include="TokensColor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
     <None Include="TestData\TestColor.brs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -77,7 +178,17 @@
       <Name>BrightScriptTools.Gppg</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\CodeGeneration.Roslyn.BuildTime.0.1.57\build\CodeGeneration.Roslyn.BuildTime.targets" Condition="Exists('..\packages\CodeGeneration.Roslyn.BuildTime.0.1.57\build\CodeGeneration.Roslyn.BuildTime.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\CodeGeneration.Roslyn.BuildTime.0.1.57\build\CodeGeneration.Roslyn.BuildTime.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CodeGeneration.Roslyn.BuildTime.0.1.57\build\CodeGeneration.Roslyn.BuildTime.targets'))" />
+    <Error Condition="!Exists('..\packages\ImmutableObjectGraph.Generation.1.1.98-beta\build\ImmutableObjectGraph.Generation.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ImmutableObjectGraph.Generation.1.1.98-beta\build\ImmutableObjectGraph.Generation.targets'))" />
+  </Target>
+  <Import Project="..\packages\ImmutableObjectGraph.Generation.1.1.98-beta\build\ImmutableObjectGraph.Generation.targets" Condition="Exists('..\packages\ImmutableObjectGraph.Generation.1.1.98-beta\build\ImmutableObjectGraph.Generation.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -141,6 +141,24 @@
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <IncludeOutputGroupsInVSIX>TemplateProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
     </ProjectReference>
+    <ProjectReference Include="..\..\BrightScript.Language\BrightScript.Language.csproj">
+      <Project>{f091221e-fd10-41a7-aac4-c9359178bdb1}</Project>
+      <Name>BrightScript.Language</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3bPkgdefProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BrightScriptTools.Compiler\BrightScriptTools.Compiler.csproj">
+      <Project>{96a149f1-9abf-4246-9cb1-06f0aaa0e294}</Project>
+      <Name>BrightScriptTools.Compiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BrightScriptTools.GPlex\BrightScriptTools.GPlex.csproj">
+      <Project>{2ea37226-2fa2-40b5-aabf-72aa499e4c0b}</Project>
+      <Name>BrightScriptTools.GPlex</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BrightScriptTools.Gppg\BrightScriptTools.Gppg.csproj">
+      <Project>{ddda2561-e4d5-4870-ad42-f8855d243d49}</Project>
+      <Name>BrightScriptTools.Gppg</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BrightScript.ProjectTemplate\BrightScript.ProjectTemplate.csproj">
       <Project>{883b80e1-4dde-40bd-aa9f-22cbeaba4ed9}</Project>
       <Name>BrightScript.ProjectTemplate</Name>
@@ -162,7 +180,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrightScriptDebuggerLaunchProvider.cs" />
     <Compile Include="MyConfiguredProject.cs" />
     <Compile Include="MyUnconfiguredProject.cs" />
     <Compile Include="ProjectProperties.cs" />

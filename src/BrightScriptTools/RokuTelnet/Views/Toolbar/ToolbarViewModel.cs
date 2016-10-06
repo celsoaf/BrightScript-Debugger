@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 using Prism.Commands;
@@ -16,14 +17,16 @@ namespace RokuTelnet.Views.Toolbar
     public class ToolbarViewModel : Prism.Mvvm.BindableBase, IToolbarViewModel
     {
         private const string FILE_NAME = "ips.json";
+        private const string FOLDER_LIST_NAME = "listFolder.json";
         private const string LAST_FILE_NAME = "lastIp.json";
         private const string LAST_FOLDER_NAME = "lastFolder.json";
 
         private IEventAggregator _eventAggregator;
-        private bool _enable;
+        private bool _enable = true;
         private bool _connected;
         private string _selectedIp;
         private string _folder;
+        private int _port = 8085;
 
         public ToolbarViewModel(IToolbarView view, IEventAggregator eventAggregator)
         {
@@ -33,6 +36,7 @@ namespace RokuTelnet.Views.Toolbar
             _eventAggregator = eventAggregator;
 
             IPList = new ObservableCollection<string>(LoadIpList());
+            FolderList = new ObservableCollection<string>(LoadFolderList());
 
             AddCommand = new DelegateCommand(() =>
             {
@@ -70,6 +74,8 @@ namespace RokuTelnet.Views.Toolbar
                 {
                     Folder = dialog.SelectedPath;
                     UpdateLastFolder();
+                    FolderList.Add(Folder);
+                    UpdateFolderList();
                 }
             });
 
@@ -86,10 +92,14 @@ namespace RokuTelnet.Views.Toolbar
             Command = new DelegateCommand<DebuggerCommandEnum?>(cmd =>
             {
                 if (cmd.HasValue)
-                    _eventAggregator.GetEvent<CommandEvent>().Publish(cmd.ToString());
+                    _eventAggregator.GetEvent<CommandEvent>().Publish(new CommandModel(_port, cmd.ToString()));
             });
 
-            _eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Contains("Debugger>"), ThreadOption.UIThread);
+            //_eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Message.Contains("Debugger>"), ThreadOption.UIThread);
+            _eventAggregator.GetEvent<OutputChangeEvent>().Subscribe(p => _port = p);
+
+            _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip => Connected = true, ThreadOption.UIThread);
+            _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj => Connected = false, ThreadOption.UIThread);
 
             LoadLastIp();
             LoadLastFolder();
@@ -128,15 +138,18 @@ namespace RokuTelnet.Views.Toolbar
             get { return _connected; }
             set
             {
-                _connected = value;
-                OnPropertyChanged(() => Connected);
-                DeployCommand.RaiseCanExecuteChanged();
-                LaunchAppCommand.RaiseCanExecuteChanged();
+                if (_connected != value)
+                {
+                    _connected = value;
+                    OnPropertyChanged(() => Connected);
+                    DeployCommand.RaiseCanExecuteChanged();
+                    LaunchAppCommand.RaiseCanExecuteChanged();
 
-                if (_connected)
-                    _eventAggregator.GetEvent<ConnectEvent>().Publish(SelectedIP);
-                else
-                    _eventAggregator.GetEvent<DisconnectEvent>().Publish(null);
+                    if (_connected)
+                        _eventAggregator.GetEvent<ConnectEvent>().Publish(SelectedIP);
+                    else
+                        _eventAggregator.GetEvent<DisconnectEvent>().Publish(null);
+                }
             }
         }
 
@@ -148,8 +161,10 @@ namespace RokuTelnet.Views.Toolbar
         public string Folder
         {
             get { return _folder; }
-            set { _folder = value; OnPropertyChanged(() => Folder); }
+            set { _folder = value; OnPropertyChanged(() => Folder); Task.Delay(100).ContinueWith(t=> UpdateLastFolder()); }
         }
+
+        public ObservableCollection<string> FolderList { get; set; }
 
         private void UpdateFileList()
         {
@@ -236,6 +251,34 @@ namespace RokuTelnet.Views.Toolbar
             {
                 sw.Write(content);
             }
+        }
+
+        private void UpdateFolderList()
+        {
+            var content = JsonConvert.SerializeObject(FolderList.ToList());
+
+            if (File.Exists(FOLDER_LIST_NAME))
+                File.Delete(FOLDER_LIST_NAME);
+
+            using (var sw = new StreamWriter(FOLDER_LIST_NAME))
+            {
+                sw.Write(content);
+            }
+        }
+
+        private List<string> LoadFolderList()
+        {
+            if (File.Exists(FOLDER_LIST_NAME))
+            {
+                using (var sr = new StreamReader(FOLDER_LIST_NAME))
+                {
+                    var content = sr.ReadToEnd();
+
+                    return JsonConvert.DeserializeObject<List<string>>(content);
+                }
+            }
+
+            return new List<string>();
         }
 
         private bool ValidateIP(string value)

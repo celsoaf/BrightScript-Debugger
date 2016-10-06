@@ -2,7 +2,9 @@
 {
     public interface IParserService
     {
-        void Start();
+        void Start(int port);
         void Stop();
+
+        int Port { get; }
     }
 }

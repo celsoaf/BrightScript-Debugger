@@ -20,7 +20,7 @@
     </UserControl.Resources>
     <StackPanel Orientation="Horizontal">
         <ToolBar>
-            <Grid Width="300">
+            <Grid Width="250">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition/>
@@ -52,7 +52,7 @@
             </Grid>
         </ToolBar>
         <ToolBar>
-            <Grid Width="400">
+            <Grid Width="600">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
@@ -75,8 +75,11 @@
                     <Image Source="../../Resources/config.png" Width="24" Height="24"/>
                 </Button>
 
-                <TextBox Grid.Column="2" IsReadOnly="True" Text="{Binding Folder}" 
-                         FontWeight="Bold" FontSize="16"/>
+                <ComboBox Grid.Column="2" Opacity="0.9" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16"
+				        SelectedItem="{Binding Folder}"
+				        ItemsSource="{Binding FolderList}"
+				        IsEnabled="{Binding Connected}"
+					  />
                 
                 <Button Grid.Column="3" Margin="0" 
                         Command="{Binding DeployCommand}"

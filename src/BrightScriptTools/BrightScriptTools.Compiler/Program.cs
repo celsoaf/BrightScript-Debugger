@@ -23,11 +23,23 @@ namespace BrightScriptTools.Compiler
         {
             using (Stream file = File.Open(path, FileMode.Open, FileAccess.Read))
             {
+                ErrorHandler handler = new ErrorHandler();
                 // parse input args, and open input file
-                Scanner scanner = new Scanner(file);
+                Scanner scanner = new ASTScanner(file);
+                scanner.SetHandler(handler);
 
-                Parser parser = new Parser(scanner);
-                parser.Parse();
+                Parser parser = new Parser(scanner, handler);
+                if (!parser.Parse())
+                {
+                    handler.SortedErrorList().ToList().ForEach(e =>
+                    {
+                        Console.WriteLine(e.Message);
+                    });
+                }
+                else
+                {
+                    var ast = parser.GetASTRoot();
+                }
             }
         }
 

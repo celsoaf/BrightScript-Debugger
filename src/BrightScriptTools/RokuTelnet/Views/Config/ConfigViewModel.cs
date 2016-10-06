@@ -65,6 +65,8 @@ namespace RokuTelnet.Views.Config
                     AppName = di.Name,
                     ArchiveName = di.Name.ToLower(),
                     BuildDirectory = "build",
+                    User = "rokudev",
+                    Pass = "rokudev",
                     Includes = new List<ConfigValueModel>
                     {
                         new ConfigValueModel { Value =  "source" },

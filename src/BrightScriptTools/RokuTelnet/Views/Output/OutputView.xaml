@@ -34,7 +34,7 @@
 
         <TextBox Grid.Row="1" Text="{Binding Command, UpdateSourceTrigger=PropertyChanged}" 
                  Background="Black" Foreground="White" FontFamily="Consolas" Name="InputBlock" BorderBrush="{x:Null}" SelectionBrush="{x:Null}"
-                 IsEnabled="{Binding Enable}">
+                 IsEnabled="{Binding Connected}">
             <TextBox.InputBindings>
                 <KeyBinding Key="Enter" Command="{Binding EnterCommand}"/>
                 <KeyBinding Key="Up" Command="{Binding UpCommand}"/>

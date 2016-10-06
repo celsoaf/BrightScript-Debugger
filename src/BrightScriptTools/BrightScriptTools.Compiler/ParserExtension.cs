@@ -311,9 +311,9 @@ namespace BrightScriptTools.Compiler
             return debug;
         }
 
-        private StatementNode BuildStatementNode(SyntaxNodeOrToken node)
+        private SyntaxNode BuildStatementNode(SyntaxNodeOrToken node)
         {
-            return (StatementNode)node;
+            return (SyntaxNode)node;
         }
 
         private IfStatementNode BuildIfStatementNode(

@@ -2,8 +2,14 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using BrightScript.Language.Shared;
 using BrightScript.Language.Text;
+using BrightScriptTools.Compiler;
+using BrightScriptTools.Compiler.AST;
+using BrightScriptTools.Compiler.AST.Statements;
+using BrightScriptTools.Compiler.AST.Syntax;
+using BrightScriptTools.Compiler.AST.Tokens;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 
@@ -14,7 +20,7 @@ namespace BrightScript.Language.Intellisense
         private CompletionSourceProvider m_sourceProvider;
         private ITextBuffer m_textBuffer;
         private List<Completion> m_compList;
-        //private ParseTreeCache m_parseTreeCache;
+        private ParseTreeCache m_parseTreeCache;
         private SourceTextCache m_sourceTextCache;
         private bool m_memberlist;
         [Import]
@@ -24,120 +30,125 @@ namespace BrightScript.Language.Intellisense
         {
             m_textBuffer = textBuffer;
             m_sourceProvider = provider;
-            //m_parseTreeCache = new ParseTreeCache();
+            m_parseTreeCache = new ParseTreeCache();
             this.m_sourceTextCache = new SourceTextCache();
         }
 
         public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
         {
             SourceText sourceText = this.m_sourceTextCache.Get(m_textBuffer.CurrentSnapshot);
-            //SyntaxTree syntaxTree = this.m_parseTreeCache.Get(sourceText);
+            SyntaxTree syntaxTree = this.m_parseTreeCache.Get(sourceText);
             var triggerPoint = (SnapshotPoint)session.GetTriggerPoint(m_textBuffer.CurrentSnapshot);
-            //var ch = triggerPoint.GetChar();
-            //Token currentToken = null;
+            var ch = triggerPoint.GetChar();
+            Token currentToken = null;
             int currentTokenIndex = 0;
-            //for (; currentTokenIndex < syntaxTree.Tokens.Count; currentTokenIndex++)
-            //{
-            //    var token = syntaxTree.Tokens[currentTokenIndex];
-            //    if ((token.Start <= triggerPoint.Position) && (token.Start + token.Length) >= triggerPoint.Position)
-            //    {
-            //        currentToken = token;
-            //        break;
-            //    }
-            //}
+            for (; currentTokenIndex < syntaxTree.Tokens.Count; currentTokenIndex++)
+            {
+                var token = syntaxTree.Tokens[currentTokenIndex];
+                if ((token.Start <= triggerPoint.Position) && (token.Start + token.Length) >= triggerPoint.Position)
+                {
+                    currentToken = token;
+                    break;
+                }
+            }
             List<string> strList = new List<string>();
-            //if (currentToken == null)
-            //    return;
-            //if (currentToken.Kind == SyntaxKind.Dot)
-            //{
-            //    //user inputs dot. Try search members
-            //    var targetname = syntaxTree.Tokens[currentTokenIndex - 1].Text;
-            //    for (int i = 0; i < syntaxTree.StatementNodeList.Count; i++)
-            //    {
-            //        var statement = syntaxTree.StatementNodeList[i];
-            //        if (statement.StartPosition + statement.Length < triggerPoint.Position) //make sure the variable is declared before the usage
-            //        {
-            //            if (statement.GetType() == typeof(AssignmentStatementNode))
-            //            {
-            //                for (int j = 0; j < statement.Children[2].Children.Count; j++)
-            //                {
-            //                    if (statement.Children.Count > 2)
-            //                    {
-            //                        var child = statement.Children[2].Children[j];
-            //                        if (child.GetType() == typeof(TableConstructorExp))
-            //                        {
-            //                            if (statement.Children[0].Children[j].Children[0].IsLeafNode && ((Token)(statement.Children[0].Children[j].Children[0])).Text == targetname)
-            //                            {
-            //                                foreach (var assignment in child.Children[1].Children)
-            //                                {
-            //                                    if (assignment.GetType() == typeof(AssignmentField))
-            //                                        strList.Add(((Token)assignment.Children[0]).Text);
-            //                                }
-            //                            }
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //            else if (statement.GetType() == typeof(LocalAssignmentStatementNode))
-            //            {
-            //                if (statement.Children.Count > 3)
-            //                {
-            //                    for (int j = 0; j < statement.Children[3].Children.Count; j++)
-            //                    {
-            //                        var child = statement.Children[3].Children[j];
-            //                        if (child.GetType() == typeof(TableConstructorExp))
-            //                        {
-            //                            if (statement.Children[1].Children[j].IsLeafNode && ((Token)(statement.Children[1].Children[j])).Text == targetname)
-            //                            {
-            //                                foreach (var assignment in child.Children[1].Children)
-            //                                {
-            //                                    if (assignment.GetType() == typeof(AssignmentField))
-            //                                        strList.Add(((Token)assignment.Children[0]).Text);
-            //                                }
-            //                            }
-            //                        }
-            //                    }
-            //                }
-            //            }
-            //        }
-            //    }
-            //    m_memberlist = true;
-            //}
-            //else
+            if (currentToken == null)
+                return;
+            if (currentToken.Kind == SyntaxKind.Dot)
+            {
+                //user inputs dot. Try search members
+                var targetname = syntaxTree.Tokens[currentTokenIndex - 1].Text;
+                if (syntaxTree.Root != null && targetname == "m")
+                {
+                    syntaxTree.Root
+                        .Descendants()
+                        .OfType<BlockNode>()
+                        .Where(b =>
+                            b.Start < triggerPoint.Position &&
+                            b.End > triggerPoint.Position &&
+                            !b.Descendants().OfType<BlockNode>().Any(c => c.Start < triggerPoint.Position && c.End > triggerPoint.Position))
+                        .SelectMany(b => b.Children)
+                        .OfType<LabelledStatementNode>()
+                        .ToList()
+                        .ForEach(l =>
+                        {
+                            var ident = l.Children.OfType<IdentToken>().FirstOrDefault();
+                            if (ident != null)
+                                strList.Add(ident.Name);
+                        });
+                }
+                m_memberlist = true;
+            }
+            else
             {
                 //list all variables and keywords
                 strList.AddRange(GetList());
-                //foreach (var statement in syntaxTree.StatementNodeList)
-                //{
-                //    if (statement.StartPosition + statement.Length < triggerPoint.Position) //make sure the variable is declared before the usage
-                //    {
-                //        if (statement.GetType() == typeof(AssignmentStatementNode))
-                //        {
-                //            var namelist = statement.Children[0];
-                //            foreach (var namevar in namelist.Children)
-                //            {
-                //                if (namevar.GetType() == typeof(NameVar))
-                //                {
-                //                    var str = ((Token)((NameVar)namevar).Children[0]).Text;
-                //                    if (strList.IndexOf(str) == -1)
-                //                        strList.Add(str);
-                //                }
-                //            }
-                //        }
-                //        else if (statement.GetType() == typeof(LocalAssignmentStatementNode))
-                //        {
-                //            foreach (var namevar in ((SeparatedList)statement.Children[1]).Children)
-                //            {
-                //                if (namevar.IsLeafNode)
-                //                {
-                //                    var str = ((Token)namevar).Text;
-                //                    if (strList.IndexOf(str) == -1)
-                //                        strList.Add(str);
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
+                strList.Add("m");
+
+                if (syntaxTree.Root != null)
+                {
+                    syntaxTree.Root
+                        .Descendants()
+                        .OfType<SourceElementNode>()
+                        .ToList()
+                        .ForEach(e =>
+                        {
+                            var ident = e.Children.OfType<IdentToken>().FirstOrDefault();
+                            if (ident != null)
+                                strList.Add(ident.Name);
+                        });
+
+                    syntaxTree.Root
+                        .Descendants()
+                        .OfType<SourceElementNode>()
+                        .Where(e =>
+                            e.Start < triggerPoint.Position &&
+                            e.End > triggerPoint.Position &&
+                            !e.Descendants()
+                                .OfType<FunctionExpressionNode>()
+                                .Any(c => c.Start < triggerPoint.Position && c.End > triggerPoint.Position))
+                        .ToList()
+                        .SelectMany(e => e.Children.OfType<StatementListNode>())
+                        .SelectMany(e => e.Children.OfType<AssignStatementNode>())
+                        .ToList()
+                        .ForEach(e =>
+                        {
+                            IdentToken ident = e.Children.OfType<IdentToken>().FirstOrDefault();
+                            if (ident == null)
+                            {
+                                var left = e.Children[0] as SyntaxNode;
+                                ident = left.Descendants().OfType<IdentToken>().FirstOrDefault();
+                            }
+
+                            if (ident != null)
+                                strList.Add(ident.Name);
+                        });
+
+                    syntaxTree.Root
+                        .Descendants()
+                        .OfType<FunctionExpressionNode>()
+                        .Where(f =>
+                            f.Start < triggerPoint.Position &&
+                            f.End > triggerPoint &&
+                            !f.Descendants()
+                                .OfType<FunctionExpressionNode>()
+                                .Any(c => c.Start < triggerPoint.Position && c.End > triggerPoint.Position))
+                        .SelectMany(e => e.Children.OfType<StatementListNode>())
+                        .SelectMany(e => e.Children.OfType<AssignStatementNode>())
+                        .ToList()
+                        .ForEach(e =>
+                        {
+                            var ident = e.Children.OfType<IdentToken>().FirstOrDefault();
+                            if (ident == null)
+                            {
+                                var left = e.Children[0] as SyntaxNode;
+                                ident = left.Descendants().OfType<IdentToken>().FirstOrDefault();
+                            }
+
+                            if (ident != null)
+                                strList.Add(ident.Name);
+                        });
+                }
                 m_memberlist = false;
             }
             strList.Sort();

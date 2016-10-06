@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using System.Text;
 using BrightScriptTools.Compiler.AST;
 using BrightScriptTools.Compiler.AST.Statements;
@@ -10,6 +11,8 @@ namespace BrightScriptTools.Compiler
 {
     public class SyntaxTree
     {
+        private static RootNode lastValidRoot;
+
         public SyntaxTree(RootNode root, List<Token> tokens, ImmutableList<Error> errorList)
         {
             this.Root = root;
@@ -51,7 +54,9 @@ namespace BrightScriptTools.Compiler
             parser.Parse();
 
             RootNode root = parser.GetASTRoot();
-            return new SyntaxTree(root, scanner.GetTokens(), handler.SortedErrorList().ToImmutableList());
+            if (root != null)
+                lastValidRoot = root;
+            return new SyntaxTree(lastValidRoot, scanner.GetTokens(), handler.SortedErrorList().ToImmutableList());
         }
 
         public SyntaxNode GetNodeAt(int position)

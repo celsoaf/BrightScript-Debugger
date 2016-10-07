@@ -72,7 +72,11 @@
 
         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Model.BuildDirectory, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <CheckBox Grid.Row="5" Grid.Column="0" Content="Optimize" IsChecked="{Binding Model.Optimize, UpdateSourceTrigger=PropertyChanged}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.ColumnSpan="2" >
+            <CheckBox Content="Optimize" IsChecked="{Binding Model.Optimize, UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Content="Git Version" IsChecked="{Binding Model.GitVersion, UpdateSourceTrigger=PropertyChanged}"/>
+            <CheckBox Content="Register Types" IsChecked="{Binding Model.RegisterTypes, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
 
         <GroupBox Grid.Row="6" Grid.ColumnSpan="2" Header="Includes">
             <DataGrid ItemsSource="{Binding Model.Includes}" CanUserAddRows="True" CanUserDeleteRows="True"

@@ -14,6 +14,8 @@ namespace RokuTelnet.Models
         private List<ConfigValueModel> _excludes = new List<ConfigValueModel>();
         private List<ConfigKeyValueModel> _extraConfigs = new List<ConfigKeyValueModel>();
         private List<ConfigReplaceModel> _replaces = new List<ConfigReplaceModel>();
+        private bool _gitVersion;
+        private bool _registerTypes;
 
         public string User
         {
@@ -49,6 +51,18 @@ namespace RokuTelnet.Models
         {
             get { return _optimize; }
             set { _optimize = value; OnPropertyChanged(()=> Optimize); }
+        }
+
+        public bool GitVersion
+        {
+            get { return _gitVersion; }
+            set { _gitVersion = value; OnPropertyChanged(()=> GitVersion); }
+        }
+
+        public bool RegisterTypes
+        {
+            get { return _registerTypes; }
+            set { _registerTypes = value; OnPropertyChanged(()=> RegisterTypes); }
         }
 
         public List<ConfigValueModel> Includes

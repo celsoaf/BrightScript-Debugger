@@ -57,9 +57,13 @@ namespace RokuTelnet.Services.Deploy
 
                     ProcessManifest(outputFolder, folder, options);
 
-                    _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Processing Container Registration", 3, options));
+                    if (options.RegisterTypes)
+                    {
+                        _eventAggregator.GetEvent<BusyShowEvent>()
+                            .Publish(GetBusy("Processing Container Registration", 3, options));
 
-                    ProcessRegisterTypes(outputFolder, options);
+                        ProcessRegisterTypes(outputFolder, options);
+                    }
 
                     _eventAggregator.GetEvent<BusyShowEvent>().Publish(GetBusy("Processing Replaces", 4, options));
 
@@ -235,30 +239,33 @@ namespace RokuTelnet.Services.Deploy
 
         private void ProcessManifest(string outputFolder, string folder, ConfigModel options)
         {
-            var version = _gitService.Describe(folder);
-
-            if (!string.IsNullOrEmpty(version) && version.Contains("-"))
+            if (options.GitVersion)
             {
-                version = version.Split('-').First();
-                if (Regex.IsMatch(version, @"^(\d+\.)?(\d+\.)?(\*|\d+)$"))
+                var version = _gitService.Describe(folder);
+
+                if (!string.IsNullOrEmpty(version) && version.Contains("-"))
                 {
-                    options.ExtraConfigs.Add(new ConfigKeyValueModel { Key = "version", Value = version });
+                    version = version.Split('-').First();
+                    if (Regex.IsMatch(version, @"^(\d+\.)?(\d+\.)?(\*|\d+)$"))
+                    {
+                        options.ExtraConfigs.Add(new ConfigKeyValueModel {Key = "version", Value = version});
 
-                    var parts = version.Split('.');
+                        var parts = version.Split('.');
 
-                    var manifest = Path.Combine(outputFolder, "manifest");
+                        var manifest = Path.Combine(outputFolder, "manifest");
 
-                    var content = string.Empty;
+                        var content = string.Empty;
 
-                    using (var sr = new StreamReader(manifest))
-                        content = sr.ReadToEnd();
+                        using (var sr = new StreamReader(manifest))
+                            content = sr.ReadToEnd();
 
-                    content = content.Replace("#MAJOR_VERSION#", parts.Length > 0 ? parts[0] : "0");
-                    content = content.Replace("#MINOR_VERSION#", parts.Length > 1 ? parts[1] : "0");
-                    content = content.Replace("#FIX_VERSION#", parts.Length > 2 ? parts[2] : "0");
+                        content = content.Replace("#MAJOR_VERSION#", parts.Length > 0 ? parts[0] : "0");
+                        content = content.Replace("#MINOR_VERSION#", parts.Length > 1 ? parts[1] : "0");
+                        content = content.Replace("#FIX_VERSION#", parts.Length > 2 ? parts[2] : "0");
 
-                    using (var sw = new StreamWriter(manifest))
-                        sw.Write(content);
+                        using (var sw = new StreamWriter(manifest))
+                            sw.Write(content);
+                    }
                 }
             }
         }

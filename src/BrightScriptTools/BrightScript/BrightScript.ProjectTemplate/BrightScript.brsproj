@@ -28,11 +28,11 @@
   </ItemGroup>
     
   <ItemGroup>
-    <None Include="images\logo.png"/>
-    <None Include="images\icon\Roku-focus-hd.png"/>
-    <None Include="images\icon\Roku-focus-sd.png"/>
-    <None Include="images\icon\Roku-side-hd.png"/>
-    <None Include="images\icon\Roku-side-sd.png"/>
+    <image Include="images\logo.png"/>
+    <image Include="images\icon\Roku-focus-hd.png"/>
+    <image Include="images\icon\Roku-focus-sd.png"/>
+    <image Include="images\icon\Roku-side-hd.png"/>
+    <image Include="images\icon\Roku-side-sd.png"/>
   </ItemGroup>
 
   <Import Project="$(CustomProjectExtensionsPath)CustomProjectBrs.targets" />

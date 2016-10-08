@@ -248,6 +248,10 @@
     </XamlPropertyRule>
   </ItemGroup>
   <ItemGroup>
+    <XamlPropertyRule Include="BuildSystem\Rules\image.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </XamlPropertyRule>
     <XamlPropertyRule Include="BuildSystem\Rules\manifest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -20,6 +20,11 @@
       -->
       <ProjectItem OpenInEditor="true" ReplaceParameters="true">source\Main.brs</ProjectItem>
       <ProjectItem OpenInEditor="true" ReplaceParameters="true">app.manifest</ProjectItem>
+      <ProjectItem OpenInEditor="false" ReplaceParameters="true">images\logo.png</ProjectItem>
+      <ProjectItem OpenInEditor="false" ReplaceParameters="true">images\icon\Roku-focus-hd.png</ProjectItem>
+      <ProjectItem OpenInEditor="false" ReplaceParameters="true">images\icon\Roku-focus-sd.png</ProjectItem>
+      <ProjectItem OpenInEditor="false" ReplaceParameters="true">images\icon\Roku-side-hd.png</ProjectItem>
+      <ProjectItem OpenInEditor="false" ReplaceParameters="true">images\icon\Roku-side-sd.png</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>

@@ -18,7 +18,8 @@
       These are the items which will show up when a new project is created using the custom project system.
       Items referenced in here must also be referenced in the project file.
       -->
-      <ProjectItem OpenInEditor="true" ReplaceParameters="true">Main.brs</ProjectItem>
+      <ProjectItem OpenInEditor="true" ReplaceParameters="true">source\Main.brs</ProjectItem>
+      <ProjectItem OpenInEditor="true" ReplaceParameters="true">app.manifest</ProjectItem>
     </Project>
   </TemplateContent>
 </VSTemplate>

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <BuildPath Condition="'$(BuildPath)' == ''">$(MSBuildProjectDirectory)</BuildPath>
+    <ExtensionTasksPath Condition="Exists('$(BuildPath)\BrightScript.BuildTasks.dll')">$(BuildPath)\</ExtensionTasksPath>
+    <ExtensionTasksPath Condition="'$(ExtensionTasksPath)' == ''">C:\Users\CFE05\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\CelsoAF\BrightScript VSIX\1.0\</ExtensionTasksPath>
+  </PropertyGroup>
+  
+  <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.ArchiveTask"/>
+  <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.CompileTask"/>
+  <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.CopyToOutputTask"/>
+  <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.DeployTask"/>
+  <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.ManifestTask"/>
+  <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.OptimizeTask"/>
+  <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.RegisterTypesTask"/>
+  <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.ReplacesTask"/>
+</Project>

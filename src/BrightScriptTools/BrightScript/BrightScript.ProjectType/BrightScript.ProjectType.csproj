@@ -134,6 +134,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BrightScript.BuildTasks\BrightScript.BuildTasks.csproj">
+      <Project>{a0e89f8e-0b70-4cf8-aeb2-e9313b3c8005}</Project>
+      <Name>BrightScript.BuildTasks</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
     <ProjectReference Include="..\..\BrightScript.ItemTemplate\BrightScript.ItemTemplate.csproj">
       <Project>{e28e27c2-e49f-47e3-8fbf-00cb9c2f6107}</Project>
       <Name>BrightScript.ItemTemplate</Name>
@@ -188,6 +194,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="BuildSystem\DeployedBuildSystem\CustomProjectBrs.tasks" />
+    <None Include="BuildSystem\DeployedBuildSystem\CustomProjectBrs.targets" />
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest" />
     <None Include="Key.snk" />
@@ -200,7 +208,6 @@
     <None Include="BuildSystem\DeployedBuildSystem\CustomProject.Default.props" />
     <None Include="BuildSystem\DeployedBuildSystem\CustomProject.props" />
     <None Include="BuildSystem\DeployedBuildSystem\CustomProject.targets" />
-    <None Include="BuildSystem\DeployedBuildSystem\CustomProjectCs.targets" />
   </ItemGroup>
   <!--
   The XAML files provide buth compile-time implementations for CPS rules as well as
@@ -209,9 +216,6 @@
   -->
   <ItemGroup>
     <None Include="BuildSystem\Rules\ProjectItemsSchema.xaml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="BuildSystem\Rules\csharp.browseobject.xaml">
       <SubType>Designer</SubType>
     </None>
     <XamlPropertyRule Include="BuildSystem\Rules\general.xaml">
@@ -233,40 +237,13 @@
       <RuleInjection>None</RuleInjection>
       <SubType>Designer</SubType>
     </XamlPropertyRule>
-    <XamlPropertyRule Include="BuildSystem\Rules\assemblyreference.xaml">
-      <SubType>Designer</SubType>
-    </XamlPropertyRule>
-    <XamlPropertyRule Include="BuildSystem\Rules\comreference.xaml">
-      <SubType>Designer</SubType>
-    </XamlPropertyRule>
     <XamlPropertyRule Include="BuildSystem\Rules\projectreference.xaml">
-      <SubType>Designer</SubType>
-    </XamlPropertyRule>
-    <XamlPropertyRule Include="BuildSystem\Rules\ResolvedAssemblyReference.xaml">
-      <SubType>Designer</SubType>
-    </XamlPropertyRule>
-    <XamlPropertyRule Include="BuildSystem\Rules\ResolvedCOMReference.xaml">
-      <SubType>Designer</SubType>
-    </XamlPropertyRule>
-    <XamlPropertyRule Include="BuildSystem\Rules\ResolvedProjectReference.xaml">
-      <SubType>Designer</SubType>
-    </XamlPropertyRule>
-    <XamlPropertyRule Include="BuildSystem\Rules\resolvedsdkreference.xaml">
       <SubType>Designer</SubType>
     </XamlPropertyRule>
     <XamlPropertyRule Include="BuildSystem\Rules\scc.xaml">
       <SubType>Designer</SubType>
     </XamlPropertyRule>
-    <XamlPropertyRule Include="BuildSystem\Rules\sdkreference.xaml">
-      <SubType>Designer</SubType>
-    </XamlPropertyRule>
     <XamlPropertyRule Include="BuildSystem\Rules\debugger_general.xaml">
-      <SubType>Designer</SubType>
-    </XamlPropertyRule>
-    <XamlPropertyRule Include="BuildSystem\Rules\csharp.xaml">
-      <SubType>Designer</SubType>
-    </XamlPropertyRule>
-    <XamlPropertyRule Include="BuildSystem\Rules\EmbeddedResource.xaml">
       <SubType>Designer</SubType>
     </XamlPropertyRule>
   </ItemGroup>

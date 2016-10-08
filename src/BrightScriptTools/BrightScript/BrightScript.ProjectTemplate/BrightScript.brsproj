@@ -16,10 +16,6 @@
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="mscorlib" />
-    <Reference Include="System" />
-  </ItemGroup>
   
   <ItemGroup>
     <brsCompile Include="Main.brs">
@@ -27,7 +23,7 @@
     </brsCompile>
   </ItemGroup>
 
-  <Import Project="$(CustomProjectExtensionsPath)CustomProjectCs.targets" />
+  <Import Project="$(CustomProjectExtensionsPath)CustomProjectBrs.targets" />
 
   <!-- This next bit is required unless the macro used to Import your targets is defined in an MSBuild toolset. -->
   <ProjectExtensions>

@@ -19,5 +19,6 @@
     <Asset Type="Microsoft.VisualStudio.ItemTemplate" d:Source="Project" d:ProjectName="BrightScript.ItemTemplate" d:TargetPath="|BrightScript.ItemTemplate;TemplateProjectOutputGroup|" Path="ItemTemplates" d:VsixSubPath="ItemTemplates" />
     <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="BrightScript.Language" Path="|BrightScript.Language|" />
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="BrightScript.Language" Path="|BrightScript.Language;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="BrightScript.BuildTasks" Path="|BrightScript.BuildTasks|" AssemblyName="|BrightScript.BuildTasks;AssemblyName|" />
   </Assets>
 </PackageManifest>

@@ -26,8 +26,6 @@
     <BoolProperty Name="Optimize" Description="Should compiler optimize output?" />
     <BoolProperty Name="GitVersion" Description="Generate git version" />
     <BoolProperty Name="RegisterTypes" Description="Register Types" />
-    <StringListProperty Name="Includes"/>
-    <StringListProperty Name="Excludes"/>
     
   <StringProperty Name="MSBuildProjectDirectory" Visible="false"/>
   <StringProperty Name="DefaultPlatform" Visible="false" />

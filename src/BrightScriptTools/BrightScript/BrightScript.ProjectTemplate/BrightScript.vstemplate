@@ -19,7 +19,7 @@
       Items referenced in here must also be referenced in the project file.
       -->
       <ProjectItem OpenInEditor="true" ReplaceParameters="true">source\Main.brs</ProjectItem>
-      <ProjectItem OpenInEditor="true" ReplaceParameters="true">app.manifest</ProjectItem>
+      <ProjectItem OpenInEditor="false" ReplaceParameters="true">app.manifest</ProjectItem>
       <ProjectItem OpenInEditor="false" ReplaceParameters="true">images\logo.png</ProjectItem>
       <ProjectItem OpenInEditor="false" ReplaceParameters="true">images\icon\Roku-focus-hd.png</ProjectItem>
       <ProjectItem OpenInEditor="false" ReplaceParameters="true">images\icon\Roku-focus-sd.png</ProjectItem>

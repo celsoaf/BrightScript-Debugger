@@ -14,7 +14,7 @@
   <Import Project="$(CustomProjectExtensionsPath)CustomProjectBrs.tasks" />
 
   <Target Name="Build">
-    <CompileTask/>
+    <CompileTask Files="@(brsCompile)"/>
     <CopyToOutputTask/>
     <ManifestTask/>
     <RegisterTypesTask/>

@@ -22,9 +22,12 @@
       <SubType>Code</SubType>
     </brsCompile>
   </ItemGroup>
-  
+
   <ItemGroup>
-    <None Include="app.manifest"/>
+    <manifest Include="app.manifest"/>
+  </ItemGroup>
+    
+  <ItemGroup>
     <None Include="images\logo.png"/>
     <None Include="images\icon\Roku-focus-hd.png"/>
     <None Include="images\icon\Roku-focus-sd.png"/>

@@ -30,7 +30,12 @@
       CodeFiles="@(brsCompile)"
       ImageFiles="@(image)"
       ManifestFiles="@(manifest)"/>
-    <ManifestTask/>
+    <ManifestTask
+      BuildPath="$(BuildPath)"
+      OutputPath="$(OutputPath)" 
+      AppName="$(Name)"
+      MSBuildProjectName="$(MSBuildProjectName)"
+      GitVersion="$(GitVersion)" />
     <RegisterTypesTask/>
     <ReplacesTask/>
     <OptimizeTask/>

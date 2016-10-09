@@ -18,7 +18,8 @@
 			<DataSource Persistence="ProjectFile" Label="Globals" HasConfigurationCondition="False" />
 		</StringProperty.DataSource>
 	</StringProperty>
-	<StringProperty Name="TargetPath" />
+    <StringProperty Name="TargetPath" Visible="false" />
+    <StringProperty Name="OutputPath" Visible="false" />
     <StringProperty Name="Name" />
     <StringProperty Name="BoxIP" />
     <StringProperty Name="UserName" />

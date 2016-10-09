@@ -8,7 +8,7 @@ namespace BrightScript.BuildTasks
 {
     public class CompileTask : BaseTask
     {
-        public string Folder { get; set; }
+        public string BuildPath { get; set; }
 
         public ITaskItem[] Files { get; set; }
 
@@ -25,7 +25,7 @@ namespace BrightScript.BuildTasks
 
         private void Compile(string file)
         {
-            var path = Path.Combine(Folder, file);
+            var path = Path.Combine(BuildPath, file);
             using (Stream stream = File.Open(path, FileMode.Open, FileAccess.Read))
             {
                 ErrorHandler handler = new ErrorHandler();

@@ -11,11 +11,25 @@
     </PropertyPageSchema>
   </ItemGroup>
   
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" Label="Configuration">
+    <OutputPath>bin\Debug</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" Label="Configuration">
+    <OutputPath>bin\Release</OutputPath>
+  </PropertyGroup>
+  
   <Import Project="$(CustomProjectExtensionsPath)CustomProjectBrs.tasks" />
 
   <Target Name="Build">
-    <CompileTask Files="@(brsCompile)" Folder="$(BuildPath)" />
-    <CopyToOutputTask/>
+    <CompileTask
+      BuildPath="$(BuildPath)" 
+      Files="@(brsCompile)" />
+    <CopyToOutputTask
+      BuildPath="$(BuildPath)" 
+      OutputPath="$(OutputPath)"
+      CodeFiles="@(brsCompile)"
+      ImageFiles="@(image)"
+      ManifestFiles="@(manifest)"/>
     <ManifestTask/>
     <RegisterTypesTask/>
     <ReplacesTask/>

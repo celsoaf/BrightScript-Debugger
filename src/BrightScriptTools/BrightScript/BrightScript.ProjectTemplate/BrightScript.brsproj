@@ -6,11 +6,6 @@
   
   <Import Project="$(CustomProjectExtensionsPath)CustomProject.Default.props" />
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" Label="Configuration">
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" Label="Configuration">
-  </PropertyGroup>
-
   <Import Project="$(CustomProjectExtensionsPath)CustomProject.props" />
     
   <PropertyGroup>

@@ -40,7 +40,11 @@
       AppName="$(Name)"
       MSBuildProjectName="$(MSBuildProjectName)"
       AppVersion="$(AppVersion)" />
-    <RegisterTypesTask/>
+    <RegisterTypesTask
+      BuildPath="$(BuildPath)"
+      OutputPath="$(OutputPath)">
+      <Output TaskParameter="RegisterTypes" PropertyName="RegisterTypes" />
+    </RegisterTypesTask>
     <ReplacesTask/>
     <OptimizeTask/>
     <ArchiveTask/>

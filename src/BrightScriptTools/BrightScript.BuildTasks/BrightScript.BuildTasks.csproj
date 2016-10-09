@@ -84,6 +84,7 @@
     <Compile Include="CompileTask.cs" />
     <Compile Include="CopyToOutputTask.cs" />
     <Compile Include="DeployTask.cs" />
+    <Compile Include="GitVersionTask.cs" />
     <Compile Include="ManifestTask.cs" />
     <Compile Include="OptimizeTask.cs" />
     <Compile Include="ReplacesTask.cs" />

@@ -10,6 +10,7 @@
   <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.CompileTask"/>
   <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.CopyToOutputTask"/>
   <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.DeployTask"/>
+  <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.GitVersionTask"/>
   <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.ManifestTask"/>
   <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.OptimizeTask"/>
   <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.RegisterTypesTask"/>

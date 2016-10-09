@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Build.Framework;
 using NGit.Api;
 
 namespace BrightScript.BuildTasks
@@ -10,12 +11,15 @@ namespace BrightScript.BuildTasks
     {
         private const string MANIFEST = "manifest";
 
+        [Required]
         public string BuildPath { get; set; }
+        [Required]
         public string OutputPath { get; set; }
 
         public string AppName { get; set; }
+        [Required]
         public string MSBuildProjectName { get; set; }
-        public string GitVersion { get; set; }
+        public string AppVersion { get; set; }
 
         protected override void InternalExecute()
         {
@@ -33,17 +37,11 @@ namespace BrightScript.BuildTasks
 
             var parts = new string[0];
 
-            if (GitVersion == "true")
+            if (!string.IsNullOrEmpty(AppVersion))
             {
-                var version = GetGitDescribe(BuildPath);
-
-                if (!string.IsNullOrEmpty(version) && version.Contains("-"))
+                if (Regex.IsMatch(AppVersion, @"^(\d+\.)?(\d+\.)?(\*|\d+)$"))
                 {
-                    version = version.Split('-').First();
-                    if (Regex.IsMatch(version, @"^(\d+\.)?(\d+\.)?(\*|\d+)$"))
-                    {
-                        parts = version.Split('.');
-                    }
+                    parts = AppVersion.Split('.');
                 }
             }
 
@@ -53,23 +51,6 @@ namespace BrightScript.BuildTasks
 
             using (var sw = new StreamWriter(manifest))
                 sw.Write(content);
-
-            
-        }
-
-        public string GetGitDescribe(string path)
-        {
-            try
-            {
-                var repo = Git.Open(BuildPath);
-
-                return null;
-            }
-            catch (Exception ex)
-            {
-                Log.LogErrorFromException(ex, true);
-                return "Unknow version";
-            }
         }
     }
 }

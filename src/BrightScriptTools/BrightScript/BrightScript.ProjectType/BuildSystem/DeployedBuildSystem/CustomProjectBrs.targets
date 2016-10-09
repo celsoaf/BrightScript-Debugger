@@ -30,12 +30,16 @@
       CodeFiles="@(brsCompile)"
       ImageFiles="@(image)"
       ManifestFiles="@(manifest)"/>
+    <GitVersionTask
+      BuildPath="$(BuildPath)">
+      <Output TaskParameter="AppVersion" PropertyName="AppVersion" />
+    </GitVersionTask>
     <ManifestTask
       BuildPath="$(BuildPath)"
       OutputPath="$(OutputPath)" 
       AppName="$(Name)"
       MSBuildProjectName="$(MSBuildProjectName)"
-      GitVersion="$(GitVersion)" />
+      AppVersion="$(AppVersion)" />
     <RegisterTypesTask/>
     <ReplacesTask/>
     <OptimizeTask/>

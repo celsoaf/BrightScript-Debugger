@@ -19,7 +19,7 @@ namespace BrightScript.BuildTasks
         {
             AppVersion = GetVersion(BuildPath);
 
-            LogTaskWarning($"Version {AppVersion}");
+            LogTaskMessage($"Version {AppVersion}");
         }
 
         private string GetVersion(string path)

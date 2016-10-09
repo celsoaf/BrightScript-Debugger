@@ -8,8 +8,10 @@ namespace BrightScript.BuildTasks
 {
     public class CompileTask : BaseTask
     {
+        [Required]
         public string BuildPath { get; set; }
 
+        [Required]
         public ITaskItem[] Files { get; set; }
 
         protected override void InternalExecute()

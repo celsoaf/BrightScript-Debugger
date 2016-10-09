@@ -10,11 +10,16 @@ namespace BrightScript.BuildTasks
         private const string MANIFEST_FILE = "app.manifest";
         private const string MANIFEST = "manifest";
 
+        [Required]
         public string BuildPath { get; set; }
+        [Required]
         public string OutputPath { get; set; }
 
+        [Required]
         public ITaskItem[] CodeFiles { get; set; }
+
         public ITaskItem[] ImageFiles { get; set; }
+
         public ITaskItem[] ManifestFiles { get; set; }
 
 
@@ -27,10 +32,12 @@ namespace BrightScript.BuildTasks
             Directory.CreateDirectory(output);
 
             var files = new List<ITaskItem>();
-            files.AddRange(CodeFiles);
-            files.AddRange(ImageFiles);
+            if (CodeFiles != null)
+                files.AddRange(CodeFiles);
+            if (ImageFiles != null)
+                files.AddRange(ImageFiles);
 
-            foreach (var file in files.Select(f=> f.ToString()))
+            foreach (var file in files.Select(f => f.ToString()))
             {
                 var src = Path.Combine(BuildPath, file);
                 var dest = Path.Combine(output, file);
@@ -38,14 +45,16 @@ namespace BrightScript.BuildTasks
                 var dir = Path.GetDirectoryName(dest);
                 if (!Directory.Exists(dir))
                     Directory.CreateDirectory(dir);
-                
+
+                LogTaskMessage($"Copy {file}");
                 File.Copy(src, dest);
             }
 
-            if (ManifestFiles.Select(f => f.ToString()).Contains(MANIFEST_FILE))
+            if (ManifestFiles != null && ManifestFiles.Select(f => f.ToString()).Contains(MANIFEST_FILE))
             {
                 var src = Path.Combine(BuildPath, MANIFEST_FILE);
                 var dest = Path.Combine(output, MANIFEST);
+                
                 File.Copy(src, dest);
             }
             else

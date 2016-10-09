@@ -68,12 +68,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="SpecFiles\BrightScriptLexer.lex">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SpecFiles\BrightScriptColor.lex">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="SpecFiles\BrightScriptLexer.lex" />
+    <None Include="SpecFiles\BrightScriptColor.lex" />
     <None Include="SpecFiles\GenerateAll.bat" />
     <None Include="SpecFiles\gplex.lex" />
     <None Include="SpecFiles\gplex.y" />

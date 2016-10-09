@@ -161,12 +161,8 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="TestData\TestColor.brs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\TestParser.brs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="TestData\TestColor.brs" />
+    <None Include="TestData\TestParser.brs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrightScriptTools.GPlex\BrightScriptTools.GPlex.csproj">

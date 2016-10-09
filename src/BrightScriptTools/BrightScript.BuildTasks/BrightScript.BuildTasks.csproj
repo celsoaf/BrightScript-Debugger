@@ -56,6 +56,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegisterTypesTask.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrightScriptTools.Compiler\BrightScriptTools.Compiler.csproj">
+      <Project>{96a149f1-9abf-4246-9cb1-06f0aaa0e294}</Project>
+      <Name>BrightScriptTools.Compiler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrightScriptTools.GPlex\BrightScriptTools.GPlex.csproj">
+      <Project>{2ea37226-2fa2-40b5-aabf-72aa499e4c0b}</Project>
+      <Name>BrightScriptTools.GPlex</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrightScriptTools.Gppg\BrightScriptTools.Gppg.csproj">
+      <Project>{ddda2561-e4d5-4870-ad42-f8855d243d49}</Project>
+      <Name>BrightScriptTools.Gppg</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

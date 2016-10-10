@@ -53,7 +53,10 @@
       ReplaceConfigs="$(ReplaceConfigs)"
       AppVersion="$(AppVersion)"
       RegisterTypes="$(RegisterTypes)" />
-    <OptimizeTask/>
+    <OptimizeTask
+      ProcessOptimize="$(ProcessOptimize)"
+      BuildPath="$(BuildPath)"
+      OutputPath="$(OutputPath)" />
     <ArchiveTask/>
     <DeployTask/>
   </Target>

@@ -24,7 +24,7 @@
     <StringProperty Name="BoxIP" />
     <StringProperty Name="UserName" />
     <StringProperty Name="Password" />
-    <BoolProperty Name="Optimize" Description="Should compiler optimize output?" />
+    <BoolProperty Name="ProcessOptimize" Description="Should compiler optimize output?" />
     <BoolProperty Name="GenerateGitVersion" Description="Generate git version" />
     <BoolProperty Name="GenerateRegisterTypes" Description="Register Types" />
     <StringProperty Name="ReplaceConfigs" Description="Replace params">

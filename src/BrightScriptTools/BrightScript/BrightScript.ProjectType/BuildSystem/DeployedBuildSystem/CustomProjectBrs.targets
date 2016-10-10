@@ -57,7 +57,10 @@
       ProcessOptimize="$(ProcessOptimize)"
       BuildPath="$(BuildPath)"
       OutputPath="$(OutputPath)" />
-    <ArchiveTask/>
+    <ArchiveTask
+      BuildPath="$(BuildPath)"
+      OutputPath="$(OutputPath)"
+      MSBuildProjectName="$(MSBuildProjectName)" />
     <DeployTask/>
   </Target>
 </Project>

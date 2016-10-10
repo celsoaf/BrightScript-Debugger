@@ -25,6 +25,10 @@ namespace BrightScript.BuildTasks
 
                 LogTaskMessage($"Version {AppVersion}");
             }
+            else
+            {
+                AppVersion = "Unknow version";
+            }
         }
 
         private string GetVersion(string path)

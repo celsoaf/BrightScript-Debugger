@@ -64,6 +64,10 @@ namespace BrightScript.BuildTasks
 
                 LogTaskMessage("RegisterTypes generated");
             }
+            else
+            {
+                RegisterTypes = string.Empty;
+            }
         }
     }
 }

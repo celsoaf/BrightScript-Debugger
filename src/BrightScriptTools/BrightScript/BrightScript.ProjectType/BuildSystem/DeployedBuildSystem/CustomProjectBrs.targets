@@ -47,7 +47,12 @@
       Generate="$(GenerateRegisterTypes)">
       <Output TaskParameter="RegisterTypes" PropertyName="RegisterTypes" />
     </RegisterTypesTask>
-    <ReplacesTask/>
+    <ReplacesTask
+      BuildPath="$(BuildPath)"
+      OutputPath="$(OutputPath)"
+      ReplaceConfigs="$(ReplaceConfigs)"
+      AppVersion="$(AppVersion)"
+      RegisterTypes="$(RegisterTypes)" />
     <OptimizeTask/>
     <ArchiveTask/>
     <DeployTask/>

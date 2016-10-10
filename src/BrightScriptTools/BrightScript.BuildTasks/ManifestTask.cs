@@ -51,6 +51,8 @@ namespace BrightScript.BuildTasks
 
             using (var sw = new StreamWriter(manifest))
                 sw.Write(content);
+
+            LogTaskMessage("Manifest processed");
         }
     }
 }

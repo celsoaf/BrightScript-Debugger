@@ -49,6 +49,7 @@ namespace BrightScript.BuildTasks
                 LogTaskMessage($"Copy {file}");
                 File.Copy(src, dest);
             }
+            LogTaskMessage($"{files.Count} files copied");
 
             if (ManifestFiles != null && ManifestFiles.Select(f => f.ToString()).Contains(MANIFEST_FILE))
             {

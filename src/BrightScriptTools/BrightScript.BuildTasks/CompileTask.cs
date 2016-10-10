@@ -43,6 +43,10 @@ namespace BrightScript.BuildTasks
                         Log.LogError("Compiler", "", "", file, e.Span.startLine, e.Span.startColumn, e.Span.endLine, e.Span.startColumn, e.Message);
                     });
                 }
+                else
+                {
+                    LogTaskMessage("Compile success");
+                }
             }
         }
     }

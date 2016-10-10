@@ -31,7 +31,8 @@
       ImageFiles="@(image)"
       ManifestFiles="@(manifest)"/>
     <GitVersionTask
-      BuildPath="$(BuildPath)">
+      BuildPath="$(BuildPath)"
+      Generate="$(GenerateGitVersion)">
       <Output TaskParameter="AppVersion" PropertyName="AppVersion" />
     </GitVersionTask>
     <ManifestTask
@@ -42,7 +43,8 @@
       AppVersion="$(AppVersion)" />
     <RegisterTypesTask
       BuildPath="$(BuildPath)"
-      OutputPath="$(OutputPath)">
+      OutputPath="$(OutputPath)"
+      Generate="$(GenerateRegisterTypes)">
       <Output TaskParameter="RegisterTypes" PropertyName="RegisterTypes" />
     </RegisterTypesTask>
     <ReplacesTask/>

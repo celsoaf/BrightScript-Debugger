@@ -13,50 +13,57 @@ namespace BrightScript.BuildTasks
         [Required]
         public string OutputPath { get; set; }
 
+        public string Generate { get; set; }
+
         [Output]
         public string RegisterTypes { get; set; }
 
 
         protected override void InternalExecute()
         {
-            var output = Path.Combine(BuildPath, OutputPath);
-
-            var types = new List<string>();
-            var files = Directory.GetFiles(Path.Combine(output, "source"), "*.brs", SearchOption.AllDirectories);
-            foreach (var file in files)
+            if (Generate == "true")
             {
-                using (var sr = new StreamReader(file))
+                var output = Path.Combine(BuildPath, OutputPath);
+
+                var types = new List<string>();
+                var files = Directory.GetFiles(Path.Combine(output, "source"), "*.brs", SearchOption.AllDirectories);
+                foreach (var file in files)
                 {
-                    var scriptName = Path.GetFileNameWithoutExtension(file);
-                    while (!sr.EndOfStream)
+                    using (var sr = new StreamReader(file))
                     {
-                        var line = sr.ReadLine();
-                        if (!string.IsNullOrWhiteSpace(line))
+                        var scriptName = Path.GetFileNameWithoutExtension(file);
+                        while (!sr.EndOfStream)
                         {
-                            line = line.Trim().ToLower();
-                            var tokens = line.Split(' ');
-                            if (tokens[0] == "function")
+                            var line = sr.ReadLine();
+                            if (!string.IsNullOrWhiteSpace(line))
                             {
-                                var fname = tokens[1];
-                                tokens = fname.Split('(');
-                                fname = tokens[0];
-                                if (!string.IsNullOrWhiteSpace(fname) && scriptName.ToLower() == fname)
+                                line = line.Trim().ToLower();
+                                var tokens = line.Split(' ');
+                                if (tokens[0] == "function")
                                 {
-                                    types.Add(fname);
+                                    var fname = tokens[1];
+                                    tokens = fname.Split('(');
+                                    fname = tokens[0];
+                                    if (!string.IsNullOrWhiteSpace(fname) && scriptName.ToLower() == fname)
+                                    {
+                                        types.Add(fname);
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
+                var sb = new StringBuilder();
+                types.ForEach(t =>
+                {
+                    sb.AppendFormat("ioc.registerType(\"{0}\", {0}){1}", t, Environment.NewLine);
+                });
+
+                RegisterTypes = sb.ToString();
+
+                LogTaskMessage("RegisterTypes generated");
             }
-
-            var sb = new StringBuilder();
-            types.ForEach(t =>
-            {
-                sb.AppendFormat("ioc.registerType(\"{0}\", {0}){1}", t, Environment.NewLine);
-            });
-
-            RegisterTypes = sb.ToString();
         }
     }
 }

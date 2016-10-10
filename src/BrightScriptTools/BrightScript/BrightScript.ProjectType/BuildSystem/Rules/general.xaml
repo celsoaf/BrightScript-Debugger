@@ -25,8 +25,8 @@
     <StringProperty Name="UserName" />
     <StringProperty Name="Password" />
     <BoolProperty Name="Optimize" Description="Should compiler optimize output?" />
-    <BoolProperty Name="GitVersion" Description="Generate git version" />
-    <BoolProperty Name="RegisterTypes" Description="Register Types" />
+    <BoolProperty Name="GenerateGitVersion" Description="Generate git version" />
+    <BoolProperty Name="GenerateRegisterTypes" Description="Register Types" />
     <StringProperty Name="ReplaceConfigs" Description="Replace params">
         <StringProperty.ValueEditors>
             <ValueEditor EditorType="ConfigValueEditor" DisplayName="&lt;Config Value Editor...&gt;" />

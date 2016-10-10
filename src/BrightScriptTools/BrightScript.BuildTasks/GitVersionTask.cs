@@ -12,14 +12,19 @@ namespace BrightScript.BuildTasks
         [Required]
         public string BuildPath { get; set; }
 
+        public string Generate { get; set; }
+
         [Output]
         public string AppVersion { get; set; }
 
         protected override void InternalExecute()
         {
-            AppVersion = GetVersion(BuildPath);
+            if (Generate == "true")
+            {
+                AppVersion = GetVersion(BuildPath);
 
-            LogTaskMessage($"Version {AppVersion}");
+                LogTaskMessage($"Version {AppVersion}");
+            }
         }
 
         private string GetVersion(string path)

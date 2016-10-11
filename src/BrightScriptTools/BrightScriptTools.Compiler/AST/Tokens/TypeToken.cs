@@ -8,7 +8,9 @@ namespace BrightScriptTools.Compiler.AST.Tokens
         public TypeToken(LexSpan lex) 
             : base(SyntaxKind.Type, lex)
         {
-            Value = (TypeEnum)Enum.Parse(typeof(TypeEnum), lex.text);
+            TypeEnum t;
+            if (Enum.TryParse(lex.text, true, out t))
+                Value = t;
         }
 
         public TypeEnum Value { get; }

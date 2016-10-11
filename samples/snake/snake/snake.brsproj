@@ -11,6 +11,7 @@
     <ProcessOptimize>false</ProcessOptimize>
     <GenerateGitVersion>false</GenerateGitVersion>
     <GenerateRegisterTypes>false</GenerateRegisterTypes>
+    <Name>Snake Sample</Name>
   </PropertyGroup>
   <Import Project="$(CustomProjectExtensionsPath)CustomProject.Default.props" />
   <Import Project="$(CustomProjectExtensionsPath)CustomProject.props" />

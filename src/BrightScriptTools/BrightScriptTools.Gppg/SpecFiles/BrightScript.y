@@ -18,7 +18,7 @@
 
 %token	bar, dot, semi, star, lt, gt, ltEqual, gtEqual, notEqual, comma, slash, lBrac, rBrac, lPar, rPar, lBrace, rBrace, Eol, equal, plus, minus, questionMark, colon
 
-%token bsIdent, bsNumber, bsStr, bsCmnt, bsFuncs, bsType, bsAs, bsTrue, bsFalse, bsInvalid, bsNot, bsAnd, bsOr, bsM, bsStop, bsReturn, bsPrint
+%token bsIdent, bsNumber, bsStr, bsCmnt, bsFuncs, bsType, bsAs, bsTrue, bsFalse, bsInvalid, bsNot, bsAnd, bsOr, bsM, bsStop, bsReturn, bsPrint, bsLibrary
 
 %token bsIf, bsElse, bsFor, bsTo, bsEach, bsStep, bsIn, bsWhile
 
@@ -40,6 +40,7 @@ SourceElements
 SourceElement
 	: SubDeclaration			{ $$ = BuildSourceElementNode($1); }
 	| FunctionDeclaration		{ $$ = BuildSourceElementNode($1); }
+	| bsLibrary bsStr
 	;
 
 FunctionDeclaration

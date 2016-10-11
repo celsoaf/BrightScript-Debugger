@@ -3,7 +3,7 @@
   <PropertyGroup>
     <BuildPath Condition="'$(BuildPath)' == ''">$(MSBuildProjectDirectory)</BuildPath>
     <ExtensionTasksPath Condition="Exists('$(BuildPath)\BrightScript.BuildTasks.dll')">$(BuildPath)\</ExtensionTasksPath>
-    <ExtensionTasksPath Condition="'$(ExtensionTasksPath)' == ''">C:\Users\CFE05\AppData\Local\Microsoft\VisualStudio\14.0Exp\Extensions\CelsoAF\BrightScript VSIX\1.0\</ExtensionTasksPath>
+    <ExtensionTasksPath Condition="'$(ExtensionTasksPath)' == ''">$(LocalAppData)\Microsoft\VisualStudio\14.0Exp\Extensions\CelsoAF\BrightScript VSIX\1.0\</ExtensionTasksPath>
   </PropertyGroup>
   
   <UsingTask AssemblyFile="$(ExtensionTasksPath)BrightScript.BuildTasks.dll" TaskName="BrightScript.BuildTasks.ArchiveTask"/>

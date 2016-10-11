@@ -74,6 +74,7 @@ bsInvalid		invalid
 bsM				m
 bsStop			stop
 bsReturn		return
+bsLibrary		Library
 print			print 
 
 Number			{Num}|{Real}
@@ -145,6 +146,7 @@ AS				{ return (int)Tokens.bsAs; }
 {bsOr}			{ return (int)Tokens.bsOr;}
 
 {print}			{ return (int)Tokens.bsPrint; }
+{bsLibrary}		{ return (int)Tokens.bsLibrary; }
 {questionMark}	{ return (int)Tokens.questionMark; }
 
 //{Keywords}	{ return (int)Tokens.keyword; }

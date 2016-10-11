@@ -20,6 +20,8 @@ namespace BrightScript.BuildTasks
 
         public ITaskItem[] ImageFiles { get; set; }
 
+        public ITaskItem[] NoneFiles { get; set; }
+
         public ITaskItem[] ManifestFiles { get; set; }
 
 
@@ -36,6 +38,8 @@ namespace BrightScript.BuildTasks
                 files.AddRange(CodeFiles);
             if (ImageFiles != null)
                 files.AddRange(ImageFiles);
+            if (NoneFiles != null)
+                files.AddRange(NoneFiles);
 
             foreach (var file in files.Select(f => f.ToString()))
             {

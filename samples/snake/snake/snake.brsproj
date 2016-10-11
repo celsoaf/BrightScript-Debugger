@@ -27,15 +27,13 @@
     <manifest Include="app.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <image Include="images\logo.png" />
     <image Include="images\icon\Roku-focus-hd.png" />
     <image Include="images\icon\Roku-focus-sd.png" />
     <image Include="images\icon\Roku-side-hd.png" />
     <image Include="images\icon\Roku-side-sd.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="images\Logo_Overhang_HD.png" />
-    <None Include="images\Logo_Overhang_SD43.png" />
+    <None Include="images\logo.png" />
     <None Include="images\Overhang_BackgroundSlice_HD.png" />
     <None Include="images\Overhang_BackgroundSlice_MLB_HD.png" />
     <None Include="images\Overhang_BackgroundSlice_MLB_SD43.png" />

@@ -62,7 +62,7 @@ namespace BrightScript.BuildTasks
                         MatchCollection matches = Regex.Matches(responseString, pattern);
 
                         foreach (Match m in matches)
-                            Log.LogError($"Deploy result: {m.Groups[1]}");
+                            LogTaskMessage($"Deploy result: {m.Groups[1]}");
                     }
                 }
             }

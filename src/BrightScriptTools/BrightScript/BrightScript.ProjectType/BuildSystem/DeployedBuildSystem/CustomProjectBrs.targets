@@ -29,6 +29,7 @@
       OutputPath="$(OutputPath)"
       CodeFiles="@(brsCompile)"
       ImageFiles="@(image)"
+      NoneFiles="@(None)"
       ManifestFiles="@(manifest)"/>
     <GitVersionTask
       BuildPath="$(BuildPath)"
@@ -61,6 +62,12 @@
       BuildPath="$(BuildPath)"
       OutputPath="$(OutputPath)"
       MSBuildProjectName="$(MSBuildProjectName)" />
-    <DeployTask/>
+    <DeployTask
+      BuildPath="$(BuildPath)"
+      OutputPath="$(OutputPath)"
+      MSBuildProjectName="$(MSBuildProjectName)"
+      BoxIP="$(BoxIP)"
+      UserName="$(UserName)"
+      Password="$(Password)"/>
   </Target>
 </Project>

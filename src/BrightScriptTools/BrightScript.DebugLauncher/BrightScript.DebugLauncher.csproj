@@ -140,7 +140,7 @@
   <ItemGroup>
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="RuleProperties.cs" />
-    <Compile Include="VendorNameCoolDebugger.cs" />
+    <Compile Include="BrightScriptDebugger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -149,14 +149,14 @@
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>
-    <None Include="[PlatformName]\ImportAfter\VendorName.targets" />
-    <None Include="[PlatformName]\ImportBefore\VendorName.props" />
+    <None Include="[PlatformName]\ImportAfter\BrightScript.targets" />
+    <None Include="[PlatformName]\ImportBefore\BrightScript.props" />
     <None Include="tools\CommonProjectSystemExtension.props" />
     <None Include="tools\CommonProjectSystemExtension.targets" />
     <None Include="tools\Xaml2Cs.exe" />
   </ItemGroup>
   <ItemGroup>
-    <XamlPropertyRule Include="[PlatformName]\ImportAfter\VendorNameCoolDebugger.xaml">
+    <XamlPropertyRule Include="[PlatformName]\ImportAfter\BrightScriptlDebugger.xaml">
       <SubType>Designer</SubType>
     </XamlPropertyRule>
     <!-- Fix this path to use $(MSBuildProgramFiles32).  New Project expansion breaks this so it has to be manually fixed. -->

@@ -11,15 +11,15 @@
     in the [DebuggerScope("VendorNameCoolDebugger")] attribute found in the VendorNameCoolDebugger.cs source file
     so that the Visual C++ project system can match up the debugger property page with the debugger launcher.
 -->
-<Rule Name="VendorNameCoolDebugger"
-      DisplayName="VendorName Cool Debugger"
+<Rule Name="BrightScriptDebugger"
+      DisplayName="BrightScript Debugger"
       PageTemplate="debugger"
-      Description="VendorName Cool Debugger options"
+      Description="BrightScript options"
       xmlns="http://schemas.microsoft.com/build/2009/properties">
   <Rule.DataSource>
     <DataSource Persistence="UserFile" />
   </Rule.DataSource>
-  <StringProperty Name="LocalDebuggerCommand" DisplayName="Command"
+    <StringProperty Name="LocalDebuggerCommand" DisplayName="Command"
                   Description="The debug command to execute."
                   F1Keyword="VC.Project.IVCLocalDebugPageObject.Command">
     <StringProperty.ValueEditors>
@@ -32,13 +32,13 @@
       <ValueEditor EditorType="DefaultFilePropertyEditor" DisplayName="&lt;Browse...&gt;"/>
     </StringProperty.ValueEditors>
   </StringProperty>
-    
-  <StringProperty Name="LocalDebuggerCommandArguments" DisplayName="Command Arguments"
+
+    <StringProperty Name="LocalDebuggerCommandArguments" DisplayName="Command Arguments"
                   Description="The command line arguments to pass to the application."
                   F1Keyword="VC.Project.IVCLocalDebugPageObject.CommandArguments">
-    <Argument Property="LocalDebuggerCommand" />
+        <Argument Property="LocalDebuggerCommand" />
   </StringProperty>
-  <StringProperty Name="LocalDebuggerWorkingDirectory" DisplayName="Working Directory"
+    <StringProperty Name="LocalDebuggerWorkingDirectory" DisplayName="Working Directory"
                 Description="The application's working directory. By default, the directory containing the project file."
                 Subtype="folder"
                 F1Keyword="VC.Project.IVCLocalDebugPageObject.WorkingDirectory"/>

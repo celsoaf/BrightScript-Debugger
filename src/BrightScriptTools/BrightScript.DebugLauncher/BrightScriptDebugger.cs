@@ -22,12 +22,12 @@ namespace BrightScript.DebugLauncher
     /// <summary>
     /// A Visual C++ extension that launches a custom debugger.
     /// </summary>
-    [ExportDebugger("VendorNameCoolDebugger")]  // Keep this string in sync with the one in your debugger's XAML file.
+    [ExportDebugger("BrightScriptDebugger")]  // Keep this string in sync with the one in your debugger's XAML file.
     [AppliesTo(ProjectCapabilities.VisualC)]
-    public class VendorNameCoolDebugger : DebugLaunchProviderBase
+    public class BrightScriptDebugger : DebugLaunchProviderBase
     {
         [ImportingConstructor]
-        public VendorNameCoolDebugger(ConfiguredProject configuredProject)
+        public BrightScriptDebugger(ConfiguredProject configuredProject)
             : base(configuredProject)
         {
         }
@@ -40,7 +40,7 @@ namespace BrightScript.DebugLauncher
 
         public override async Task<bool> CanLaunchAsync(DebugLaunchOptions launchOptions)
         {
-            var properties = await this.DebuggerProperties.GetVendorNameCoolDebuggerPropertiesAsync();
+            var properties = await this.DebuggerProperties.GetBrightScriptDebuggerPropertiesAsync();
             string commandValue = await properties.LocalDebuggerCommand.GetEvaluatedValueAtEndAsync();
             return !string.IsNullOrEmpty(commandValue);
         }
@@ -50,7 +50,7 @@ namespace BrightScript.DebugLauncher
             var settings = new DebugLaunchSettings(launchOptions);
 
             // The properties that are available via DebuggerProperties are determined by the property XAML files in your project.
-            var debuggerProperties = await this.DebuggerProperties.GetVendorNameCoolDebuggerPropertiesAsync();
+            var debuggerProperties = await this.DebuggerProperties.GetBrightScriptDebuggerPropertiesAsync();
             settings.Executable = await debuggerProperties.LocalDebuggerCommand.GetEvaluatedValueAtEndAsync();
             if (settings.Executable == null)
             {

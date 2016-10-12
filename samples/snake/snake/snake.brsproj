@@ -5,7 +5,7 @@
     <ProjectGuid>a706f41c-ff7b-48d5-9ef7-7c18abde6841</ProjectGuid>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <BoxIP>192.168.1.108</BoxIP>
+    <BoxIP>10.241.10.35</BoxIP>
     <UserName>rokudev</UserName>
     <Password>rokudev</Password>
     <ProcessOptimize>false</ProcessOptimize>

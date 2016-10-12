@@ -8,7 +8,7 @@
 
 %visibility public
 
-%option babel, caseinsensitive, stack, classes, minimize, parser, summary, unicode, verbose, persistbuffer, noembedbuffers, out:..\..\SpecFiles\Scanner.cs
+%option babel, caseinsensitive, stack, classes, minimize, parser, summary, unicode, persistbuffer, noembedbuffers, out:..\..\SpecFiles\Scanner.cs
 
 // =============================================================
 // =============================================================

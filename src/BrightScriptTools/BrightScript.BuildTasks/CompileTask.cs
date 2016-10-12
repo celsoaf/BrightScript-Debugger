@@ -45,7 +45,7 @@ namespace BrightScript.BuildTasks
                 }
                 else
                 {
-                    LogTaskMessage("Compile success");
+                    LogTaskMessage($"Compile {file} success");
                 }
             }
         }

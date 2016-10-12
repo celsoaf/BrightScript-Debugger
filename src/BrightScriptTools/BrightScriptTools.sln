@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScript.Language", "Br
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScript.BuildTasks", "BrightScript.BuildTasks\BrightScript.BuildTasks.csproj", "{A0E89F8E-0B70-4CF8-AEB2-E9313B3C8005}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScript.DebugLauncher", "BrightScript.DebugLauncher\BrightScript.DebugLauncher.csproj", "{042CBDE7-A072-4C17-8E56-C3CE3E64DA2C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{A0E89F8E-0B70-4CF8-AEB2-E9313B3C8005}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0E89F8E-0B70-4CF8-AEB2-E9313B3C8005}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0E89F8E-0B70-4CF8-AEB2-E9313B3C8005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{042CBDE7-A072-4C17-8E56-C3CE3E64DA2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{042CBDE7-A072-4C17-8E56-C3CE3E64DA2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{042CBDE7-A072-4C17-8E56-C3CE3E64DA2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{042CBDE7-A072-4C17-8E56-C3CE3E64DA2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,5 +108,6 @@ Global
 		{E28E27C2-E49F-47E3-8FBF-00CB9C2F6107} = {56C55D84-E0CE-4BD7-ABB6-0CAE37FE3B03}
 		{F091221E-FD10-41A7-AAC4-C9359178BDB1} = {56C55D84-E0CE-4BD7-ABB6-0CAE37FE3B03}
 		{A0E89F8E-0B70-4CF8-AEB2-E9313B3C8005} = {56C55D84-E0CE-4BD7-ABB6-0CAE37FE3B03}
+		{042CBDE7-A072-4C17-8E56-C3CE3E64DA2C} = {56C55D84-E0CE-4BD7-ABB6-0CAE37FE3B03}
 	EndGlobalSection
 EndGlobal

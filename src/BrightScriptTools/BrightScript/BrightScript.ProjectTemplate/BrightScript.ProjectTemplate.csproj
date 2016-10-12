@@ -60,9 +60,12 @@
   remove files here, you must also reference them in the ProjectTemplateTemplate.vstemplate file.
   -->
   <ItemGroup>
-    <None Include="BrightScript.brsproj" />
+    <None Include="BrightScript.brsproj">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="BrightScript.ico" />
-    <None Include="Main.brs" />
+    <None Include="app.manifest" />
+    <None Include="source\Main.brs" />
   </ItemGroup>
   <ItemGroup>
     <VSTemplate Include="BrightScript.vstemplate">
@@ -71,6 +74,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="images\icon\Roku-focus-hd.png" />
+    <Content Include="images\icon\Roku-focus-sd.png" />
+    <Content Include="images\icon\Roku-side-hd.png" />
+    <Content Include="images\icon\Roku-side-sd.png" />
+    <Content Include="images\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />

@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Importing project specific targets after Microsoft.CSharp.targets so that project specific xaml rules can override those defined in MSBuild-->
+  <Import Project="$(MSBuildThisFileDirectory)\CustomProject.targets" />
+
+  <ItemGroup>
+    <ProjectCapability Include="ReferencesFolder"/>
+
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\brs.xaml;">
+      <Context>File;BrowseObject</Context>
+    </PropertyPageSchema>
+  </ItemGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'" Label="Configuration">
+    <OutputPath>bin\Debug</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'" Label="Configuration">
+    <OutputPath>bin\Release</OutputPath>
+  </PropertyGroup>
+  
+  <Import Project="$(CustomProjectExtensionsPath)CustomProjectBrs.tasks" />
+
+  <Target Name="Build">
+    <CompileTask
+      BuildPath="$(BuildPath)" 
+      Files="@(brsCompile)" />
+    <CopyToOutputTask
+      BuildPath="$(BuildPath)" 
+      OutputPath="$(OutputPath)"
+      CodeFiles="@(brsCompile)"
+      ImageFiles="@(image)"
+      NoneFiles="@(None)"
+      ManifestFiles="@(manifest)"/>
+    <GitVersionTask
+      BuildPath="$(BuildPath)"
+      Generate="$(GenerateGitVersion)">
+      <Output TaskParameter="AppVersion" PropertyName="AppVersion" />
+    </GitVersionTask>
+    <ManifestTask
+      BuildPath="$(BuildPath)"
+      OutputPath="$(OutputPath)" 
+      AppName="$(Name)"
+      MSBuildProjectName="$(MSBuildProjectName)"
+      AppVersion="$(AppVersion)" />
+    <RegisterTypesTask
+      BuildPath="$(BuildPath)"
+      OutputPath="$(OutputPath)"
+      Generate="$(GenerateRegisterTypes)">
+      <Output TaskParameter="RegisterTypes" PropertyName="RegisterTypes" />
+    </RegisterTypesTask>
+    <ReplacesTask
+      BuildPath="$(BuildPath)"
+      OutputPath="$(OutputPath)"
+      ReplaceConfigs="$(ReplaceConfigs)"
+      AppVersion="$(AppVersion)"
+      RegisterTypes="$(RegisterTypes)" />
+    <OptimizeTask
+      ProcessOptimize="$(ProcessOptimize)"
+      BuildPath="$(BuildPath)"
+      OutputPath="$(OutputPath)" />
+    <ArchiveTask
+      BuildPath="$(BuildPath)"
+      OutputPath="$(OutputPath)"
+      MSBuildProjectName="$(MSBuildProjectName)" />
+    <DeployTask
+      BuildPath="$(BuildPath)"
+      OutputPath="$(OutputPath)"
+      MSBuildProjectName="$(MSBuildProjectName)"
+      BoxIP="$(BoxIP)"
+      UserName="$(UserName)"
+      Password="$(Password)"/>
+  </Target>
+</Project>

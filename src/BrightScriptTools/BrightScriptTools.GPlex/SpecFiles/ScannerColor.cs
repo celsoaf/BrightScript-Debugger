@@ -5,10 +5,10 @@
 //  See accompanying file GPLEXcopyright.rtf.
 //
 //  GPLEX Version:  1.0.0.0
-//  Machine:  CELSO-PC
-//  DateTime: 07/09/2016 21:01:34
-//  UserName: Celso
-//  GPLEX input file <SpecFiles\BrightScriptColor.lex - 07/09/2016 21:01:23>
+//  Machine:  OSTLT0248323
+//  DateTime: 11/10/2016 21:16:31
+//  UserName: CFE05
+//  GPLEX input file <SpecFiles\BrightScriptColor.lex - 11/10/2016 21:11:05>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize
@@ -91,7 +91,7 @@ namespace BrightScriptTools.Compiler
     // If the compiler can't find the scanner base class maybe you
     // need to run GPPG with the /gplex option, or GPLEX with /noparser
 #if BABEL
-     public sealed partial class ScannerColor : ScanBase, IColorScan
+     public partial class ScannerColor : ScanBase, IColorScan
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal
@@ -108,7 +108,7 @@ namespace BrightScriptTools.Compiler
                    currentStart = startState[value]; }
         }
 #else  // BABEL
-     public sealed partial class ScannerColor : ScanBase
+     public partial class ScannerColor : ScanBase
     {
         private ScanBuff buffer;
         int currentScOrd;  // start condition ordinal
@@ -129,8 +129,8 @@ namespace BrightScriptTools.Compiler
         
         enum Result {accept, noMatch, contextFound};
 
-        const int maxAccept = 243;
-        const int initial = 244;
+        const int maxAccept = 245;
+        const int initial = 246;
         const int eofNum = 0;
         const int goStart = -1;
         const int INITIAL = 0;
@@ -167,7 +167,7 @@ namespace BrightScriptTools.Compiler
         }
     };
 
-    static int[] startState = new int[] {244, 0};
+    static int[] startState = new int[] {246, 0};
 
 #region CompressedCharacterMap
     //
@@ -206,7 +206,7 @@ namespace BrightScriptTools.Compiler
     }
 #endregion
 
-    static Table[] NxS = new Table[259] {
+    static Table[] NxS = new Table[261] {
 /* NxS[   0] */ new Table(0, 0, 0, null), // Shortest string ""
 /* NxS[   1] */ // Shortest string "L"
       new Table(1, 41, -1, new short[] {5, 234, 5, 235, 5, 5, 
@@ -312,13 +312,13 @@ namespace BrightScriptTools.Compiler
 /* NxS[  24] */ // Shortest string ">"
       new Table(38, 1, -1, new short[] {23}),
 /* NxS[  25] */ // Shortest string "<"
-      new Table(39, 3, -1, new short[] {23, -1, 258}),
+      new Table(39, 3, -1, new short[] {23, -1, 260}),
 /* NxS[  26] */ // Shortest string "0."
       new Table(29, 1, -1, new short[] {26}),
 /* NxS[  27] */ // Shortest string "\"\""
-      new Table(26, 27, 245, new short[] {27, 245, 245, 245, 245, 245, 
-          245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 
-          245, 245, 245, 245, -1}),
+      new Table(26, 27, 247, new short[] {27, 247, 247, 247, 247, 247, 
+          247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 
+          247, 247, 247, 247, -1}),
 /* NxS[  28] */ // Shortest string "GE"
       new Table(1, 41, -1, new short[] {5, 5, 5, 5, 5, 5, 
           5, 5, 32, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, -1, -1, 5, 
@@ -619,11 +619,11 @@ namespace BrightScriptTools.Compiler
           5, 5, 5, 97, 5, 5, 5, 5, 5, 5, 5, 5, 5, -1, -1, 5, 
           5, 5, 5, -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, 
           -1, -1, 5}),
-/* NxS[  97] */ // Shortest string "DELETEDIRECTO"
+/* NxS[  97] */ // Shortest string "LIBRA"
       new Table(16, 37, 5, new short[] {98, 5, 5, 5, -1, -1, 
           5, 5, 5, 5, -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, 
           -1, -1, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[  98] */ // Shortest string "DELETEDIRECTOR"
+/* NxS[  98] */ // Shortest string "LIBRAR"
       new Table(20, 33, 5, new short[] {-1, -1, 5, 5, 5, 5, 
           -1, 42, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 
           -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
@@ -1219,10 +1219,10 @@ namespace BrightScriptTools.Compiler
           -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 
           -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
 /* NxS[ 234] */ // Shortest string "LI"
-      new Table(15, 41, 5, new short[] {237, 5, 5, 5, 5, -1, 
-          -1, 5, 5, 5, 5, -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, 
-          -1, -1, -1, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-          5, 5, 236}),
+      new Table(1, 41, -1, new short[] {5, 5, 236, 5, 5, 5, 
+          5, 5, 5, 5, 237, 5, 5, 5, 238, 5, 5, 5, 5, -1, -1, 5, 
+          5, 5, 5, -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, 
+          -1, -1, 5}),
 /* NxS[ 235] */ // Shortest string "LE"
       new Table(1, 41, -1, new short[] {5, 5, 42, 5, 5, 5, 
           5, 5, 5, 5, 5, 5, 70, 5, 5, 5, 5, 5, 5, -1, -1, 5, 
@@ -1231,73 +1231,81 @@ namespace BrightScriptTools.Compiler
 /* NxS[ 236] */ // Shortest string "LIN"
       new Table(20, 37, 5, new short[] {-1, -1, 5, 5, 5, 5, 
           -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 5, 5, 240}),
-/* NxS[ 237] */ // Shortest string "LIS"
+          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 5, 5, 242}),
+/* NxS[ 237] */ // Shortest string "LIB"
+      new Table(16, 37, 5, new short[] {241, 5, 5, 5, -1, -1, 
+          5, 5, 5, 5, -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, 
+          -1, -1, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
+/* NxS[ 238] */ // Shortest string "LIS"
       new Table(1, 41, -1, new short[] {5, 5, 5, 5, 5, 5, 
-          5, 5, 238, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, -1, -1, 5, 
+          5, 5, 239, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, -1, -1, 5, 
           5, 5, 5, -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, 
           -1, -1, 5}),
-/* NxS[ 238] */ // Shortest string "LIST"
-      new Table(17, 36, 5, new short[] {239, 5, 5, -1, -1, 5, 
+/* NxS[ 239] */ // Shortest string "LIST"
+      new Table(17, 36, 5, new short[] {240, 5, 5, -1, -1, 5, 
           5, 5, 5, -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, 
           -1, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
-/* NxS[ 239] */ // Shortest string "LISTD"
+/* NxS[ 240] */ // Shortest string "LISTD"
       new Table(20, 35, 5, new short[] {-1, -1, 5, 5, 5, 5, 
           -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 
           -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 60}),
-/* NxS[ 240] */ // Shortest string "LINE"
+/* NxS[ 241] */ // Shortest string "LIBR"
+      new Table(18, 35, 5, new short[] {97, 5, -1, -1, 5, 5, 
+          5, 5, -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, 
+          -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}),
+/* NxS[ 242] */ // Shortest string "LINE"
       new Table(20, 38, 5, new short[] {-1, -1, 5, 5, 5, 5, 
           -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 5, 5, 5, 241}),
-/* NxS[ 241] */ // Shortest string "LINE_"
+          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 5, 5, 5, 243}),
+/* NxS[ 243] */ // Shortest string "LINE_"
       new Table(20, 36, 5, new short[] {-1, -1, 5, 5, 5, 5, 
           -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 
-          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 5, 242}),
-/* NxS[ 242] */ // Shortest string "LINE_N"
+          -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 5, 244}),
+/* NxS[ 244] */ // Shortest string "LINE_N"
       new Table(20, 39, 5, new short[] {-1, -1, 5, 5, 5, 5, 
           -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 
           -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 5, 5, 5, 5, 
-          243}),
-/* NxS[ 243] */ // Shortest string "LINE_NU"
+          245}),
+/* NxS[ 245] */ // Shortest string "LINE_NU"
       new Table(20, 40, 5, new short[] {-1, -1, 5, 5, 5, 5, 
           -1, 5, 5, 5, -1, 5, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 
           -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 5, 5, 5, 5, 5, 
           5, 136}),
-/* NxS[ 244] */ // Shortest string ""
+/* NxS[ 246] */ // Shortest string ""
       new Table(39, 45, 23, new short[] {24, 25, 5, 23, 23, 23, 
-          23, 23, 23, 247, -1, -1, -1, -1, 1, 2, 3, 4, 5, 6, 7, 5, 
+          23, 23, 23, 249, -1, -1, -1, -1, 1, 2, 3, 4, 5, 6, 7, 5, 
           8, 9, 10, 5, 11, 12, 13, 14, 15, 16, 17, 18, -1, 5, 19, 20, 
-          21, 245, 5, 5, 22, 246, 5}),
-/* NxS[ 245] */ // Shortest string "\""
-      new Table(26, 27, 245, new short[] {27, 245, 245, 245, 245, 245, 
-          245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 245, 
-          245, 245, 245, 245, -1}),
-/* NxS[ 246] */ // Shortest string "."
+          21, 247, 5, 5, 22, 248, 5}),
+/* NxS[ 247] */ // Shortest string "\""
+      new Table(26, 27, 247, new short[] {27, 247, 247, 247, 247, 247, 
+          247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 247, 
+          247, 247, 247, 247, -1}),
+/* NxS[ 248] */ // Shortest string "."
       new Table(29, 1, -1, new short[] {26}),
-/* NxS[ 247] */ // Shortest string "\x08"
-      new Table(49, 1, -1, new short[] {248}),
-/* NxS[ 248] */ // Shortest string "\x08?"
-      new Table(2, 1, -1, new short[] {249}),
-/* NxS[ 249] */ // Shortest string "\x08?I"
-      new Table(50, 1, -1, new short[] {250}),
-/* NxS[ 250] */ // Shortest string "\x08?I:"
-      new Table(3, 16, -1, new short[] {251, -1, -1, -1, -1, -1, 
-          -1, 252, -1, -1, -1, -1, -1, -1, -1, 253}),
-/* NxS[ 251] */ // Shortest string "\x08?I:N"
-      new Table(10, 1, -1, new short[] {257}),
-/* NxS[ 252] */ // Shortest string "\x08?I:O"
-      new Table(16, 1, -1, new short[] {255}),
-/* NxS[ 253] */ // Shortest string "\x08?I:A"
-      new Table(3, 1, -1, new short[] {254}),
-/* NxS[ 254] */ // Shortest string "\x08?I:AN"
-      new Table(17, 1, -1, new short[] {255}),
-/* NxS[ 255] */ // Shortest string "\x08?I:OR"
-      new Table(51, 1, -1, new short[] {256}),
-/* NxS[ 256] */ // Shortest string "\x08?I:OR\\"
+/* NxS[ 249] */ // Shortest string "\x08"
+      new Table(49, 1, -1, new short[] {250}),
+/* NxS[ 250] */ // Shortest string "\x08?"
+      new Table(2, 1, -1, new short[] {251}),
+/* NxS[ 251] */ // Shortest string "\x08?I"
+      new Table(50, 1, -1, new short[] {252}),
+/* NxS[ 252] */ // Shortest string "\x08?I:"
+      new Table(3, 16, -1, new short[] {253, -1, -1, -1, -1, -1, 
+          -1, 254, -1, -1, -1, -1, -1, -1, -1, 255}),
+/* NxS[ 253] */ // Shortest string "\x08?I:N"
+      new Table(10, 1, -1, new short[] {259}),
+/* NxS[ 254] */ // Shortest string "\x08?I:O"
+      new Table(16, 1, -1, new short[] {257}),
+/* NxS[ 255] */ // Shortest string "\x08?I:A"
+      new Table(3, 1, -1, new short[] {256}),
+/* NxS[ 256] */ // Shortest string "\x08?I:AN"
+      new Table(17, 1, -1, new short[] {257}),
+/* NxS[ 257] */ // Shortest string "\x08?I:OR"
+      new Table(51, 1, -1, new short[] {258}),
+/* NxS[ 258] */ // Shortest string "\x08?I:OR\\"
       new Table(11, 1, -1, new short[] {23}),
-/* NxS[ 257] */ // Shortest string "\x08?I:NO"
-      new Table(9, 1, -1, new short[] {255}),
-/* NxS[ 258] */ // Shortest string "<Z"
+/* NxS[ 259] */ // Shortest string "\x08?I:NO"
+      new Table(9, 1, -1, new short[] {257}),
+/* NxS[ 260] */ // Shortest string "<Z"
       new Table(41, 1, -1, new short[] {23}),
     };
 
@@ -1818,8 +1826,8 @@ int NextState() {
         case 94: // Recognized '{Ident}',	Shortest string "DELETEDIRE"
         case 95: // Recognized '{Ident}',	Shortest string "DELETEDIREC"
         case 96: // Recognized '{Ident}',	Shortest string "DELETEDIRECT"
-        case 97: // Recognized '{Ident}',	Shortest string "DELETEDIRECTO"
-        case 98: // Recognized '{Ident}',	Shortest string "DELETEDIRECTOR"
+        case 97: // Recognized '{Ident}',	Shortest string "LIBRA"
+        case 98: // Recognized '{Ident}',	Shortest string "LIBRAR"
         case 99: // Recognized '{Ident}',	Shortest string "CREATEOB"
         case 100: // Recognized '{Ident}',	Shortest string "CREATEOBJ"
         case 101: // Recognized '{Ident}',	Shortest string "CREATEOBJE"
@@ -1945,13 +1953,15 @@ int NextState() {
         case 234: // Recognized '{Ident}',	Shortest string "LI"
         case 235: // Recognized '{Ident}',	Shortest string "LE"
         case 236: // Recognized '{Ident}',	Shortest string "LIN"
-        case 237: // Recognized '{Ident}',	Shortest string "LIS"
-        case 238: // Recognized '{Ident}',	Shortest string "LIST"
-        case 239: // Recognized '{Ident}',	Shortest string "LISTD"
-        case 240: // Recognized '{Ident}',	Shortest string "LINE"
-        case 241: // Recognized '{Ident}',	Shortest string "LINE_"
-        case 242: // Recognized '{Ident}',	Shortest string "LINE_N"
-        case 243: // Recognized '{Ident}',	Shortest string "LINE_NU"
+        case 237: // Recognized '{Ident}',	Shortest string "LIB"
+        case 238: // Recognized '{Ident}',	Shortest string "LIS"
+        case 239: // Recognized '{Ident}',	Shortest string "LIST"
+        case 240: // Recognized '{Ident}',	Shortest string "LISTD"
+        case 241: // Recognized '{Ident}',	Shortest string "LIBR"
+        case 242: // Recognized '{Ident}',	Shortest string "LINE"
+        case 243: // Recognized '{Ident}',	Shortest string "LINE_"
+        case 244: // Recognized '{Ident}',	Shortest string "LINE_N"
+        case 245: // Recognized '{Ident}',	Shortest string "LINE_NU"
 return (int)TokensColor.ident;
             break;
         case 18: // Recognized '{Cmnt}',	Shortest string "'"

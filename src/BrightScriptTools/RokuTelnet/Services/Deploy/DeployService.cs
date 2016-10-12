@@ -245,12 +245,13 @@ namespace RokuTelnet.Services.Deploy
 
                 if (!string.IsNullOrEmpty(version) && version.Contains("-"))
                 {
+                    var parts = version.Split('-');
                     version = version.Split('-').First();
                     if (Regex.IsMatch(version, @"^(\d+\.)?(\d+\.)?(\*|\d+)$"))
                     {
-                        options.ExtraConfigs.Add(new ConfigKeyValueModel {Key = "version", Value = version});
+                        options.ExtraConfigs.Add(new ConfigKeyValueModel { Key = "version", Value = version + (parts[1] == "snapshot" ? "-snapshot" : "") });
 
-                        var parts = version.Split('.');
+                        parts = version.Split('.');
 
                         var manifest = Path.Combine(outputFolder, "manifest");
 

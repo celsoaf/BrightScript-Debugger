@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <VSTemplate Version="3.0.0" Type="Item" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" xmlns:sdk="http://schemas.microsoft.com/developer/vstemplate-sdkextension/2010">
   <TemplateData>
-    <Name>BrightScript.ItemTemplate</Name>
+    <Name>BrightScript</Name>
     <Description>BrightScript Item</Description>
     <Icon>BrightScript.ItemTemplate.ico</Icon>
     <TemplateID>ccb60da5-05c5-447b-9ab7-e37bd091f961</TemplateID>
@@ -12,11 +12,6 @@
     <AppliesTo>BrightScript</AppliesTo>
   </TemplateData>
   <TemplateContent>
-    <References>
-      <Reference>
-        <Assembly>System</Assembly>
-      </Reference>
-    </References>
     <ProjectItem ReplaceParameters="true">Class.brs</ProjectItem>
   </TemplateContent>
 </VSTemplate>

@@ -21,7 +21,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;BABEL</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -161,12 +161,8 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-    <None Include="TestData\TestColor.brs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\TestParser.brs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="TestData\TestColor.brs" />
+    <None Include="TestData\TestParser.brs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrightScriptTools.GPlex\BrightScriptTools.GPlex.csproj">
@@ -189,6 +185,10 @@
     <Error Condition="!Exists('..\packages\ImmutableObjectGraph.Generation.1.1.98-beta\build\ImmutableObjectGraph.Generation.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\ImmutableObjectGraph.Generation.1.1.98-beta\build\ImmutableObjectGraph.Generation.targets'))" />
   </Target>
   <Import Project="..\packages\ImmutableObjectGraph.Generation.1.1.98-beta\build\ImmutableObjectGraph.Generation.targets" Condition="Exists('..\packages\ImmutableObjectGraph.Generation.1.1.98-beta\build\ImmutableObjectGraph.Generation.targets')" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(ProjectDir)TestData\TestColor.brs" "$(TargetDir)TestData\TestColor.brs"
+copy /Y "$(ProjectDir)TestData\TestParser.brs" "$(TargetDir)TestData\TestParser.brs"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

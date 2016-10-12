@@ -12,38 +12,28 @@
 	<Rule.DataSource>
 		<DataSource Persistence="ProjectFile" Label="Configuration" />
 	</Rule.DataSource>
-	<StringProperty Name="ApplicationIcon" DisplayName="Application Icon" />
 	<StringListProperty Name="ProjectTypeGuids" Visible="False" />
 	<StringProperty Name="ProjectGuid" Visible="False">
 		<StringProperty.DataSource>
 			<DataSource Persistence="ProjectFile" Label="Globals" HasConfigurationCondition="False" />
 		</StringProperty.DataSource>
 	</StringProperty>
-	<DynamicEnumProperty Name="TargetFrameworkMoniker" DisplayName="Target Framework Moniker" EnumProvider="TargetFrameworkMoniker" />
-	<StringProperty Name="TargetFrameworkIdentifier" Visible="False" />
-	<StringProperty Name="TargetFrameworkVersion" Visible="False" />
-	<StringProperty Name="TargetFrameworkProfile" Visible="False" />
-	<StringProperty Name="TargetPath" />
-	<StringProperty Name="DocumentationFile" DisplayName="XML doc comments file" />
-	<StringProperty Name="AssemblyName" />
-	<StringProperty Name="Name" />
-	<StringProperty Name="RootNamespace" DisplayName="Root namespace">
-		<StringProperty.DataSource>
-			<DataSource Persistence="ProjectFile" Label="Configuration" HasConfigurationCondition="false" />
-		</StringProperty.DataSource>
-	</StringProperty>
-	<StringProperty Name="OutputName" />
-	<StringProperty Name="OutputPath" />
-  <EnumProperty Name="OutputType">
-		<EnumValue Name="Library" DisplayName="Class Library" />
-		<EnumValue Name="exe" DisplayName="Console Application" />
-		<EnumValue Name="winexe" DisplayName="Windows Application" />
-		<EnumValue Name="AppContainerExe" DisplayName="Windows Store app" />
-		<EnumValue Name="WinMDObj" DisplayName="WinMD" />
-	</EnumProperty>
-	<StringListProperty Name="AvailablePlatforms" Separator="," />
-	<BoolProperty Name="Optimize" Description="Should compiler optimize output?" />
-  <StringProperty Name="MSBuildProjectDirectory" Visible="false"/>
+    <StringProperty Name="TargetPath" Visible="false" />
+    <StringProperty Name="OutputPath" Visible="false" />
+    <StringProperty Name="Name" />
+    <StringProperty Name="BoxIP" />
+    <StringProperty Name="UserName" />
+    <StringProperty Name="Password" />
+    <BoolProperty Name="ProcessOptimize" Description="Should compiler optimize output?" />
+    <BoolProperty Name="GenerateGitVersion" Description="Generate git version" />
+    <BoolProperty Name="GenerateRegisterTypes" Description="Register Types" />
+    <StringProperty Name="ReplaceConfigs" Description="Replace params">
+        <StringProperty.ValueEditors>
+            <ValueEditor EditorType="ConfigValueEditor" DisplayName="&lt;Config Value Editor...&gt;" />
+        </StringProperty.ValueEditors>
+    </StringProperty>
+
+    <StringProperty Name="MSBuildProjectDirectory" Visible="false"/>
   <StringProperty Name="DefaultPlatform" Visible="false" />
   <StringProperty Name="PackageAction" Visible="false" Description="The MSBuild target to use when packaging a project." />
   <StringProperty Name="DefaultContentType" Visible="false" Description="The default content type name to use when adding files." />

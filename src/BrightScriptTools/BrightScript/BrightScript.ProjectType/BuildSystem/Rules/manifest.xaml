@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+    
+ <!--
+TODO: Update the following files with the specified content
+    
+*ProjectItemsSchema.xaml*
+    
+    <ContentType
+	    Name="manifestSourceFile" 
+	    DisplayName="manifest source file" 
+	    ItemType="manifestCompile">
+    </ContentType>
+    
+    <ItemType Name="manifestCompile" DisplayName="manifest source file"/>
+    
+    <FileExtension Name=".manifest" ContentType="manifestSourceFile" />
+
+*.targets*
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\manifest.xaml;">
+      <Context>File;BrowseObject</Context>
+    </PropertyPageSchema>
+ -->
+<Rule
+	Name="manifest"
+	DisplayName="manifest"
+	PageTemplate="tool"
+	Description="manifest build items"
+	xmlns="http://schemas.microsoft.com/build/2009/properties">
+    <Rule.DataSource>
+        <DataSource Persistence="ProjectFile" HasConfigurationCondition="True" ItemType="manifest" />
+    </Rule.DataSource>
+
+    <StringProperty Name="FullPath" DisplayName="Full Path" ReadOnly="true" Category="Misc">
+        <StringProperty.DataSource>
+            <DataSource Persistence="Intrinsic" ItemType="manifest" PersistedName="FullPath" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <BoolProperty Name="Visible" Visible="False" />
+    <StringProperty Name="DependentUpon" Visible="false" />
+    <StringProperty Name="Link" Visible="false" />
+</Rule>

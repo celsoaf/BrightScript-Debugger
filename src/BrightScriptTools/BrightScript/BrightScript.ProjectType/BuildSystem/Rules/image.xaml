@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--Copyright, Microsoft Corporation, All rights reserved.-->
+    
+ <!--
+TODO: Update the following files with the specified content
+    
+*ProjectItemsSchema.xaml*
+    
+    <ContentType
+	    Name="imageSourceFile" 
+	    DisplayName="image source file" 
+	    ItemType="image">
+    </ContentType>
+    
+    <ItemType Name="image" DisplayName="image source file"/>
+    
+    <FileExtension Name=".png" ContentType="image" />
+
+*.targets*
+    <PropertyPageSchema Include="$(MSBuildThisFileDirectory)Rules\image.xaml;">
+      <Context>File;BrowseObject</Context>
+    </PropertyPageSchema>
+ -->
+<Rule
+	Name="image"
+	DisplayName="image"
+	PageTemplate="tool"
+	Description="image build items"
+	xmlns="http://schemas.microsoft.com/build/2009/properties">
+    <Rule.DataSource>
+        <DataSource Persistence="ProjectFile" HasConfigurationCondition="True" ItemType="image" />
+    </Rule.DataSource>
+
+    <StringProperty Name="Identity" DisplayName="File Name" ReadOnly="true" Category="Misc">
+        <StringProperty.DataSource>
+            <DataSource Persistence="Intrinsic" ItemType="image" PersistedName="Identity" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <StringProperty Name="FullPath" DisplayName="Full Path" ReadOnly="true" Category="Misc">
+        <StringProperty.DataSource>
+            <DataSource Persistence="Intrinsic" ItemType="image" PersistedName="FullPath" />
+        </StringProperty.DataSource>
+    </StringProperty>
+
+    <BoolProperty Name="Visible" Visible="False" />
+    <StringProperty Name="DependentUpon" Visible="false" />
+    <StringProperty Name="Link" Visible="false" />
+</Rule>

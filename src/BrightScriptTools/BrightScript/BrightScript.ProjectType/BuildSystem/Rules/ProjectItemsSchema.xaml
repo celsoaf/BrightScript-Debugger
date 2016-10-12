@@ -39,11 +39,25 @@
 	    ItemType="brsCompile">
     </ContentType>
 
+    <ContentType
+	    Name="manifest" 
+	    DisplayName="manifest file" 
+	    ItemType="manifest">
+    </ContentType>
+
+    <ContentType
+	    Name="imageSourceFile" 
+	    DisplayName="image source file" 
+	    ItemType="image">
+    </ContentType>
+
     <ItemType Name="Compile" DisplayName="C# compiler"/>
     <ItemType Name="EmbeddedResource" DisplayName="Embedded Resource"/>
     <ItemType Name="None" DisplayName="Does not participate in build"/>
     <ItemType Name="Content" DisplayName="Content" />
     <ItemType Name="brsCompile" DisplayName="brs source file"/>
+    <ItemType Name="manifest" DisplayName="manifest file"/>
+    <ItemType Name="image" DisplayName="image file"/>
 
     <FileExtension Name=".asax" ContentType="Asax"/>
     <FileExtension Name=".asmx" ContentType="HTML"/>
@@ -61,10 +75,11 @@
     <FileExtension Name=".xml" ContentType="XML"/>
     <FileExtension Name=".cs" ContentType="CSharpFile"/>
     <FileExtension Name=".mht" ContentType="MHT"/>
-    <FileExtension Name=".manifest" ContentType="Manifest"/>
     <FileExtension Name=".rdlc" ContentType="RDLC"/>
     <FileExtension Name=".cd" ContentType="ClassDiagram"/>
     <FileExtension Name=".licenses" ContentType="Licenses"/>
     <FileExtension Name=".brs" ContentType="brsSourceFile" />
+    <FileExtension Name=".manifest" ContentType="manifest" />
+    <FileExtension Name=".png" ContentType="image" />
 </ProjectSchemaDefinitions>
 

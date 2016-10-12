@@ -68,12 +68,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="SpecFiles\BrightScriptLexer.lex">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="SpecFiles\BrightScriptColor.lex">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="SpecFiles\BrightScriptLexer.lex" />
+    <None Include="SpecFiles\BrightScriptColor.lex" />
     <None Include="SpecFiles\GenerateAll.bat" />
     <None Include="SpecFiles\gplex.lex" />
     <None Include="SpecFiles\gplex.y" />
@@ -97,6 +93,10 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(ProjectDir)\SpecFiles\BrightScriptColor.lex" "$(TargetDir)\SpecFiles\BrightScriptColor.lex"
+copy /Y "$(ProjectDir)\SpecFiles\BrightScriptLexer.lex" "$(TargetDir)\SpecFiles\BrightScriptLexer.lex"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

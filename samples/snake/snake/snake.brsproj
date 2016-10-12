@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <CustomProjectExtensionsPath>$(LocalAppData)\CustomProjectSystems\BrightScript\</CustomProjectExtensionsPath>
+    <ProjectGuid>a706f41c-ff7b-48d5-9ef7-7c18abde6841</ProjectGuid>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <BoxIP>10.241.10.35</BoxIP>
+    <UserName>rokudev</UserName>
+    <Password>rokudev</Password>
+    <ProcessOptimize>false</ProcessOptimize>
+    <GenerateGitVersion>false</GenerateGitVersion>
+    <GenerateRegisterTypes>false</GenerateRegisterTypes>
+    <Name>Snake Sample</Name>
+  </PropertyGroup>
+  <Import Project="$(CustomProjectExtensionsPath)CustomProject.Default.props" />
+  <Import Project="$(CustomProjectExtensionsPath)CustomProject.props" />
+  <PropertyGroup>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <brsCompile Include="source\Main.brs">
+      <SubType>Code</SubType>
+    </brsCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <manifest Include="app.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <image Include="images\icon\Roku-focus-hd.png" />
+    <image Include="images\icon\Roku-focus-sd.png" />
+    <image Include="images\icon\Roku-side-hd.png" />
+    <image Include="images\icon\Roku-side-sd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\logo.png" />
+    <None Include="images\Overhang_BackgroundSlice_HD.png" />
+    <None Include="images\Overhang_BackgroundSlice_MLB_HD.png" />
+    <None Include="images\Overhang_BackgroundSlice_MLB_SD43.png" />
+    <None Include="images\Overhang_BackgroundSlice_SD43.png" />
+    <None Include="snake_assets\cartoon002.wav" />
+    <None Include="snake_assets\cartoon008.wav" />
+    <None Include="snake_assets\snake.body_sprite.png" />
+    <None Include="snake_assets\snake.gameover.png" />
+    <None Include="snake_assets\snake.map_w-dirt.png" />
+    <None Include="snake_assets\snake.title.3.png" />
+    <None Include="snake_assets\snake.water_sprite.png" />
+    <None Include="snake_assets\sprite.small.map.xml" />
+  </ItemGroup>
+  <Import Project="$(CustomProjectExtensionsPath)CustomProjectBrs.targets" />
+  <!-- This next bit is required unless the macro used to Import your targets is defined in an MSBuild toolset. -->
+  <ProjectExtensions>
+    <ProjectCapabilities>
+      <ProjectConfigurationsDeclaredAsItems />
+    </ProjectCapabilities>
+  </ProjectExtensions>
+</Project>

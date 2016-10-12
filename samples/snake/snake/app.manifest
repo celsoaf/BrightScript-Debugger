@@ -1,0 +1,14 @@
+title=#APP_NAME#
+subtitle=Now open for everyone.  Rent 1000+ movies.  Instantly.
+ui_resolutions=sd,hd,fhd
+mm_icon_focus_hd=pkg:/images/icon/Roku-focus-hd.png
+mm_icon_side_hd=pkg:/images/icon/Roku-focus-sd.png
+mm_icon_focus_sd=pkg:/images/icon/Roku-side-hd.png
+mm_icon_side_sd=pkg:/images/icon/Roku-side-sd.png
+major_version=#MAJOR_VERSION#
+minor_version=#MINOR_VERSION#
+build_version=#FIX_VERSION#
+splash_screen_hd=pkg:/images/logo.png
+splash_screen_sd=pkg:/images/logo.png
+splash_color=#0b1e46
+splash_min_time=1700

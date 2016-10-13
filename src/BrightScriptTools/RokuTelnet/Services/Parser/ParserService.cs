@@ -77,7 +77,7 @@ namespace RokuTelnet.Services.Parser
                         }
 
                         if(_running && scanner.Restart)
-                            Console.WriteLine("Restart Scanner");
+                            Console.WriteLine("Restart Scanner {0}", port);
                     }
 
                 }, _cancellationToken.Token);

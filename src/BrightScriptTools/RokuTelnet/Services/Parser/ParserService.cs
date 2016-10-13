@@ -40,40 +40,46 @@ namespace RokuTelnet.Services.Parser
 
                 Task.Factory.StartNew(() =>
                 {
-                    // parse input args, and open input file
-                    var scanner = new TelnetScanner(_stream);
-                    scanner.ErrorPorcessed += PublishError;
-
                     while (_running)
                     {
+                        // parse input args, and open input file
+                        var scanner = new TelnetScanner(_stream);
+                        scanner.ErrorPorcessed += PublishError;
 
-                        if ( _stream.Length > 0)
+                        while (_running && !scanner.Restart)
                         {
-                            var parser = new BrightScriptDebug.Compiler.Parser(scanner);
-
-                            parser.BacktraceProcessed += PublishBacktrace;
-                            parser.VariablesProcessed += PublishVariables;
-                            parser.DebugPorcessed += PublishDebug;
-                            parser.AppCloseProcessed += PublishAppClose;
-                            parser.AppOpenProcessed += PublishAppOpen;
-
-                            try
+                            if (_stream.Length > 0)
                             {
-                                parser.Parse();
+                                var parser = new BrightScriptDebug.Compiler.Parser(scanner);
+
+                                parser.BacktraceProcessed += PublishBacktrace;
+                                parser.VariablesProcessed += PublishVariables;
+                                parser.DebugPorcessed += PublishDebug;
+                                parser.AppCloseProcessed += PublishAppClose;
+                                parser.AppOpenProcessed += PublishAppOpen;
+
+                                try
+                                {
+                                    parser.Parse();
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine(ex.Message);
+                                }
+                                parser.BacktraceProcessed -= PublishBacktrace;
+                                parser.VariablesProcessed -= PublishVariables;
+                                parser.DebugPorcessed -= PublishDebug;
+                                parser.AppCloseProcessed -= PublishAppClose;
+                                parser.AppOpenProcessed -= PublishAppOpen;
                             }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
-                            parser.BacktraceProcessed -= PublishBacktrace;
-                            parser.VariablesProcessed -= PublishVariables;
-                            parser.DebugPorcessed -= PublishDebug;
-                            parser.AppCloseProcessed -= PublishAppClose;
-                            parser.AppOpenProcessed -= PublishAppOpen;
+
+                            Task.Delay(100).Wait();
                         }
 
-                        Task.Delay(100).Wait();
+                        if(_running && scanner.Restart)
+                            Console.WriteLine("Restart Scanner");
                     }
+
                 }, _cancellationToken.Token);
             }
         }
@@ -133,6 +139,6 @@ namespace RokuTelnet.Services.Parser
             }
         }
 
-        public int Port { get; private set ; }
+        public int Port { get; private set; }
     }
 }

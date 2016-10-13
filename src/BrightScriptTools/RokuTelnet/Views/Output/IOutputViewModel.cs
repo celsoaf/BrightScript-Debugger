@@ -16,6 +16,8 @@ namespace RokuTelnet.Views.Output
         DelegateCommand UpCommand { get; set; }
         DelegateCommand DownCommand { get; set; }
 
+        DelegateCommand ClearCommand { get; set; }
+
         bool Connected { get; set; }
 
         int Port { get; set; }

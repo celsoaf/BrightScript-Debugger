@@ -451,6 +451,9 @@
     <Resource Include="Resources\stepout.png" />
     <Resource Include="Resources\stepover.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\clearLog.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

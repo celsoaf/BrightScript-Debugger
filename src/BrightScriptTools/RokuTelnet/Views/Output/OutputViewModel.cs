@@ -83,6 +83,7 @@ namespace RokuTelnet.Views.Output
 
             _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip => Connected = true);
             _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj => Connected = false);
+            _eventAggregator.GetEvent<ClearLogsEvent>().Subscribe(obj => ClearCommand.Execute());
         }
 
         public IOutputView View { get; set; }

@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System.Text;
+using Prism.Events;
+using RokuTelnet.Events;
 
 namespace RokuTelnet.Views.Console
 {
@@ -10,12 +12,14 @@ namespace RokuTelnet.Views.Console
         private string _text;
         private bool _showError;
         private TextWriter _errorTextWriter;
+        private readonly IEventAggregator _eventAggregator;
 
-        public ConsoleViewModel(IConsoleView view)
+        public ConsoleViewModel(IConsoleView view, IEventAggregator eventAggregator)
         {
             View = view;
             View.DataContext = this;
 
+            _eventAggregator = eventAggregator;
             _stringBuilder = new StringBuilder();
             _textBoxOutputter = new TextBoxOutputter(_stringBuilder);
 
@@ -24,6 +28,12 @@ namespace RokuTelnet.Views.Console
             System.Console.SetOut(_textBoxOutputter);
 
             _errorTextWriter = System.Console.Error;
+
+            _eventAggregator.GetEvent<ClearLogsEvent>().Subscribe(obj =>
+            {
+                _stringBuilder.Clear();
+                Text = _stringBuilder.ToString();
+            });
         }
 
         public IConsoleView View { get; set; }

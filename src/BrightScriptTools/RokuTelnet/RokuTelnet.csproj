@@ -157,6 +157,7 @@
     <Compile Include="Events\BacktraceEvent.cs" />
     <Compile Include="Events\BusyHideEvent.cs" />
     <Compile Include="Events\BusyShowEvent.cs" />
+    <Compile Include="Events\ClearLogsEvent.cs" />
     <Compile Include="Events\CommandEvent.cs" />
     <Compile Include="Events\ConnectEvent.cs" />
     <Compile Include="Events\DebugEvent.cs" />
@@ -453,6 +454,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\clearLog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\clearLogs.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

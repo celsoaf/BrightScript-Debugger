@@ -95,6 +95,11 @@ namespace RokuTelnet.Views.Toolbar
                     _eventAggregator.GetEvent<CommandEvent>().Publish(new CommandModel(_port, cmd.ToString()));
             });
 
+            ClearLogsCommand = new DelegateCommand(() =>
+            {
+                _eventAggregator.GetEvent<ClearLogsEvent>().Publish(null);
+            });
+
             //_eventAggregator.GetEvent<LogEvent>().Subscribe(msg => Enable = msg.Message.Contains("Debugger>"), ThreadOption.UIThread);
             _eventAggregator.GetEvent<OutputChangeEvent>().Subscribe(p => _port = p);
 
@@ -157,6 +162,7 @@ namespace RokuTelnet.Views.Toolbar
         public DelegateCommand ConfigCommand { get; set; }
         public DelegateCommand DeployCommand { get; set; }
         public DelegateCommand LaunchAppCommand { get; set; }
+        public DelegateCommand ClearLogsCommand { get; set; }
 
         public string Folder
         {

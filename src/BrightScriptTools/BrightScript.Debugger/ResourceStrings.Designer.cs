@@ -61,7 +61,7 @@ namespace BrightScript.Debugger {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to BirghtScript Engine.
+        ///   Looks up a localized string similar to BrightScript Engine.
         /// </summary>
         internal static string EngineName {
             get {

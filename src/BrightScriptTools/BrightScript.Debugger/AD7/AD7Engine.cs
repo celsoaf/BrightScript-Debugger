@@ -31,6 +31,9 @@ namespace BrightScript.Debugger.AD7
     [Guid(EngineConstants.DebugEngine)]
     public class AD7Engine : IDebugEngine2, IDebugEngineLaunch2, IDebugProgram3, IDebugEngineProgram2
     {
+        public const string DebugEngineId = EngineConstants.DebugEngine;
+        public static Guid DebugEngineGuid = new Guid(DebugEngineId);
+
         private IntPtr threadHandle;
 
         private IDebugEventCallback2 events;

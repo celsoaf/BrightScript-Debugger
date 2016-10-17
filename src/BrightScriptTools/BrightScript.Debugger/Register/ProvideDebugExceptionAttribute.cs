@@ -12,7 +12,7 @@ namespace BrightScript.Debugger.Register
     /// to be registered independently (to provide their code/state settings).
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    class ProvideDebugExceptionAttribute : RegistrationAttribute
+    public class ProvideDebugExceptionAttribute : RegistrationAttribute
     {
         // EXCEPTION_STATE flags that are valid for DKM exception entries (directly under the engine key)
         private const enum_EXCEPTION_STATE DkmValidFlags =

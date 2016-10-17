@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.Debugger.Interop;
 
 namespace BrightScript.Debugger.Register
 {
-    sealed class ProvideBsDebugExceptionAttribute : ProvideDebugExceptionAttribute
+    public sealed class ProvideBsDebugExceptionAttribute : ProvideDebugExceptionAttribute
     {
         public readonly string ExceptionName;
 

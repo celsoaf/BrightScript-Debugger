@@ -10,5 +10,7 @@
 
         public const string DebugEngine = "B4E29A42-7843-41C0-B10D-A7FFE3A40532";
         public const string DebugProgramProvider = "AD786763-0784-4AB6-9A3D-882784BCA391";
+
+        public const string DebuggerPort = "DebuggerPort";
     }
 }

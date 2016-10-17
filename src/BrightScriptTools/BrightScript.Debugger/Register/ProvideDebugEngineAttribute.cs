@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.Shell;
 namespace BrightScript.Debugger.Register
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    class ProvideDebugEngineAttribute : RegistrationAttribute
+    public class ProvideDebugEngineAttribute : RegistrationAttribute
     {
         private readonly string _id, _name;
         private readonly bool _setNextStatement, _hitCountBp, _justMyCodeStepping;

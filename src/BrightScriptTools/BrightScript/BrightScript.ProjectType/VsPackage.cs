@@ -9,6 +9,9 @@ PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
 
 ***************************************************************************/
 
+using BrightScript.Debugger.AD7;
+using BrightScript.Debugger.Register;
+
 namespace BrightScript
 {
     using System;
@@ -24,6 +27,10 @@ namespace BrightScript
     /// or localized resources for the strings that appear in the New Project and Open Project dialogs.
     /// Creating project extensions or project types does not actually require a VSPackage.
     /// </remarks>
+    [ProvideDebugEngine("BrightScript Debugging", typeof(AD7ProgramProvider), typeof(AD7Engine), AD7Engine.DebugEngineId, setNextStatement: false, hitCountBp: true, justMyCodeStepping: false)]
+    // Keep declared exceptions in sync with those given default values in NodeDebugger.GetDefaultExceptionTreatments()
+    [ProvideBsDebugException()]
+    [ProvideBsDebugException("Error")]
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [Description("A custom project type based on CPS")]
     [Guid(VsPackage.PackageGuid)]

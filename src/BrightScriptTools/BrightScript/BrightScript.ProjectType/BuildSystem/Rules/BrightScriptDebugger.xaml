@@ -10,9 +10,9 @@
 -->
 <Rule
 	Name="BrightScriptDebugger"
-	DisplayName="BrightScriptDebugger Debugger"
+	DisplayName="BrightScript Debugger"
 	PageTemplate="debugger"
-	Description="BrightScriptDebugger Debugger options"
+	Description="BrightScript Debugger options"
 	xmlns="http://schemas.microsoft.com/build/2009/properties">
     <Rule.DataSource>
         <DataSource Persistence="UserFileWithXamlDefaults" />

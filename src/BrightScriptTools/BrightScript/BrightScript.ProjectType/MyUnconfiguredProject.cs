@@ -25,8 +25,8 @@ namespace BrightScript
 
     [Export]
     [AppliesTo(MyUnconfiguredProject.UniqueCapability)]
-    [ProjectTypeRegistration(VsPackage.ProjectTypeGuid, "BrightScript", "#2", ProjectExtension, Language, resourcePackageGuid: VsPackage.PackageGuid, PossibleProjectExtensions = ProjectExtension, ProjectTemplatesDir = @"..\..\Templates\Projects\MyCustomProject")]
-    [ProvideProjectItem(VsPackage.ProjectTypeGuid, "My Items", @"..\..\Templates\ProjectItems\MyCustomProject", 500)]
+    [ProjectTypeRegistration(BrightScriptPackage.ProjectTypeGuid, "BrightScript", "#2", ProjectExtension, Language, resourcePackageGuid: BrightScriptPackage.PackageGuid, PossibleProjectExtensions = ProjectExtension, ProjectTemplatesDir = @"..\..\Templates\Projects\MyCustomProject")]
+    [ProvideProjectItem(BrightScriptPackage.ProjectTypeGuid, "My Items", @"..\..\Templates\ProjectItems\MyCustomProject", 500)]
     internal class MyUnconfiguredProject
     {
         /// <summary>

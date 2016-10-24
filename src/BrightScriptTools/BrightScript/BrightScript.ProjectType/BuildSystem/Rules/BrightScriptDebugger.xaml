@@ -36,8 +36,10 @@
         </StringProperty.ValueEditors>
     </StringProperty>
 
-    <StringProperty Name="BrightScriptDebuggerCommandArguments" DisplayName="Command Arguments"
-                Description="The command line arguments to pass to the application.">
+    <StringProperty Name="BrightScriptDebuggerCommandArguments" 
+                    DisplayName="Command Arguments"
+                    Default="IP=$(BoxIP)"
+                    Description="The command line arguments to pass to the application.">
         <Argument Property="BrightScriptDebuggerCommand" />
     </StringProperty>
     <StringProperty Name="BrightScriptDebuggerWorkingDirectory" DisplayName="Working Directory"

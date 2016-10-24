@@ -48,7 +48,7 @@ namespace BrightScript
             settings.CurrentDirectory = await debuggerProperties.BrightScriptDebuggerWorkingDirectory.GetEvaluatedValueAtEndAsync();
             settings.Executable = await debuggerProperties.BrightScriptDebuggerCommand.GetEvaluatedValueAtEndAsync();
             settings.Arguments = await debuggerProperties.BrightScriptDebuggerCommandArguments.GetEvaluatedValueAtEndAsync();
-            settings.LaunchOperation = DebugLaunchOperation.AlreadyRunning;
+            settings.LaunchOperation = DebugLaunchOperation.CreateProcess;
             
             // TODO: Specify the right debugger engine
             settings.LaunchDebugEngineGuid = AD7Engine.DebugEngineGuid;

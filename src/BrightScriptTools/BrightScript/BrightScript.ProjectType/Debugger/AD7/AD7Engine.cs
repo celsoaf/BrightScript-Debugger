@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using BrightScript.Debugger.Engine;
+using BrightScript.Loggger;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
 using Microsoft.VisualStudio.Threading;
@@ -61,6 +62,8 @@ namespace BrightScript.Debugger.AD7
 
         public AD7Engine()
         {
+            LiveLogger.WriteLine("--------------------------------------------------------------------------------");
+            LiveLogger.WriteLine("AD7Engine Created ({0})", GetHashCode());
             breakpointManager = new BreakpointManager(this);
         }
 
@@ -209,7 +212,20 @@ namespace BrightScript.Debugger.AD7
         // (for example, if the debug engine is part of an interpreter and the program being debugged is an interpreted language), 
         // in which case Visual Studio uses the IDebugEngineLaunch2::LaunchSuspended method
         // The IDebugEngineLaunch2::ResumeProcess method is called to start the process after the process has been successfully launched in a suspended state.
-        int IDebugEngineLaunch2.LaunchSuspended(string pszServer, IDebugPort2 port, string exe, string args, string dir, string env, string options, enum_LAUNCH_FLAGS launchFlags, uint hStdInput, uint hStdOutput, uint hStdError, IDebugEventCallback2 ad7Callback, out IDebugProcess2 process)
+        int IDebugEngineLaunch2.LaunchSuspended(
+            string pszServer, 
+            IDebugPort2 port, 
+            string exe, 
+            string args, 
+            string dir,
+            string env, 
+            string options, 
+            enum_LAUNCH_FLAGS launchFlags, 
+            uint hStdInput, 
+            uint hStdOutput, 
+            uint hStdError, 
+            IDebugEventCallback2 ad7Callback, 
+            out IDebugProcess2 process)
         {
             Debug.Assert(m_ad7ProgramId == Guid.Empty);
 

@@ -293,9 +293,15 @@
       <DependentUpon>ResourceStrings.resx</DependentUpon>
     </Compile>
     <Compile Include="Debugger\Variable.cs" />
+    <Compile Include="Loggger\LiveLogger.cs" />
+    <Compile Include="SharedProject\ExceptionExtensions.cs" />
+    <Compile Include="SharedProject\OutputWindowRedirector.cs" />
+    <Compile Include="SharedProject\ProcessOutput.cs" />
     <Compile Include="MyConfiguredProject.cs" />
     <Compile Include="MyUnconfiguredProject.cs" />
     <Compile Include="ProjectProperties.cs" />
+    <Compile Include="SharedProject\UIThread.cs" />
+    <Compile Include="SharedProject\UIThreadBase.cs" />
     <Compile Include="ValueEditorsUI\ConfigValueEditorWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -304,6 +310,7 @@
     </Compile>
     <Compile Include="ValueEditors\ConfigValueEditor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SharedProject\VsExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

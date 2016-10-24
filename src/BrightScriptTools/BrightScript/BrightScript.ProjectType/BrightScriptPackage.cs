@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using BrightScript.Debugger.AD7;
 using BrightScript.Debugger.Register;
+using BrightScript.SharedProject;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
@@ -45,6 +46,7 @@ namespace BrightScript
     // Keep declared exceptions in sync with those given default values in NodeDebugger.GetDefaultExceptionTreatments()
     [ProvideBsDebugException()]
     [ProvideBsDebugException("Error")]
+    [ProvideService(typeof(UIThreadBase))]
     public sealed class BrightScriptPackage : Package
     {
         /// <summary>
@@ -74,6 +76,8 @@ namespace BrightScript
         /// </summary>
         public const string PackageGuidString = "35e2bd07-a62c-467c-b724-640e3b18d4b1";
 
+        internal static BrightScriptPackage Instance;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="BrightScriptPackage"/> class.
         /// </summary>
@@ -83,6 +87,9 @@ namespace BrightScript
             // any Visual Studio service because at this point the package object is created but
             // not sited yet inside Visual Studio environment. The place to do all the other
             // initialization is the Initialize method.
+            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
+            Debug.Assert(Instance == null, "BrightScriptPackage created multiple times");
+            Instance = this;
         }
 
         #region Package Members
@@ -93,6 +100,8 @@ namespace BrightScript
         /// </summary>
         protected override void Initialize()
         {
+            UIThread.EnsureService(this);
+
             base.Initialize();
         }
 

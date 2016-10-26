@@ -243,13 +243,13 @@ namespace RokuTelnet.Services.Deploy
             {
                 var version = _gitService.Describe(folder);
 
-                if (!string.IsNullOrEmpty(version) && version.Contains("-"))
+                if (!string.IsNullOrEmpty(version))
                 {
                     var parts = version.Split('-');
                     version = version.Split('-').First();
                     if (Regex.IsMatch(version, @"^(\d+\.)?(\d+\.)?(\*|\d+)$"))
                     {
-                        options.ExtraConfigs.Add(new ConfigKeyValueModel { Key = "version", Value = version + (parts[1] == "snapshot" ? "-snapshot" : "") });
+                        options.ExtraConfigs.Add(new ConfigKeyValueModel { Key = "version", Value = version + (parts.Length > 1 && parts[1] == "snapshot" ? "-snapshot" : "") });
 
                         parts = version.Split('.');
 

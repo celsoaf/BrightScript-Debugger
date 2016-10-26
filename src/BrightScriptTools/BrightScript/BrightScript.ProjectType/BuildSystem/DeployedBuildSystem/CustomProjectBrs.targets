@@ -70,4 +70,6 @@
       UserName="$(UserName)"
       Password="$(Password)"/>
   </Target>
+
+  <Target Name="Rebuild" DependsOnTargets="Build"/>
 </Project>

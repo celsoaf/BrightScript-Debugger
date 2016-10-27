@@ -56,7 +56,6 @@
     <Compile Include="TokensColor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="TestData\TestColor.brs" />
     <None Include="TestData\TestParser.brs" />
   </ItemGroup>

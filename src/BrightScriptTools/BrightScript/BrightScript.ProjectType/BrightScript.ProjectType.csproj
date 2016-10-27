@@ -221,6 +221,24 @@
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3bPkgdefProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
+    <ProjectReference Include="..\..\BrightScriptDebug.Compiler\BrightScriptDebug.Compiler.csproj">
+      <Project>{53e771e5-fde0-43ce-ac69-6d1a1b62d835}</Project>
+      <Name>BrightScriptDebug.Compiler</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BrightScriptDebug.GPlex\BrightScriptDebug.GPlex.csproj">
+      <Project>{f9e856de-8322-4556-8c5d-d9ed9dbbe894}</Project>
+      <Name>BrightScriptDebug.GPlex</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\BrightScriptDebug.Gppg\BrightScriptDebug.Gppg.csproj">
+      <Project>{8e6c1395-5abd-416a-9721-28aa5cc45263}</Project>
+      <Name>BrightScriptDebug.Gppg</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
     <ProjectReference Include="..\..\BrightScriptTools.Compiler\BrightScriptTools.Compiler.csproj">
       <Project>{96a149f1-9abf-4246-9cb1-06f0aaa0e294}</Project>
       <Name>BrightScriptTools.Compiler</Name>
@@ -261,6 +279,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\BrightScriptDebug.GPlex\SpecFiles\Scanner.cs">
+      <Link>Debugger\Services\Parser\Utils\Scanner.cs</Link>
+    </Compile>
+    <Compile Include="..\..\BrightScriptDebug.Gppg\SpecFiles\Parser.cs">
+      <Link>Debugger\Services\Parser\Utils\Parser.cs</Link>
+    </Compile>
     <Compile Include="BrightScriptDebuggerLaunchProvider.cs" />
     <Compile Include="BrightScriptPackage.cs" />
     <Compile Include="Debugger\AD7\AD7BoundBreakpoint.cs" />
@@ -282,7 +306,11 @@
     <Compile Include="Debugger\Engine\BreakpointManager.cs" />
     <Compile Include="Debugger\Engine\EngineConstants.cs" />
     <Compile Include="Debugger\Engine\EngineUtils.cs" />
+    <Compile Include="Debugger\Enums\DebuggerCommandEnum.cs" />
     <Compile Include="Debugger\Frame.cs" />
+    <Compile Include="Debugger\Models\BacktraceModel.cs" />
+    <Compile Include="Debugger\Models\LogModel.cs" />
+    <Compile Include="Debugger\Models\VariableModel.cs" />
     <Compile Include="Debugger\NativeMethods.cs" />
     <Compile Include="Debugger\Register\ProvideBsDebugExceptionAttribute.cs" />
     <Compile Include="Debugger\Register\ProvideDebugEngineAttribute.cs" />
@@ -292,6 +320,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceStrings.resx</DependentUpon>
     </Compile>
+    <Compile Include="Debugger\Services\Parser\IParserService.cs" />
+    <Compile Include="Debugger\Services\Parser\ParserService.cs" />
+    <Compile Include="Debugger\Services\Parser\Utils\ParserExtension.cs" />
+    <Compile Include="Debugger\Services\Parser\Utils\PipeStream.cs" />
+    <Compile Include="Debugger\Services\Parser\Utils\ScannerExtension.cs" />
+    <Compile Include="Debugger\Services\Parser\Utils\TelnetScanner.cs" />
+    <Compile Include="Debugger\Services\Telnet\ITelnetService.cs" />
+    <Compile Include="Debugger\Services\Telnet\SoketService.cs" />
     <Compile Include="Debugger\Variable.cs" />
     <Compile Include="Loggger\LiveLogger.cs" />
     <Compile Include="SharedProject\ExceptionExtensions.cs" />
@@ -396,6 +432,7 @@
   <ItemGroup>
     <Content Include="Resources\BrightScriptPackage.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <!-- TODO: This copies the build authoring to a well-known location so that on the machine this project builds on,

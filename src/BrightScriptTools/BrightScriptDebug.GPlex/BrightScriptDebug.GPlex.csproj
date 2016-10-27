@@ -68,9 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="SpecFiles\Debugger.lex">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="SpecFiles\Debugger.lex" />
     <None Include="SpecFiles\GenerateAll.bat" />
     <None Include="SpecFiles\gplex.lex" />
     <None Include="SpecFiles\gplex.y" />
@@ -87,6 +85,9 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(ProjectDir)\SpecFiles\Debugger.lex" "$(TargetDir)\SpecFiles\Debugger.lex"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

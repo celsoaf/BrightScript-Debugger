@@ -57,17 +57,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="TestData\TestColor.brs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="TestData\TestParser.brs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <None Include="TestData\TestColor.brs" />
+    <None Include="TestData\TestParser.brs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="TestData\output.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="TestData\output.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrightScriptDebug.GPlex\BrightScriptDebug.GPlex.csproj">
@@ -80,6 +74,11 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(ProjectDir)TestData\output.txt" "$(TargetDir)TestData\output.txt"
+copy /Y "$(ProjectDir)TestData\TestColor.brs" "$(TargetDir)TestData\TestColor.brs"
+copy /Y "$(ProjectDir)TestData\TestParser.brs" "$(TargetDir)TestData\TestParser.brs"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

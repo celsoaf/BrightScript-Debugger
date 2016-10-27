@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BrightScriptTools.GPlex;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex;
+using BrightScriptDebug.GPlex.Parser;
 using RokuTelnet.Models;
 
 namespace BrightScriptDebug.Compiler

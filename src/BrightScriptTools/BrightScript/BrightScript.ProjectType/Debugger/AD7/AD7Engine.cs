@@ -42,13 +42,10 @@ namespace BrightScript.Debugger.AD7
 
         // A unique identifier for the program being debugged.
         Guid m_ad7ProgramId;
-        uint pID;
-
+        
         private AsyncQueue<Command> writeCommandQueue = new AsyncQueue<Command>();
         bool keepReadPipeOpen = true;
         bool keepWritePipeOpen = true;
-
-        PROCESS_INFORMATION pi;
 
         BreakpointManager breakpointManager;
 
@@ -75,8 +72,6 @@ namespace BrightScript.Debugger.AD7
             {
                 return VSConstants.E_NOTIMPL;
             }
-
-            pID = (uint)processId;
 
             events = ad7Callback;
 
@@ -231,227 +226,15 @@ namespace BrightScript.Debugger.AD7
 
             m_ad7ProgramId = Guid.NewGuid();
 
-            STARTUPINFO si = new STARTUPINFO();
-            pi = new PROCESS_INFORMATION();
-
-            // try/finally free
-            bool procOK = NativeMethods.CreateProcess(exe,
-                                                      args,
-                                                      IntPtr.Zero,
-                                                      IntPtr.Zero,
-                                                      false,
-                                                      ProcessCreationFlags.CREATE_SUSPENDED,
-                                                      IntPtr.Zero,
-                                                      null,
-                                                      ref si,
-                                                      out pi);
-
-            pID = pi.dwProcessId;
-            Task writepipeOK = WriteNamedPipeAsync();
-            Task readpipeOK = ReadNamedPipeAsync();
-
-            threadHandle = pi.hThread;
-            IntPtr processHandle = pi.hProcess;
-
-            // Inject LuaDebug into host
-            IntPtr loadLibAddr = DLLInjector.GetProcAddress(DLLInjector.GetModuleHandle("kernel32.dll"), "LoadLibraryA");
-
-            string VS140ExtensionPath = Path.Combine(Path.GetDirectoryName(typeof(EngineConstants).Assembly.Location), "LuaDetour");
-            string luaDetoursDllName = Path.Combine(VS140ExtensionPath, "LuaDetours.dll");
-            if (!File.Exists(luaDetoursDllName))
-            {
-                process = null;
-                return VSConstants.E_FAIL;
-            }
-            IntPtr allocMemAddress1 = DLLInjector.VirtualAllocEx(processHandle, IntPtr.Zero,
-                (uint)((luaDetoursDllName.Length + 1) * Marshal.SizeOf(typeof(char))),
-                DLLInjector.MEM_COMMIT | DLLInjector.MEM_RESERVE, DLLInjector.PAGE_READWRITE);
-
-            UIntPtr bytesWritten1;
-            DLLInjector.WriteProcessMemory(processHandle, allocMemAddress1,
-                Encoding.Default.GetBytes(luaDetoursDllName),
-                (uint)((luaDetoursDllName.Length + 1) * Marshal.SizeOf(typeof(char))), out bytesWritten1);
-            IntPtr hRemoteThread1 = DLLInjector.CreateRemoteThread(processHandle, IntPtr.Zero, 0, loadLibAddr, allocMemAddress1, 0, IntPtr.Zero);
-
-            IntPtr[] handles1 = new IntPtr[] { hRemoteThread1 };
-            uint index1;
-            NativeMethods.CoWaitForMultipleHandles(0, -1, handles1.Length, handles1, out index1);
-
-            string debugDllName = Path.Combine(VS140ExtensionPath, "LuaDebug32.dll");
-
-            IntPtr allocMemAddress2 = DLLInjector.VirtualAllocEx(processHandle, IntPtr.Zero,
-                (uint)((debugDllName.Length + 1) * Marshal.SizeOf(typeof(char))),
-                DLLInjector.MEM_COMMIT | DLLInjector.MEM_RESERVE, DLLInjector.PAGE_READWRITE);
-
-            UIntPtr bytesWritten2;
-            DLLInjector.WriteProcessMemory(processHandle, allocMemAddress2,
-                Encoding.Default.GetBytes(debugDllName), (uint)((debugDllName.Length + 1) * Marshal.SizeOf(typeof(char))), out bytesWritten2);
-
-            IntPtr hRemoteThread2 = DLLInjector.CreateRemoteThread(processHandle, IntPtr.Zero, 0, loadLibAddr, allocMemAddress2, 0, IntPtr.Zero);
-            IntPtr[] handles = new IntPtr[] { hRemoteThread2 };
-            uint index2;
-            NativeMethods.CoWaitForMultipleHandles(0, -1, handles.Length, handles, out index2);
-
 
             AD_PROCESS_ID adProcessId = new AD_PROCESS_ID();
             adProcessId.ProcessIdType = (uint)enum_AD_PROCESS_ID.AD_PROCESS_ID_SYSTEM;
-            adProcessId.dwProcessId = pi.dwProcessId;
+            adProcessId.dwProcessId = (uint)Process.GetCurrentProcess().Id;
 
             EngineUtils.RequireOk(port.GetProcess(adProcessId, out process));
             debugProcess = process;
 
             return VSConstants.S_OK;
-        }
-
-        private async Task WriteNamedPipeAsync()
-        {
-            string pipeID = pID.ToString();
-
-            using (NamedPipeServerStream pipeServer = new NamedPipeServerStream("luaPipeW" + pipeID, PipeDirection.Out, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous))
-            {
-                await Task.Factory.FromAsync((cb, state) => pipeServer.BeginWaitForConnection(cb, state), ar => pipeServer.EndWaitForConnection(ar), null);
-
-                using (StreamWriter pipeWriter = new StreamWriter(pipeServer))
-                {
-                    pipeWriter.AutoFlush = true;
-                    keepWritePipeOpen = true;
-
-                    // Transition to a background thread
-                    await TaskScheduler.Default;
-
-                    while (keepWritePipeOpen)
-                    {
-                        Command command = await this.writeCommandQueue.DequeueAsync();
-
-                        switch (command.Kind)
-                        {
-                            case CommandKind.Breakpoint:
-                                BreakpointCommand bpCommand = command as BreakpointCommand;
-                                await pipeWriter.WriteLineAsync("Breakpoint\0");
-                                await pipeWriter.WriteLineAsync(bpCommand.File + "\0");
-                                await pipeWriter.WriteLineAsync(bpCommand.LineNumber.ToString() + "\0");
-                                break;
-                            case CommandKind.Step:
-                                await pipeWriter.WriteLineAsync("Step\0");
-                                break;
-                            case CommandKind.Continue:
-                                await pipeWriter.WriteLineAsync("Continue\0");
-                                break;
-                            case CommandKind.Detach:
-                                keepWritePipeOpen = false;
-                                break;
-                            case CommandKind.DebuggerEnvironmentReady:
-                                await pipeWriter.WriteLineAsync("DebuggerEnvironmentReady\0");
-                                break;
-                        }
-                    }
-                }
-            }
-        }
-
-        private async Task ReadNamedPipeAsync()
-        {
-            string pipeID = pID.ToString();
-
-            using (NamedPipeServerStream pipeServer = new NamedPipeServerStream("luaPipeR" + pipeID, PipeDirection.In, 1, PipeTransmissionMode.Message, PipeOptions.Asynchronous))
-            {
-                await Task.Factory.FromAsync((cb, state) => pipeServer.BeginWaitForConnection(cb, state), ar => pipeServer.EndWaitForConnection(ar), null);
-
-                using (StreamReader pipeReader = new StreamReader(pipeServer))
-                {
-                    await TaskScheduler.Default;
-
-                    while (this.keepReadPipeOpen)
-                    {
-                        string command = await pipeReader.ReadLineAsync();
-
-                        switch (command)
-                        {
-                            case "BreakpointHit":
-                                {
-                                    debugThread.SourceFile = await pipeReader.ReadLineAsync();
-                                    debugThread.Line = uint.Parse(await pipeReader.ReadLineAsync());
-                                    debugThread.FuncName = await pipeReader.ReadLineAsync();
-
-                                    // Receive Callstack
-                                    debugThread.FrameCount = int.Parse(await pipeReader.ReadLineAsync());
-
-                                    List<Frame> frames = new List<Frame>(debugThread.FrameCount);
-
-                                    for (int stackLineIndex = 0; stackLineIndex < debugThread.FrameCount; stackLineIndex++)
-                                    {
-                                        string func = await pipeReader.ReadLineAsync();
-                                        string source = await pipeReader.ReadLineAsync();
-                                        string line = await pipeReader.ReadLineAsync();
-                                        frames.Add(new Frame(func, source, line));
-                                    }
-
-                                    debugThread.StackFrames = frames;
-
-                                    int numberToRead = int.Parse(await pipeReader.ReadLineAsync());
-
-                                    List<Variable> variables = new List<Variable>(numberToRead);
-
-                                    for (int localIndex = 0; localIndex < numberToRead; localIndex++)
-                                    {
-                                        variables.Add(new Variable(await pipeReader.ReadLineAsync(), await pipeReader.ReadLineAsync(), await pipeReader.ReadLineAsync()));
-                                    }
-
-                                    debugThread.NumberOfLocals = numberToRead;
-                                    debugThread.Locals = variables;
-                                    AD7BreakpointEvent.Send(this, breakpointManager.GetBoundBreakpoint(debugThread.SourceFile + debugThread.Line));
-                                    break;
-                                }
-                            case "BreakpointBound":
-                                string fileandline = await pipeReader.ReadLineAsync();
-                                AD7BoundBreakpoint boundbp = breakpointManager.GetBoundBreakpoint(fileandline);
-
-                                AD7BreakpointBoundEvent boundBreakpointEvent = new AD7BreakpointBoundEvent(boundbp);
-                                Send(boundBreakpointEvent, AD7BreakpointBoundEvent.IID, this);
-                                break;
-                            case "StepComplete":
-                                {
-                                    debugThread.FrameCount = 1;
-                                    debugThread.SourceFile = await pipeReader.ReadLineAsync();
-                                    debugThread.Line = uint.Parse(await pipeReader.ReadLineAsync());
-                                    debugThread.FuncName = await pipeReader.ReadLineAsync();
-
-                                    // Receive Callstack
-                                    debugThread.FrameCount = int.Parse(await pipeReader.ReadLineAsync());
-
-                                    List<Frame> frames = new List<Frame>(debugThread.FrameCount);
-
-                                    for (int stackLineIndex = 0; stackLineIndex < debugThread.FrameCount; stackLineIndex++)
-                                    {
-                                        string func = await pipeReader.ReadLineAsync();
-                                        string source = await pipeReader.ReadLineAsync();
-                                        string line = await pipeReader.ReadLineAsync();
-                                        frames.Add(new Frame(func, source, line));
-                                    }
-
-                                    debugThread.StackFrames = frames;
-
-                                    int numberToRead = int.Parse(await pipeReader.ReadLineAsync());
-
-                                    List<Variable> variables = new List<Variable>(numberToRead);
-
-                                    for (int localIndex = 0; localIndex < numberToRead; localIndex++)
-                                    {
-                                        variables.Add(new Variable(await pipeReader.ReadLineAsync(), await pipeReader.ReadLineAsync(), await pipeReader.ReadLineAsync()));
-                                    }
-
-                                    debugThread.NumberOfLocals = numberToRead;
-                                    debugThread.Locals = variables;
-
-
-                                    Send(new AD7StepCompleteEvent(), AD7StepCompleteEvent.IID, this);
-                                    break;
-                                }
-                        }
-                    }
-                }
-
-            }
         }
 
         // Resume a process launched by IDebugEngineLaunch2.LaunchSuspended
@@ -465,7 +248,7 @@ namespace BrightScript.Debugger.AD7
             IDebugPortNotify2 portNotify;
             EngineUtils.RequireOk(defaultPort.GetPortNotify(out portNotify));
 
-            EngineUtils.RequireOk(portNotify.AddProgramNode(new AD7ProgramNode((int)pi.dwProcessId)));
+            EngineUtils.RequireOk(portNotify.AddProgramNode(new AD7ProgramNode(Process.GetCurrentProcess().Id)));
 
             if (this.m_ad7ProgramId == Guid.Empty)
             {
@@ -473,11 +256,7 @@ namespace BrightScript.Debugger.AD7
                 return VSConstants.E_FAIL;
             }
 
-            this._programCreateContinued.WaitOne();
-            this.writeCommandQueue.Enqueue(new Command(CommandKind.DebuggerEnvironmentReady));
-
-            NativeMethods.ResumeThread(threadHandle);
-            return 0;
+            return VSConstants.S_OK;
         }
 
         // This function is used to terminate a process that the SampleEngine launched
@@ -489,10 +268,7 @@ namespace BrightScript.Debugger.AD7
                 return VSConstants.S_FALSE;
             }
 
-            EnqueueCommand(new Command(CommandKind.Detach));
-            this.keepReadPipeOpen = false;
-            this.keepWritePipeOpen = false;
-            return debugProcess.Terminate();
+            return VSConstants.S_OK;
         }
 
         #endregion

@@ -7,8 +7,8 @@
     <ProjectGuid>{8E6C1395-5ABD-416A-9721-28AA5CC45263}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BrightScriptTools.Gppg</RootNamespace>
-    <AssemblyName>BrightScriptTools.Gppg</AssemblyName>
+    <RootNamespace>BrightScriptDebug.Gppg</RootNamespace>
+    <AssemblyName>BrightScriptDebug.Gppg</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

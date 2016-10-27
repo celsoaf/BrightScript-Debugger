@@ -4,11 +4,11 @@
 
 // GPPG version 1.0.0.0
 // Machine:  OSTLT0248323
-// DateTime: 12/10/2016 10:10:56
+// DateTime: 27/10/2016 23:38:48
 // UserName: CFE05
 // Input file <SpecFiles\Debugger.y - 04/09/2016 21:24:39>
 
-// options: babel lines diagnose & report gplex
+// options: babel conflicts lines diagnose & report gplex conflicts
 
 using System;
 using System.Collections.Generic;

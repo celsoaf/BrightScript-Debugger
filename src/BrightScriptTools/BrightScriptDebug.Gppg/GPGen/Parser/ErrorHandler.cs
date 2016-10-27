@@ -9,7 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-namespace BrightScriptTools.Gppg.GPGen.Parser
+namespace BrightScriptDebug.Gppg.GPGen.Parser
 {
     internal class Error : IComparable<Error>
     {

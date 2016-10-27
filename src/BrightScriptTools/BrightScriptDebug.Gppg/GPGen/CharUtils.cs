@@ -12,7 +12,7 @@ using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace BrightScriptTools.Gppg.GPGen
+namespace BrightScriptDebug.Gppg.GPGen
 {
 
     /// <summary>

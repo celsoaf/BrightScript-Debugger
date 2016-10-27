@@ -7,7 +7,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace BrightScriptTools.Gppg.GPGen
+namespace BrightScriptDebug.Gppg.GPGen
 {
     [Serializable]
 	internal abstract class Symbol

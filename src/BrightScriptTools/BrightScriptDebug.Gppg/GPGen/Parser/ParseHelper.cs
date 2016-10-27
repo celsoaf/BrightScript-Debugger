@@ -8,11 +8,9 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using BrightScriptTools.Gppg.GPGen.Lexers;
-using Scanner = BrightScriptTools.Gppg.GPGen.Lexers.Scanner;
+using BrightScriptDebug.Gppg.GPGen.Lexers;
 
-
-namespace BrightScriptTools.Gppg.GPGen.Parser
+namespace BrightScriptDebug.Gppg.GPGen.Parser
 {
     internal partial class Parser
     {
@@ -31,7 +29,7 @@ namespace BrightScriptTools.Gppg.GPGen.Parser
 
         enum TokenProperty { token, left, right, nonassoc }
 
-        internal Parser(string filename, string fileinfo, Scanner scanner, ErrorHandler handler)
+        internal Parser(string filename, string fileinfo, Lexers.Scanner scanner, ErrorHandler handler)
             : base(scanner)
         {
             this.handler = handler;

@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using BrightScriptTools.Gppg.GPGen.Parser;
+using BrightScriptDebug.Gppg.GPGen.Parser;
 
-namespace BrightScriptTools.Gppg.GPGen
+namespace BrightScriptDebug.Gppg.GPGen
 {
     internal class CodeGenerator
     {

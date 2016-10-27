@@ -34,9 +34,9 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
 
-using BrightScriptTools.GPlex;
+using BrightScriptDebug.GPlex;
 using System.Collections;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex.Parser;
 
 namespace BrightScriptDebug.Compiler
 {   

@@ -6,10 +6,11 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using BrightScriptTools.GPlex.Lexer;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex.IncludeResources;
+using BrightScriptDebug.GPlex.Lexer;
+using BrightScriptDebug.GPlex.Parser;
 
-namespace BrightScriptTools.GPlex.Automaton
+namespace BrightScriptDebug.GPlex.Automaton
 {
 	internal enum OptionState { clear, needUsage, needCodepageHelp, inconsistent, alphabetLocked, errors};
 
@@ -410,7 +411,7 @@ namespace BrightScriptTools.GPlex.Automaton
             }
             else // Use the embedded resource
             {
-                string gplexxFrame = BrightScriptTools.GPlex.IncludeResources.Content.GplexxFrame;
+                string gplexxFrame = Content.GplexxFrame;
                 if (verbose) msgWrtr.WriteLine("GPLEX: using frame from embedded resource");
                 this.frameName = "embedded resource";
                 return new StringReader(gplexxFrame);
@@ -482,9 +483,9 @@ namespace BrightScriptTools.GPlex.Automaton
         {
             string GplexBuffers = "";
             StreamWriter writer = new StreamWriter(BufferCodeFile());
-            GplexBuffers = BrightScriptTools.GPlex.IncludeResources.Content.GplexBuffers;
+            GplexBuffers = Content.GplexBuffers;
 
-            writer.WriteLine(BrightScriptTools.GPlex.IncludeResources.Content.ResourceHeader);
+            writer.WriteLine(Content.ResourceHeader);
             writer.WriteLine("using System;");
             writer.WriteLine("using System.IO;");
             writer.WriteLine("using System.Text;");
@@ -506,9 +507,9 @@ namespace BrightScriptTools.GPlex.Automaton
         internal static void EmbedBufferCode(TextWriter writer)
         {
             string GplexBuffers = "";
-            GplexBuffers = BrightScriptTools.GPlex.IncludeResources.Content.GplexBuffers;
+            GplexBuffers = Content.GplexBuffers;
 
-            writer.WriteLine(BrightScriptTools.GPlex.IncludeResources.Content.ResourceHeader);
+            writer.WriteLine(Content.ResourceHeader);
 
             writer.WriteLine("// Code copied from GPLEX embedded resource");
             writer.WriteLine(GplexBuffers);

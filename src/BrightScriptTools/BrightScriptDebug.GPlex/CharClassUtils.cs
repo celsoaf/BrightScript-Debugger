@@ -7,9 +7,9 @@ using System;
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex.Parser;
 
-namespace BrightScriptTools.GPlex
+namespace BrightScriptDebug.GPlex
 {
 
     public interface ICharTestFactory

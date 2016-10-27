@@ -14,7 +14,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace BrightScriptTools.GPlex
+namespace BrightScriptDebug.GPlex
 {
 // Code copied from GPLEX embedded resource
     [Serializable]

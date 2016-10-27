@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace BrightScriptTools.GPlex.IncludeResources {
+namespace BrightScriptDebug.GPlex.IncludeResources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace BrightScriptTools.GPlex.IncludeResources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrightScriptTools.GPlex.IncludeResources.Content", typeof(Content).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("BrightScriptDebug.GPlex.IncludeResources.Content", typeof(Content).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

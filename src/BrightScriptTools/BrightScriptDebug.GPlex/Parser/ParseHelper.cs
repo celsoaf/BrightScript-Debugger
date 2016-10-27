@@ -9,10 +9,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using BrightScriptTools.GPlex.Automaton;
-using BrightScriptTools.GPlex.Lexer;
+using BrightScriptDebug.GPlex.Automaton;
+using BrightScriptDebug.GPlex.Lexer;
 
-namespace BrightScriptTools.GPlex.Parser
+namespace BrightScriptDebug.GPlex.Parser
 {
     internal delegate OptionState OptionParser2(string s);
 

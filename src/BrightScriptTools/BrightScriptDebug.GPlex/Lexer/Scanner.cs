@@ -30,9 +30,9 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex.Parser;
 
-namespace BrightScriptTools.GPlex.Lexer
+namespace BrightScriptDebug.GPlex.Lexer
 {   
     /// <summary>
     /// Summary Canonical example of GPLEX automaton

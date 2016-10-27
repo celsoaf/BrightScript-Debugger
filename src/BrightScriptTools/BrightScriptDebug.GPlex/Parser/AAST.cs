@@ -11,10 +11,10 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text;
-using BrightScriptTools.GPlex.Automaton;
-using BrightScriptTools.GPlex.Lexer;
+using BrightScriptDebug.GPlex.Automaton;
+using BrightScriptDebug.GPlex.Lexer;
 
-namespace BrightScriptTools.GPlex.Parser {
+namespace BrightScriptDebug.GPlex.Parser {
     /// <summary>
     /// This class represents the Attributed Abstract Syntax Tree
     /// corresponding to an input LEX file.

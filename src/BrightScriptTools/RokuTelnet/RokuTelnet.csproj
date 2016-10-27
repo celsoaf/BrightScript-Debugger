@@ -201,9 +201,6 @@
     <Compile Include="Services\Screenshot\ScreenshotService.cs" />
     <Compile Include="Services\Telnet\ITelnetService.cs" />
     <Compile Include="Services\Telnet\SoketService.cs" />
-    <Compile Include="Services\Telnet\Utils\RokuStringParser.cs" />
-    <Compile Include="Services\Telnet\Utils\RokuReceiverFilter.cs" />
-    <Compile Include="Services\Telnet\Utils\TerminatorReceiveFilter .cs" />
     <Compile Include="Utils\AutoScrollingListView.cs" />
     <Compile Include="Utils\DigestHttpWebRequest.cs" />
     <Compile Include="Utils\MultipartFormData.cs" />

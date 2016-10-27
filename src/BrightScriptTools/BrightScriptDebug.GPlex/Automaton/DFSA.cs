@@ -1169,7 +1169,7 @@ namespace BrightScriptDebug.GPlex.Automaton
                             else if (selector == "usingDcl")
                             {
                                 if (!myTask.EmbedBuffers)
-                                    sWrtr.WriteLine("using BrightScriptTools.GPlex;");
+                                    sWrtr.WriteLine("using BrightScriptDebug.GPlex;");
 
                                 foreach (LexSpan s in myTask.aast.usingStrs)
                                 {

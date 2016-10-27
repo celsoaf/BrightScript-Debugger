@@ -494,7 +494,7 @@ namespace BrightScriptDebug.GPlex.Automaton
             writer.WriteLine("using System.Runtime.Serialization;");
             writer.WriteLine("using System.Globalization;");
             writer.WriteLine();
-            writer.WriteLine("namespace BrightScriptTools.GPlex");
+            writer.WriteLine("namespace BrightScriptDebug.GPlex");
             writer.WriteLine('{');
             writer.WriteLine("// Code copied from GPLEX embedded resource");
             writer.WriteLine(GplexBuffers);

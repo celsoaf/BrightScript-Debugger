@@ -7,8 +7,8 @@
     <ProjectGuid>{53E771E5-FDE0-43CE-AC69-6D1A1B62D835}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BrightScriptTools.Compiler</RootNamespace>
-    <AssemblyName>BrightScriptTools.Compiler</AssemblyName>
+    <RootNamespace>BrightScriptDebug.Compiler</RootNamespace>
+    <AssemblyName>BrightScriptDebug.Compiler</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

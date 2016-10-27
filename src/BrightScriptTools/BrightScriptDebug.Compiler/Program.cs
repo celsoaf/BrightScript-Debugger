@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BrightScriptDebug.Compiler;
-using BrightScriptTools.GPlex;
+using BrightScriptDebug.GPlex;
 
-namespace BrightScriptTools.Compiler
+namespace BrightScriptDebug.Compiler
 {
     public class Program
     {

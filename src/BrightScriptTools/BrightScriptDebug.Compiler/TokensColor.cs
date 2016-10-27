@@ -1,4 +1,4 @@
-﻿namespace BrightScriptTools.Compiler
+﻿namespace BrightScriptDebug.Compiler
 {
     public enum TokensColor
     {

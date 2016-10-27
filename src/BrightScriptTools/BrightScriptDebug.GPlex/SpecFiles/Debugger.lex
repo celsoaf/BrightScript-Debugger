@@ -2,7 +2,7 @@
 // =============================================================
 
 %using System.Collections;
-%using BrightScriptTools.GPlex.Parser;
+%using BrightScriptDebug.GPlex.Parser;
 
 %namespace BrightScriptDebug.Compiler
 

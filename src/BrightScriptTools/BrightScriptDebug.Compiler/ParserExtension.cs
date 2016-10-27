@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using BrightScriptTools.GPlex;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex;
+using BrightScriptDebug.GPlex.Parser;
 
 namespace BrightScriptDebug.Compiler
 {

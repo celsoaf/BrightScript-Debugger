@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  OSTLT0248323
-// DateTime: 27/10/2016 23:38:48
+// DateTime: 27/10/2016 23:46:31
 // UserName: CFE05
-// Input file <SpecFiles\Debugger.y - 04/09/2016 21:24:39>
+// Input file <SpecFiles\Debugger.y - 27/10/2016 23:40:22>
 
 // options: babel conflicts lines diagnose & report gplex conflicts
 
@@ -15,10 +15,10 @@ using System.Collections.Generic;
 using System.CodeDom.Compiler;
 using System.Globalization;
 using System.Text;
-using BrightScriptTools.Gppg.GPGen;
+using BrightScriptDebug.Gppg.GPGen;
 using System.Collections;
-using BrightScriptTools.GPlex;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex;
+using BrightScriptDebug.GPlex.Parser;
 
 namespace BrightScriptDebug.Compiler
 {

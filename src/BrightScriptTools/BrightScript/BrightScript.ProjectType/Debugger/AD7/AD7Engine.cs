@@ -237,6 +237,17 @@ namespace BrightScript.Debugger.AD7
             EngineUtils.RequireOk(port.GetProcess(pid, out process));
             debugProcess = process;
 
+            AD7EngineCreateEvent.Send(this);
+
+            AD7ProgramCreateEvent.Send(this);
+
+            debugThread = new AD7Thread(this);
+
+            AD7ThreadCreateEvent.Send(this);
+
+            // This event is optional
+            AD7LoadCompleteEvent.Send(this);
+
             return VSConstants.S_OK;
         }
 
@@ -270,6 +281,8 @@ namespace BrightScript.Debugger.AD7
             {
                 return VSConstants.S_FALSE;
             }
+
+            AD7ProgramDestroyEvent.Send(this);
 
             return VSConstants.S_OK;
         }

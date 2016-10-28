@@ -282,7 +282,10 @@ namespace BrightScript.Debugger.AD7
                 return VSConstants.S_FALSE;
             }
 
-            AD7ProgramDestroyEvent.Send(this);
+
+            var exitCode = process.Terminate();
+
+            AD7ProgramDestroyEvent.Send(this, exitCode);
 
             return VSConstants.S_OK;
         }

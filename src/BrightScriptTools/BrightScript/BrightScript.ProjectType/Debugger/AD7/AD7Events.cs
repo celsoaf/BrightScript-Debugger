@@ -118,9 +118,9 @@ namespace BrightScript.Debugger.AD7
 
         #endregion
 
-        internal static void Send(AD7Engine engine)
+        internal static void Send(AD7Engine engine, int exitCode)
         {
-            AD7ProgramDestroyEvent eventObject = new AD7ProgramDestroyEvent(0);
+            AD7ProgramDestroyEvent eventObject = new AD7ProgramDestroyEvent((uint)exitCode);
             engine.Send(eventObject, AD7LoadCompleteEvent.IID);
         }
     }

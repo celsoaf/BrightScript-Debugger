@@ -224,14 +224,17 @@ namespace BrightScript.Debugger.AD7
         {
             Debug.Assert(m_ad7ProgramId == Guid.Empty);
 
+            events = ad7Callback;
+            
             m_ad7ProgramId = Guid.NewGuid();
 
+            // we do NOT have real Win32 process IDs, so we use a guid
+            AD_PROCESS_ID pid = new AD_PROCESS_ID();
+            pid.ProcessIdType = (int)enum_AD_PROCESS_ID.AD_PROCESS_ID_GUID;
+            pid.guidProcessId = Guid.NewGuid();
+            
 
-            AD_PROCESS_ID adProcessId = new AD_PROCESS_ID();
-            adProcessId.ProcessIdType = (uint)enum_AD_PROCESS_ID.AD_PROCESS_ID_SYSTEM;
-            adProcessId.dwProcessId = (uint)Process.GetCurrentProcess().Id;
-
-            EngineUtils.RequireOk(port.GetProcess(adProcessId, out process));
+            EngineUtils.RequireOk(port.GetProcess(pid, out process));
             debugProcess = process;
 
             return VSConstants.S_OK;

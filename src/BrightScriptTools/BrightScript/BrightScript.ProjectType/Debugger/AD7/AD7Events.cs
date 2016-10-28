@@ -117,6 +117,12 @@ namespace BrightScript.Debugger.AD7
         }
 
         #endregion
+
+        internal static void Send(AD7Engine engine)
+        {
+            AD7ProgramDestroyEvent eventObject = new AD7ProgramDestroyEvent(0);
+            engine.Send(eventObject, AD7LoadCompleteEvent.IID);
+        }
     }
 
     // This interface is sent by the debug engine (DE) to the session debug manager (SDM) when a thread is created in a program being debugged.

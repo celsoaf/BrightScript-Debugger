@@ -302,7 +302,6 @@
     <Compile Include="Debugger\AD7\AD7StackFrame.cs" />
     <Compile Include="Debugger\AD7\AD7Thread.cs" />
     <Compile Include="Debugger\Commands.cs" />
-    <Compile Include="Debugger\DLLInjector.cs" />
     <Compile Include="Debugger\Engine\BreakpointManager.cs" />
     <Compile Include="Debugger\Engine\EngineConstants.cs" />
     <Compile Include="Debugger\Engine\EngineUtils.cs" />
@@ -311,7 +310,6 @@
     <Compile Include="Debugger\Models\BacktraceModel.cs" />
     <Compile Include="Debugger\Models\LogModel.cs" />
     <Compile Include="Debugger\Models\VariableModel.cs" />
-    <Compile Include="Debugger\NativeMethods.cs" />
     <Compile Include="Debugger\Register\ProvideBsDebugExceptionAttribute.cs" />
     <Compile Include="Debugger\Register\ProvideDebugEngineAttribute.cs" />
     <Compile Include="Debugger\Register\ProvideDebugExceptionAttribute.cs" />

@@ -16,7 +16,7 @@ namespace BrightScript.Debugger.Core.Transports
             string miDebuggerDir = System.IO.Path.GetDirectoryName(localOptions.MIDebuggerPath);
 
             Process proc = new Process();
-            proc.StartInfo.FileName = localOptions.MIDebuggerPath;
+            proc.StartInfo.FileName = "cmd "; // localOptions.MIDebuggerPath;
             proc.StartInfo.Arguments = "--interpreter=mi";
 
             // LLDB has the -environment-cd mi command that is used to set the working dir for gdb/clrdbg, but it doesn't work.

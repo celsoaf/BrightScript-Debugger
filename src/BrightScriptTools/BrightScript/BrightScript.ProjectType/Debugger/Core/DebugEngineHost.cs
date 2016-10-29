@@ -220,7 +220,7 @@ namespace BrightScript.Debugger.Core
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Natvis")]
         public static void FindNatvisInSolution(NatvisLoader loader)
         {
-            throw new NotImplementedException();
+            
         }
     }
 

@@ -81,7 +81,7 @@ namespace BrightScript.Debugger.Core
         /// <returns>[Optional] value of the metric. Null if the metric is not defined.</returns>
         public object GetEngineMetric(string metric)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
         /// <summary>

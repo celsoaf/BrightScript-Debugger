@@ -11,11 +11,11 @@ namespace BrightScript.Debugger.AD7
     // A debug engine (DE) or a custom port supplier implements this interface to represent a program that can be debugged. 
     internal class AD7ProgramNode : IDebugProgramNode2
     {
-        readonly int m_processId;
+        private readonly AD_PROCESS_ID _processId;
 
-        public AD7ProgramNode(int processId)
+        public AD7ProgramNode(AD_PROCESS_ID processId)
         {
-            m_processId = processId;
+            _processId = processId;
         }
 
         #region IDebugProgramNode2 Members
@@ -33,8 +33,7 @@ namespace BrightScript.Debugger.AD7
         int IDebugProgramNode2.GetHostPid(AD_PROCESS_ID[] pHostProcessId)
         {
             // Return the process id of the debugged process
-            pHostProcessId[0].ProcessIdType = (uint)enum_AD_PROCESS_ID.AD_PROCESS_ID_SYSTEM;
-            pHostProcessId[0].dwProcessId = (uint)m_processId;
+            pHostProcessId[0] = _processId;
 
             return VSConstants.S_OK;
         }

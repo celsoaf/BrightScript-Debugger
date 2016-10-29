@@ -117,89 +117,101 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="BreakpointAtInvalidAddress" xml:space="preserve">
+  <data name="Error_BadRequiredAttribute" xml:space="preserve">
+    <value>Required attribute '{0}' is missing or has an invalid value.</value>
+  </data>
+  <data name="Error_CannotSpecifyBoth" xml:space="preserve">
+    <value>Both '{0}' and '{1}' cannot be specified at the same time.</value>
+  </data>
+  <data name="Error_CorruptingException" xml:space="preserve">
+    <value>Internal error in MIEngine. Exception of type '{0}' was thrown.
+{1}</value>
+  </data>
+  <data name="Error_DebuggerInitializeFailed_NoStdErr" xml:space="preserve">
+    <value>Unable to establish a connection to {0}. Debug output may contain more information.</value>
+  </data>
+  <data name="Error_DebuggerInitializeFailed_StdErr" xml:space="preserve">
+    <value>Unable to establish a connection to {0}. The following message was written to stderr:
+{1}</value>
+  </data>
+  <data name="Error_DebugServerInitializationFailed" xml:space="preserve">
+    <value>Debug server process failed to initialize.</value>
+  </data>
+  <data name="Error_ExceptionInOperation" xml:space="preserve">
+    <value>Exception while processing MIEngine operation. {0}. If the problem continues restart debugging.</value>
+  </data>
+  <data name="Error_ExceptionProcessingModules" xml:space="preserve">
+    <value>An error occurred while processing modules from the target process.
+Modules: {0}
+Error: {1}</value>
+  </data>
+  <data name="Error_ExpectedCommandBody" xml:space="preserve">
+    <value>Command elements must have a body (ex: &lt;Command&gt;gdb_command_here&lt;/Command&gt;).</value>
+  </data>
+  <data name="Error_FailedToEnterBreakState" xml:space="preserve">
+    <value>Error while trying to enter break state. Debugging will now stop. {0}</value>
+  </data>
+  <data name="Error_InvalidLaunchOptions" xml:space="preserve">
+    <value>Launch options string provided by the project system is invalid. {0}</value>
+  </data>
+  <data name="Error_InvalidLocalCoreDumpPath" xml:space="preserve">
+    <value>Invalid path to core dump file '{0}'. File must be a valid file name that exists on the computer.</value>
+  </data>
+  <data name="Error_InvalidLocalExePath" xml:space="preserve">
+    <value>Invalid path to executable file path '{0}'. File must be a valid file name that exists.</value>
+  </data>
+  <data name="Error_InvalidMiDebuggerPath" xml:space="preserve">
+    <value>The value of miDebuggerPath is invalid</value>
+  </data>
+  <data name="Error_LauncherNotFound" xml:space="preserve">
+    <value>Device App Launcher {0} could not be found.</value>
+  </data>
+  <data name="Error_MIDebuggerExited_UnknownCode" xml:space="preserve">
+    <value>{0} exited unexpectedly. Debugging will now abort.</value>
+    <comment>{0} is the name of the debugger</comment>
+  </data>
+  <data name="Error_MIDebuggerExited_WithCode" xml:space="preserve">
+    <value>{0} exited unexpectedly with exit code {1}. Debugging will now abort.</value>
+    <comment>{0} is the name of the debugger</comment>
+  </data>
+  <data name="Error_MissingAttribute" xml:space="preserve">
+    <value>Required attribute '{0}' is missing.</value>
+  </data>
+  <data name="Error_NoMIDebuggerProcess" xml:space="preserve">
+    <value>Unable to execute command. The MIEngine is not currently debugging any process.</value>
+  </data>
+  <data name="Error_NoTerminalAvailable_Linux" xml:space="preserve">
+    <value>No terminal is available to launch the debugger.  Please install Gnome Terminal or XTerm.</value>
+  </data>
+  <data name="Error_ProcessMustBeStopped" xml:space="preserve">
+    <value>Commands are only accepted when the process is stopped.</value>
+  </data>
+  <data name="Error_PropertyCannotBeModifiedAfterInitialization" xml:space="preserve">
+    <value>Property '{0}' cannot be modified after initialization is complete.</value>
+  </data>
+  <data name="Error_ResultFormat" xml:space="preserve">
+    <value>Unrecognized format of field "{0}" in result: {1}</value>
+  </data>
+  <data name="Error_StringIsNullOrEmpty" xml:space="preserve">
+    <value>This string is null or empty.</value>
+  </data>
+  <data name="Error_UnableToLoadSerializer" xml:space="preserve">
+    <value>Internal error. Failed to load serializer for type '{0}'.</value>
+  </data>
+  <data name="Error_UnableToStartDebugging" xml:space="preserve">
+    <value>Unable to start debugging. {0}</value>
+  </data>
+  <data name="Error_UnexpectedMIOutput" xml:space="preserve">
+    <value>Unexpected {0} output from command "{1}".</value>
+    <comment>{0} is the name of the debugger</comment>
+  </data>
+  <data name="Error_UnknownTargetArchitecture" xml:space="preserve">
+    <value>Unknown or unsupported target architecture '{0}'.</value>
+  </data>
+  <data name="Error_UnknownXmlElement" xml:space="preserve">
+    <value>Unrecognized XML element '{0}'.</value>
+  </data>
+  <data name="Status_BreakpointPending" xml:space="preserve">
     <value>Module containing this breakpoint has not yet loaded or the breakpoint address could not be obtained.</value>
-  </data>
-  <data name="ConnectingMessage" xml:space="preserve">
-    <value>Connecting debugger to '{0}'</value>
-  </data>
-  <data name="EngineName" xml:space="preserve">
-    <value>BrightScript Engine</value>
-  </data>
-  <data name="EngineName1" xml:space="preserve">
-    <value>Sample Engine</value>
-  </data>
-  <data name="ErrorReadingFile" xml:space="preserve">
-    <value>Error "{0}" while reading file: {1}</value>
-  </data>
-  <data name="Error_ExePathInvalid" xml:space="preserve">
-    <value>Program path '{0}' is missing or invalid.
-{1} failed with message: {2}</value>
-    <comment>0: exe path passed in
-1: Name of the debugger (ex: 'GDB')
-2: Message from GDB</comment>
-  </data>
-  <data name="ExceptionSettingsError" xml:space="preserve">
-    <value>Error while updating exception settings. {0}</value>
-  </data>
-  <data name="Failed_ExecCommandError" xml:space="preserve">
-    <value>Error: {0}</value>
-  </data>
-  <data name="FileNotFound" xml:space="preserve">
-    <value>File not found: {0}</value>
-  </data>
-  <data name="InitializingDebugger" xml:space="preserve">
-    <value>Initializing Debugger</value>
-  </data>
-  <data name="InvalidAssignment" xml:space="preserve">
-    <value>Invalid assignment </value>
-  </data>
-  <data name="LoadingCoreDumpMessage" xml:space="preserve">
-    <value>Loading core dump {0}</value>
-  </data>
-  <data name="LoadingSymbolCaption" xml:space="preserve">
-    <value>Loading Symbols</value>
-  </data>
-  <data name="LoadingSymbolMessage" xml:space="preserve">
-    <value>Loading symbols for module {0}</value>
-  </data>
-  <data name="LongBind" xml:space="preserve">
-    <value>Attempting to bind the breakpoint....</value>
-  </data>
-  <data name="MissingThreadBreakEvent" xml:space="preserve">
-    <value>Failed to find thread {0} for break event</value>
-  </data>
-  <data name="NoSideEffectsVisualizerMessage" xml:space="preserve">
-    <value>Explicit refresh required for visualized expressions</value>
-  </data>
-  <data name="RawView" xml:space="preserve">
-    <value>[Raw View]</value>
-  </data>
-  <data name="SettingSymbolSearchPath" xml:space="preserve">
-    <value>Setting symbol search path</value>
-  </data>
-  <data name="ThreadExited" xml:space="preserve">
-    <value>Thread has exited</value>
-  </data>
-  <data name="UnknownCode" xml:space="preserve">
-    <value>[Unknown/Just-In-Time compiled code]</value>
-  </data>
-  <data name="UnsupportedBreakpoint" xml:space="preserve">
-    <value>Unsupported Breakpoint Type</value>
-  </data>
-  <data name="UnsupportedConditionalBreakpoint" xml:space="preserve">
-    <value>Conditional breakpoints are not supported</value>
-  </data>
-  <data name="UnsupportedPassCountBreakpoint" xml:space="preserve">
-    <value>Hit counts on breakpoints are not supported</value>
-  </data>
-  <data name="VisualizedView" xml:space="preserve">
-    <value>[Visualized View]</value>
-  </data>
-  <data name="VisualizingExpressionCaption" xml:space="preserve">
-    <value>Visualizing Expression</value>
-  </data>
-  <data name="VisualizingExpressionMessage" xml:space="preserve">
-    <value>Visualizing expression: {0}</value>
   </data>
 </root>

@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using BrightScript.Debugger.Core;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
 
@@ -7,13 +8,17 @@ namespace BrightScript.Debugger.AD7
     // This class represents the information that describes a bound breakpoint.
     internal class AD7BreakpointResolution : IDebugBreakpointResolution2
     {
-        private AD7Engine m_engine;
-        private AD7DocumentContext m_documentContext;
+        private AD7Engine _engine;
+        internal ulong Addr { get; set; }
+        private AD7DocumentContext _documentContext;
+        private string _functionName;
 
-        public AD7BreakpointResolution(AD7Engine engine, AD7DocumentContext documentContext)
+        public AD7BreakpointResolution(AD7Engine engine, ulong address, /*optional*/ string functionName, /*optional*/ AD7DocumentContext documentContext)
         {
-            m_engine = engine;
-            m_documentContext = documentContext;
+            _engine = engine;
+            Addr = address;
+            _documentContext = documentContext;
+            _functionName = functionName;
         }
 
         #region IDebugBreakpointResolution2 Members
@@ -37,16 +42,16 @@ namespace BrightScript.Debugger.AD7
 
                 // The debugger will not QI the IDebugCodeContex2 interface returned here. We must pass the pointer
                 // to IDebugCodeContex2 and not IUnknown.
-                AD7MemoryAddress codeContext = new AD7MemoryAddress(m_engine);
-                codeContext.SetDocumentContext(m_documentContext);
-                location.unionmember1 = Marshal.GetComInterfaceForObject(codeContext, typeof(IDebugCodeContext2));
+                AD7MemoryAddress codeContext = new AD7MemoryAddress(_engine, Addr, _functionName);
+                codeContext.SetDocumentContext(_documentContext);
+                location.unionmember1 = HostMarshal.RegisterCodeContext(codeContext);
                 pBPResolutionInfo[0].bpResLocation = location;
                 pBPResolutionInfo[0].dwFields |= enum_BPRESI_FIELDS.BPRESI_BPRESLOCATION;
             }
 
             if ((dwFields & enum_BPRESI_FIELDS.BPRESI_PROGRAM) != 0)
             {
-                pBPResolutionInfo[0].pProgram = (IDebugProgram2)m_engine;
+                pBPResolutionInfo[0].pProgram = (IDebugProgram2)_engine;
                 pBPResolutionInfo[0].dwFields |= enum_BPRESI_FIELDS.BPRESI_PROGRAM;
             }
 
@@ -56,18 +61,18 @@ namespace BrightScript.Debugger.AD7
         #endregion
     }
 
-    class AD7ErrorBreakpointResolution : IDebugErrorBreakpointResolution2
+    internal class AD7ErrorBreakpointResolution : IDebugErrorBreakpointResolution2
     {
-        private string m_Message;
-        private enum_BP_ERROR_TYPE m_errorType;
-
         public AD7ErrorBreakpointResolution(string msg, enum_BP_ERROR_TYPE errorType = enum_BP_ERROR_TYPE.BPET_GENERAL_WARNING)
         {
-            m_Message = msg;
-            m_errorType = errorType;
+            _message = msg;
+            _errorType = errorType;
         }
 
         #region IDebugErrorBreakpointResolution2 Members
+
+        private string _message;
+        private enum_BP_ERROR_TYPE _errorType;
 
         int IDebugErrorBreakpointResolution2.GetBreakpointType(enum_BP_TYPE[] pBPType)
         {
@@ -90,12 +95,12 @@ namespace BrightScript.Debugger.AD7
             if ((dwFields & enum_BPERESI_FIELDS.BPERESI_MESSAGE) != 0)
             {
                 info[0].dwFields |= enum_BPERESI_FIELDS.BPERESI_MESSAGE;
-                info[0].bstrMessage = m_Message;
+                info[0].bstrMessage = _message;
             }
             if ((dwFields & enum_BPERESI_FIELDS.BPERESI_TYPE) != 0)
             {
                 info[0].dwFields |= enum_BPERESI_FIELDS.BPERESI_TYPE;
-                info[0].dwType = m_errorType;
+                info[0].dwType = _errorType;
             }
 
             return VSConstants.S_OK;

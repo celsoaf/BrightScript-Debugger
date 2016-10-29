@@ -1,4 +1,5 @@
 ﻿using System;
+using BrightScript.Debugger.AD7.Defenitions;
 using BrightScript.Debugger.Engine;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
@@ -8,23 +9,21 @@ namespace BrightScript.Debugger.AD7
     // This class represents a document context to the debugger. A document context represents a location within a source file. 
     internal class AD7DocumentContext : IDebugDocumentContext2
     {
-        string m_fileName;
-        TEXT_POSITION m_begPos;
-        TEXT_POSITION m_endPos;
+        private readonly MITextPosition _textPosition;
+        private AD7MemoryAddress _codeContext;
 
 
-        public AD7DocumentContext(string fileName, TEXT_POSITION begPos, TEXT_POSITION endPos/*, AD7MemoryAddress codeContext*/)
+        public AD7DocumentContext(MITextPosition textPosition, AD7MemoryAddress codeContext)
         {
-            m_fileName = fileName;
-            m_begPos = begPos;
-            m_endPos = endPos;
+            _textPosition = textPosition;
+            _codeContext = codeContext;
         }
-
 
         #region IDebugDocumentContext2 Members
 
         // Compares this document context to a given array of document contexts.
-        int IDebugDocumentContext2.Compare(enum_DOCCONTEXT_COMPARE Compare, IDebugDocumentContext2[] rgpDocContextSet, uint dwDocContextSetLen, out uint pdwDocContext)
+        int IDebugDocumentContext2.Compare(enum_DOCCONTEXT_COMPARE Compare, IDebugDocumentContext2[] rgpDocContextSet,
+            uint dwDocContextSetLen, out uint pdwDocContext)
         {
             dwDocContextSetLen = 0;
             pdwDocContext = 0;
@@ -38,9 +37,22 @@ namespace BrightScript.Debugger.AD7
         int IDebugDocumentContext2.EnumCodeContexts(out IEnumDebugCodeContexts2 ppEnumCodeCxts)
         {
             ppEnumCodeCxts = null;
+
+            if (_codeContext == null)
+            {
+                return VSConstants.E_FAIL;
+            }
+
             try
             {
+                AD7MemoryAddress[] codeContexts = new AD7MemoryAddress[1];
+                codeContexts[0] = _codeContext;
+                ppEnumCodeCxts = new AD7CodeContextEnum(codeContexts);
                 return VSConstants.S_OK;
+            }
+            catch (MIException e)
+            {
+                return e.HResult;
             }
             catch (Exception e)
             {
@@ -58,18 +70,36 @@ namespace BrightScript.Debugger.AD7
         }
 
         // Gets the language associated with this document context.
-        // The language for this sample is always C++
         int IDebugDocumentContext2.GetLanguageInfo(ref string pbstrLanguage, ref Guid pguidLanguage)
         {
-            pbstrLanguage = "Lua";
-            pguidLanguage = new Guid("88A1F488-9D00-4896-A255-6F8251208B90");
+            // CLRDBG TODO: Add 'language' to the MI
+
+            string fileExtension = _textPosition.GetFileExtension();
+
+            if (fileExtension.Equals(".cs", StringComparison.OrdinalIgnoreCase))
+            {
+                pbstrLanguage = "C#";
+                pguidLanguage = AD7Guids.guidLanguageCs;
+            }
+            // NOTE: Use a case sensitive comparison, since '.C' can be used for C++ on unix
+            else if (fileExtension == ".c")
+            {
+                pbstrLanguage = "C";
+                pguidLanguage = AD7Guids.guidLanguageC;
+            }
+            else
+            {
+                pbstrLanguage = "C++";
+                pguidLanguage = AD7Guids.guidLanguageCpp;
+            }
+
             return VSConstants.S_OK;
         }
 
         // Gets the displayable name of the document that contains this document context.
         int IDebugDocumentContext2.GetName(enum_GETNAME_TYPE gnType, out string pbstrFileName)
         {
-            pbstrFileName = m_fileName;
+            pbstrFileName = _textPosition.FileName;
             return VSConstants.S_OK;
         }
 
@@ -80,7 +110,7 @@ namespace BrightScript.Debugger.AD7
         // Sincethis engine does not support the disassembly window, this is not implemented.
         int IDebugDocumentContext2.GetSourceRange(TEXT_POSITION[] pBegPosition, TEXT_POSITION[] pEndPosition)
         {
-            return VSConstants.E_NOTIMPL;
+            throw new NotImplementedException("This method is not implemented");
         }
 
         // Gets the file statement range of the document context.
@@ -89,14 +119,19 @@ namespace BrightScript.Debugger.AD7
         {
             try
             {
-                pBegPosition[0].dwColumn = m_begPos.dwColumn;
-                pBegPosition[0].dwLine = m_begPos.dwLine;
+                pBegPosition[0].dwColumn = _textPosition.BeginPosition.dwColumn;
+                pBegPosition[0].dwLine = _textPosition.BeginPosition.dwLine;
 
-                pEndPosition[0].dwColumn = m_endPos.dwColumn;
-                pEndPosition[0].dwLine = m_endPos.dwLine;
+                pEndPosition[0].dwColumn = _textPosition.EndPosition.dwColumn;
+                pEndPosition[0].dwLine = _textPosition.EndPosition.dwLine;
             }
-            catch (Exception)
+            catch (MIException e)
             {
+                return e.HResult;
+            }
+            catch (Exception e)
+            {
+                return EngineUtils.UnexpectedException(e);
             }
 
             return VSConstants.S_OK;

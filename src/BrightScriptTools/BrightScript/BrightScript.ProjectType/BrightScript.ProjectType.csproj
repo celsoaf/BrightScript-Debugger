@@ -74,7 +74,18 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.VisualStudio.Debugger.Interop.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.VisualStudio.Debugger.InteropA, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Debugger.Interop.11.0, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Debugger.Interop.11.0.11.0.50727\lib\Microsoft.VisualStudio.Debugger.Interop.11.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Debugger.Interop.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Debugger.Interop.12.0.12.0.21005\lib\Microsoft.VisualStudio.Debugger.Interop.12.0.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Debugger.InteropA, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <HintPath>..\..\packages\Microsoft.VisualStudio.Debugger.InteropA.9.0.21022\lib\Microsoft.VisualStudio.Debugger.InteropA.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.Designer.Interfaces, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.VisualStudio.Imaging, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.VisualStudio.Imaging.14.3.25407\lib\net45\Microsoft.VisualStudio.Imaging.dll</HintPath>
@@ -186,6 +197,7 @@
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Threading.Tasks.Dataflow, Version=4.5.24.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -263,6 +275,10 @@
   Resources for our new project system
   -->
   <ItemGroup>
+    <EmbeddedResource Include="Debugger\Core\MICoreResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>MICoreResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Debugger\ResourceStrings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceStrings.Designer.cs</LastGenOutput>
@@ -289,27 +305,75 @@
     <Compile Include="BrightScriptPackage.cs" />
     <Compile Include="Debugger\AD7\AD7BoundBreakpoint.cs" />
     <Compile Include="Debugger\AD7\AD7BreakpointResolution.cs" />
+    <Compile Include="Debugger\AD7\AD7DisassemblyStream.cs" />
     <Compile Include="Debugger\AD7\AD7DocumentContext.cs" />
     <Compile Include="Debugger\AD7\AD7Engine.cs" />
     <Compile Include="Debugger\AD7\AD7Enums.cs" />
     <Compile Include="Debugger\AD7\AD7Events.cs" />
-    <Compile Include="Debugger\AD7\AD7Guids.cs" />
+    <Compile Include="Debugger\AD7\AD7Expression.cs" />
     <Compile Include="Debugger\AD7\AD7MemoryAddress.cs" />
     <Compile Include="Debugger\AD7\AD7PendingBreakpoint.cs" />
     <Compile Include="Debugger\AD7\AD7ProgramNode.cs" />
     <Compile Include="Debugger\AD7\AD7ProgramProvider.cs" />
     <Compile Include="Debugger\AD7\AD7Property.cs" />
+    <Compile Include="Debugger\AD7\AD7RegGroupProperty.cs" />
     <Compile Include="Debugger\AD7\AD7StackFrame.cs" />
     <Compile Include="Debugger\AD7\AD7Thread.cs" />
+    <Compile Include="Debugger\AD7\Defenitions\AD7Guids.cs" />
+    <Compile Include="Debugger\AD7\Defenitions\AD7Hresult.cs" />
     <Compile Include="Debugger\Commands.cs" />
+    <Compile Include="Debugger\Core\CommandFactories\ClrdbgMICommandFactory.cs" />
+    <Compile Include="Debugger\Core\CommandFactories\GdbMICommandFactory.cs" />
+    <Compile Include="Debugger\Core\CommandFactories\LlldbMICommandFactory.cs" />
+    <Compile Include="Debugger\Core\CommandFactories\MICommandFactory.cs" />
+    <Compile Include="Debugger\Core\CommandLock.cs" />
+    <Compile Include="Debugger\Core\DebugEngineHost.cs" />
+    <Compile Include="Debugger\Core\Debugger.cs" />
+    <Compile Include="Debugger\Core\ExceptionHelper.cs" />
+    <Compile Include="Debugger\Core\HostConfigurationStore.cs" />
+    <Compile Include="Debugger\Core\InvalidCoreDumpOperationException.cs" />
+    <Compile Include="Debugger\Core\InvalidLaunchOptionsException.cs" />
+    <Compile Include="Debugger\Core\ITransport.cs" />
+    <Compile Include="Debugger\Core\LaunchCommand.cs" />
+    <Compile Include="Debugger\Core\LaunchOptions.cs" />
+    <Compile Include="Debugger\Core\LinuxNativeMethods.cs" />
+    <Compile Include="Debugger\Core\Logger.cs" />
+    <Compile Include="Debugger\Core\MICoreResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MICoreResources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Debugger\Core\MIException.cs" />
+    <Compile Include="Debugger\Core\PlatformUtilities.cs" />
+    <Compile Include="Debugger\Core\Xml\LaunchOptions.xsd.types.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LaunchOptions.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Debugger\Engine\BreakpointManager.cs" />
+    <Compile Include="Debugger\Engine\Breakpoints.cs" />
+    <Compile Include="Debugger\Engine\DebuggedProcess.cs" />
+    <Compile Include="Debugger\Engine\DebuggedThread.cs" />
+    <Compile Include="Debugger\Engine\Disassembly.cs" />
+    <Compile Include="Debugger\Engine\EngineCallback.cs" />
     <Compile Include="Debugger\Engine\EngineConstants.cs" />
+    <Compile Include="Debugger\Engine\EngineTelemetry.cs" />
     <Compile Include="Debugger\Engine\EngineUtils.cs" />
+    <Compile Include="Debugger\Core\MIResults.cs" />
+    <Compile Include="Debugger\Engine\ExceptionManager.cs" />
+    <Compile Include="Debugger\Engine\LaunchErrorException.cs" />
+    <Compile Include="Debugger\Engine\MITextPosition.cs" />
+    <Compile Include="Debugger\Engine\OperationThread.cs" />
+    <Compile Include="Debugger\Engine\SourceLine.cs" />
     <Compile Include="Debugger\Enums\DebuggerCommandEnum.cs" />
     <Compile Include="Debugger\Frame.cs" />
+    <Compile Include="Debugger\MIDebugCommandDispatcher.cs" />
     <Compile Include="Debugger\Models\BacktraceModel.cs" />
     <Compile Include="Debugger\Models\LogModel.cs" />
     <Compile Include="Debugger\Models\VariableModel.cs" />
+    <Compile Include="Debugger\Natvis\Natvis.cs" />
+    <Compile Include="Debugger\Natvis\NatvisNames.cs" />
+    <Compile Include="Debugger\Natvis\NatvisXsdTypes.cs" />
+    <Compile Include="Debugger\Natvis\VisualizationCache.cs" />
     <Compile Include="Debugger\Register\ProvideBsDebugExceptionAttribute.cs" />
     <Compile Include="Debugger\Register\ProvideDebugEngineAttribute.cs" />
     <Compile Include="Debugger\Register\ProvideDebugExceptionAttribute.cs" />
@@ -326,7 +390,8 @@
     <Compile Include="Debugger\Services\Parser\Utils\TelnetScanner.cs" />
     <Compile Include="Debugger\Services\Telnet\ITelnetService.cs" />
     <Compile Include="Debugger\Services\Telnet\SoketService.cs" />
-    <Compile Include="Debugger\Variable.cs" />
+    <Compile Include="Debugger\Structures.cs" />
+    <Compile Include="Debugger\Variables.cs" />
     <Compile Include="Loggger\LiveLogger.cs" />
     <Compile Include="SharedProject\ExceptionExtensions.cs" />
     <Compile Include="SharedProject\OutputWindowRedirector.cs" />
@@ -350,6 +415,9 @@
     <None Include="app.config" />
     <None Include="BuildSystem\DeployedBuildSystem\CustomProjectBrs.tasks" />
     <None Include="BuildSystem\DeployedBuildSystem\CustomProjectBrs.targets" />
+    <None Include="Debugger\Core\Xml\LaunchOptions.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest" />
     <None Include="Key.snk" />
@@ -428,9 +496,12 @@
     <Analyzer Include="..\..\packages\Microsoft.VisualStudio.Threading.Analyzers.14.1.131-pre\analyzers\Microsoft.VisualStudio.Threading.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Debugger\Core\Xml\ExampleLaunchOptions.xml" />
     <Content Include="Resources\BrightScriptPackage.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Debugger\Interfaces\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <!-- TODO: This copies the build authoring to a well-known location so that on the machine this project builds on,

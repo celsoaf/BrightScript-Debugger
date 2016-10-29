@@ -32,7 +32,7 @@ namespace BrightScript.Debugger.AD7
                 // program node for each process. A full-featured debugger may wish to examine the
                 // target process and determine if it understands how to debug it.
 
-                IDebugProgramNode2 node = (IDebugProgramNode2)(new AD7ProgramNode((int)ProcessId.dwProcessId));
+                IDebugProgramNode2 node = (IDebugProgramNode2)(new AD7ProgramNode(ProcessId));
 
                 IntPtr[] programNodes = { Marshal.GetComInterfaceForObject(node, typeof(IDebugProgramNode2)) };
 

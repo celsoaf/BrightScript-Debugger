@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BrightScript.Debugger.AD7.Defenitions;
+using BrightScript.Debugger.Core;
+using BrightScript.Debugger.Core.CommandFactories;
 using BrightScript.Debugger.Engine;
 using BrightScript.Loggger;
+using Microsoft.MIDebugEngine;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
 using Microsoft.VisualStudio.Threading;
@@ -35,61 +40,145 @@ namespace BrightScript.Debugger.AD7
         public const string DebugEngineId = EngineConstants.EngineId;
         public static Guid DebugEngineGuid = new Guid(DebugEngineId);
 
-        private IntPtr threadHandle;
+        // used to send events to the debugger. Some examples of these events are thread create, exception thrown, module load.
+        private EngineCallback _engineCallback;
 
-        private IDebugEventCallback2 events;
+        // The sample debug engine is split into two parts: a managed front-end and a mixed-mode back end. DebuggedProcess is the primary
+        // object in the back-end. AD7Engine holds a reference to it.
+        private DebuggedProcess _debuggedProcess;
 
+        // This object facilitates calling from this thread into the worker thread of the engine. This is necessary because the Win32 debugging
+        // api requires thread affinity to several operations.
+        private WorkerThread _pollThread;
+
+        // This object manages breakpoints in the sample engine.
+        private BreakpointManager _breakpointManager;
 
         // A unique identifier for the program being debugged.
-        Guid m_ad7ProgramId;
-        
-        private AsyncQueue<Command> writeCommandQueue = new AsyncQueue<Command>();
-        bool keepReadPipeOpen = true;
-        bool keepWritePipeOpen = true;
+        private Guid _ad7ProgramId;
 
-        BreakpointManager breakpointManager;
+        private HostConfigurationStore _configStore;
 
-        IDebugProcess2 debugProcess;
+        public Logger Logger { private set; get; }
 
-        AD7Thread debugThread;
-
-        ManualResetEvent _programCreateContinued = new ManualResetEvent(false);
-
-        #region IDebugEngine2 Members
+        private IDebugSettingsCallback110 _settingsCallback;
 
         public AD7Engine()
         {
             LiveLogger.WriteLine("--------------------------------------------------------------------------------");
             LiveLogger.WriteLine("AD7Engine Created ({0})", GetHashCode());
-            breakpointManager = new BreakpointManager(this);
+            _breakpointManager = new BreakpointManager(this);
         }
+
+        ~AD7Engine()
+        {
+            if (_pollThread != null)
+            {
+                _pollThread.Close();
+            }
+        }
+
+        internal EngineCallback Callback
+        {
+            get { return _engineCallback; }
+        }
+
+        internal DebuggedProcess DebuggedProcess
+        {
+            get { return _debuggedProcess; }
+        }
+
+        internal uint CurrentRadix()
+        {
+            uint radix;
+            if (_settingsCallback != null && _settingsCallback.GetDisplayRadix(out radix) == VSConstants.S_OK)
+            {
+                if (radix != _debuggedProcess.MICommandFactory.Radix)
+                {
+                    _debuggedProcess.WorkerThread.RunOperation(async () =>
+                    {
+                        await _debuggedProcess.MICommandFactory.SetRadix(radix);
+                    });
+                }
+            }
+            return _debuggedProcess.MICommandFactory.Radix;
+        }
+
+        internal bool ProgramCreateEventSent
+        {
+            get;
+            private set;
+        }
+
+        public string GetAddressDescription(ulong ip)
+        {
+            return EngineUtils.GetAddressDescription(_debuggedProcess, ip);
+        }
+
+        public object GetMetric(string metric)
+        {
+            return _configStore.GetEngineMetric(metric);
+        }
+
+        #region IDebugEngine2 Members
 
         // Attach the debug engine to a program. 
         int IDebugEngine2.Attach(IDebugProgram2[] rgpPrograms, IDebugProgramNode2[] rgpProgramNodes, uint celtPrograms, IDebugEventCallback2 ad7Callback, enum_ATTACH_REASON dwReason)
         {
-            int processId = EngineUtils.GetProcessId(rgpPrograms[0]);
-            if (processId == 0)
+            Debug.Assert(_ad7ProgramId == Guid.Empty);
+
+            if (celtPrograms != 1)
             {
-                return VSConstants.E_NOTIMPL;
+                Debug.Fail("SampleEngine only expects to see one program in a process");
+                throw new ArgumentException();
             }
 
-            events = ad7Callback;
+            try
+            {
+                AD_PROCESS_ID processId = EngineUtils.GetProcessId(rgpPrograms[0]);
 
-            EngineUtils.RequireOk(rgpPrograms[0].GetProgramId(out m_ad7ProgramId));
+                EngineUtils.RequireOk(rgpPrograms[0].GetProgramId(out _ad7ProgramId));
 
-            AD7EngineCreateEvent.Send(this);
+                // Attach can either be called to attach to a new process, or to complete an attach
+                // to a launched process
+                if (_pollThread == null)
+                {
+                    // We are being asked to debug a process when we currently aren't debugging anything
+                    _pollThread = new WorkerThread(Logger);
 
-            AD7ProgramCreateEvent.Send(this);
+                    _engineCallback = new EngineCallback(this, ad7Callback);
 
-            debugThread = new AD7Thread(this);
+                    // Complete the win32 attach on the poll thread
+                    _pollThread.RunOperation(new Operation(delegate
+                    {
+                        throw new NotImplementedException();
+                    }));
 
-            AD7ThreadCreateEvent.Send(this);
+                    _pollThread.PostedOperationErrorEvent += _debuggedProcess.OnPostedOperationError;
+                }
+                else
+                {
+                    if (!EngineUtils.ProcIdEquals(processId, _debuggedProcess.Id))
+                    {
+                        Debug.Fail("Asked to attach to a process while we are debugging");
+                        return VSConstants.E_FAIL;
+                    }
+                }
 
-            // This event is optional
-            AD7LoadCompleteEvent.Send(this);
+                AD7EngineCreateEvent.Send(this);
+                AD7ProgramCreateEvent.Send(this);
+                this.ProgramCreateEventSent = true;
 
-
-            return VSConstants.S_OK;
+                return VSConstants.S_OK;
+            }
+            catch (MIException e)
+            {
+                return e.HResult;
+            }
+            catch (Exception e) when (ExceptionHelper.BeforeCatch(e, Logger, reportOnlyCorrupting: true))
+            {
+                return EngineUtils.UnexpectedException(e);
+            }
         }
 
         // Requests that all programs being debugged by this DE stop execution the next time one of their threads attempts to run.
@@ -105,13 +194,87 @@ namespace BrightScript.Debugger.AD7
         // It responds to that event by shutting down the engine.
         int IDebugEngine2.ContinueFromSynchronousEvent(IDebugEvent2 eventObject)
         {
-            AD7ProgramCreateEvent programCreate = eventObject as AD7ProgramCreateEvent;
-            if (programCreate != null)
+            try
             {
-                _programCreateContinued.Set();
+                if (eventObject is AD7ProgramCreateEvent)
+                {
+                    Exception exception = null;
+
+                    try
+                    {
+                        // At this point breakpoints and exception settings have been sent down, so we can resume the target
+                        _pollThread.RunOperation(() =>
+                        {
+                            return _debuggedProcess.ResumeFromLaunch();
+                        });
+                    }
+                    catch (Exception e)
+                    {
+                        exception = e;
+                        // Return from the catch block so that we can let the exception unwind - the stack can get kind of big
+                    }
+
+                    if (exception != null)
+                    {
+                        // If something goes wrong, report the error and then stop debugging. The SDM will drop errors
+                        // from ContinueFromSynchronousEvent, so we want to deal with them ourself.
+                        SendStartDebuggingError(exception);
+                        _debuggedProcess.Terminate();
+                    }
+
+                    return VSConstants.S_OK;
+                }
+                else if (eventObject is AD7ProgramDestroyEvent)
+                {
+                    Dispose();
+                }
+                else
+                {
+                    Debug.Fail("Unknown syncronious event");
+                }
+            }
+            catch (Exception e)
+            {
+                return EngineUtils.UnexpectedException(e);
             }
 
             return VSConstants.S_OK;
+        }
+
+        private void Dispose()
+        {
+            WorkerThread pollThread = _pollThread;
+            DebuggedProcess debuggedProcess = _debuggedProcess;
+
+            _engineCallback = null;
+            _debuggedProcess = null;
+            _pollThread = null;
+            _ad7ProgramId = Guid.Empty;
+
+            debuggedProcess?.Close();
+            pollThread?.Close();
+        }
+
+        private void SendStartDebuggingError(Exception exception)
+        {
+            if (exception is OperationCanceledException)
+            {
+                return; // don't show a message in this case
+            }
+
+            string description = EngineUtils.GetExceptionDescription(exception);
+            string message = string.Format(CultureInfo.CurrentCulture, MICoreResources.Error_UnableToStartDebugging, description);
+
+            var initializationException = exception as MIDebuggerInitializeFailedException;
+            if (initializationException != null)
+            {
+                string outputMessage = string.Join("\r\n", initializationException.OutputLines) + "\r\n";
+
+                // NOTE: We can't write to the output window by sending an AD7 event because this may be called before the session create event
+                HostOutputWindow.WriteLaunchError(outputMessage);
+            }
+
+            _engineCallback.OnErrorImmediate(message);
         }
 
         // Creates a pending breakpoint in the engine. A pending breakpoint is contains all the information needed to bind a breakpoint to 
@@ -119,7 +282,17 @@ namespace BrightScript.Debugger.AD7
         // Called when new bp set by user
         int IDebugEngine2.CreatePendingBreakpoint(IDebugBreakpointRequest2 pBPRequest, out IDebugPendingBreakpoint2 ppPendingBP)
         {
-            breakpointManager.CreatePendingBreakpoint(pBPRequest, out ppPendingBP);
+            Debug.Assert(_breakpointManager != null);
+            ppPendingBP = null;
+
+            try
+            {
+                _breakpointManager.CreatePendingBreakpoint(pBPRequest, out ppPendingBP);
+            }
+            catch (Exception e)
+            {
+                return EngineUtils.UnexpectedException(e);
+            }
 
             return VSConstants.S_OK;
         }
@@ -128,7 +301,11 @@ namespace BrightScript.Debugger.AD7
         // clean up all references to the program and send a program destroy event.
         int IDebugEngine2.DestroyProgram(IDebugProgram2 pProgram)
         {
-            return pProgram.Terminate();
+            // Tell the SDM that the engine knows that the program is exiting, and that the
+            // engine will send a program destroy. We do this because the Win32 debug api will always
+            // tell us that the process exited, and otherwise we have a race condition.
+
+            return (AD7_HRESULT.E_PROGRAM_DESTROY_PENDING);
         }
 
         // Gets the GUID of the DE.
@@ -142,6 +319,7 @@ namespace BrightScript.Debugger.AD7
         // The sample engine does not support exceptions in the debuggee so this method is not actually implemented.
         int IDebugEngine2.RemoveAllSetExceptions(ref Guid guidType)
         {
+            _debuggedProcess?.ExceptionManager.RemoveAllSetExceptions(guidType);
             return VSConstants.S_OK;
         }
 
@@ -149,8 +327,7 @@ namespace BrightScript.Debugger.AD7
         // The sample engine does not support exceptions in the debuggee so this method is not actually implemented.       
         int IDebugEngine2.RemoveSetException(EXCEPTION_INFO[] pException)
         {
-            // The sample engine will always stop on all exceptions.
-
+            _debuggedProcess?.ExceptionManager.RemoveSetException(ref pException[0]);
             return VSConstants.S_OK;
         }
 
@@ -158,6 +335,7 @@ namespace BrightScript.Debugger.AD7
         // The sample engine does not support exceptions in the debuggee so this method is not actually implemented.
         int IDebugEngine2.SetException(EXCEPTION_INFO[] pException)
         {
+            _debuggedProcess?.ExceptionManager.SetException(ref pException[0]);
             return VSConstants.S_OK;
         }
 
@@ -173,15 +351,36 @@ namespace BrightScript.Debugger.AD7
         // This method can forward the call to the appropriate form of the Debugging SDK Helpers function, SetMetric.
         int IDebugEngine2.SetMetric(string pszMetric, object varValue)
         {
-            // The sample engine does not need to understand any metric settings.
-            return VSConstants.S_OK;
+            if (string.CompareOrdinal(pszMetric, "JustMyCodeStepping") == 0)
+            {
+                string strJustMyCode = varValue.ToString();
+                bool optJustMyCode;
+                if (string.CompareOrdinal(strJustMyCode, "0") == 0)
+                {
+                    optJustMyCode = false;
+                }
+                else if (string.CompareOrdinal(strJustMyCode, "1") == 0)
+                {
+                    optJustMyCode = true;
+                }
+                else
+                {
+                    return VSConstants.E_FAIL;
+                }
+
+                _pollThread.RunOperation(new Operation(() => { _debuggedProcess.MICommandFactory.SetJustMyCode(optJustMyCode); }));
+                return VSConstants.S_OK;
+            }
+
+            return VSConstants.E_NOTIMPL;
         }
 
         // Sets the registry root currently in use by the DE. Different installations of Visual Studio can change where their registry information is stored
         // This allows the debugger to tell the engine where that location is.
         int IDebugEngine2.SetRegistryRoot(string pszRegistryRoot)
         {
-            // The sample engine does not read settings from the registry.
+            _configStore = new HostConfigurationStore(pszRegistryRoot, EngineConstants.EngineId);
+            Logger = Logger.EnsureInitialized(_configStore);
             return VSConstants.S_OK;
         }
 
@@ -193,12 +392,20 @@ namespace BrightScript.Debugger.AD7
         // Determines if a process can be terminated.
         int IDebugEngineLaunch2.CanTerminateProcess(IDebugProcess2 process)
         {
-            if (EngineUtils.GetProcessId(process) == EngineUtils.GetProcessId(debugProcess))
+            Debug.Assert(_pollThread != null);
+            Debug.Assert(_engineCallback != null);
+            Debug.Assert(_debuggedProcess != null);
+
+            AD_PROCESS_ID processId = EngineUtils.GetProcessId(process);
+
+            if (EngineUtils.ProcIdEquals(processId, _debuggedProcess.Id))
             {
                 return VSConstants.S_OK;
             }
-
-            return VSConstants.S_FALSE;
+            else
+            {
+                return VSConstants.S_FALSE;
+            }
         }
 
         // Launches a process by means of the debug engine.
@@ -222,70 +429,153 @@ namespace BrightScript.Debugger.AD7
             IDebugEventCallback2 ad7Callback, 
             out IDebugProcess2 process)
         {
-            Debug.Assert(m_ad7ProgramId == Guid.Empty);
+            Debug.Assert(_pollThread == null);
+            Debug.Assert(_engineCallback == null);
+            Debug.Assert(_debuggedProcess == null);
+            Debug.Assert(_ad7ProgramId == Guid.Empty);
 
-            events = ad7Callback;
-            
-            m_ad7ProgramId = Guid.NewGuid();
+            process = null;
 
-            // we do NOT have real Win32 process IDs, so we use a guid
-            AD_PROCESS_ID pid = new AD_PROCESS_ID();
-            pid.ProcessIdType = (int)enum_AD_PROCESS_ID.AD_PROCESS_ID_GUID;
-            pid.guidProcessId = Guid.NewGuid();
-            
+            _engineCallback = new EngineCallback(this, ad7Callback);
 
-            EngineUtils.RequireOk(port.GetProcess(pid, out process));
-            debugProcess = process;
+            Exception exception;
 
-            AD7EngineCreateEvent.Send(this);
+            try
+            {
+                var xml = "<LocalLaunchOptions xmlns=\"http://schemas.microsoft.com/vstudio/MDDDebuggerOptions/2014\" MIDebuggerPath=\"" + dir + exe + "\" /> ";
 
-            AD7ProgramCreateEvent.Send(this);
+                // Note: LaunchOptions.GetInstance can be an expensive operation and may push a wait message loop
+                LaunchOptions launchOptions = LaunchOptions.GetInstance(_configStore, exe, args, dir, xml, _engineCallback, TargetEngine.Native, Logger);
 
-            debugThread = new AD7Thread(this);
+                // We are being asked to debug a process when we currently aren't debugging anything
+                _pollThread = new WorkerThread(Logger);
+                var cancellationTokenSource = new CancellationTokenSource();
 
-            AD7ThreadCreateEvent.Send(this);
+                using (cancellationTokenSource)
+                {
+                    _pollThread.RunOperation(ResourceStrings.InitializingDebugger, cancellationTokenSource, (HostWaitLoop waitLoop) =>
+                    {
+                        try
+                        {
+                            _debuggedProcess = new DebuggedProcess(true, launchOptions, _engineCallback, _pollThread, _breakpointManager, this, _configStore);
+                        }
+                        finally
+                        {
+                            // If there is an exception from the DebuggeedProcess constructor, it is our responsibility to dispose the DeviceAppLauncher,
+                            // otherwise the DebuggedProcess object takes ownership.
+                            if (_debuggedProcess == null && launchOptions.DeviceAppLauncher != null)
+                            {
+                                launchOptions.DeviceAppLauncher.Dispose();
+                            }
+                        }
 
-            // This event is optional
-            AD7LoadCompleteEvent.Send(this);
+                        _pollThread.PostedOperationErrorEvent += _debuggedProcess.OnPostedOperationError;
 
-            return VSConstants.S_OK;
+                        return _debuggedProcess.Initialize(waitLoop, cancellationTokenSource.Token);
+                    });
+                }
+
+                EngineUtils.RequireOk(port.GetProcess(_debuggedProcess.Id, out process));
+
+                return VSConstants.S_OK;
+            }
+            catch (Exception e) when (ExceptionHelper.BeforeCatch(e, Logger, reportOnlyCorrupting: true))
+            {
+                exception = e;
+                // Return from the catch block so that we can let the exception unwind - the stack can get kind of big
+            }
+
+            // If we just return the exception as an HRESULT, we will loose our message, so we instead send up an error event, and then
+            // return E_ABORT.
+            Logger.Flush();
+            SendStartDebuggingError(exception);
+
+            Dispose();
+
+            return VSConstants.E_ABORT;
         }
 
         // Resume a process launched by IDebugEngineLaunch2.LaunchSuspended
         int IDebugEngineLaunch2.ResumeProcess(IDebugProcess2 process)
         {
-            IDebugPort2 port;
-            EngineUtils.RequireOk(process.GetPort(out port));
+            Debug.Assert(_pollThread != null);
+            Debug.Assert(_engineCallback != null);
+            Debug.Assert(_debuggedProcess != null);
+            Debug.Assert(_ad7ProgramId == Guid.Empty);
 
-            IDebugDefaultPort2 defaultPort = (IDebugDefaultPort2)port;
-
-            IDebugPortNotify2 portNotify;
-            EngineUtils.RequireOk(defaultPort.GetPortNotify(out portNotify));
-
-            EngineUtils.RequireOk(portNotify.AddProgramNode(new AD7ProgramNode(Process.GetCurrentProcess().Id)));
-
-            if (this.m_ad7ProgramId == Guid.Empty)
+            try
             {
-                Debug.Fail("Attaching failed");
-                return VSConstants.E_FAIL;
-            }
+                AD_PROCESS_ID processId = EngineUtils.GetProcessId(process);
 
-            return VSConstants.S_OK;
+                if (!EngineUtils.ProcIdEquals(processId, _debuggedProcess.Id))
+                {
+                    return VSConstants.S_FALSE;
+                }
+
+                // Send a program node to the SDM. This will cause the SDM to turn around and call IDebugEngine2.Attach
+                // which will complete the hookup with AD7
+                IDebugPort2 port;
+                EngineUtils.RequireOk(process.GetPort(out port));
+
+                IDebugDefaultPort2 defaultPort = (IDebugDefaultPort2)port;
+
+                IDebugPortNotify2 portNotify;
+                EngineUtils.RequireOk(defaultPort.GetPortNotify(out portNotify));
+
+                EngineUtils.RequireOk(portNotify.AddProgramNode(new AD7ProgramNode(_debuggedProcess.Id)));
+
+                if (_ad7ProgramId == Guid.Empty)
+                {
+                    Debug.Fail("Unexpected problem -- IDebugEngine2.Attach wasn't called");
+                    return VSConstants.E_FAIL;
+                }
+
+                // NOTE: We wait for the program create event to be continued before we really resume the process
+
+                return VSConstants.S_OK;
+            }
+            catch (MIException e)
+            {
+                return e.HResult;
+            }
+            catch (Exception e) when (ExceptionHelper.BeforeCatch(e, Logger, reportOnlyCorrupting: true))
+            {
+                return EngineUtils.UnexpectedException(e);
+            }
         }
 
         // This function is used to terminate a process that the SampleEngine launched
         // The debugger will call IDebugEngineLaunch2::CanTerminateProcess before calling this method.
         int IDebugEngineLaunch2.TerminateProcess(IDebugProcess2 process)
         {
-            if (EngineUtils.GetProcessId(process) != EngineUtils.GetProcessId(debugProcess))
+            Debug.Assert(_pollThread != null);
+            Debug.Assert(_engineCallback != null);
+            Debug.Assert(_debuggedProcess != null);
+
+            AD_PROCESS_ID processId = EngineUtils.GetProcessId(process);
+            if (!EngineUtils.ProcIdEquals(processId, _debuggedProcess.Id))
             {
                 return VSConstants.S_FALSE;
             }
 
+            try
+            {
+                _pollThread.RunOperation(() => _debuggedProcess.CmdTerminate());
 
-            var exitCode = process.Terminate();
-
-            AD7ProgramDestroyEvent.Send(this, exitCode);
+                if (_debuggedProcess.MICommandFactory.Mode != MIMode.Clrdbg)
+                {
+                    _debuggedProcess.Terminate();
+                }
+                else
+                {
+                    // Clrdbg issues a proper exit event on CmdTerminate call, don't call _debuggedProcess.Terminate() which 
+                    // simply sends a fake exit event that overrides the exit code of the real one
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                // Ignore failures caused by the connection already being dead.
+            }
 
             return VSConstants.S_OK;
         }
@@ -297,14 +587,16 @@ namespace BrightScript.Debugger.AD7
         // Determines if a debug engine (DE) can detach from the program.
         public int CanDetach()
         {
-            // The sample engine always supports detach
-            return VSConstants.S_OK;
+            bool canDetach = _debuggedProcess != null && _debuggedProcess.MICommandFactory.CanDetach();
+            return canDetach ? VSConstants.S_OK : VSConstants.S_FALSE;
         }
 
         // The debugger calls CauseBreak when the user clicks on the pause button in VS. The debugger should respond by entering
         // breakmode. 
         public int CauseBreak()
         {
+            _pollThread.RunOperation(() => _debuggedProcess.CmdBreak());
+
             return VSConstants.S_OK;
         }
 
@@ -313,6 +605,25 @@ namespace BrightScript.Debugger.AD7
         // and the debugger does not want to actually enter break mode.
         public int Continue(IDebugThread2 pThread)
         {
+            // VS Code currently isn't providing a thread Id in certain cases. Work around this by handling null values.
+            AD7Thread thread = pThread as AD7Thread;
+
+            try
+            {
+                if (_pollThread.IsPollThread())
+                {
+                    _debuggedProcess.Continue(thread?.GetDebuggedThread());
+                }
+                else
+                {
+                    _pollThread.RunOperation(() => _debuggedProcess.Continue(thread?.GetDebuggedThread()));
+                }
+            }
+            catch (InvalidCoreDumpOperationException)
+            {
+                return AD7_HRESULT.E_CRASHDUMP_UNSUPPORTED;
+            }
+
             return VSConstants.S_OK;
         }
 
@@ -320,14 +631,52 @@ namespace BrightScript.Debugger.AD7
         // or when one of the Detach commands are executed in the UI.
         public int Detach()
         {
+            _breakpointManager.ClearBoundBreakpoints();
+
+            _pollThread.RunOperation(() => _debuggedProcess.CmdDetach());
+
             return VSConstants.E_NOTIMPL;
         }
 
         // Enumerates the code contexts for a given position in a source file.
         public int EnumCodeContexts(IDebugDocumentPosition2 pDocPos, out IEnumDebugCodeContexts2 ppEnum)
         {
+            string documentName;
+            EngineUtils.CheckOk(pDocPos.GetFileName(out documentName));
+
+            // Get the location in the document
+            TEXT_POSITION[] startPosition = new TEXT_POSITION[1];
+            TEXT_POSITION[] endPosition = new TEXT_POSITION[1];
+            EngineUtils.CheckOk(pDocPos.GetRange(startPosition, endPosition));
+            List<IDebugCodeContext2> codeContexts = new List<IDebugCodeContext2>();
+
+            List<ulong> addresses = null;
+            uint line = startPosition[0].dwLine + 1;
+            _debuggedProcess.WorkerThread.RunOperation(async () =>
+            {
+                addresses = await DebuggedProcess.StartAddressesForLine(documentName, line);
+            });
+
+            if (addresses != null && addresses.Count > 0)
+            {
+                foreach (var a in addresses)
+                {
+                    var codeCxt = new AD7MemoryAddress(this, a, null);
+                    TEXT_POSITION pos;
+                    pos.dwLine = line;
+                    pos.dwColumn = 0;
+                    MITextPosition textPosition = new MITextPosition(documentName, pos, pos);
+                    codeCxt.SetDocumentContext(new AD7DocumentContext(textPosition, codeCxt));
+                    codeContexts.Add(codeCxt);
+                }
+                if (codeContexts.Count > 0)
+                {
+                    ppEnum = new AD7CodeContextEnum(codeContexts.ToArray());
+                    return VSConstants.S_OK;
+                }
+            }
             ppEnum = null;
-            return VSConstants.E_NOTIMPL;
+            return VSConstants.E_FAIL;
         }
 
         // EnumCodePaths is used for the step-into specific feature -- right click on the current statment and decide which
@@ -349,8 +698,19 @@ namespace BrightScript.Debugger.AD7
         // EnumThreads is called by the debugger when it needs to enumerate the threads in the program.
         public int EnumThreads(out IEnumDebugThreads2 ppEnum)
         {
-            ppEnum = null;
-            return VSConstants.E_NOTIMPL;
+            DebuggedThread[] threads = null;
+            DebuggedProcess.WorkerThread.RunOperation(async () => threads = await DebuggedProcess.ThreadCache.GetThreads());
+
+            AD7Thread[] threadObjects = new AD7Thread[threads.Length];
+            for (int i = 0; i < threads.Length; i++)
+            {
+                Debug.Assert(threads[i].Client != null);
+                threadObjects[i] = (AD7Thread)threads[i].Client;
+            }
+
+            ppEnum = new AD7ThreadEnum(threadObjects);
+
+            return VSConstants.S_OK;
         }
 
         // The properties returned by this method are specific to the program. If the program needs to return more than one property, 
@@ -369,8 +729,8 @@ namespace BrightScript.Debugger.AD7
         // The sample engine does not support dissassembly so it returns E_NOTIMPL
         public int GetDisassemblyStream(enum_DISASSEMBLY_STREAM_SCOPE dwScope, IDebugCodeContext2 codeContext, out IDebugDisassemblyStream2 disassemblyStream)
         {
-            disassemblyStream = null;
-            return VSConstants.E_NOTIMPL;
+            disassemblyStream = new AD7DisassemblyStream(this, dwScope, codeContext);
+            return VSConstants.S_OK;
         }
 
         // This method gets the Edit and Continue (ENC) update for this program. A custom debug engine always returns E_NOTIMPL
@@ -394,7 +754,7 @@ namespace BrightScript.Debugger.AD7
         public int GetMemoryBytes(out IDebugMemoryBytes2 ppMemoryBytes)
         {
             ppMemoryBytes = null;
-            return VSConstants.E_NOTIMPL;
+            return VSConstants.S_OK;
         }
 
         // Gets the name of the program.
@@ -411,16 +771,26 @@ namespace BrightScript.Debugger.AD7
         // or IDebugEngine2::Attach methods. This allows identification of the program across debugger components.
         public int GetProgramId(out Guid guidProgramId)
         {
-            Debug.Assert(m_ad7ProgramId != Guid.Empty);
+            Debug.Assert(_ad7ProgramId != Guid.Empty);
 
-            guidProgramId = m_ad7ProgramId;
+            guidProgramId = _ad7ProgramId;
             return VSConstants.S_OK;
         }
 
         // This method is deprecated. Use the IDebugProcess3::Step method instead.
         public int Step(IDebugThread2 pThread, enum_STEPKIND sk, enum_STEPUNIT Step)
         {
-            EnqueueCommand(new Command(CommandKind.Step));
+            AD7Thread thread = (AD7Thread)pThread;
+
+            try
+            {
+                _debuggedProcess.WorkerThread.RunOperation(() => _debuggedProcess.Step(thread.GetDebuggedThread().Id, sk, Step));
+            }
+            catch (InvalidCoreDumpOperationException)
+            {
+                return AD7_HRESULT.E_CRASHDUMP_UNSUPPORTED;
+            }
+
             return VSConstants.S_OK;
         }
 
@@ -428,9 +798,9 @@ namespace BrightScript.Debugger.AD7
         public int Terminate()
         {
             // Because the sample engine is a native debugger, it implements IDebugEngineLaunch2, and will terminate
-            // the process in IDebugEngineLaunch2.TerminateProcess
-            this.keepReadPipeOpen = false;
-            this.keepWritePipeOpen = false;
+            //// the process in IDebugEngineLaunch2.TerminateProcess
+            //this.keepReadPipeOpen = false;
+            //this.keepWritePipeOpen = false;
             return VSConstants.S_OK;
         }
 
@@ -449,7 +819,16 @@ namespace BrightScript.Debugger.AD7
         // stepping state cleared.
         public int ExecuteOnThread(IDebugThread2 pThread)
         {
-            EnqueueCommand(new Command(CommandKind.Continue));
+            AD7Thread thread = (AD7Thread)pThread;
+
+            try
+            {
+                _pollThread.RunOperation(() => _debuggedProcess.Execute(thread.GetDebuggedThread()));
+            }
+            catch (InvalidCoreDumpOperationException)
+            {
+                return AD7_HRESULT.E_CRASHDUMP_UNSUPPORTED;
+            }
 
             return VSConstants.S_OK;
         }
@@ -520,37 +899,5 @@ namespace BrightScript.Debugger.AD7
 
         #endregion
 
-
-        #region Events
-
-        internal void Send(IDebugEvent2 eventObject, string iidEvent, IDebugProgram2 program)
-        {
-            uint attributes;
-            Guid riidEvent = new Guid(iidEvent);
-
-            EngineUtils.RequireOk(eventObject.GetAttributes(out attributes));
-
-            Debug.WriteLine(string.Format("Sending Event: {0} {1}", eventObject.GetType(), iidEvent));
-            try
-            {
-                EngineUtils.RequireOk(events.Event(this, debugProcess, this, debugThread, eventObject, ref riidEvent, attributes));
-            }
-            catch (InvalidCastException)
-            {
-                // COM object has gone away
-            }
-        }
-
-        internal void Send(IDebugEvent2 eventObject, string iidEvent)
-        {
-            Send(eventObject, iidEvent, this);
-        }
-
-        #endregion
-
-        internal void EnqueueCommand(Command command)
-        {
-            writeCommandQueue.Enqueue(command);
-        }
     }
 }

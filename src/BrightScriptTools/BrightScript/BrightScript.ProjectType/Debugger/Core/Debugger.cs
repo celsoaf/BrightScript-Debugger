@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using BrightScript.Debugger.Core.CommandFactories;
+using BrightScript.Debugger.Core.Transports;
 using BrightScript.Debugger.Engine;
 
 namespace BrightScript.Debugger.Core
@@ -66,6 +67,7 @@ namespace BrightScript.Debugger.Core
         private TaskCompletionSource<object> _consoleDebuggerInitializeCompletionSource = new TaskCompletionSource<object>();
         private LinkedList<string> _initializationLog = new LinkedList<string>();
         private LinkedList<string> _initialErrors = new LinkedList<string>();
+        private int _localDebuggerPid = -1;
 
         protected bool _connected;
 
@@ -116,6 +118,13 @@ namespace BrightScript.Debugger.Core
             _debuggeePids = new Dictionary<string, int>();
             Logger = logger;
             _miResults = new MIResults(logger);
+        }
+
+        protected void SetDebuggerPid(int debuggerPid)
+        {
+            // Used for testing
+            Logger.WriteLine(string.Concat("DebuggerPid=", debuggerPid));
+            _localDebuggerPid = debuggerPid;
         }
 
         private void RetryBreak(object o)

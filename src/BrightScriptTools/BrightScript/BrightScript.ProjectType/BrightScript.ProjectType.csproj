@@ -333,7 +333,6 @@
     <Compile Include="Debugger\Core\HostConfigurationStore.cs" />
     <Compile Include="Debugger\Core\InvalidCoreDumpOperationException.cs" />
     <Compile Include="Debugger\Core\InvalidLaunchOptionsException.cs" />
-    <Compile Include="Debugger\Core\ITransport.cs" />
     <Compile Include="Debugger\Core\LaunchCommand.cs" />
     <Compile Include="Debugger\Core\LaunchOptions.cs" />
     <Compile Include="Debugger\Core\LinuxNativeMethods.cs" />
@@ -345,6 +344,18 @@
     </Compile>
     <Compile Include="Debugger\Core\MIException.cs" />
     <Compile Include="Debugger\Core\PlatformUtilities.cs" />
+    <Compile Include="Debugger\Core\ProcessMonitor.cs" />
+    <Compile Include="Debugger\Core\TerminalLauncher.cs" />
+    <Compile Include="Debugger\Core\Transports\ClientServerTransport.cs" />
+    <Compile Include="Debugger\Core\Transports\ITransport.cs" />
+    <Compile Include="Debugger\Core\Transports\LocalTransport.cs" />
+    <Compile Include="Debugger\Core\Transports\LocalUnixTerminalTransport.cs" />
+    <Compile Include="Debugger\Core\Transports\PipeTransport.cs" />
+    <Compile Include="Debugger\Core\Transports\ServerTransport.cs" />
+    <Compile Include="Debugger\Core\Transports\StreamTransport.cs" />
+    <Compile Include="Debugger\Core\Transports\TcpTransport.cs" />
+    <Compile Include="Debugger\Core\UnixNativeMethods.cs" />
+    <Compile Include="Debugger\Core\UnixUtilities.cs" />
     <Compile Include="Debugger\Core\Xml\LaunchOptions.xsd.types.designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>LaunchOptions.xsd</DependentUpon>

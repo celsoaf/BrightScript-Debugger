@@ -1,16 +1,37 @@
 ﻿using System.Threading;
-using Microsoft.Build.Utilities;
 
-namespace BrightScript.Debugger.Core
+namespace BrightScript.Debugger.Core.Transports
 {
     public delegate void OnCommand(string cmd);
 
     public interface ITransport
     {
-        void Init(ITransportCallback transportCallback, LaunchOptions options, Logger logger);
+        void Init(ITransportCallback transportCallback, LaunchOptions options, Logger logger, HostWaitLoop waitLoop = null);
         void Send(string cmd);
         void Close();
         bool IsClosed { get; }
+
+        /// <summary>
+        /// Process ID of the debugger process (clrdbg/lldb/gdb).
+        /// This value is only valid when using local launch options. When using non-local
+        /// options this may throw (e.g., TcpTransport) or provide bogus data (e.g., PipeTransport).
+        /// It is used to know whether to fake a response from the debugger
+        /// acknowledging that it has exited.
+        /// </summary>
+        int DebuggerPid { get; }
+
+        /// <summary>
+        /// Executes a command synchronously
+        /// </summary>
+        /// <param name="commandDescription">Description of the command which is being passed in</param>
+        /// <param name="commandText">Command to execute</param>
+        /// <param name="timeout">timeout for the command</param>
+        /// <param name="output">Output of the command in stdout</param>
+        /// <param name="error">Output of the command in stderr</param>
+        /// <returns>Exit code of the command</returns>
+        int ExecuteSyncCommand(string commandDescription, string commandText, int timeout, out string output, out string error);
+
+        bool CanExecuteCommand();
     }
     public interface ISignalingTransport : ITransport
     {
@@ -19,7 +40,7 @@ namespace BrightScript.Debugger.Core
 
 
     /// <summary>
-    /// Interface implemented by the Debugger class to recieve notifications from the transport
+    /// Interface implemented by the Debugger class to receive notifications from the transport
     /// </summary>
     public interface ITransportCallback
     {

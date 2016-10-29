@@ -303,5 +303,14 @@ namespace BrightScript.Debugger {
                 return ResourceManager.GetString("VisualizingExpressionMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Debugger executable &apos;{0}&apos; is not signed. As a result, debugging may not work properly..
+        /// </summary>
+        internal static string Warning_DarwinDebuggerUnsigned {
+            get {
+                return ResourceManager.GetString("Warning_DarwinDebuggerUnsigned", resourceCulture);
+            }
+        }
     }
 }

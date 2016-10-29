@@ -138,7 +138,7 @@ namespace BrightScript.Debugger.Core
         /// <param name="cancellationSource">Cancellation token source to cancel if the user hits the cancel button.</param>
         public void Wait(WaitHandle handle, CancellationTokenSource cancellationSource)
         {
-            
+            handle.WaitOne();
         }
 
         /// <summary>

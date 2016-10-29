@@ -817,6 +817,14 @@ namespace BrightScript.Debugger.Core
             return path.IndexOfAny(Path.GetInvalidPathChars()) < 0 && File.Exists(path) && Path.IsPathRooted(path);
         }
 
+        /// <summary>
+        /// Checks that if the directory path is valid, exists and is rooted.
+        /// </summary>
+        public static bool CheckDirectoryPath(string path)
+        {
+            return path.IndexOfAny(Path.GetInvalidPathChars()) < 0 && Directory.Exists(path) && Path.IsPathRooted(path);
+        }
+
         public bool IsCoreDump
         {
             get { return !String.IsNullOrEmpty(this.CoreDumpPath); }
@@ -825,6 +833,11 @@ namespace BrightScript.Debugger.Core
         public bool ShouldStartServer()
         {
             return !string.IsNullOrWhiteSpace(DebugServer);
+        }
+
+        public bool IsValidMiDebuggerPath()
+        {
+            return File.Exists(MIDebuggerPath);
         }
 
         static internal LocalLaunchOptions CreateFromXml(MICore.Xml.LaunchOptions.LocalLaunchOptions source)
@@ -926,18 +939,30 @@ namespace BrightScript.Debugger.Core
     /// </summary>
     public sealed class PipeLaunchOptions : LaunchOptions
     {
-        public PipeLaunchOptions(string PipePath, string PipeArguments)
+        /// <summary>
+        /// Creates an instance of PipeLaunchOptions
+        /// </summary>
+        /// <param name="pipePath">Path of the pipe program</param>
+        /// <param name="pipeArguments">Argument to the pipe program</param>
+        /// <param name="pipeCommandArguments">Command to be invoked on the pipe program</param>
+        /// <param name="pipeCwd">Current working directory of pipe program. If empty directory of the pipePath is set as the cwd.</param>
+        /// <param name="pipeEnvironment">Environment variables set before invoking the pipe program</param>
+        public PipeLaunchOptions(string pipePath, string pipeArguments, string pipeCommandArguments, string pipeCwd, MICore.Xml.LaunchOptions.EnvironmentEntry[] pipeEnvironment)
         {
-            if (string.IsNullOrEmpty(PipePath))
+            if (string.IsNullOrEmpty(pipePath))
                 throw new ArgumentNullException("PipePath");
 
-            this.PipePath = PipePath;
-            this.PipeArguments = PipeArguments;
+            this.PipePath = pipePath;
+            this.PipeArguments = pipeArguments;
+            this.PipeCommandArguments = pipeCommandArguments;
+            this.PipeCwd = pipeCwd;
+
+            this.PipeEnvironment = (pipeEnvironment != null) ? pipeEnvironment.Select(e => new EnvironmentEntry(e)).ToArray() : new EnvironmentEntry[] { };
         }
 
         static internal PipeLaunchOptions CreateFromXml(MICore.Xml.LaunchOptions.PipeLaunchOptions source)
         {
-            var options = new PipeLaunchOptions(RequireAttribute(source.PipePath, "PipePath"), source.PipeArguments);
+            var options = new PipeLaunchOptions(RequireAttribute(source.PipePath, "PipePath"), source.PipeArguments, source.PipeCommandArguments, source.PipeCwd, source.PipeEnvironment);
             options.InitializeCommonOptions(source);
 
             return options;
@@ -951,7 +976,23 @@ namespace BrightScript.Debugger.Core
         /// <summary>
         /// [Optional] Arguments to pass to the pipe executable.
         /// </summary>
+        /// 
         public string PipeArguments { get; private set; }
+
+        /// <summary>
+        /// [Optional] Arguments to pass to the PipePath program that include a format specifier ('{0}') for a custom command.
+        /// </summary>
+        public string PipeCommandArguments { get; private set; }
+
+        /// <summary>
+        /// [Optional] Current working directory when the pipe program is invoked.
+        /// </summary>
+        public string PipeCwd { get; private set; }
+
+        /// <summary>
+        /// [Optional] Enviroment variables for the pipe program.
+        /// </summary>
+        public IReadOnlyCollection<EnvironmentEntry> PipeEnvironment { get; private set; }
     }
 
     public sealed class TcpLaunchOptions : LaunchOptions

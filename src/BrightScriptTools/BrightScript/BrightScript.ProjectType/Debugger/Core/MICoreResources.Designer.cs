@@ -117,6 +117,15 @@ namespace BrightScript.Debugger.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PipePath cannot be empty..
+        /// </summary>
+        internal static string Error_EmptyPipePath {
+            get {
+                return ResourceManager.GetString("Error_EmptyPipePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exception while processing MIEngine operation. {0}. If the problem continues restart debugging..
         /// </summary>
         internal static string Error_ExceptionInOperation {
@@ -155,6 +164,15 @@ namespace BrightScript.Debugger.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Internal file &quot;{0}&quot; could not be found..
+        /// </summary>
+        internal static string Error_InternalFileMissing {
+            get {
+                return ResourceManager.GetString("Error_InternalFileMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Launch options string provided by the project system is invalid. {0}.
         /// </summary>
         internal static string Error_InvalidLaunchOptions {
@@ -169,6 +187,15 @@ namespace BrightScript.Debugger.Core {
         internal static string Error_InvalidLocalCoreDumpPath {
             get {
                 return ResourceManager.GetString("Error_InvalidLocalCoreDumpPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid path to directory path &apos;{0}&apos;. Directory must be a valid directory name that exists..
+        /// </summary>
+        internal static string Error_InvalidLocalDirectoryPath {
+            get {
+                return ResourceManager.GetString("Error_InvalidLocalDirectoryPath", resourceCulture);
             }
         }
         
@@ -196,6 +223,15 @@ namespace BrightScript.Debugger.Core {
         internal static string Error_LauncherNotFound {
             get {
                 return ResourceManager.GetString("Error_LauncherNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to initialize debugger terminal..
+        /// </summary>
+        internal static string Error_LocalUnixTerminalDebuggerInitializationFailed {
+            get {
+                return ResourceManager.GetString("Error_LocalUnixTerminalDebuggerInitializationFailed", resourceCulture);
             }
         }
         
@@ -326,11 +362,56 @@ namespace BrightScript.Debugger.Core {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Killing pipe process.
+        /// </summary>
+        internal static string Info_KillingPipeProcess {
+            get {
+                return ResourceManager.GetString("Info_KillingPipeProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Module containing this breakpoint has not yet loaded or the breakpoint address could not be obtained..
         /// </summary>
         internal static string Status_BreakpointPending {
             get {
                 return ResourceManager.GetString("Status_BreakpointPending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Superuser access is required to attach to a process. Attaching as superuser can potentially harm your computer. Do you want to continue? [y/N].
+        /// </summary>
+        internal static string Warn_AttachAsRootProcess {
+            get {
+                return ResourceManager.GetString("Warn_AttachAsRootProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attempt to execute {0} failed with exception {1}.
+        /// </summary>
+        internal static string Warn_ProcessException {
+            get {
+                return ResourceManager.GetString("Warn_ProcessException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} exited with exit code {1}.
+        /// </summary>
+        internal static string Warn_ProcessExit {
+            get {
+                return ResourceManager.GetString("Warn_ProcessExit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning: Downloading .NET debugger to remote machine failed with error {0}..
+        /// </summary>
+        internal static string Warning_DownloadingClrDbgToRemote {
+            get {
+                return ResourceManager.GetString("Warning_DownloadingClrDbgToRemote", resourceCulture);
             }
         }
     }

@@ -577,6 +577,8 @@ namespace BrightScript.Debugger.AD7
                 // Ignore failures caused by the connection already being dead.
             }
 
+            Callback.OnProcessExit(0);
+
             return VSConstants.S_OK;
         }
 

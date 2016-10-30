@@ -396,7 +396,7 @@ namespace BrightScript.Debugger.Core
 
             using (token.Register(() => { _consoleDebuggerInitializeCompletionSource.TrySetException(new OperationCanceledException()); }))
             {
-                await _consoleDebuggerInitializeCompletionSource.Task;
+                //await _consoleDebuggerInitializeCompletionSource.Task;
             }
 
             lock (_waitingOperations)

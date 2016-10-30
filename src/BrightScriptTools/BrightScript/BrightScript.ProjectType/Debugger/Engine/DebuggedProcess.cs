@@ -163,7 +163,7 @@ namespace BrightScript.Debugger.Engine
             {
                 LocalLaunchOptions localLaunchOptions = (LocalLaunchOptions)_launchOptions;
 
-                if (!localLaunchOptions.IsValidMiDebuggerPath())
+                if (localLaunchOptions.IsValidMiDebuggerPath())
                 {
                     throw new Exception(MICoreResources.Error_InvalidMiDebuggerPath);
                 }
@@ -454,7 +454,7 @@ namespace BrightScript.Debugger.Engine
 
             try
             {
-                await this.MICommandFactory.EnableTargetAsyncOption();
+                this.MICommandFactory.EnableTargetAsyncOption();
                 List<LaunchCommand> commands = GetInitializeCommands();
 
                 total = commands.Count();
@@ -465,23 +465,24 @@ namespace BrightScript.Debugger.Engine
                     waitLoop.SetProgress(total, i++, command.Description);
                     if (command.IsMICommand)
                     {
-                        Results results = await CmdAsync(command.CommandText, ResultClass.None);
-                        if (results.ResultClass == ResultClass.error)
-                        {
-                            if (command.FailureHandler != null)
-                            {
-                                command.FailureHandler(results.FindString("msg"));
-                            }
-                            else if (!command.IgnoreFailures)
-                            {
-                                string miError = results.FindString("msg");
-                                throw new UnexpectedMIResultException(MICommandFactory.Name, command.CommandText, miError);
-                            }
-                        }
+                        CmdAsync(command.CommandText, ResultClass.None);
+                        //Results results = await CmdAsync(command.CommandText, ResultClass.None);
+                        //if (results.ResultClass == ResultClass.error)
+                        //{
+                        //    if (command.FailureHandler != null)
+                        //    {
+                        //        command.FailureHandler(results.FindString("msg"));
+                        //    }
+                        //    else if (!command.IgnoreFailures)
+                        //    {
+                        //        string miError = results.FindString("msg");
+                        //        throw new UnexpectedMIResultException(MICommandFactory.Name, command.CommandText, miError);
+                        //    }
+                        //}
                     }
                     else
                     {
-                        await ConsoleCmdAsync(command.CommandText);
+                        ConsoleCmdAsync(command.CommandText);
                     }
                 }
 

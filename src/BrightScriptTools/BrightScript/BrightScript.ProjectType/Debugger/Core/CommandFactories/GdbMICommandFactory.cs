@@ -185,7 +185,7 @@ namespace BrightScript.Debugger.Core.CommandFactories
         {
             // Although the mi documentation states that the correct command to terminate is -exec-abort
             // that isn't actually supported by gdb. 
-            await _debugger.CmdAsync("kill", ResultClass.None);
+            _debugger.CmdAsync("kill", ResultClass.None);
         }
     }
 }

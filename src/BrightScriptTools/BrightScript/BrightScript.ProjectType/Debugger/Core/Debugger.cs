@@ -664,7 +664,7 @@ namespace BrightScript.Debugger.Core
                 _lastCommandText = command;
             }
 
-            SendToTransport(id.ToString(CultureInfo.InvariantCulture) + command);
+            //SendToTransport(id.ToString(CultureInfo.InvariantCulture) + command);
 
             return waitingOperation.Task;
         }

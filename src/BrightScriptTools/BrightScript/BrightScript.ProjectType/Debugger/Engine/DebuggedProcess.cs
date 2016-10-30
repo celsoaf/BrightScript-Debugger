@@ -1081,10 +1081,10 @@ namespace BrightScript.Debugger.Engine
                     switch (_launchOptions.LaunchCompleteCommand)
                     {
                         case LaunchCompleteCommand.ExecRun:
-                            await MICommandFactory.ExecRun();
+                            MICommandFactory.ExecRun();
                             break;
                         case LaunchCompleteCommand.ExecContinue:
-                            await MICommandFactory.ExecContinue();
+                            MICommandFactory.ExecContinue();
                             break;
                         case LaunchCompleteCommand.None:
                             break;

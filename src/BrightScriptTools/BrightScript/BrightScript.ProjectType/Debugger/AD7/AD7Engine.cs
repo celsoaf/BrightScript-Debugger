@@ -560,7 +560,7 @@ namespace BrightScript.Debugger.AD7
 
             try
             {
-                _pollThread.RunOperation(() => _debuggedProcess.CmdTerminate());
+                //_pollThread.RunOperation(() => _debuggedProcess.CmdTerminate());
 
                 if (_debuggedProcess.MICommandFactory.Mode != MIMode.Clrdbg)
                 {

@@ -91,7 +91,9 @@ namespace BrightScript.Debugger.Engine
             if (op == null)
                 throw new ArgumentNullException();
 
-            SetOperationInternal(op);
+            //SetOperationInternal(op);
+
+            op.Invoke();
         }
 
         /// <summary>
@@ -104,7 +106,9 @@ namespace BrightScript.Debugger.Engine
             if (op == null)
                 throw new ArgumentNullException();
 
-            SetOperationInternal(op);
+            //SetOperationInternal(op);
+
+            op.Invoke().Wait();
         }
 
         public void RunOperation(string text, CancellationTokenSource canTokenSource, AsyncProgressOperation op)
@@ -112,7 +116,9 @@ namespace BrightScript.Debugger.Engine
             if (op == null)
                 throw new ArgumentNullException();
 
-            SetOperationInternalWithProgress(op, text, canTokenSource);
+            //SetOperationInternalWithProgress(op, text, canTokenSource);
+
+            op.Invoke(new HostWaitLoop(text)).Wait();
         }
 
 

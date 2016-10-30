@@ -442,7 +442,8 @@ namespace BrightScript.Debugger.AD7
 
             try
             {
-                var xml = "<LocalLaunchOptions xmlns=\"http://schemas.microsoft.com/vstudio/MDDDebuggerOptions/2014\" MIDebuggerPath=\"" + dir + exe + "\" /> ";
+                //var xml = "<LocalLaunchOptions xmlns=\"http://schemas.microsoft.com/vstudio/MDDDebuggerOptions/2014\" MIDebuggerPath=\"" + dir + exe + "\" /> ";
+                var xml = "<TcpLaunchOptions xmlns=\"http://schemas.microsoft.com/vstudio/MDDDebuggerOptions/2014\" Hostname=\"" + args.Split('=')[1] +  "\" Port=\"8085\" /> ";
 
                 // Note: LaunchOptions.GetInstance can be an expensive operation and may push a wait message loop
                 LaunchOptions launchOptions = LaunchOptions.GetInstance(_configStore, exe, args, dir, xml, _engineCallback, TargetEngine.Native, Logger);

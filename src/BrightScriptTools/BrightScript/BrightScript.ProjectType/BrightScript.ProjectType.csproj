@@ -346,12 +346,7 @@
     <Compile Include="Debugger\Core\PlatformUtilities.cs" />
     <Compile Include="Debugger\Core\ProcessMonitor.cs" />
     <Compile Include="Debugger\Core\TerminalLauncher.cs" />
-    <Compile Include="Debugger\Core\Transports\ClientServerTransport.cs" />
     <Compile Include="Debugger\Core\Transports\ITransport.cs" />
-    <Compile Include="Debugger\Core\Transports\LocalTransport.cs" />
-    <Compile Include="Debugger\Core\Transports\LocalUnixTerminalTransport.cs" />
-    <Compile Include="Debugger\Core\Transports\PipeTransport.cs" />
-    <Compile Include="Debugger\Core\Transports\ServerTransport.cs" />
     <Compile Include="Debugger\Core\Transports\StreamTransport.cs" />
     <Compile Include="Debugger\Core\Transports\TcpTransport.cs" />
     <Compile Include="Debugger\Core\UnixNativeMethods.cs" />

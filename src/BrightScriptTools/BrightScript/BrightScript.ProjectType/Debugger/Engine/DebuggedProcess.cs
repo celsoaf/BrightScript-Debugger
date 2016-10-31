@@ -159,74 +159,7 @@ namespace BrightScript.Debugger.Engine
                 }
             };
 
-            if (_launchOptions is LocalLaunchOptions)
-            {
-                LocalLaunchOptions localLaunchOptions = (LocalLaunchOptions)_launchOptions;
-
-                if (localLaunchOptions.IsValidMiDebuggerPath())
-                {
-                    throw new Exception(MICoreResources.Error_InvalidMiDebuggerPath);
-                }
-
-                if (PlatformUtilities.IsOSX() &&
-                    localLaunchOptions.DebuggerMIMode != MIMode.Clrdbg &&
-                    localLaunchOptions.DebuggerMIMode != MIMode.Lldb &&
-                    !UnixUtilities.IsBinarySigned(localLaunchOptions.MIDebuggerPath))
-                {
-                    string message = String.Format(CultureInfo.CurrentCulture, ResourceStrings.Warning_DarwinDebuggerUnsigned, localLaunchOptions.MIDebuggerPath);
-                    _callback.OnOutputMessage(new OutputMessage(
-                        message + Environment.NewLine,
-                        enum_MESSAGETYPE.MT_MESSAGEBOX,
-                        OutputMessage.Severity.Warning));
-                }
-
-                ITransport localTransport = null;
-                // For local Linux and OS X launch, use the local Unix transport which creates a new terminal and
-                // uses fifos for debugger (e.g., gdb) communication.
-                if (this.MICommandFactory.UseExternalConsoleForLocalLaunch(localLaunchOptions) &&
-                    (PlatformUtilities.IsLinux() || (PlatformUtilities.IsOSX() && localLaunchOptions.DebuggerMIMode != MIMode.Lldb)))
-                {
-                    localTransport = new LocalUnixTerminalTransport();
-
-                    // Only need to clear terminal for Linux and OS X local launch
-                    _needTerminalReset = (localLaunchOptions.ProcessId == 0 && _launchOptions.DebuggerMIMode == MIMode.Gdb);
-                }
-                else
-                {
-                    localTransport = new LocalTransport();
-                }
-
-                if (localLaunchOptions.ShouldStartServer())
-                {
-                    this.Init(
-                        new ClientServerTransport(
-                            localTransport,
-                            new ServerTransport(killOnClose: true, filterStdout: localLaunchOptions.FilterStdout, filterStderr: localLaunchOptions.FilterStderr)
-                        ),
-                        _launchOptions);
-                }
-                else
-                {
-                    this.Init(localTransport, _launchOptions);
-                }
-
-                // Only need to know the debugger pid on Linux and OS X local launch to detect whether
-                // the debugger is closed. If the debugger is not running anymore, the response (^exit)
-                // to the -gdb-exit command is faked to allow MIEngine to shut down.
-                SetDebuggerPid(localTransport.DebuggerPid);
-            }
-            else if (_launchOptions is PipeLaunchOptions)
-            {
-                this.Init(new PipeTransport(), _launchOptions);
-            }
-            else if (_launchOptions is TcpLaunchOptions)
-            {
-                this.Init(new TcpTransport(), _launchOptions);
-            }
-            else
-            {
-                throw new ArgumentOutOfRangeException("LaunchInfo.options");
-            }
+            this.Init(new TcpTransport(), _launchOptions);
 
             MIDebugCommandDispatcher.AddProcess(this);
 

@@ -350,7 +350,6 @@
     <Compile Include="Debugger\Engine\EngineConstants.cs" />
     <Compile Include="Debugger\Engine\EngineUtils.cs" />
     <Compile Include="Debugger\Core\MIResults.cs" />
-    <Compile Include="Debugger\Engine\ExceptionManager.cs" />
     <Compile Include="Debugger\Engine\LaunchErrorException.cs" />
     <Compile Include="Debugger\Engine\MITextPosition.cs" />
     <Compile Include="Debugger\Engine\OperationThread.cs" />

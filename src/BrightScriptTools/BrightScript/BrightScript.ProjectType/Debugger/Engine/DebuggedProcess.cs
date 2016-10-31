@@ -27,7 +27,6 @@ namespace BrightScript.Debugger.Engine
 
         public SourceLineCache SourceLineCache { get; private set; }
         public ThreadCache ThreadCache { get; private set; }
-        public ExceptionManager ExceptionManager { get; private set; }
 
         //private List<DebuggedModule> _moduleList;
         private ISampleEngineCallback _callback;
@@ -66,7 +65,6 @@ namespace BrightScript.Debugger.Engine
             _callback = callback;
             //_moduleList = new List<DebuggedModule>();
             ThreadCache = new ThreadCache(callback, this);
-            ExceptionManager = new ExceptionManager(MICommandFactory, _worker, _callback);
 
             VariablesToDelete = new List<string>();
             this.ActiveVariables = new List<IVariableInformation>();
@@ -520,8 +518,6 @@ namespace BrightScript.Debugger.Engine
 
         public async Task Execute(DebuggedThread thread)
         {
-            await ExceptionManager.EnsureSettingsUpdated();
-
             // Should clear stepping state
             if (_worker.IsPollThread())
             {
@@ -541,8 +537,6 @@ namespace BrightScript.Debugger.Engine
 
         public async Task Step(int threadId, enum_STEPKIND kind, enum_STEPUNIT unit)
         {
-            await ExceptionManager.EnsureSettingsUpdated();
-
             if ((unit == enum_STEPUNIT.STEP_LINE) || (unit == enum_STEPUNIT.STEP_STATEMENT))
             {
                 switch (kind)
@@ -610,8 +604,6 @@ namespace BrightScript.Debugger.Engine
                 _callback.OnOutputString(_pendingMessages.ToString());
                 _pendingMessages = null;
             }
-
-            await this.ExceptionManager.EnsureSettingsUpdated();
 
             if (_initialBreakArgs != null)
             {

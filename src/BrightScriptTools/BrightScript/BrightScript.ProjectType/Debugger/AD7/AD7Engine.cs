@@ -317,7 +317,7 @@ namespace BrightScript.Debugger.AD7
         // The sample engine does not support exceptions in the debuggee so this method is not actually implemented.
         int IDebugEngine2.RemoveAllSetExceptions(ref Guid guidType)
         {
-            _debuggedProcess?.ExceptionManager.RemoveAllSetExceptions(guidType);
+            //_debuggedProcess?.ExceptionManager.RemoveAllSetExceptions(guidType);
             return VSConstants.S_OK;
         }
 
@@ -325,7 +325,7 @@ namespace BrightScript.Debugger.AD7
         // The sample engine does not support exceptions in the debuggee so this method is not actually implemented.       
         int IDebugEngine2.RemoveSetException(EXCEPTION_INFO[] pException)
         {
-            _debuggedProcess?.ExceptionManager.RemoveSetException(ref pException[0]);
+            //_debuggedProcess?.ExceptionManager.RemoveSetException(ref pException[0]);
             return VSConstants.S_OK;
         }
 
@@ -333,7 +333,7 @@ namespace BrightScript.Debugger.AD7
         // The sample engine does not support exceptions in the debuggee so this method is not actually implemented.
         int IDebugEngine2.SetException(EXCEPTION_INFO[] pException)
         {
-            _debuggedProcess?.ExceptionManager.SetException(ref pException[0]);
+            //_debuggedProcess?.ExceptionManager.SetException(ref pException[0]);
             return VSConstants.S_OK;
         }
 

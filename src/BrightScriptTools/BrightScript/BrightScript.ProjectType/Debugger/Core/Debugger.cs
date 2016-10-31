@@ -599,17 +599,6 @@ namespace BrightScript.Debugger.Core
             return waitingOperation.Task;
         }
 
-        private Task<Results> CmdLinuxBreak(int debugeePid, ResultClass expectedResultClass)
-        {
-            // Send sigint to the debuggee process. This is the equivalent of hitting ctrl-c on the console.
-            // This will cause gdb to async-break. This is necessary because gdb does not support async break
-            // when attached.
-            const int sigint = 2;
-            LinuxNativeMethods.Kill(debugeePid, sigint);
-
-            return Task.FromResult<Results>(new Results(ResultClass.done));
-        }
-
         #region ITransportCallback implementation
         // Note: this can be called from any thread
         void ITransportCallback.OnStdOutLine(string line)

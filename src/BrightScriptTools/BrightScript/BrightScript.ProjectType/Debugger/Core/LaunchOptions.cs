@@ -437,54 +437,6 @@ namespace BrightScript.Debugger.Core
             }
         }
 
-        protected void InitializeCommonOptions(MICore.Xml.LaunchOptions.BaseLaunchOptions source)
-        {
-            if (this.ExePath == null)
-            {
-                string exePath = source.ExePath;
-                if (!string.IsNullOrWhiteSpace(exePath))
-                {
-                    this.ExePath = exePath;
-                }
-            }
-
-            if (string.IsNullOrEmpty(this.ExeArguments))
-                this.ExeArguments = source.ExeArguments;
-
-            if (string.IsNullOrEmpty(this.WorkingDirectory))
-                this.WorkingDirectory = source.WorkingDirectory;
-
-            if (string.IsNullOrEmpty(this.VisualizerFile))
-                this.VisualizerFile = source.VisualizerFile;
-
-            this.ShowDisplayString = source.ShowDisplayString;
-            this.WaitDynamicLibLoad = source.WaitDynamicLibLoad;
-
-            this.SetupCommands = LaunchCommand.CreateCollectionFromXml(source.SetupCommands);
-
-            if (source.CustomLaunchSetupCommands != null)
-            {
-                this.CustomLaunchSetupCommands = LaunchCommand.CreateCollectionFromXml(source.CustomLaunchSetupCommands);
-            }
-
-            Debug.Assert((uint)LaunchCompleteCommand.ExecRun == (uint)MICore.Xml.LaunchOptions.BaseLaunchOptionsLaunchCompleteCommand.execrun);
-            Debug.Assert((uint)LaunchCompleteCommand.ExecContinue == (uint)MICore.Xml.LaunchOptions.BaseLaunchOptionsLaunchCompleteCommand.execcontinue);
-            Debug.Assert((uint)LaunchCompleteCommand.None == (uint)MICore.Xml.LaunchOptions.BaseLaunchOptionsLaunchCompleteCommand.None);
-            this.LaunchCompleteCommand = (LaunchCompleteCommand)source.LaunchCompleteCommand;
-
-            string additionalSOLibSearchPath = source.AdditionalSOLibSearchPath;
-            if (!string.IsNullOrEmpty(additionalSOLibSearchPath))
-            {
-                if (string.IsNullOrEmpty(this.AdditionalSOLibSearchPath))
-                    this.AdditionalSOLibSearchPath = additionalSOLibSearchPath;
-                else
-                    this.AdditionalSOLibSearchPath = string.Concat(this.AdditionalSOLibSearchPath, ";", additionalSOLibSearchPath);
-            }
-
-            if (string.IsNullOrEmpty(this.AbsolutePrefixSOLibSearchPath))
-                this.AbsolutePrefixSOLibSearchPath = source.AbsolutePrefixSOLibSearchPath;
-        }
-
         public static string RequireAttribute(string attributeValue, string attributeName)
         {
             if (string.IsNullOrWhiteSpace(attributeValue))
@@ -549,25 +501,6 @@ namespace BrightScript.Debugger.Core
         }
     }
 
-    public sealed class EnvironmentEntry
-    {
-        public EnvironmentEntry(MICore.Xml.LaunchOptions.EnvironmentEntry xmlEntry)
-        {
-            this.Name = xmlEntry.Name;
-            this.Value = xmlEntry.Value;
-        }
-
-        /// <summary>
-        /// [Required] Name of the environment variable
-        /// </summary>
-        public string Name { get; private set; }
-
-        /// <summary>
-        /// [Required] Value of the environment variable
-        /// </summary>
-        public string Value { get; private set; }
-    }
-
     public sealed class TcpLaunchOptions : LaunchOptions
     {
         public TcpLaunchOptions(string hostname, int port, bool secure)
@@ -585,14 +518,6 @@ namespace BrightScript.Debugger.Core
             this.Port = port;
             this.Secure = secure;
             this.ServerCertificateValidationCallback = null;
-        }
-
-        static internal TcpLaunchOptions CreateFromXml(MICore.Xml.LaunchOptions.TcpLaunchOptions source)
-        {
-            var options = new TcpLaunchOptions(RequireAttribute(source.Hostname, "Hostname"), LaunchOptions.RequirePortAttribute(source.Port, "Port"), source.Secure);
-            options.InitializeCommonOptions(source);
-
-            return options;
         }
 
         public string Hostname { get; private set; }

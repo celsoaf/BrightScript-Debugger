@@ -31,16 +31,5 @@ namespace BrightScript.Debugger.Core
             this.IgnoreFailures = ignoreFailures;
             this.FailureHandler = failureHandler;
         }
-
-        public static ReadOnlyCollection<LaunchCommand> CreateCollectionFromXml(MICore.Xml.LaunchOptions.Command[] source)
-        {
-            LaunchCommand[] commandArray = source?.Select(x => new LaunchCommand(x.Value, x.Description, x.IgnoreFailures)).ToArray();
-            if (commandArray == null)
-            {
-                commandArray = new LaunchCommand[0];
-            }
-
-            return new ReadOnlyCollection<LaunchCommand>(commandArray);
-        }
     }
 }

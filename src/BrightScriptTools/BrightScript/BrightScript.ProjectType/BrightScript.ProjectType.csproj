@@ -332,7 +332,6 @@
     <Compile Include="Debugger\Core\InvalidLaunchOptionsException.cs" />
     <Compile Include="Debugger\Core\LaunchCommand.cs" />
     <Compile Include="Debugger\Core\LaunchOptions.cs" />
-    <Compile Include="Debugger\Core\LinuxNativeMethods.cs" />
     <Compile Include="Debugger\Core\Logger.cs" />
     <Compile Include="Debugger\Core\MICoreResources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -340,14 +339,9 @@
       <DependentUpon>MICoreResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Debugger\Core\MIException.cs" />
-    <Compile Include="Debugger\Core\PlatformUtilities.cs" />
     <Compile Include="Debugger\Core\Transports\ITransport.cs" />
     <Compile Include="Debugger\Core\Transports\StreamTransport.cs" />
     <Compile Include="Debugger\Core\Transports\TcpTransport.cs" />
-    <Compile Include="Debugger\Core\Xml\LaunchOptions.xsd.types.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>LaunchOptions.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Debugger\Engine\BreakpointManager.cs" />
     <Compile Include="Debugger\Engine\Breakpoints.cs" />
     <Compile Include="Debugger\Engine\DebuggedProcess.cs" />
@@ -408,9 +402,6 @@
     <None Include="app.config" />
     <None Include="BuildSystem\DeployedBuildSystem\CustomProjectBrs.tasks" />
     <None Include="BuildSystem\DeployedBuildSystem\CustomProjectBrs.targets" />
-    <None Include="Debugger\Core\Xml\LaunchOptions.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest" />
     <None Include="Key.snk" />
@@ -489,7 +480,6 @@
     <Analyzer Include="..\..\packages\Microsoft.VisualStudio.Threading.Analyzers.14.1.131-pre\analyzers\Microsoft.VisualStudio.Threading.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Debugger\Core\Xml\ExampleLaunchOptions.xml" />
     <Content Include="Resources\BrightScriptPackage.ico" />
   </ItemGroup>
   <ItemGroup>

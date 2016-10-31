@@ -40,14 +40,12 @@ namespace BrightScript.Debugger.Engine
         private Core.Debugger.ResultEventArgs _initialBreakArgs;
         private List<string> _libraryLoaded;   // unprocessed library loaded messages
         private uint _loadOrder;
-        private HostWaitDialog _waitDialog;
-        public readonly Natvis.Natvis Natvis;
         private ReadOnlyCollection<RegisterDescription> _registers;
         private ReadOnlyCollection<RegisterGroup> _registerGroups;
-        private readonly EngineTelemetry _engineTelemetry = new EngineTelemetry();
         private bool _needTerminalReset;
 
-        public DebuggedProcess(bool bLaunched, LaunchOptions launchOptions, ISampleEngineCallback callback, WorkerThread worker, BreakpointManager bpman, AD7Engine engine, HostConfigurationStore configStore) : base(launchOptions, engine.Logger)
+        public DebuggedProcess(LaunchOptions launchOptions, ISampleEngineCallback callback, WorkerThread worker, BreakpointManager bpman, AD7Engine engine) 
+            : base(launchOptions, engine.Logger)
         {
             uint processExitCode = 0;
             _pendingMessages = new StringBuilder(400);
@@ -57,9 +55,7 @@ namespace BrightScript.Debugger.Engine
             _libraryLoaded = new List<string>();
             _loadOrder = 0;
             MICommandFactory = MICommandFactory.GetInstance(launchOptions.DebuggerMIMode, this);
-            _waitDialog = (MICommandFactory.SupportsStopOnDynamicLibLoad() && launchOptions.WaitDynamicLibLoad) ? new HostWaitDialog(ResourceStrings.LoadingSymbolMessage, ResourceStrings.LoadingSymbolCaption) : null;
-            Natvis = new Natvis.Natvis(this, launchOptions.ShowDisplayString);
-
+            
             // we do NOT have real Win32 process IDs, so we use a guid
             AD_PROCESS_ID pid = new AD_PROCESS_ID();
             pid.ProcessIdType = (int)enum_AD_PROCESS_ID.AD_PROCESS_ID_GUID;
@@ -72,7 +68,7 @@ namespace BrightScript.Debugger.Engine
             //_moduleList = new List<DebuggedModule>();
             ThreadCache = new ThreadCache(callback, this);
             Disassembly = new Disassembly(this);
-            ExceptionManager = new ExceptionManager(MICommandFactory, _worker, _callback, configStore);
+            ExceptionManager = new ExceptionManager(MICommandFactory, _worker, _callback);
 
             VariablesToDelete = new List<string>();
             this.ActiveVariables = new List<IVariableInformation>();
@@ -116,10 +112,6 @@ namespace BrightScript.Debugger.Engine
 
                 // quit MI Debugger
                 _worker.PostOperation(CmdExitAsync);
-                if (_waitDialog != null)
-                {
-                    _waitDialog.EndWaitDialog();
-                }
             };
 
             // When the debugger exits, we tell AD7 we are done
@@ -141,8 +133,6 @@ namespace BrightScript.Debugger.Engine
                 // The MI debugger process unexpectedly exited.
                 _worker.PostOperation(() =>
                 {
-                    _engineTelemetry.SendDebuggerAborted(MICommandFactory, GetLastSentCommandName(), debuggerExitCode);
-
                     // If the MI Debugger exits before we get a resume call, we have no way of sending program destroy. So just let start debugging fail.
                     if (!_connected)
                     {
@@ -168,11 +158,7 @@ namespace BrightScript.Debugger.Engine
                 // NOTE: This is an async void method, so make sure exceptions are caught and somehow reported
 
                 Core.Debugger.ResultEventArgs results = args as Core.Debugger.ResultEventArgs;
-                if (_waitDialog != null)
-                {
-                    _waitDialog.EndWaitDialog();
-                }
-
+                
                 if (!this._connected)
                 {
                     _initialBreakArgs = results;
@@ -230,10 +216,9 @@ namespace BrightScript.Debugger.Engine
             BreakChangeEvent += _breakpointManager.BreakpointModified;
         }
 
-        public async Task Initialize(HostWaitLoop waitLoop, CancellationToken token)
+        public async Task Initialize(CancellationToken token)
         {
             bool success = false;
-            Natvis.Initialize(_launchOptions.VisualizerFile);
             int total = 1;
 
             await this.WaitForConsoleDebuggerInitialize(token);
@@ -248,23 +233,9 @@ namespace BrightScript.Debugger.Engine
                 foreach (var command in commands)
                 {
                     token.ThrowIfCancellationRequested();
-                    waitLoop.SetProgress(total, i++, command.Description);
                     if (command.IsMICommand)
                     {
                         CmdAsync(command.CommandText, ResultClass.None);
-                        //Results results = await CmdAsync(command.CommandText, ResultClass.None);
-                        //if (results.ResultClass == ResultClass.error)
-                        //{
-                        //    if (command.FailureHandler != null)
-                        //    {
-                        //        command.FailureHandler(results.FindString("msg"));
-                        //    }
-                        //    else if (!command.IgnoreFailures)
-                        //    {
-                        //        string miError = results.FindString("msg");
-                        //        throw new UnexpectedMIResultException(MICommandFactory.Name, command.CommandText, miError);
-                        //    }
-                        //}
                     }
                     else
                     {
@@ -282,7 +253,6 @@ namespace BrightScript.Debugger.Engine
                     Terminate();
                 }
             }
-            waitLoop.SetProgress(total, total, String.Empty);
             token.ThrowIfCancellationRequested();
         }
 
@@ -440,24 +410,12 @@ namespace BrightScript.Debugger.Engine
             commands.Add(new LaunchCommand("-file-exec-and-symbols " + exe, description, ignoreFailures: false, failureHandler: failureHandler));
         }
 
-        public override void FlushBreakStateData()
-        {
-            base.FlushBreakStateData();
-            Natvis.Cache.Flush();
-        }
-
         private void Dispose()
         {
             if (_launchOptions.DeviceAppLauncher != null)
             {
                 _launchOptions.DeviceAppLauncher.Dispose();
             }
-            if (_waitDialog != null)
-            {
-                _waitDialog.Dispose();
-            }
-
-            Logger.Flush();
         }
 
         private async Task HandleBreakModeEvent(Core.Debugger.ResultEventArgs results)

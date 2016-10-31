@@ -68,7 +68,7 @@ namespace BrightScript.Debugger.Core
         /// </summary>
         /// <param name="configStore">Current VS registry root</param>
         /// <param name="eventCallback">[Required] Callback object used to send events to the rest of Visual Studio</param>
-        void Initialize(HostConfigurationStore configStore, IDeviceAppLauncherEventCallback eventCallback);
+        void Initialize(IDeviceAppLauncherEventCallback eventCallback);
 
         /// <summary>
         /// Initializes the launcher from the launch settings
@@ -327,7 +327,7 @@ namespace BrightScript.Debugger.Core
             }
         }
 
-        public static LaunchOptions GetInstance(HostConfigurationStore configStore, string exePath, string args, string dir, string options, IDeviceAppLauncherEventCallback eventCallback, TargetEngine targetEngine, Logger logger)
+        public static LaunchOptions GetInstance(string exePath, string args, string dir, string options, IDeviceAppLauncherEventCallback eventCallback, TargetEngine targetEngine, Logger logger)
         {
             if (string.IsNullOrWhiteSpace(exePath))
                 throw new ArgumentNullException("exePath");
@@ -402,11 +402,6 @@ namespace BrightScript.Debugger.Core
             catch (XmlException e)
             {
                 throw new InvalidLaunchOptionsException(e.Message);
-            }
-
-            if (clsidLauncher != Guid.Empty)
-            {
-                launchOptions = ExecuteLauncher(configStore, clsidLauncher, exePath, args, dir, launcherXmlOptions, eventCallback, targetEngine, logger);
             }
 
             if (targetEngine == TargetEngine.Native)
@@ -626,44 +621,6 @@ namespace BrightScript.Debugger.Core
             }
 
             return attributeValue;
-        }
-
-        private static LaunchOptions ExecuteLauncher(HostConfigurationStore configStore, Guid clsidLauncher, string exePath, string args, string dir, object launcherXmlOptions, IDeviceAppLauncherEventCallback eventCallback, TargetEngine targetEngine, Logger logger)
-        {
-            var deviceAppLauncher = (IPlatformAppLauncher)HostLoader.VsCoCreateManagedObject(configStore, clsidLauncher);
-            if (deviceAppLauncher == null)
-            {
-                throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, MICoreResources.Error_LauncherNotFound, clsidLauncher.ToString("B")));
-            }
-
-            bool success = false;
-
-            try
-            {
-                try
-                {
-                    deviceAppLauncher.Initialize(configStore, eventCallback);
-                    deviceAppLauncher.SetLaunchOptions(exePath, args, dir, launcherXmlOptions, targetEngine);
-                }
-                catch (Exception e) when (!(e is InvalidLaunchOptionsException) && ExceptionHelper.BeforeCatch(e, logger, reportOnlyCorrupting: true))
-                {
-                    throw new InvalidLaunchOptionsException(e.Message);
-                }
-
-                LaunchOptions debuggerLaunchOptions;
-                deviceAppLauncher.SetupForDebugging(out debuggerLaunchOptions);
-                debuggerLaunchOptions.DeviceAppLauncher = deviceAppLauncher;
-
-                success = true;
-                return debuggerLaunchOptions;
-            }
-            finally
-            {
-                if (!success)
-                {
-                    deviceAppLauncher.Dispose();
-                }
-            }
         }
 
         private static XmlSerializer GetXmlSerializer(Type type)

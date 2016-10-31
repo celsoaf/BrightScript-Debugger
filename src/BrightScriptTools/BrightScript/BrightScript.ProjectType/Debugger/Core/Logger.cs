@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using BrightScript.Loggger;
 
 namespace BrightScript.Debugger.Core
 {
@@ -16,38 +17,21 @@ namespace BrightScript.Debugger.Core
         private static bool s_isEnabled;
         private static DateTime s_initTime;
         // NOTE: We never clean this up
-        private static HostLogger s_logger;
         private static int s_count;
         private int _id;
 
-        private Logger()
+        public Logger()
         {
             _id = Interlocked.Increment(ref s_count);
-        }
 
-        public static Logger EnsureInitialized(HostConfigurationStore configStore)
-        {
-            Logger res = new Logger();
-            if (!s_isInitialized)
-            {
-                s_isInitialized = true;
-                s_initTime = DateTime.Now;
-
-                s_logger = configStore.GetLogger("EnableMIDebugLogger", "Microsoft.MIDebug.log");
-                if (s_logger != null)
-                {
-                    s_isEnabled = true;
-                }
-                res.WriteLine("Initialized log at: " + s_initTime);
-            }
-
+            s_isInitialized = true;
+            s_initTime = DateTime.Now;
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
                 s_isEnabled = true;
             }
 #endif
-            return res;
         }
 
         /// <summary>
@@ -88,17 +72,6 @@ namespace BrightScript.Debugger.Core
             }
         }
 
-        /// <summary>
-        /// If logging is enabled, flushes the log to disk
-        /// </summary>
-        public void Flush()
-        {
-            if (s_isEnabled)
-            {
-                FlushImpl();
-            }
-        }
-
         public static bool IsEnabled
         {
             get { return s_isEnabled; }
@@ -108,16 +81,10 @@ namespace BrightScript.Debugger.Core
         private void WriteLineImpl(string line)
         {
             string fullLine = String.Format(CultureInfo.CurrentCulture, "{2}: ({0}) {1}", (int)(DateTime.Now - s_initTime).TotalMilliseconds, line, _id);
-            s_logger?.WriteLine(fullLine);
+            LiveLogger.WriteLine(fullLine);
 #if DEBUG
             Debug.WriteLine("MS_MIDebug: " + fullLine);
 #endif
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining)] // Disable inlining since logging is off by default, and we want to allow the public method to be inlined
-        private static void FlushImpl()
-        {
-            s_logger?.Flush();
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)] // Disable inlining since logging is off by default, and we want to allow the public method to be inlined

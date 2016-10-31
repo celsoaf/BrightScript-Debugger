@@ -20,8 +20,6 @@ namespace BrightScript.Debugger.Core
 
             try
             {
-                HostTelemetry.ReportCurrentException(currentException, "Microsoft.MIDebugEngine");
-
                 logger?.WriteLine("EXCEPTION: " + currentException.GetType());
                 logger?.WriteTextBlock("EXCEPTION: ", currentException.StackTrace);
             }

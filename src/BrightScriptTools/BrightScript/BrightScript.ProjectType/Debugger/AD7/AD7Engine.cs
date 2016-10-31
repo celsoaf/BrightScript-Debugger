@@ -57,8 +57,6 @@ namespace BrightScript.Debugger.AD7
         // A unique identifier for the program being debugged.
         private Guid _ad7ProgramId;
 
-        private HostConfigurationStore _configStore;
-
         public Logger Logger { private set; get; }
 
         private IDebugSettingsCallback110 _settingsCallback;
@@ -117,7 +115,7 @@ namespace BrightScript.Debugger.AD7
 
         public object GetMetric(string metric)
         {
-            return _configStore.GetEngineMetric(metric);
+            return null;
         }
 
         #region IDebugEngine2 Members
@@ -271,7 +269,7 @@ namespace BrightScript.Debugger.AD7
                 string outputMessage = string.Join("\r\n", initializationException.OutputLines) + "\r\n";
 
                 // NOTE: We can't write to the output window by sending an AD7 event because this may be called before the session create event
-                HostOutputWindow.WriteLaunchError(outputMessage);
+                Logger.WriteLine(outputMessage);
             }
 
             _engineCallback.OnErrorImmediate(message);
@@ -379,8 +377,7 @@ namespace BrightScript.Debugger.AD7
         // This allows the debugger to tell the engine where that location is.
         int IDebugEngine2.SetRegistryRoot(string pszRegistryRoot)
         {
-            _configStore = new HostConfigurationStore(pszRegistryRoot, EngineConstants.EngineId);
-            Logger = Logger.EnsureInitialized(_configStore);
+            Logger = new Logger();
             return VSConstants.S_OK;
         }
 
@@ -446,7 +443,7 @@ namespace BrightScript.Debugger.AD7
                 var xml = "<TcpLaunchOptions xmlns=\"http://schemas.microsoft.com/vstudio/MDDDebuggerOptions/2014\" Hostname=\"" + args.Split('=')[1] +  "\" Port=\"8085\" /> ";
 
                 // Note: LaunchOptions.GetInstance can be an expensive operation and may push a wait message loop
-                LaunchOptions launchOptions = LaunchOptions.GetInstance(_configStore, exe, args, dir, xml, _engineCallback, TargetEngine.Native, Logger);
+                LaunchOptions launchOptions = LaunchOptions.GetInstance(exe, args, dir, xml, _engineCallback, TargetEngine.Native, Logger);
 
                 // We are being asked to debug a process when we currently aren't debugging anything
                 _pollThread = new WorkerThread(Logger);
@@ -454,11 +451,11 @@ namespace BrightScript.Debugger.AD7
 
                 using (cancellationTokenSource)
                 {
-                    _pollThread.RunOperation(ResourceStrings.InitializingDebugger, cancellationTokenSource, (HostWaitLoop waitLoop) =>
+                    _pollThread.RunOperation(ResourceStrings.InitializingDebugger, cancellationTokenSource, () =>
                     {
                         try
                         {
-                            _debuggedProcess = new DebuggedProcess(true, launchOptions, _engineCallback, _pollThread, _breakpointManager, this, _configStore);
+                            _debuggedProcess = new DebuggedProcess(launchOptions, _engineCallback, _pollThread, _breakpointManager, this);
                         }
                         finally
                         {
@@ -472,7 +469,7 @@ namespace BrightScript.Debugger.AD7
 
                         _pollThread.PostedOperationErrorEvent += _debuggedProcess.OnPostedOperationError;
 
-                        return _debuggedProcess.Initialize(waitLoop, cancellationTokenSource.Token);
+                        return _debuggedProcess.Initialize(cancellationTokenSource.Token);
                     });
                 }
 
@@ -488,7 +485,6 @@ namespace BrightScript.Debugger.AD7
 
             // If we just return the exception as an HRESULT, we will loose our message, so we instead send up an error event, and then
             // return E_ABORT.
-            Logger.Flush();
             SendStartDebuggingError(exception);
 
             Dispose();

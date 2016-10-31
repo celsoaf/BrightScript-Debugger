@@ -33,7 +33,7 @@ namespace BrightScript.Debugger.Core.Transports
         public abstract void InitStreams(LaunchOptions options, out StreamReader reader, out StreamWriter writer);
         protected virtual string GetThreadName() { return "MI.StreamTransport"; }
 
-        public virtual void Init(ITransportCallback transportCallback, LaunchOptions options, Logger logger, HostWaitLoop waitLoop = null)
+        public virtual void Init(ITransportCallback transportCallback, LaunchOptions options, Logger logger)
         {
             Logger = logger;
             _callback = transportCallback;
@@ -65,7 +65,6 @@ namespace BrightScript.Debugger.Core.Transports
 
                     line = line.TrimEnd();
                     Logger?.WriteLine("->" + line);
-                    Logger?.Flush();
 
                     try
                     {
@@ -135,7 +134,6 @@ namespace BrightScript.Debugger.Core.Transports
         protected void Echo(string cmd)
         {
             Logger?.WriteLine("<-" + cmd);
-            Logger?.Flush();
             _writer.WriteLine(cmd);
             _writer.Flush();
         }

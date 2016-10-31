@@ -39,7 +39,7 @@ namespace BrightScript.Debugger.AD7
         {
             if (((dwFlags & enum_EVALFLAGS.EVAL_NOSIDEEFFECTS) != 0 && (dwFlags & enum_EVALFLAGS.EVAL_ALLOWBPS) == 0) && _var.IsVisualized)
             {
-                IVariableInformation variable = _engine.DebuggedProcess.Natvis.Cache.Lookup(_var);
+                IVariableInformation variable = null; // _engine.DebuggedProcess.Natvis.Cache.Lookup(_var);
                 if (variable == null)
                 {
                     _var.AsyncError(pExprCallback, new AD7ErrorProperty(_var.Name, ResourceStrings.NoSideEffectsVisualizerMessage));
@@ -66,7 +66,7 @@ namespace BrightScript.Debugger.AD7
             ppResult = null;
             if ((dwFlags & enum_EVALFLAGS.EVAL_NOSIDEEFFECTS) != 0 && _var.IsVisualized)
             {
-                IVariableInformation variable = _engine.DebuggedProcess.Natvis.Cache.Lookup(_var);
+                IVariableInformation variable = null; // _engine.DebuggedProcess.Natvis.Cache.Lookup(_var);
                 if (variable == null)
                 {
                     ppResult = new AD7ErrorProperty(_var.Name, ResourceStrings.NoSideEffectsVisualizerMessage);

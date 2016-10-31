@@ -327,10 +327,9 @@
     <Compile Include="Debugger\Core\CommandFactories\LlldbMICommandFactory.cs" />
     <Compile Include="Debugger\Core\CommandFactories\MICommandFactory.cs" />
     <Compile Include="Debugger\Core\CommandLock.cs" />
-    <Compile Include="Debugger\Core\DebugEngineHost.cs" />
     <Compile Include="Debugger\Core\Debugger.cs" />
     <Compile Include="Debugger\Core\ExceptionHelper.cs" />
-    <Compile Include="Debugger\Core\HostConfigurationStore.cs" />
+    <Compile Include="Debugger\Core\HostMarshal.cs" />
     <Compile Include="Debugger\Core\InvalidCoreDumpOperationException.cs" />
     <Compile Include="Debugger\Core\InvalidLaunchOptionsException.cs" />
     <Compile Include="Debugger\Core\LaunchCommand.cs" />
@@ -362,7 +361,6 @@
     <Compile Include="Debugger\Engine\Disassembly.cs" />
     <Compile Include="Debugger\Engine\EngineCallback.cs" />
     <Compile Include="Debugger\Engine\EngineConstants.cs" />
-    <Compile Include="Debugger\Engine\EngineTelemetry.cs" />
     <Compile Include="Debugger\Engine\EngineUtils.cs" />
     <Compile Include="Debugger\Core\MIResults.cs" />
     <Compile Include="Debugger\Engine\ExceptionManager.cs" />
@@ -376,10 +374,6 @@
     <Compile Include="Debugger\Models\BacktraceModel.cs" />
     <Compile Include="Debugger\Models\LogModel.cs" />
     <Compile Include="Debugger\Models\VariableModel.cs" />
-    <Compile Include="Debugger\Natvis\Natvis.cs" />
-    <Compile Include="Debugger\Natvis\NatvisNames.cs" />
-    <Compile Include="Debugger\Natvis\NatvisXsdTypes.cs" />
-    <Compile Include="Debugger\Natvis\VisualizationCache.cs" />
     <Compile Include="Debugger\Register\ProvideBsDebugExceptionAttribute.cs" />
     <Compile Include="Debugger\Register\ProvideDebugEngineAttribute.cs" />
     <Compile Include="Debugger\Register\ProvideDebugExceptionAttribute.cs" />

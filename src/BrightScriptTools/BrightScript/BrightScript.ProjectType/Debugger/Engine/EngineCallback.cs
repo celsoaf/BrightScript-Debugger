@@ -17,7 +17,7 @@ namespace BrightScript.Debugger.Engine
         public EngineCallback(AD7Engine engine, IDebugEventCallback2 ad7Callback)
         {
             _engine = engine;
-            _eventCallback = HostMarshal.GetThreadSafeEventCallback(ad7Callback);
+            _eventCallback = ad7Callback;
         }
 
         public void Send(IDebugEvent2 eventObject, string iidEvent, IDebugProgram2 program, IDebugThread2 thread)

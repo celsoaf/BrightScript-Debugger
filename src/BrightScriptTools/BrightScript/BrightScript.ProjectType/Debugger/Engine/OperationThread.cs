@@ -10,7 +10,7 @@ namespace BrightScript.Debugger.Engine
 {
     public delegate void Operation();
     public delegate Task AsyncOperation();
-    public delegate Task AsyncProgressOperation(HostWaitLoop waitLoop);
+    public delegate Task AsyncProgressOperation();
 
 
     /// <summary>
@@ -118,7 +118,7 @@ namespace BrightScript.Debugger.Engine
 
             //SetOperationInternalWithProgress(op, text, canTokenSource);
 
-            op.Invoke(new HostWaitLoop(text)).Wait();
+            op.Invoke().Wait();
         }
 
 
@@ -244,8 +244,6 @@ namespace BrightScript.Debugger.Engine
 
         private bool TrySetOperationInternalWithProgress(AsyncProgressOperation op, string text, CancellationTokenSource canTokenSource)
         {
-            var waitLoop = new HostWaitLoop(text);
-
             lock (_eventLock)
             {
                 if (_isClosed)
@@ -255,12 +253,10 @@ namespace BrightScript.Debugger.Engine
                 {
                     _runningOpCompleteEvent.Reset();
 
-                    OperationDescriptor runningOp = new OperationDescriptor(new AsyncOperation(() => { return op(waitLoop); }));
+                    OperationDescriptor runningOp = new OperationDescriptor(new AsyncOperation(() => { return op(); }));
                     _runningOp = runningOp;
 
                     _opSet.Set();
-
-                    waitLoop.Wait(_runningOpCompleteEvent, canTokenSource);
 
                     Debug.Assert(runningOp.IsComplete, "Why isn't the running op complete?");
 

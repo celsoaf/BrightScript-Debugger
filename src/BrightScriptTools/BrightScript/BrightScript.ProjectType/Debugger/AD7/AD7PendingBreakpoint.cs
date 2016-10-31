@@ -105,6 +105,7 @@ namespace BrightScript.Debugger.AD7
         // location.
         public AD7DocumentContext GetDocumentContext(ulong address, string functionName)
         {
+
             IDebugDocumentPosition2 docPosition = HostMarshal.GetDocumentPositionForIntPtr(_bpRequestInfo.bpLocation.unionmember2);
             string documentName;
             EngineUtils.CheckOk(docPosition.GetFileName(out documentName));

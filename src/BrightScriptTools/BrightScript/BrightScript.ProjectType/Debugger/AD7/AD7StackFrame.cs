@@ -587,7 +587,7 @@ namespace BrightScript.Debugger.AD7
             try
             {
                 // we have no "parser" as such, so we accept anything that isn't blank and let the Evaluate method figure out the errors
-                ppExpr = new AD7Expression(Engine, Engine.DebuggedProcess.Natvis.GetVariable(pszCode, this));
+                //ppExpr = new AD7Expression(Engine, Engine.DebuggedProcess.Natvis.GetVariable(pszCode, this));
                 return VSConstants.S_OK;
             }
             catch (MIException e)

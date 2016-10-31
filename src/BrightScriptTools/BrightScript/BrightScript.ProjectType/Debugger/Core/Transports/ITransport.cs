@@ -6,7 +6,7 @@ namespace BrightScript.Debugger.Core.Transports
 
     public interface ITransport
     {
-        void Init(ITransportCallback transportCallback, LaunchOptions options, Logger logger, HostWaitLoop waitLoop = null);
+        void Init(ITransportCallback transportCallback, LaunchOptions options, Logger logger);
         void Send(string cmd);
         void Close();
         bool IsClosed { get; }

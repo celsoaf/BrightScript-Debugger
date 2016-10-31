@@ -53,8 +53,8 @@ namespace BrightScript.Debugger.Core
             }
         }
 
-        public uint MaxInstructionSize { get; private set; }
-        public bool Is64BitArch { get; private set; }
+        //public uint MaxInstructionSize { get; private set; }
+        //public bool Is64BitArch { get; private set; }
         public CommandLock CommandLock { get { return _commandLock; } }
         public MICommandFactory MICommandFactory { get; protected set; }
         public Logger Logger { private set; get; }
@@ -354,36 +354,36 @@ namespace BrightScript.Debugger.Core
 
             _transport.Init(this, options, Logger);
 
-            switch (options.TargetArchitecture)
-            {
-                case TargetArchitecture.ARM:
-                    MaxInstructionSize = 4;
-                    Is64BitArch = false;
-                    break;
+            //switch (options.TargetArchitecture)
+            //{
+            //    case TargetArchitecture.ARM:
+            //        MaxInstructionSize = 4;
+            //        Is64BitArch = false;
+            //        break;
 
-                case TargetArchitecture.ARM64:
-                    MaxInstructionSize = 8;
-                    Is64BitArch = true;
-                    break;
+            //    case TargetArchitecture.ARM64:
+            //        MaxInstructionSize = 8;
+            //        Is64BitArch = true;
+            //        break;
 
-                case TargetArchitecture.X86:
-                    MaxInstructionSize = 20;
-                    Is64BitArch = false;
-                    break;
+            //    case TargetArchitecture.X86:
+            //        MaxInstructionSize = 20;
+            //        Is64BitArch = false;
+            //        break;
 
-                case TargetArchitecture.X64:
-                    MaxInstructionSize = 26;
-                    Is64BitArch = true;
-                    break;
+            //    case TargetArchitecture.X64:
+            //        MaxInstructionSize = 26;
+            //        Is64BitArch = true;
+            //        break;
 
-                case TargetArchitecture.Mips:
-                    MaxInstructionSize = 4;
-                    Is64BitArch = false;
-                    break;
+            //    case TargetArchitecture.Mips:
+            //        MaxInstructionSize = 4;
+            //        Is64BitArch = false;
+            //        break;
 
-                default:
-                    throw new ArgumentOutOfRangeException("options.TargetArchitecture");
-            }
+            //    default:
+            //        throw new ArgumentOutOfRangeException("options.TargetArchitecture");
+            //}
         }
 
         public async Task WaitForConsoleDebuggerInitialize(CancellationToken token)
@@ -439,53 +439,11 @@ namespace BrightScript.Debugger.Core
             }
         }
 
-        public Task CmdStopAtMain()
-        {
-            this.VerifyNotDebuggingCoreDump();
-
-            return CmdAsync("-break-insert main", ResultClass.done);
-        }
-
-        public Task CmdStart()
-        {
-            this.VerifyNotDebuggingCoreDump();
-
-            return CmdAsync("-exec-run", ResultClass.running);
-        }
-
         protected bool _requestingRealAsyncBreak = false;
         public Task CmdBreak()
         {
             _requestingRealAsyncBreak = true;
             return CmdBreakInternal();
-        }
-
-
-        private bool IsLocalGdb()
-        {
-            if (this.MICommandFactory.Mode == MIMode.Gdb &&
-               this._launchOptions is LocalLaunchOptions &&
-               String.IsNullOrEmpty(((LocalLaunchOptions)this._launchOptions).MIDebuggerServerAddress)
-               )
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        protected bool IsCoreDump
-        {
-            get
-            {
-                LocalLaunchOptions localOptions = this._launchOptions as LocalLaunchOptions;
-                if (null == localOptions)
-                    return false;
-
-                return localOptions.IsCoreDump;
-            }
         }
 
         public async Task<Results> CmdTerminate()
@@ -508,32 +466,6 @@ namespace BrightScript.Debugger.Core
 
         public Task CmdBreakInternal()
         {
-            this.VerifyNotDebuggingCoreDump();
-
-            //TODO May need to fix attach on windows and osx.
-            if (IsLocalGdb() && PlatformUtilities.IsLinux())
-            {
-                // for local linux debugging, send a signal to one of the debuggee processes rather than
-                // using -exec-interrupt. -exec-interrupt does not work with attach and, in some instances, launch. 
-                // End result is either deadlocks or missed bps (since binding in runtime requires break state).
-                // NOTE: this is not required for remote. Remote will not be using LocalLinuxTransport
-                bool useSignal = false;
-                int debuggeePid = 0;
-                lock (_debuggeePids)
-                {
-                    if (_debuggeePids.Count > 0)
-                    {
-                        debuggeePid = _debuggeePids.First().Value;
-                        useSignal = true;
-                    }
-                }
-
-                if (useSignal)
-                {
-                    return CmdLinuxBreak(debuggeePid, ResultClass.done);
-                }
-            }
-
             var res = CmdAsync("-exec-interrupt", ResultClass.done);
             return res.ContinueWith((t) =>
             {
@@ -546,8 +478,6 @@ namespace BrightScript.Debugger.Core
 
         public void CmdContinueAsync()
         {
-            this.VerifyNotDebuggingCoreDump();
-
             PostCommand("-exec-continue");
         }
 
@@ -1282,12 +1212,6 @@ namespace BrightScript.Debugger.Core
                 }
             }
             return value;
-        }
-
-        public void VerifyNotDebuggingCoreDump()
-        {
-            if (this.IsCoreDump)
-                throw new InvalidCoreDumpOperationException();
         }
     }
 }

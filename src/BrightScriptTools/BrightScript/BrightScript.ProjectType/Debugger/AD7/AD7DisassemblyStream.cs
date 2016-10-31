@@ -64,52 +64,52 @@ namespace BrightScript.Debugger.AD7
         {
             uint iOp = 0;
 
-            IEnumerable<DisasmInstruction> instructions = null;
-            _engine.DebuggedProcess.WorkerThread.RunOperation(async () =>
-            {
-                instructions = await _engine.DebuggedProcess.Disassembly.FetchInstructions(_addr, (int)dwInstructions);
-            });
+            //IEnumerable<DisasmInstruction> instructions = null;
+            //_engine.DebuggedProcess.WorkerThread.RunOperation(async () =>
+            //{
+            //    instructions = await _engine.DebuggedProcess.Disassembly.FetchInstructions(_addr, (int)dwInstructions);
+            //});
 
-            if (instructions != null)
-            {
-                foreach (DisasmInstruction instruction in instructions)
-                {
-                    if (iOp >= dwInstructions)
-                    {
-                        break;
-                    }
-                    _addr = instruction.Addr;
+            //if (instructions != null)
+            //{
+            //    foreach (DisasmInstruction instruction in instructions)
+            //    {
+            //        if (iOp >= dwInstructions)
+            //        {
+            //            break;
+            //        }
+            //        _addr = instruction.Addr;
 
-                    if ((dwFields & enum_DISASSEMBLY_STREAM_FIELDS.DSF_ADDRESS) != 0)
-                    {
-                        prgDisassembly[iOp].dwFields |= enum_DISASSEMBLY_STREAM_FIELDS.DSF_ADDRESS;
-                        prgDisassembly[iOp].bstrAddress = instruction.AddressString;
-                    }
+            //        if ((dwFields & enum_DISASSEMBLY_STREAM_FIELDS.DSF_ADDRESS) != 0)
+            //        {
+            //            prgDisassembly[iOp].dwFields |= enum_DISASSEMBLY_STREAM_FIELDS.DSF_ADDRESS;
+            //            prgDisassembly[iOp].bstrAddress = instruction.AddressString;
+            //        }
 
-                    if ((dwFields & enum_DISASSEMBLY_STREAM_FIELDS.DSF_CODELOCATIONID) != 0)
-                    {
-                        prgDisassembly[iOp].dwFields |= enum_DISASSEMBLY_STREAM_FIELDS.DSF_CODELOCATIONID;
-                        prgDisassembly[iOp].uCodeLocationId = instruction.Addr;
-                    }
+            //        if ((dwFields & enum_DISASSEMBLY_STREAM_FIELDS.DSF_CODELOCATIONID) != 0)
+            //        {
+            //            prgDisassembly[iOp].dwFields |= enum_DISASSEMBLY_STREAM_FIELDS.DSF_CODELOCATIONID;
+            //            prgDisassembly[iOp].uCodeLocationId = instruction.Addr;
+            //        }
 
-                    if ((dwFields & enum_DISASSEMBLY_STREAM_FIELDS.DSF_SYMBOL) != 0)
-                    {
-                        if (instruction.Offset == 0)
-                        {
-                            prgDisassembly[iOp].dwFields |= enum_DISASSEMBLY_STREAM_FIELDS.DSF_SYMBOL;
-                            prgDisassembly[iOp].bstrSymbol = instruction.Symbol ?? string.Empty;
-                        }
-                    }
+            //        if ((dwFields & enum_DISASSEMBLY_STREAM_FIELDS.DSF_SYMBOL) != 0)
+            //        {
+            //            if (instruction.Offset == 0)
+            //            {
+            //                prgDisassembly[iOp].dwFields |= enum_DISASSEMBLY_STREAM_FIELDS.DSF_SYMBOL;
+            //                prgDisassembly[iOp].bstrSymbol = instruction.Symbol ?? string.Empty;
+            //            }
+            //        }
 
-                    if ((dwFields & enum_DISASSEMBLY_STREAM_FIELDS.DSF_OPCODE) != 0)
-                    {
-                        prgDisassembly[iOp].dwFields |= enum_DISASSEMBLY_STREAM_FIELDS.DSF_OPCODE;
-                        prgDisassembly[iOp].bstrOpcode = instruction.Opcode;
-                    }
+            //        if ((dwFields & enum_DISASSEMBLY_STREAM_FIELDS.DSF_OPCODE) != 0)
+            //        {
+            //            prgDisassembly[iOp].dwFields |= enum_DISASSEMBLY_STREAM_FIELDS.DSF_OPCODE;
+            //            prgDisassembly[iOp].bstrOpcode = instruction.Opcode;
+            //        }
 
-                    iOp++;
-                };
-            }
+            //        iOp++;
+            //    };
+            //}
 
             pdwInstructionsRead = iOp;
 
@@ -128,19 +128,19 @@ namespace BrightScript.Debugger.AD7
                 _addr = (uint)uCodeLocationId;
             }
 
-            if (iInstructions != 0)
-            {
-                IEnumerable<DisasmInstruction> instructions = null;
-                _engine.DebuggedProcess.WorkerThread.RunOperation(async () =>
-                {
-                    instructions = await _engine.DebuggedProcess.Disassembly.FetchInstructions(_addr, (int)iInstructions);
-                });
-                if (instructions == null)
-                {
-                    return VSConstants.E_FAIL;
-                }
-                _addr = instructions.ElementAt(0).Addr;
-            }
+            //if (iInstructions != 0)
+            //{
+            //    IEnumerable<DisasmInstruction> instructions = null;
+            //    _engine.DebuggedProcess.WorkerThread.RunOperation(async () =>
+            //    {
+            //        instructions = await _engine.DebuggedProcess.Disassembly.FetchInstructions(_addr, (int)iInstructions);
+            //    });
+            //    if (instructions == null)
+            //    {
+            //        return VSConstants.E_FAIL;
+            //    }
+            //    _addr = instructions.ElementAt(0).Addr;
+            //}
             return VSConstants.S_OK;
         }
 

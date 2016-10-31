@@ -16,23 +16,6 @@ using Microsoft.Build.Utilities;
 
 namespace BrightScript.Debugger.Core
 {
-    public enum TargetArchitecture
-    {
-        Unknown,
-        ARM,
-        ARM64,
-        X86,
-        X64,
-        Mips
-    };
-
-    public enum TargetEngine
-    {
-        Unknown,
-        Native,
-        Java,
-    }
-
     public enum LaunchCompleteCommand
     {
         /// <summary>
@@ -78,7 +61,7 @@ namespace BrightScript.Debugger.Core
         /// <param name="dir">[Optional] Working directory of the executable provided in the VsDebugTargetInfo by the project system. Some launchers may ignore this.</param>
         /// <param name="launcherXmlOptions">[Required] Deserialized XML options structure</param>
         /// <param name="targetEngine">Indicates the type of debugging being done.</param>
-        void SetLaunchOptions(string exePath, string args, string dir, object launcherXmlOptions, TargetEngine targetEngine);
+        void SetLaunchOptions(string exePath, string args, string dir, object launcherXmlOptions);
 
         /// <summary>
         /// Does whatever steps are necessary to setup for debugging. On Android this will include launching
@@ -98,7 +81,7 @@ namespace BrightScript.Debugger.Core
         /// </summary>
         void Terminate();
     };
-    
+
     /// <summary>
     /// Call back implemented by the caller of OnResume to provide a channel for errors
     /// </summary>
@@ -138,8 +121,6 @@ namespace BrightScript.Debugger.Core
         /// [Optional] Launcher used to start the application on the device
         /// </summary>
         public IPlatformAppLauncher DeviceAppLauncher { get; private set; }
-
-        public MIMode DebuggerMIMode { get; set; }
 
         private string _exePath;
         /// <summary>
@@ -249,36 +230,6 @@ namespace BrightScript.Debugger.Core
         /// </summary>
         public bool ShowDisplayString { get; set; }
 
-        private TargetArchitecture _targetArchitecture;
-        public TargetArchitecture TargetArchitecture
-        {
-            get { return _targetArchitecture; }
-            set
-            {
-                VerifyCanModifyProperty("TargetArchitecture");
-                _targetArchitecture = value;
-            }
-        }
-
-        /// <summary>
-        /// True if we assume that various symbol paths are going to be processed on a Unix machine
-        /// </summary>
-        public bool UseUnixSymbolPaths
-        {
-            get
-            {
-                if (this is LocalLaunchOptions)
-                {
-                    return !PlatformUtilities.IsWindows();
-                }
-                else
-                {
-                    // For now lets assume the debugger is on Unix if we are using Pipe/Tcp launch options
-                    return true;
-                }
-            }
-        }
-
         private ReadOnlyCollection<LaunchCommand> _setupCommands;
 
         /// <summary>
@@ -327,88 +278,27 @@ namespace BrightScript.Debugger.Core
             }
         }
 
-        public static LaunchOptions GetInstance(string exePath, string args, string dir, string options, IDeviceAppLauncherEventCallback eventCallback, TargetEngine targetEngine, Logger logger)
+        public static LaunchOptions GetInstance(string exePath, string args, string dir, string hostName, int port, Logger logger)
         {
             if (string.IsNullOrWhiteSpace(exePath))
                 throw new ArgumentNullException("exePath");
 
-            if (string.IsNullOrWhiteSpace(options))
-                throw new InvalidLaunchOptionsException(MICoreResources.Error_StringIsNullOrEmpty);
-
-            logger?.WriteTextBlock("LaunchOptions", options);
+            logger?.WriteLine("LaunchOptions {0}:{1}", hostName, port);
 
             LaunchOptions launchOptions = null;
-            Guid clsidLauncher = Guid.Empty;
             object launcherXmlOptions = null;
 
             try
             {
-                XmlSerializer serializer;
-                using (XmlReader reader = OpenXml(options))
-                {
-                    switch (reader.LocalName)
-                    {
-                        case "LocalLaunchOptions":
-                            {
-                                serializer = GetXmlSerializer(typeof(MICore.Xml.LaunchOptions.LocalLaunchOptions));
-                                var xmlLaunchOptions = (MICore.Xml.LaunchOptions.LocalLaunchOptions)Deserialize(serializer, reader);
-                                launchOptions = LocalLaunchOptions.CreateFromXml(xmlLaunchOptions);
-                            }
-                            break;
-
-                        case "PipeLaunchOptions":
-                            {
-                                serializer = GetXmlSerializer(typeof(MICore.Xml.LaunchOptions.PipeLaunchOptions));
-                                var xmlLaunchOptions = (MICore.Xml.LaunchOptions.PipeLaunchOptions)Deserialize(serializer, reader);
-                                launchOptions = PipeLaunchOptions.CreateFromXml(xmlLaunchOptions);
-                            }
-                            break;
-
-                        case "TcpLaunchOptions":
-                            {
-                                serializer = GetXmlSerializer(typeof(MICore.Xml.LaunchOptions.TcpLaunchOptions));
-                                var xmlLaunchOptions = (MICore.Xml.LaunchOptions.TcpLaunchOptions)Deserialize(serializer, reader);
-                                launchOptions = TcpLaunchOptions.CreateFromXml(xmlLaunchOptions);
-                            }
-                            break;
-
-                        case "IOSLaunchOptions":
-                            {
-                                serializer = GetXmlSerializer(typeof(MICore.Xml.LaunchOptions.IOSLaunchOptions));
-                                launcherXmlOptions = Deserialize(serializer, reader);
-                                clsidLauncher = new Guid("316783D1-1824-4847-B3D3-FB048960EDCF");
-                            }
-                            break;
-
-                        case "AndroidLaunchOptions":
-                            {
-                                serializer = GetXmlSerializer(typeof(MICore.Xml.LaunchOptions.AndroidLaunchOptions));
-                                launcherXmlOptions = Deserialize(serializer, reader);
-                                clsidLauncher = new Guid("C9A403DA-D3AA-4632-A572-E81FF6301E9B");
-                            }
-                            break;
-
-                        default:
-                            {
-                                throw new XmlException(string.Format(CultureInfo.CurrentCulture, MICoreResources.Error_UnknownXmlElement, reader.LocalName));
-                            }
-                    }
-
-                    // Read any remaining bits of XML to catch other errors
-                    while (reader.NodeType != XmlNodeType.None)
-                        reader.Read();
-                }
+                launchOptions = new TcpLaunchOptions(hostName, port, false);
             }
             catch (XmlException e)
             {
                 throw new InvalidLaunchOptionsException(e.Message);
             }
 
-            if (targetEngine == TargetEngine.Native)
-            {
-                if (launchOptions.ExePath == null)
-                    launchOptions.ExePath = exePath;
-            }
+            if (launchOptions.ExePath == null)
+                launchOptions.ExePath = exePath;
 
             if (string.IsNullOrEmpty(launchOptions.ExeArguments))
                 launchOptions.ExeArguments = args;
@@ -503,7 +393,7 @@ namespace BrightScript.Debugger.Core
 
         public IEnumerable<string> GetSOLibSearchPath()
         {
-            IEqualityComparer<string> comparer = this.UseUnixSymbolPaths ? StringComparer.Ordinal : StringComparer.OrdinalIgnoreCase;
+            IEqualityComparer<string> comparer = StringComparer.OrdinalIgnoreCase;
             return GetSOLibSearchPathCandidates().Distinct(comparer);
         }
 
@@ -557,16 +447,6 @@ namespace BrightScript.Debugger.Core
                     this.ExePath = exePath;
                 }
             }
-
-            if (this.TargetArchitecture == TargetArchitecture.Unknown)
-            {
-                this.TargetArchitecture = ConvertTargetArchitectureAttribute(source.TargetArchitecture);
-            }
-
-            Debug.Assert((uint)MIMode.Gdb == (uint)MICore.Xml.LaunchOptions.MIMode.gdb, "Enum values don't line up!");
-            Debug.Assert((uint)MIMode.Lldb == (uint)MICore.Xml.LaunchOptions.MIMode.lldb, "Enum values don't line up!");
-            Debug.Assert((uint)MIMode.Clrdbg == (uint)MICore.Xml.LaunchOptions.MIMode.clrdbg, "Enum values don't line up!");
-            this.DebuggerMIMode = (MIMode)source.MIMode;
 
             if (string.IsNullOrEmpty(this.ExeArguments))
                 this.ExeArguments = source.ExeArguments;
@@ -667,39 +547,6 @@ namespace BrightScript.Debugger.Core
             if (_initializationComplete)
                 throw new InvalidOperationException(string.Format(CultureInfo.CurrentCulture, MICoreResources.Error_PropertyCannotBeModifiedAfterInitialization, propertyName));
         }
-
-        public static TargetArchitecture ConvertTargetArchitectureAttribute(MICore.Xml.LaunchOptions.TargetArchitecture source)
-        {
-            switch (source)
-            {
-                case MICore.Xml.LaunchOptions.TargetArchitecture.X86:
-                case MICore.Xml.LaunchOptions.TargetArchitecture.x86:
-                    return TargetArchitecture.X86;
-
-                case MICore.Xml.LaunchOptions.TargetArchitecture.arm:
-                case MICore.Xml.LaunchOptions.TargetArchitecture.ARM:
-                    return TargetArchitecture.ARM;
-
-                case MICore.Xml.LaunchOptions.TargetArchitecture.mips:
-                case MICore.Xml.LaunchOptions.TargetArchitecture.MIPS:
-                    return TargetArchitecture.Mips;
-
-                case MICore.Xml.LaunchOptions.TargetArchitecture.x64:
-                case MICore.Xml.LaunchOptions.TargetArchitecture.amd64:
-                case MICore.Xml.LaunchOptions.TargetArchitecture.x86_64:
-                case MICore.Xml.LaunchOptions.TargetArchitecture.X64:
-                case MICore.Xml.LaunchOptions.TargetArchitecture.AMD64:
-                case MICore.Xml.LaunchOptions.TargetArchitecture.X86_64:
-                    return TargetArchitecture.X64;
-
-                case MICore.Xml.LaunchOptions.TargetArchitecture.arm64:
-                case MICore.Xml.LaunchOptions.TargetArchitecture.ARM64:
-                    return TargetArchitecture.ARM64;
-
-                default:
-                    throw new ArgumentException(string.Format(CultureInfo.CurrentCulture, MICoreResources.Error_UnknownTargetArchitecture, source.ToString()));
-            }
-        }
     }
 
     public sealed class EnvironmentEntry
@@ -719,237 +566,6 @@ namespace BrightScript.Debugger.Core
         /// [Required] Value of the environment variable
         /// </summary>
         public string Value { get; private set; }
-    }
-
-    public sealed class LocalLaunchOptions : LaunchOptions
-    {
-        private string _coreDumpPath;
-        private bool _useExternalConsole;
-
-        private const int DefaultLaunchTimeout = 10 * 1000; // 10 seconds
-
-        public LocalLaunchOptions(string MIDebuggerPath, string MIDebuggerServerAddress, int processId, MICore.Xml.LaunchOptions.EnvironmentEntry[] environmentEntries)
-        {
-            if (string.IsNullOrEmpty(MIDebuggerPath))
-                throw new ArgumentNullException("MIDebuggerPath");
-
-            this.MIDebuggerPath = MIDebuggerPath;
-            this.MIDebuggerServerAddress = MIDebuggerServerAddress;
-            this.ProcessId = processId;
-
-            List<EnvironmentEntry> environmentList = new List<EnvironmentEntry>();
-            if (environmentEntries != null)
-            {
-                foreach (MICore.Xml.LaunchOptions.EnvironmentEntry xmlEntry in environmentEntries)
-                {
-                    environmentList.Add(new EnvironmentEntry(xmlEntry));
-                }
-            }
-
-            this.Environment = new ReadOnlyCollection<EnvironmentEntry>(environmentList);
-        }
-
-        private void InitializeServerOptions(MICore.Xml.LaunchOptions.LocalLaunchOptions source)
-        {
-            if (!String.IsNullOrWhiteSpace(source.DebugServer))
-            {
-                DebugServer = source.DebugServer;
-                DebugServerArgs = source.DebugServerArgs;
-                ServerStarted = source.ServerStarted;
-                FilterStderr = source.FilterStderr;
-                FilterStdout = source.FilterStdout;
-                if (!FilterStderr && !FilterStdout)
-                {
-                    FilterStdout = true;    // no pattern source specified, use stdout
-                }
-                ServerLaunchTimeout = source.ServerLaunchTimeoutSpecified ? source.ServerLaunchTimeout : DefaultLaunchTimeout;
-            }
-        }
-
-        /// <summary>
-        /// Checks that the path is valid, exists, and is rooted.
-        /// </summary>
-        private static bool CheckPath(string path)
-        {
-            return path.IndexOfAny(Path.GetInvalidPathChars()) < 0 && File.Exists(path) && Path.IsPathRooted(path);
-        }
-
-        /// <summary>
-        /// Checks that if the directory path is valid, exists and is rooted.
-        /// </summary>
-        public static bool CheckDirectoryPath(string path)
-        {
-            return path.IndexOfAny(Path.GetInvalidPathChars()) < 0 && Directory.Exists(path) && Path.IsPathRooted(path);
-        }
-
-        public bool IsCoreDump
-        {
-            get { return !String.IsNullOrEmpty(this.CoreDumpPath); }
-        }
-
-        public bool ShouldStartServer()
-        {
-            return !string.IsNullOrWhiteSpace(DebugServer);
-        }
-
-        public bool IsValidMiDebuggerPath()
-        {
-            return File.Exists(MIDebuggerPath);
-        }
-
-        static internal LocalLaunchOptions CreateFromXml(MICore.Xml.LaunchOptions.LocalLaunchOptions source)
-        {
-            var options = new LocalLaunchOptions(
-                RequireAttribute(source.MIDebuggerPath, "MIDebuggerPath"),
-                source.MIDebuggerServerAddress,
-                source.ProcessId,
-                source.Environment);
-            options.InitializeCommonOptions(source);
-            options.InitializeServerOptions(source);
-            options.CoreDumpPath = source.CoreDumpPath;
-            options._useExternalConsole = source.ExternalConsole;
-
-            // Ensure that CoreDumpPath and ProcessId are not specified at the same time
-            if (!String.IsNullOrEmpty(source.CoreDumpPath) && source.ProcessId != 0)
-                throw new InvalidLaunchOptionsException(String.Format(CultureInfo.InvariantCulture, MICoreResources.Error_CannotSpecifyBoth, nameof(source.CoreDumpPath), nameof(source.ProcessId)));
-
-            return options;
-        }
-
-        /// <summary>
-        /// [Required] Path to the MI Debugger Executable.
-        /// </summary>
-        public string MIDebuggerPath { get; private set; }
-
-        /// <summary>
-        /// [Optional] Server address that MI Debugger server is listening to
-        /// </summary>
-        public string MIDebuggerServerAddress { get; private set; }
-
-        /// <summary>
-        /// [Optional] If supplied, the debugger will attach to the process rather than launching a new one. Note that some operating systems will require admin rights to do this.
-        /// </summary>
-        public int ProcessId { get; private set; }
-
-        /// <summary>
-        /// [Optional] List of environment variables to add to the launched process
-        /// </summary>
-        public ReadOnlyCollection<EnvironmentEntry> Environment { get; private set; }
-
-        /// <summary>
-        /// [Optional] MI Debugger Server exe, if non-null then the MIEngine will start the debug server before starting the debugger
-        /// </summary>
-        public string DebugServer { get; private set; }
-
-        /// <summary>
-        /// [Optional] Args for MI Debugger Server exe
-        /// </summary>
-        public string DebugServerArgs { get; private set; }
-
-        /// <summary>
-        /// [Optional] Server started pattern (in Regex format)
-        /// </summary>
-        public string ServerStarted { get; private set; }
-
-        /// <summary>
-        /// [Optional] Log strings written to stderr and examine for server started pattern
-        /// </summary>
-        public bool FilterStderr { get; private set; }
-
-        /// <summary>
-        /// [Optional] Log strings written to stdout and examine for server started pattern
-        /// </summary>
-        public bool FilterStdout { get; private set; }
-
-        /// <summary>
-        /// [Optional] Log strings written to stderr and examine for server started pattern
-        /// </summary>
-        public int ServerLaunchTimeout { get; private set; }
-
-        /// <summary>
-        /// [Optional] Path to a core dump file for the specified executable.
-        /// </summary>
-        public string CoreDumpPath
-        {
-            get
-            {
-                return _coreDumpPath;
-            }
-            private set
-            {
-                // CoreDumpPath is allowed to be null/empty
-                if (!String.IsNullOrEmpty(value) && !LocalLaunchOptions.CheckPath(value))
-                    throw new ArgumentException(String.Format(CultureInfo.CurrentCulture, MICoreResources.Error_InvalidLocalExePath, value));
-
-                _coreDumpPath = value;
-            }
-        }
-
-        public bool UseExternalConsole
-        {
-            get { return _useExternalConsole; }
-        }
-    }
-
-    /// <summary>
-    /// Launch options when connecting to an instance of an MI Debugger running on a remote device through a shell
-    /// </summary>
-    public sealed class PipeLaunchOptions : LaunchOptions
-    {
-        /// <summary>
-        /// Creates an instance of PipeLaunchOptions
-        /// </summary>
-        /// <param name="pipePath">Path of the pipe program</param>
-        /// <param name="pipeArguments">Argument to the pipe program</param>
-        /// <param name="pipeCommandArguments">Command to be invoked on the pipe program</param>
-        /// <param name="pipeCwd">Current working directory of pipe program. If empty directory of the pipePath is set as the cwd.</param>
-        /// <param name="pipeEnvironment">Environment variables set before invoking the pipe program</param>
-        public PipeLaunchOptions(string pipePath, string pipeArguments, string pipeCommandArguments, string pipeCwd, MICore.Xml.LaunchOptions.EnvironmentEntry[] pipeEnvironment)
-        {
-            if (string.IsNullOrEmpty(pipePath))
-                throw new ArgumentNullException("PipePath");
-
-            this.PipePath = pipePath;
-            this.PipeArguments = pipeArguments;
-            this.PipeCommandArguments = pipeCommandArguments;
-            this.PipeCwd = pipeCwd;
-
-            this.PipeEnvironment = (pipeEnvironment != null) ? pipeEnvironment.Select(e => new EnvironmentEntry(e)).ToArray() : new EnvironmentEntry[] { };
-        }
-
-        static internal PipeLaunchOptions CreateFromXml(MICore.Xml.LaunchOptions.PipeLaunchOptions source)
-        {
-            var options = new PipeLaunchOptions(RequireAttribute(source.PipePath, "PipePath"), source.PipeArguments, source.PipeCommandArguments, source.PipeCwd, source.PipeEnvironment);
-            options.InitializeCommonOptions(source);
-
-            return options;
-        }
-
-        /// <summary>
-        /// [Required] Path to the pipe executable.
-        /// </summary>
-        public string PipePath { get; private set; }
-
-        /// <summary>
-        /// [Optional] Arguments to pass to the pipe executable.
-        /// </summary>
-        /// 
-        public string PipeArguments { get; private set; }
-
-        /// <summary>
-        /// [Optional] Arguments to pass to the PipePath program that include a format specifier ('{0}') for a custom command.
-        /// </summary>
-        public string PipeCommandArguments { get; private set; }
-
-        /// <summary>
-        /// [Optional] Current working directory when the pipe program is invoked.
-        /// </summary>
-        public string PipeCwd { get; private set; }
-
-        /// <summary>
-        /// [Optional] Enviroment variables for the pipe program.
-        /// </summary>
-        public IReadOnlyCollection<EnvironmentEntry> PipeEnvironment { get; private set; }
     }
 
     public sealed class TcpLaunchOptions : LaunchOptions

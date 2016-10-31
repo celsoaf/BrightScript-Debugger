@@ -322,10 +322,8 @@
     <Compile Include="Debugger\AD7\Defenitions\AD7Guids.cs" />
     <Compile Include="Debugger\AD7\Defenitions\AD7Hresult.cs" />
     <Compile Include="Debugger\Commands.cs" />
-    <Compile Include="Debugger\Core\CommandFactories\ClrdbgMICommandFactory.cs" />
-    <Compile Include="Debugger\Core\CommandFactories\GdbMICommandFactory.cs" />
-    <Compile Include="Debugger\Core\CommandFactories\LlldbMICommandFactory.cs" />
     <Compile Include="Debugger\Core\CommandFactories\MICommandFactory.cs" />
+    <Compile Include="Debugger\Core\CommandFactories\RokuMICommandFactory.cs" />
     <Compile Include="Debugger\Core\CommandLock.cs" />
     <Compile Include="Debugger\Core\Debugger.cs" />
     <Compile Include="Debugger\Core\ExceptionHelper.cs" />
@@ -343,13 +341,9 @@
     </Compile>
     <Compile Include="Debugger\Core\MIException.cs" />
     <Compile Include="Debugger\Core\PlatformUtilities.cs" />
-    <Compile Include="Debugger\Core\ProcessMonitor.cs" />
-    <Compile Include="Debugger\Core\TerminalLauncher.cs" />
     <Compile Include="Debugger\Core\Transports\ITransport.cs" />
     <Compile Include="Debugger\Core\Transports\StreamTransport.cs" />
     <Compile Include="Debugger\Core\Transports\TcpTransport.cs" />
-    <Compile Include="Debugger\Core\UnixNativeMethods.cs" />
-    <Compile Include="Debugger\Core\UnixUtilities.cs" />
     <Compile Include="Debugger\Core\Xml\LaunchOptions.xsd.types.designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>LaunchOptions.xsd</DependentUpon>
@@ -358,7 +352,6 @@
     <Compile Include="Debugger\Engine\Breakpoints.cs" />
     <Compile Include="Debugger\Engine\DebuggedProcess.cs" />
     <Compile Include="Debugger\Engine\DebuggedThread.cs" />
-    <Compile Include="Debugger\Engine\Disassembly.cs" />
     <Compile Include="Debugger\Engine\EngineCallback.cs" />
     <Compile Include="Debugger\Engine\EngineConstants.cs" />
     <Compile Include="Debugger\Engine\EngineUtils.cs" />

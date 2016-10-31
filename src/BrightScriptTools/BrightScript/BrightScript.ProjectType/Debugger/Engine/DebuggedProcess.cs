@@ -27,7 +27,6 @@ namespace BrightScript.Debugger.Engine
 
         public SourceLineCache SourceLineCache { get; private set; }
         public ThreadCache ThreadCache { get; private set; }
-        public Disassembly Disassembly { get; private set; }
         public ExceptionManager ExceptionManager { get; private set; }
 
         //private List<DebuggedModule> _moduleList;
@@ -44,7 +43,7 @@ namespace BrightScript.Debugger.Engine
         private ReadOnlyCollection<RegisterGroup> _registerGroups;
         private bool _needTerminalReset;
 
-        public DebuggedProcess(LaunchOptions launchOptions, ISampleEngineCallback callback, WorkerThread worker, BreakpointManager bpman, AD7Engine engine) 
+        public DebuggedProcess(LaunchOptions launchOptions, ISampleEngineCallback callback, WorkerThread worker, BreakpointManager bpman, AD7Engine engine)
             : base(launchOptions, engine.Logger)
         {
             uint processExitCode = 0;
@@ -54,8 +53,8 @@ namespace BrightScript.Debugger.Engine
             Engine = engine;
             _libraryLoaded = new List<string>();
             _loadOrder = 0;
-            MICommandFactory = MICommandFactory.GetInstance(launchOptions.DebuggerMIMode, this);
-            
+            MICommandFactory = MICommandFactory.GetInstance(this);
+
             // we do NOT have real Win32 process IDs, so we use a guid
             AD_PROCESS_ID pid = new AD_PROCESS_ID();
             pid.ProcessIdType = (int)enum_AD_PROCESS_ID.AD_PROCESS_ID_GUID;
@@ -67,7 +66,6 @@ namespace BrightScript.Debugger.Engine
             _callback = callback;
             //_moduleList = new List<DebuggedModule>();
             ThreadCache = new ThreadCache(callback, this);
-            Disassembly = new Disassembly(this);
             ExceptionManager = new ExceptionManager(MICommandFactory, _worker, _callback);
 
             VariablesToDelete = new List<string>();
@@ -158,7 +156,7 @@ namespace BrightScript.Debugger.Engine
                 // NOTE: This is an async void method, so make sure exceptions are caught and somehow reported
 
                 Core.Debugger.ResultEventArgs results = args as Core.Debugger.ResultEventArgs;
-                
+
                 if (!this._connected)
                 {
                     _initialBreakArgs = results;
@@ -226,23 +224,6 @@ namespace BrightScript.Debugger.Engine
             try
             {
                 this.MICommandFactory.EnableTargetAsyncOption();
-                List<LaunchCommand> commands = GetInitializeCommands();
-
-                total = commands.Count();
-                var i = 0;
-                foreach (var command in commands)
-                {
-                    token.ThrowIfCancellationRequested();
-                    if (command.IsMICommand)
-                    {
-                        CmdAsync(command.CommandText, ResultClass.None);
-                    }
-                    else
-                    {
-                        ConsoleCmdAsync(command.CommandText);
-                    }
-                }
-
 
                 success = true;
             }
@@ -254,160 +235,6 @@ namespace BrightScript.Debugger.Engine
                 }
             }
             token.ThrowIfCancellationRequested();
-        }
-
-        private List<LaunchCommand> GetInitializeCommands()
-        {
-            List<LaunchCommand> commands = new List<LaunchCommand>();
-
-            commands.AddRange(_launchOptions.SetupCommands);
-
-            // If the absolute prefix so path has not been specified, then don't set it to null
-            // because the debugger might already have a default.
-            if (!string.IsNullOrEmpty(_launchOptions.AbsolutePrefixSOLibSearchPath))
-            {
-                commands.Add(new LaunchCommand("-gdb-set solib-absolute-prefix " + _launchOptions.AbsolutePrefixSOLibSearchPath));
-            }
-
-            // On Windows ';' appears to correctly works as a path seperator and from the documentation, it is ':' on unix
-            string pathEntrySeperator = _launchOptions.UseUnixSymbolPaths ? ":" : ";";
-            string escappedSearchPath = string.Join(pathEntrySeperator, _launchOptions.GetSOLibSearchPath().Select(path => EscapePath(path, ignoreSpaces: true)));
-            if (!string.IsNullOrWhiteSpace(escappedSearchPath))
-            {
-                if (_launchOptions.DebuggerMIMode == MIMode.Gdb)
-                {
-                    // Do not place quotes around so paths for gdb
-                    commands.Add(new LaunchCommand("-gdb-set solib-search-path " + escappedSearchPath + pathEntrySeperator, ResourceStrings.SettingSymbolSearchPath));
-
-                }
-                else
-                {
-                    // surround so lib path with quotes in other cases
-                    commands.Add(new LaunchCommand("-gdb-set solib-search-path \"" + escappedSearchPath + pathEntrySeperator + "\"", ResourceStrings.SettingSymbolSearchPath));
-                }
-            }
-
-            if (this.MICommandFactory.SupportsStopOnDynamicLibLoad())
-            {
-                // Do not stop on shared library load/unload events while debugging core dump.
-                // Also check _needTerminalReset because we need to work around a GDB bug and clear the terminal error message. 
-                // This clear operation can't be done too early (because GDB only generate this message after start debugging) 
-                // or too late (otherwise we might clear debuggee's output). 
-                // The stop cause by first module load seems to be the perfect timing to clear the terminal, 
-                // that's why we still need to initially turn stop-on-solib-events on then turn it off after the first stop.
-                if ((_needTerminalReset || _launchOptions.WaitDynamicLibLoad) && !this.IsCoreDump)
-                {
-                    commands.Add(new LaunchCommand("-gdb-set stop-on-solib-events 1"));
-                }
-            }
-
-            // Custom launch options replace the built in launch steps. This is used on iOS
-            // and Linux attach scenarios.
-            if (_launchOptions.CustomLaunchSetupCommands != null)
-            {
-                commands.AddRange(_launchOptions.CustomLaunchSetupCommands);
-            }
-            else
-            {
-                LocalLaunchOptions localLaunchOptions = _launchOptions as LocalLaunchOptions;
-                if (this.IsCoreDump)
-                {
-                    // Add executable information
-                    this.AddExecutablePathCommand(commands);
-
-                    // Add core dump information (linux/mac does not support quotes around this path but spaces in the path do work)
-                    string coreDump = _launchOptions.UseUnixSymbolPaths ? localLaunchOptions.CoreDumpPath : EscapePath(localLaunchOptions.CoreDumpPath);
-                    string coreDumpCommand = String.Concat("-target-select core ", coreDump);
-                    string coreDumpDescription = String.Format(CultureInfo.CurrentCulture, ResourceStrings.LoadingCoreDumpMessage, localLaunchOptions.CoreDumpPath);
-                    commands.Add(new LaunchCommand(coreDumpCommand, coreDumpDescription, ignoreFailures: false));
-                }
-                else if (null != localLaunchOptions && localLaunchOptions.ProcessId != 0)
-                {
-                    // This is an attach
-
-                    // check for remote
-                    string destination = localLaunchOptions.MIDebuggerServerAddress;
-                    if (!string.IsNullOrEmpty(destination))
-                    {
-                        commands.Add(new LaunchCommand("-target-select remote " + destination, string.Format(CultureInfo.CurrentUICulture, ResourceStrings.ConnectingMessage, destination)));
-                    }
-
-                    int pid = localLaunchOptions.ProcessId;
-                    commands.Add(new LaunchCommand(String.Format(CultureInfo.CurrentUICulture, "-target-attach {0}", pid), ignoreFailures: false));
-
-                    if (this.MICommandFactory.Mode == MIMode.Lldb)
-                    {
-                        // LLDB finishes attach in break mode. Gdb does finishes in run mode. Issue a continue in lldb to match the gdb behavior
-                        commands.Add(new LaunchCommand("-exec-continue", ignoreFailures: false));
-                    }
-
-                    return commands;
-                }
-                else
-                {
-                    // The default launch is to start a new process
-                    if (!string.IsNullOrWhiteSpace(_launchOptions.ExeArguments))
-                    {
-                        commands.Add(new LaunchCommand("-exec-arguments " + _launchOptions.ExeArguments));
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(_launchOptions.WorkingDirectory))
-                    {
-                        string escappedDir = EscapePath(_launchOptions.WorkingDirectory);
-                        commands.Add(new LaunchCommand("-environment-cd " + escappedDir));
-                    }
-
-                    // On Windows, with CLRDBG, if we should launch a new console, set the TTY
-                    if (localLaunchOptions != null &&
-                        this.MICommandFactory.Mode == MIMode.Clrdbg &&
-                        PlatformUtilities.IsWindows() &&
-                        this.MICommandFactory.UseExternalConsoleForLocalLaunch(localLaunchOptions))
-                    {
-                        commands.Add(new LaunchCommand("-inferior-tty-set <new-console>"));
-                    }
-
-                    // Send client version to clrdbg to set the capabilities appropriately
-                    if (this.MICommandFactory.Mode == MIMode.Clrdbg)
-                    {
-                        string version = string.Empty;
-                        var attribute = this.GetType().GetTypeInfo().Assembly.GetCustomAttribute(typeof(System.Reflection.AssemblyFileVersionAttribute)) as AssemblyFileVersionAttribute;
-
-                        if (attribute != null)
-                        {
-                            version = attribute.Version;
-                        }
-
-                        commands.Add(new LaunchCommand("-gdb-set client-version \"" + version + "\""));
-                    }
-
-                    this.AddExecutablePathCommand(commands);
-                    commands.Add(new LaunchCommand("-break-insert main", ignoreFailures: true));
-
-                    if (null != localLaunchOptions)
-                    {
-                        string destination = localLaunchOptions.MIDebuggerServerAddress;
-                        if (!string.IsNullOrEmpty(destination))
-                        {
-                            commands.Add(new LaunchCommand("-target-select remote " + destination, string.Format(CultureInfo.CurrentUICulture, ResourceStrings.ConnectingMessage, destination)));
-                        }
-                    }
-                }
-            }
-
-            return commands;
-        }
-
-        private void AddExecutablePathCommand(IList<LaunchCommand> commands)
-        {
-            string exe = EscapePath(_launchOptions.ExePath);
-            string description = string.Format(CultureInfo.CurrentUICulture, ResourceStrings.LoadingSymbolMessage, _launchOptions.ExePath);
-            Action<string> failureHandler = (string miError) =>
-            {
-                string message = string.Format(CultureInfo.CurrentUICulture, ResourceStrings.Error_ExePathInvalid, _launchOptions.ExePath, MICommandFactory.Name, miError);
-                throw new LaunchErrorException(message);
-            };
-
-            commands.Add(new LaunchCommand("-file-exec-and-symbols " + exe, description, ignoreFailures: false, failureHandler: failureHandler));
         }
 
         private void Dispose()
@@ -595,15 +422,8 @@ namespace BrightScript.Debugger.Engine
         }
         internal string EscapePath(string path, bool ignoreSpaces = false)
         {
-            if (_launchOptions.UseUnixSymbolPaths)
-            {
-                path = path.Replace('\\', '/');
-            }
-            else
-            {
-                path = path.Trim();
-                path = path.Replace(@"\", @"\\");
-            }
+            path = path.Trim();
+            path = path.Replace(@"\", @"\\");
 
             if (!ignoreSpaces && path.IndexOf(' ') != -1)
             {
@@ -721,8 +541,6 @@ namespace BrightScript.Debugger.Engine
 
         public async Task Step(int threadId, enum_STEPKIND kind, enum_STEPUNIT unit)
         {
-            this.VerifyNotDebuggingCoreDump();
-
             await ExceptionManager.EnsureSettingsUpdated();
 
             if ((unit == enum_STEPUNIT.STEP_LINE) || (unit == enum_STEPUNIT.STEP_STATEMENT))
@@ -802,23 +620,10 @@ namespace BrightScript.Debugger.Engine
                 await HandleBreakModeEvent(_initialBreakArgs);
                 _initialBreakArgs = null;
             }
-            else if (this.IsCoreDump)
-            {
-                // Set initial state of debug engine to stopped with emulated results
-                this.OnStateChanged("stopped", await this.GenerateStoppedRecordResults());
-            }
             else
             {
                 bool attach = false;
                 int attachPid = 0;
-                if (_launchOptions is LocalLaunchOptions)
-                {
-                    attachPid = ((LocalLaunchOptions)_launchOptions).ProcessId;
-                    if (attachPid != 0)
-                    {
-                        attach = true;
-                    }
-                }
 
                 if (!attach)
                 {
@@ -1016,48 +821,6 @@ namespace BrightScript.Debugger.Engine
             }
 
             return parameters;
-        }
-
-        internal async Task<uint> ReadProcessMemory(ulong address, uint count, byte[] bytes)
-        {
-            string cmd = "-data-read-memory-bytes " + EngineUtils.AsAddr(address, Is64BitArch) + " " + count.ToString();
-            Results results = await CmdAsync(cmd, ResultClass.None);
-            if (results.ResultClass == ResultClass.error)
-            {
-                return uint.MaxValue;
-            }
-            ValueListValue mem = results.Find<ValueListValue>("memory");
-            if (mem.IsEmpty())
-            {
-                return 0;
-            }
-            TupleValue res = mem.Content[0] as TupleValue;
-            if (res == null)
-            {
-                return 0;
-            }
-            ulong start = res.FindAddr("begin");
-            ulong end = res.FindAddr("end");
-            ulong offset = res.FindAddr("offset");   // for some reason this is formatted as hex
-            string content = res.FindString("contents");
-            uint toRead = (uint)content.Length / 2;
-            if (toRead > count)
-            {
-                toRead = count;
-            }
-            // ensure the buffer contains the desired bytes.
-            if (start + offset != address)
-            {
-                throw new MIException(VSConstants.E_FAIL);
-            }
-
-            for (int pos = 0; pos < toRead; ++pos)
-            {
-                // Decode one byte
-                string strByte = content.Substring(pos * 2, 2);
-                bytes[pos] = Convert.ToByte(strByte, 16);
-            }
-            return toRead;
         }
 
         private OutputMessage DecodeOutputEvent(Results results)

@@ -32,24 +32,24 @@ namespace BrightScript.Debugger.Engine
         internal static async Task<string> GetAddressDescriptionAsync(DebuggedProcess proc, ulong ip)
         {
             string location = null;
-            IEnumerable<DisasmInstruction> instructions = await proc.Disassembly.FetchInstructions(ip, 1);
-            if (instructions != null)
-            {
-                foreach (DisasmInstruction instruction in instructions)
-                {
-                    if (location == null && !String.IsNullOrEmpty(instruction.Symbol))
-                    {
-                        location = instruction.Symbol;
-                        break;
-                    }
-                }
-            }
+            //IEnumerable<DisasmInstruction> instructions = await proc.Disassembly.FetchInstructions(ip, 1);
+            //if (instructions != null)
+            //{
+            //    foreach (DisasmInstruction instruction in instructions)
+            //    {
+            //        if (location == null && !String.IsNullOrEmpty(instruction.Symbol))
+            //        {
+            //            location = instruction.Symbol;
+            //            break;
+            //        }
+            //    }
+            //}
 
-            if (location == null)
-            {
-                string addrFormat = proc.Is64BitArch ? "x16" : "x8";
-                location = ip.ToString(addrFormat, CultureInfo.InvariantCulture);
-            }
+            //if (location == null)
+            //{
+            //    string addrFormat = proc.Is64BitArch ? "x16" : "x8";
+            //    location = ip.ToString(addrFormat, CultureInfo.InvariantCulture);
+            //}
 
             return location;
         }

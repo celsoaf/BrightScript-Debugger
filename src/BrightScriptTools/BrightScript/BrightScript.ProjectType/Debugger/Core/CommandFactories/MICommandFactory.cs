@@ -8,13 +8,6 @@ using Microsoft.VisualStudio.Debugger.Interop;
 
 namespace BrightScript.Debugger.Core.CommandFactories
 {
-    public enum MIMode
-    {
-        Gdb,
-        Lldb,
-        Clrdbg
-    }
-
     public enum PrintValues
     {
         NoValues = 0,
@@ -34,30 +27,14 @@ namespace BrightScript.Debugger.Core.CommandFactories
     {
         protected Debugger _debugger;
 
-        public MIMode Mode { get; private set; }
-
         public abstract string Name { get; }
 
-        public static MICommandFactory GetInstance(MIMode mode, Debugger debugger)
+        public static MICommandFactory GetInstance(Debugger debugger)
         {
             MICommandFactory commandFactory;
 
-            switch (mode)
-            {
-                case MIMode.Gdb:
-                    commandFactory = new GdbMICommandFactory();
-                    break;
-                case MIMode.Lldb:
-                    commandFactory = new LlldbMICommandFactory();
-                    break;
-                case MIMode.Clrdbg:
-                    commandFactory = new ClrdbgMICommandFactory();
-                    break;
-                default:
-                    throw new ArgumentException("mode");
-            }
+            commandFactory = new RokuMICommandFactory();
             commandFactory._debugger = debugger;
-            commandFactory.Mode = mode;
             commandFactory.Radix = 10;
             return commandFactory;
         }
@@ -522,16 +499,6 @@ namespace BrightScript.Debugger.Core.CommandFactories
         public virtual bool IsAsyncBreakSignal(Results results)
         {
             return (results.TryFindString("reason") == "signal-received" && results.TryFindString("signal-name") == "SIGINT");
-        }
-
-        /// <summary>
-        /// Determines if a new external console should be spawned on non-Windows platforms for the debugger+app
-        /// </summary>
-        /// <param name="localLaunchOptions">[required] local launch options</param>
-        /// <returns>True if an external console should be used</returns>
-        public virtual bool UseExternalConsoleForLocalLaunch(LocalLaunchOptions localLaunchOptions)
-        {
-            return localLaunchOptions.UseExternalConsole && String.IsNullOrEmpty(localLaunchOptions.MIDebuggerServerAddress) && !localLaunchOptions.IsCoreDump;
         }
 
         public Results IsModuleLoad(string cmd)

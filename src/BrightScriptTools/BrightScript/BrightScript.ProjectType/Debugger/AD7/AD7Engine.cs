@@ -439,11 +439,8 @@ namespace BrightScript.Debugger.AD7
 
             try
             {
-                //var xml = "<LocalLaunchOptions xmlns=\"http://schemas.microsoft.com/vstudio/MDDDebuggerOptions/2014\" MIDebuggerPath=\"" + dir + exe + "\" /> ";
-                var xml = "<TcpLaunchOptions xmlns=\"http://schemas.microsoft.com/vstudio/MDDDebuggerOptions/2014\" Hostname=\"" + args.Split('=')[1] +  "\" Port=\"8085\" /> ";
-
                 // Note: LaunchOptions.GetInstance can be an expensive operation and may push a wait message loop
-                LaunchOptions launchOptions = LaunchOptions.GetInstance(exe, args, dir, xml, _engineCallback, TargetEngine.Native, Logger);
+                LaunchOptions launchOptions = LaunchOptions.GetInstance(exe, args, dir, args.Split('=')[1], 8085, Logger);
 
                 // We are being asked to debug a process when we currently aren't debugging anything
                 _pollThread = new WorkerThread(Logger);
@@ -559,15 +556,7 @@ namespace BrightScript.Debugger.AD7
             {
                 //_pollThread.RunOperation(() => _debuggedProcess.CmdTerminate());
 
-                if (_debuggedProcess.MICommandFactory.Mode != MIMode.Clrdbg)
-                {
-                    _debuggedProcess.Terminate();
-                }
-                else
-                {
-                    // Clrdbg issues a proper exit event on CmdTerminate call, don't call _debuggedProcess.Terminate() which 
-                    // simply sends a fake exit event that overrides the exit code of the real one
-                }
+                _debuggedProcess.Terminate();
             }
             catch (ObjectDisposedException)
             {

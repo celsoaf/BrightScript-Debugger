@@ -84,7 +84,7 @@ namespace BrightScript.Debugger.AD7
             // CLRDBG TODO: This implementation should be changed to compare the method token
             ulong addr = ((AD7MemoryAddress)codeContext).Address;
             AD7StackFrame frame = ((AD7StackFrame)stackFrame);
-            if (frame.ThreadContext.Level != 0 || frame.Thread != this || !frame.ThreadContext.pc.HasValue || _engine.DebuggedProcess.MICommandFactory.Mode == MIMode.Clrdbg)
+            if (frame.ThreadContext.Level != 0 || frame.Thread != this || !frame.ThreadContext.pc.HasValue)
             {
                 return VSConstants.S_FALSE;
             }
@@ -277,7 +277,7 @@ namespace BrightScript.Debugger.AD7
             // CLRDBG TODO: This implementation should be changed to call an MI command
             ulong addr = ((AD7MemoryAddress)codeContext).Address;
             AD7StackFrame frame = ((AD7StackFrame)stackFrame);
-            if (frame.ThreadContext.Level != 0 || frame.Thread != this || !frame.ThreadContext.pc.HasValue || _engine.DebuggedProcess.MICommandFactory.Mode == MIMode.Clrdbg)
+            if (frame.ThreadContext.Level != 0 || frame.Thread != this || !frame.ThreadContext.pc.HasValue)
             {
                 return VSConstants.S_FALSE;
             }
@@ -287,12 +287,12 @@ namespace BrightScript.Debugger.AD7
             {
                 return VSConstants.S_FALSE;
             }
-            string result = frame.EvaluateExpression("$pc=" + EngineUtils.AsAddr(addr, _engine.DebuggedProcess.Is64BitArch));
-            if (result != null)
-            {
-                _engine.DebuggedProcess.ThreadCache.MarkDirty();
-                return VSConstants.S_OK;
-            }
+            //string result = frame.EvaluateExpression("$pc=" + EngineUtils.AsAddr(addr, _engine.DebuggedProcess.Is64BitArch));
+            //if (result != null)
+            //{
+            //    _engine.DebuggedProcess.ThreadCache.MarkDirty();
+            //    return VSConstants.S_OK;
+            //}
             return VSConstants.S_FALSE;
         }
 

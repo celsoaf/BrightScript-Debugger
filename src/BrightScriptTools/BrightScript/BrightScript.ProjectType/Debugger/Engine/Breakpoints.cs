@@ -83,29 +83,14 @@ namespace BrightScript.Debugger.Engine
 
         internal static async Task<BindResult> Bind(string functionName, DebuggedProcess process, string condition, AD7PendingBreakpoint pbreak)
         {
-            process.VerifyNotDebuggingCoreDump();
-
             return EvalBindResult(await process.MICommandFactory.BreakInsert(functionName, condition, ResultClass.None), pbreak);
         }
 
         internal static async Task<BindResult> Bind(string documentName, uint line, uint column, DebuggedProcess process, string condition, AD7PendingBreakpoint pbreak)
         {
-            process.VerifyNotDebuggingCoreDump();
-
             string basename = System.IO.Path.GetFileName(documentName);     // get basename from Windows path
             basename = process.EscapePath(basename);
             BindResult bindResults = EvalBindResult(await process.MICommandFactory.BreakInsert(basename, line, condition, ResultClass.None), pbreak);
-
-            // On GDB, the returned line information is from the pending breakpoint instead of the bound breakpoint.
-            // Check the address mapping to make sure the line info is correct.
-            if (process.MICommandFactory.Mode == MIMode.Gdb &&
-                bindResults.BoundBreakpoints != null)
-            {
-                foreach (var boundBreakpoint in bindResults.BoundBreakpoints)
-                {
-                    boundBreakpoint.Line = await process.LineForStartAddress(basename, boundBreakpoint.Addr);
-                }
-            }
 
             return bindResults;
         }

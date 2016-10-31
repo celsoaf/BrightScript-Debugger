@@ -227,16 +227,6 @@ namespace BrightScript.Debugger.Engine
                 }
             };
 
-            TelemetryEvent += (object o, Core.Debugger.ResultEventArgs args) =>
-            {
-                string eventName;
-                KeyValuePair<string, object>[] properties;
-                if (_engineTelemetry.DecodeTelemetryEvent(args.Results, out eventName, out properties))
-                {
-                    HostTelemetry.SendEvent(eventName, properties);
-                }
-            };
-
             BreakChangeEvent += _breakpointManager.BreakpointModified;
         }
 

@@ -326,10 +326,10 @@
     <Compile Include="Debugger\Core\CommandFactories\RokuMICommandFactory.cs" />
     <Compile Include="Debugger\Core\CommandLock.cs" />
     <Compile Include="Debugger\Core\Debugger.cs" />
-    <Compile Include="Debugger\Core\ExceptionHelper.cs" />
+    <Compile Include="Debugger\Core\Exceptions\ExceptionHelper.cs" />
     <Compile Include="Debugger\Core\HostMarshal.cs" />
-    <Compile Include="Debugger\Core\InvalidCoreDumpOperationException.cs" />
-    <Compile Include="Debugger\Core\InvalidLaunchOptionsException.cs" />
+    <Compile Include="Debugger\Core\Exceptions\InvalidCoreDumpOperationException.cs" />
+    <Compile Include="Debugger\Core\Exceptions\InvalidLaunchOptionsException.cs" />
     <Compile Include="Debugger\Core\LaunchCommand.cs" />
     <Compile Include="Debugger\Core\LaunchOptions.cs" />
     <Compile Include="Debugger\Core\Logger.cs" />
@@ -338,7 +338,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MICoreResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Debugger\Core\MIException.cs" />
+    <Compile Include="Debugger\Core\Exceptions\MIException.cs" />
     <Compile Include="Debugger\Core\Transports\ITransport.cs" />
     <Compile Include="Debugger\Core\Transports\StreamTransport.cs" />
     <Compile Include="Debugger\Core\Transports\TcpTransport.cs" />
@@ -350,7 +350,7 @@
     <Compile Include="Debugger\Engine\EngineConstants.cs" />
     <Compile Include="Debugger\Engine\EngineUtils.cs" />
     <Compile Include="Debugger\Core\MIResults.cs" />
-    <Compile Include="Debugger\Engine\LaunchErrorException.cs" />
+    <Compile Include="Debugger\Core\Exceptions\LaunchErrorException.cs" />
     <Compile Include="Debugger\Engine\MITextPosition.cs" />
     <Compile Include="Debugger\Engine\OperationThread.cs" />
     <Compile Include="Debugger\Engine\SourceLine.cs" />
@@ -481,9 +481,7 @@
   <ItemGroup>
     <Content Include="Resources\BrightScriptPackage.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Debugger\Interfaces\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <!-- TODO: This copies the build authoring to a well-known location so that on the machine this project builds on,

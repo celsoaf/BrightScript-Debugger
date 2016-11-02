@@ -403,16 +403,6 @@
     <Resource Include="Resources\remove.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BrightScriptDebug.GPlex\BrightScriptDebug.GPlex.csproj">
-      <Project>{f9e856de-8322-4556-8c5d-d9ed9dbbe894}</Project>
-      <Name>BrightScriptDebug.GPlex</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BrightScriptDebug.Gppg\BrightScriptDebug.Gppg.csproj">
-      <Project>{8e6c1395-5abd-416a-9721-28aa5cc45263}</Project>
-      <Name>BrightScriptDebug.Gppg</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\document.png" />
     <Resource Include="Resources\property-blue.png" />
   </ItemGroup>
@@ -454,6 +444,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\clearLogs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrightScriptDebug.GPlex\BrightScriptDebug.GPlex.csproj">
+      <Project>{ab14173e-328a-44d9-a15e-1b39e0e30c0d}</Project>
+      <Name>BrightScriptDebug.GPlex</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrightScriptDebug.Gppg\BrightScriptDebug.Gppg.csproj">
+      <Project>{c107259d-908a-4164-a6bc-56ea5c09c38d}</Project>
+      <Name>BrightScriptDebug.Gppg</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

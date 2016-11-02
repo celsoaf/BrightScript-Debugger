@@ -32,6 +32,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>key.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,6 +62,7 @@
     <Compile Include="TokensColor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="key.snk" />
     <None Include="TestData\TestColor.brs" />
     <None Include="TestData\TestParser.brs" />
   </ItemGroup>
@@ -64,11 +71,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BrightScriptDebug.GPlex\BrightScriptDebug.GPlex.csproj">
-      <Project>{f9e856de-8322-4556-8c5d-d9ed9dbbe894}</Project>
+      <Project>{ab14173e-328a-44d9-a15e-1b39e0e30c0d}</Project>
       <Name>BrightScriptDebug.GPlex</Name>
     </ProjectReference>
     <ProjectReference Include="..\BrightScriptDebug.Gppg\BrightScriptDebug.Gppg.csproj">
-      <Project>{8e6c1395-5abd-416a-9721-28aa5cc45263}</Project>
+      <Project>{c107259d-908a-4164-a6bc-56ea5c09c38d}</Project>
       <Name>BrightScriptDebug.Gppg</Name>
     </ProjectReference>
   </ItemGroup>

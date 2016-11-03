@@ -118,8 +118,10 @@ namespace BrightScript
 
             if (!File.Exists(file))
                 file = Path.ChangeExtension(file, ".exe");
+            if(File.Exists(file))
+                return Assembly.LoadFrom(file);
 
-            return Assembly.LoadFrom(file);
+            return null;
         }
 
         #endregion

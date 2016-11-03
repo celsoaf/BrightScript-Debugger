@@ -17,6 +17,7 @@ namespace BrightScript.Debugger.Services.Parser
         private Thread _thread;
         private Scanner _scanner;
         private BrightScriptDebug.Compiler.Parser _parser;
+        private volatile bool _initialized = false;
 
         public void Start(int port)
         {
@@ -120,9 +121,21 @@ namespace BrightScript.Debugger.Services.Parser
 
         public void ProcessLog(LogModel log)
         {
-            if (log.Port == Port)
+            if (_running && log.Port == Port)
             {
-                _writer.WriteLine(log.Message);
+                var msg = log.Message;
+                if (!_initialized)
+                {
+                    _initialized = true;
+
+                    var index = msg.LastIndexOf("------ Running dev '", StringComparison.Ordinal);
+                    if (index > 0)
+                    {
+                        msg = msg.Substring(index);
+                    }
+                }
+
+                _writer.WriteLine(msg);
                 _writer.Flush();
             }
         }
@@ -134,6 +147,7 @@ namespace BrightScript.Debugger.Services.Parser
                 _running = false;
                 _stream.Dispose();
                 _stream = null;
+                _initialized = false;
             }
         }
 

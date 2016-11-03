@@ -6,7 +6,7 @@ namespace BrightScriptDebug.Compiler
     {
         public event Action ErrorPorcessed;
 
-        public bool Restart { get; set; }
+        //public bool Restart { get; set; }
 
         public override void yyerror(string format, params object[] args)
         {
@@ -16,8 +16,8 @@ namespace BrightScriptDebug.Compiler
 
             ErrorPorcessed?.Invoke();
 
-            if (tokELin > 1000)
-                Restart = true;
+            //if (tokELin > 1000)
+            //    Restart = true;
         }
     }
 }

@@ -43,7 +43,7 @@ namespace BrightScript.Debugger.Services.Parser
                     _scanner = new TelnetScanner(_stream);
                     _scanner.ErrorPorcessed += PublishError;
 
-                    while (_running && !_scanner.Restart)
+                    while (_running)
                     {
                         if (_stream.Length > 0)
                         {
@@ -75,8 +75,6 @@ namespace BrightScript.Debugger.Services.Parser
                         Thread.Sleep(100);
                     }
 
-                    if (_running && _scanner.Restart)
-                        Console.WriteLine("Restart Scanner {0}", Port);
                 }
                 catch (Exception ex)
                 {

@@ -7,8 +7,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using BrightScript.Debugger.Core.CommandFactories;
-using BrightScript.Debugger.Core.Transports;
 using BrightScript.Debugger.Engine;
+using BrightScript.Debugger.Models;
+using BrightScript.Debugger.Services.Parser;
+using BrightScript.Debugger.Services.Telnet;
+using BrightScript.Loggger;
 
 namespace BrightScript.Debugger.Core
 {
@@ -20,7 +23,7 @@ namespace BrightScript.Debugger.Core
         Exited
     };
 
-    public class Debugger : ITransportCallback
+    public class Debugger
     {
         public event EventHandler BreakModeEvent;
         public event EventHandler RunModeEvent;
@@ -30,13 +33,10 @@ namespace BrightScript.Debugger.Core
         public event EventHandler<string> OutputStringEvent;
         public event EventHandler EvaluationEvent;
         public event EventHandler ErrorEvent;
-        public event EventHandler ModuleLoadEvent;  // occurs when stopped after a libraryLoadEvent
-        public event EventHandler LibraryLoadEvent; // a shared library was loaded
         public event EventHandler BreakChangeEvent; // a breakpoint was changed
         public event EventHandler ThreadCreatedEvent;
         public event EventHandler ThreadExitedEvent;
         public event EventHandler<ResultEventArgs> MessageEvent;
-        public event EventHandler<ResultEventArgs> TelemetryEvent;
         private int _exiting;
         public ProcessState ProcessState { get; private set; }
         private MIResults _miResults;
@@ -60,7 +60,7 @@ namespace BrightScript.Debugger.Core
         public Logger Logger { private set; get; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes")]
-        protected readonly LaunchOptions _launchOptions;
+        protected readonly TcpLaunchOptions _launchOptions;
 
         private Queue<Func<Task>> _internalBreakActions = new Queue<Func<Task>>();
         private TaskCompletionSource<object> _internalBreakActionCompletionSource;
@@ -68,6 +68,9 @@ namespace BrightScript.Debugger.Core
         private LinkedList<string> _initializationLog = new LinkedList<string>();
         private LinkedList<string> _initialErrors = new LinkedList<string>();
         private int _localDebuggerPid = -1;
+        private IParserService _parserService;
+        private ITelnetService _transport;
+        private List<BacktraceModel> _backtrace;
 
         protected bool _connected;
 
@@ -87,7 +90,6 @@ namespace BrightScript.Debugger.Core
             public uint Id { get; private set; }
         };
 
-        private ITransport _transport;
         private CommandLock _commandLock = new CommandLock();
 
         /// <summary>
@@ -112,7 +114,7 @@ namespace BrightScript.Debugger.Core
         // The key is the thread group, the value is the pid
         private Dictionary<string, int> _debuggeePids;
 
-        public Debugger(LaunchOptions launchOptions, Logger logger)
+        public Debugger(TcpLaunchOptions launchOptions, Logger logger)
         {
             _launchOptions = launchOptions;
             _debuggeePids = new Dictionary<string, int>();
@@ -217,14 +219,7 @@ namespace BrightScript.Debugger.Core
             this.ProcessState = ProcessState.Stopped;
             FlushBreakStateData();
 
-            if (!results.Contains("frame"))
-            {
-                if (ModuleLoadEvent != null)
-                {
-                    ModuleLoadEvent(this, new ResultEventArgs(results));
-                }
-            }
-            else if (BreakModeEvent != null)
+            if (BreakModeEvent != null)
             {
                 if (fIsAsyncBreak) { _requestingRealAsyncBreak = false; }
                 BreakModeEvent(this, new ResultEventArgs(results));
@@ -346,44 +341,70 @@ namespace BrightScript.Debugger.Core
             return processContinued;
         }
 
-        public void Init(ITransport transport, LaunchOptions options)
+        public void Init(TcpLaunchOptions options)
         {
             _lastCommandId = 1000;
-            _transport = transport;
             FlushBreakStateData();
 
-            _transport.Init(this, options, Logger);
 
-            //switch (options.TargetArchitecture)
-            //{
-            //    case TargetArchitecture.ARM:
-            //        MaxInstructionSize = 4;
-            //        Is64BitArch = false;
-            //        break;
+            _parserService = new ParserService();
 
-            //    case TargetArchitecture.ARM64:
-            //        MaxInstructionSize = 8;
-            //        Is64BitArch = true;
-            //        break;
+            _parserService.AppCloseProcessed += ParserServiceOnAppCloseProcessed;
+            _parserService.DebugPorcessed += ParserServiceOnDebugPorcessed;
+            _parserService.BacktraceProcessed += ParserServiceOnBacktraceProcessed;
+            _parserService.Start(((TcpLaunchOptions)options).Port);
 
-            //    case TargetArchitecture.X86:
-            //        MaxInstructionSize = 20;
-            //        Is64BitArch = false;
-            //        break;
+            _transport = new SoketService();
+            _transport.Log += TransportOnLog;
+            _transport.Close += TransportOnClose;
+            _transport.Connect(options.Hostname, options.Port);
+        }
 
-            //    case TargetArchitecture.X64:
-            //        MaxInstructionSize = 26;
-            //        Is64BitArch = true;
-            //        break;
+        private void TransportOnClose()
+        {
+            OnDebuggerProcessExit("0");
+        }
 
-            //    case TargetArchitecture.Mips:
-            //        MaxInstructionSize = 4;
-            //        Is64BitArch = false;
-            //        break;
+        private void TransportOnLog(string line)
+        {
+            if (_initializationLog != null)
+            {
+                lock (_waitingOperations)
+                {
+                    // check again now that the lock is aquired
+                    if (_initializationLog != null)
+                    {
+                        _initializationLog.AddLast(line);
+                    }
+                }
+            }
 
-            //    default:
-            //        throw new ArgumentOutOfRangeException("options.TargetArchitecture");
-            //}
+            ScheduleStdOutProcessing(line);
+
+            _parserService.ProcessLog(new LogModel(_transport.Port, line));
+
+            LiveLogger.WriteLine(line);
+        }
+
+        private void ParserServiceOnBacktraceProcessed(List<BacktraceModel> backtraceModels)
+        {
+            _backtrace = backtraceModels;
+        }
+
+        private void ParserServiceOnDebugPorcessed()
+        {
+            BreakModeEvent?.Invoke(this, null);
+        }
+
+        private void ParserServiceOnAppCloseProcessed()
+        {
+            DebuggerExitEvent?.Invoke(this, null);
+        }
+
+        public virtual void Terminate()
+        {
+            _parserService.Stop();
+            _transport.Disconnect();
         }
 
         public async Task WaitForConsoleDebuggerInitialize(CancellationToken token)
@@ -398,15 +419,6 @@ namespace BrightScript.Debugger.Core
             {
                 //await _consoleDebuggerInitializeCompletionSource.Task;
             }
-
-            lock (_waitingOperations)
-            {
-                _consoleDebuggerInitializeCompletionSource = null;
-
-                // We no longer care about keeping these, so empty them out
-                _initializationLog = null;
-                _initialErrors = null;
-            }
         }
 
         protected void CloseQuietly()
@@ -420,7 +432,11 @@ namespace BrightScript.Debugger.Core
         private void Close()
         {
             _isClosed = true;
-            _transport.Close();
+            _transport.Disconnect();
+
+            _transport.Log -= TransportOnLog;
+            _transport.Close -= TransportOnClose;
+
             lock (_waitingOperations)
             {
                 foreach (var value in _waitingOperations.Values)
@@ -599,46 +615,6 @@ namespace BrightScript.Debugger.Core
             return waitingOperation.Task;
         }
 
-        #region ITransportCallback implementation
-        // Note: this can be called from any thread
-        void ITransportCallback.OnStdOutLine(string line)
-        {
-            if (_initializationLog != null)
-            {
-                lock (_waitingOperations)
-                {
-                    // check again now that the lock is aquired
-                    if (_initializationLog != null)
-                    {
-                        _initializationLog.AddLast(line);
-                    }
-                }
-            }
-
-            ScheduleStdOutProcessing(line);
-        }
-
-        void ITransportCallback.OnStdErrorLine(string line)
-        {
-            Logger.WriteLine("STDERR: " + line);
-
-            if (_initialErrors != null)
-            {
-                lock (_waitingOperations)
-                {
-                    if (_initialErrors != null)
-                    {
-                        _initialErrors.AddLast(line);
-                    }
-
-                    if (_initializationLog != null)
-                    {
-                        _initializationLog.AddLast(line);
-                    }
-                }
-            }
-        }
-
         public void OnDebuggerProcessExit(/*OPTIONAL*/ string exitCode)
         {
             // GDB has exited. Cleanup. Only let one thread perform the cleanup
@@ -677,37 +653,6 @@ namespace BrightScript.Debugger.Core
             }
         }
 
-        void ITransportCallback.AppendToInitializationLog(string line)
-        {
-            Logger.WriteLine(line);
-
-            if (_initializationLog != null)
-            {
-                lock (_waitingOperations)
-                {
-                    // check again now that the lock is aquired
-                    if (_initializationLog != null)
-                    {
-                        _initializationLog.AddLast(line);
-                    }
-                }
-            }
-        }
-
-        void ITransportCallback.LogText(string line)
-        {
-            if (!line.EndsWith("\n", StringComparison.Ordinal))
-            {
-                line += "\n";
-            }
-            if (OutputStringEvent != null)
-            {
-                OutputStringEvent(this, line);
-            }
-        }
-
-        #endregion
-
         // inherited classes can override this for thread marshalling etc
         protected virtual void ScheduleStdOutProcessing(string line)
         {
@@ -717,28 +662,6 @@ namespace BrightScript.Debugger.Core
         protected virtual void ScheduleResultProcessing(Action func)
         {
             func();
-        }
-
-        // a Token is a sequence of decimal digits followed by something else
-        // returns null if not a token, or not followed by something else
-        private string ParseToken(ref string cmd)
-        {
-            if (char.IsDigit(cmd, 0))
-            {
-                int i;
-                for (i = 1; i < cmd.Length; i++)
-                {
-                    if (!char.IsDigit(cmd, i))
-                        break;
-                }
-                if (i < cmd.Length)
-                {
-                    string token = cmd.Substring(0, i);
-                    cmd = cmd.Substring(i);
-                    return token;
-                }
-            }
-            return null;
         }
 
         private class WaitingOperationDescriptor
@@ -797,93 +720,6 @@ namespace BrightScript.Debugger.Core
             {
                 return;
             }
-            else if (line == "(gdb)")
-            {
-                if (_consoleDebuggerInitializeCompletionSource != null)
-                {
-                    lock (_waitingOperations)
-                    {
-                        if (_consoleDebuggerInitializeCompletionSource != null)
-                        {
-                            _consoleDebuggerInitializeCompletionSource.TrySetResult(null);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                string token = ParseToken(ref line);
-                char c = line[0];
-                string noprefix = line.Substring(1).Trim();
-
-                if (token != null)
-                {
-                    // Look for event handlers registered on a specific Result id
-                    if (c == '^')
-                    {
-                        uint id = uint.Parse(token, CultureInfo.InvariantCulture);
-                        WaitingOperationDescriptor waitingOperation = null;
-                        lock (_waitingOperations)
-                        {
-                            if (_waitingOperations.TryGetValue(id, out waitingOperation))
-                            {
-                                _waitingOperations.Remove(id);
-                            }
-                        }
-                        if (waitingOperation != null)
-                        {
-                            Results results = _miResults.ParseCommandOutput(noprefix);
-                            Logger.WriteLine(id + ": elapsed time " + (int)(DateTime.Now - waitingOperation.StartTime).TotalMilliseconds);
-                            waitingOperation.OnComplete(results, this.MICommandFactory);
-                            return;
-                        }
-                    }
-                    // Check to see if we are just getting the echo of the command we sent
-                    else if (c == '-')
-                    {
-                        uint id = uint.Parse(token, CultureInfo.InvariantCulture);
-                        lock (_waitingOperations)
-                        {
-                            WaitingOperationDescriptor waitingOperation;
-                            if (_waitingOperations.TryGetValue(id, out waitingOperation) &&
-                                !waitingOperation.EchoReceived &&
-                                line == waitingOperation.Command)
-                            {
-                                // This is just the echo. Ignore.
-                                waitingOperation.EchoReceived = true;
-                                return;
-                            }
-                        }
-                    }
-                }
-
-                switch (c)
-                {
-                    case '~':
-                        OnDebuggeeOutput(noprefix);         // Console stream
-                        break;
-                    case '^':
-                        OnResult(noprefix, token);
-                        break;
-                    case '*':
-                        OnOutOfBand(noprefix);
-                        break;
-                    case '&':
-                        OnLogStreamOutput(noprefix);
-                        break;
-                    case '=':
-                        OnNotificationOutput(noprefix);
-                        break;
-                    default:
-                        OnDebuggeeOutput(line + '\n');
-                        break;
-                }
-            }
-        }
-
-        private void OnUnknown(string cmd)
-        {
-            Debug.WriteLine("DBG:Unknown command: {0}", cmd);
         }
 
         private void OnResult(string cmd, string token)
@@ -970,14 +806,7 @@ namespace BrightScript.Debugger.Core
         private void OnNotificationOutput(string cmd)
         {
             Results results = null;
-            if ((results = MICommandFactory.IsModuleLoad(cmd)) != null)
-            {
-                if (LibraryLoadEvent != null)
-                {
-                    LibraryLoadEvent(this, new ResultEventArgs(results));
-                }
-            }
-            else if (cmd.StartsWith("breakpoint-modified,", StringComparison.Ordinal))
+            if (cmd.StartsWith("breakpoint-modified,", StringComparison.Ordinal))
             {
                 results = _miResults.ParseResultList(cmd.Substring(20));
                 if (BreakChangeEvent != null)
@@ -1012,14 +841,6 @@ namespace BrightScript.Debugger.Core
                 if (this.MessageEvent != null)
                 {
                     this.MessageEvent(this, new ResultEventArgs(results));
-                }
-            }
-            else if (cmd.StartsWith("telemetry,", StringComparison.Ordinal))
-            {
-                results = _miResults.ParseResultList(cmd.Substring("telemetry,".Length));
-                if (this.TelemetryEvent != null)
-                {
-                    this.TelemetryEvent(this, new ResultEventArgs(results));
                 }
             }
             else
@@ -1131,42 +952,6 @@ namespace BrightScript.Debugger.Core
             _transport.Send(cmd);
         }
 
-        public static ulong ParseAddr(string addr, bool throwOnError = false)
-        {
-            ulong res = 0;
-            if (string.IsNullOrEmpty(addr))
-            {
-                if (throwOnError)
-                {
-                    throw new ArgumentNullException();
-                }
-                return 0;
-            }
-            else if (addr.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-            {
-                if (throwOnError)
-                {
-                    res = ulong.Parse(addr.Substring(2), System.Globalization.NumberStyles.HexNumber, CultureInfo.InvariantCulture);
-                }
-                else
-                {
-                    ulong.TryParse(addr.Substring(2), System.Globalization.NumberStyles.HexNumber, CultureInfo.InvariantCulture, out res);
-                }
-            }
-            else
-            {
-                if (throwOnError)
-                {
-                    res = ulong.Parse(addr, System.Globalization.NumberStyles.Integer, CultureInfo.InvariantCulture);
-                }
-                else
-                {
-                    ulong.TryParse(addr, System.Globalization.NumberStyles.Integer, CultureInfo.InvariantCulture, out res);
-                }
-            }
-            return res;
-        }
-
         public static uint ParseUint(string str, bool throwOnError = false)
         {
             uint value = 0;
@@ -1201,6 +986,42 @@ namespace BrightScript.Debugger.Core
                 }
             }
             return value;
+        }
+
+        public static ulong ParseAddr(string addr, bool throwOnError = false)
+        {
+            ulong res = 0;
+            if (string.IsNullOrEmpty(addr))
+            {
+                if (throwOnError)
+                {
+                    throw new ArgumentNullException();
+                }
+                return 0;
+            }
+            else if (addr.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+            {
+                if (throwOnError)
+                {
+                    res = ulong.Parse(addr.Substring(2), System.Globalization.NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    ulong.TryParse(addr.Substring(2), System.Globalization.NumberStyles.HexNumber, CultureInfo.InvariantCulture, out res);
+                }
+            }
+            else
+            {
+                if (throwOnError)
+                {
+                    res = ulong.Parse(addr, System.Globalization.NumberStyles.Integer, CultureInfo.InvariantCulture);
+                }
+                else
+                {
+                    ulong.TryParse(addr, System.Globalization.NumberStyles.Integer, CultureInfo.InvariantCulture, out res);
+                }
+            }
+            return res;
         }
     }
 }

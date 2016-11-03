@@ -9,6 +9,8 @@ using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using BrightScript.Debugger.AD7;
 using BrightScript.Debugger.Register;
@@ -47,6 +49,7 @@ namespace BrightScript
     [ProvideBsDebugException()]
     [ProvideBsDebugException("Error")]
     [ProvideService(typeof(UIThreadBase))]
+    [ProvideBindingPath]
     public sealed class BrightScriptPackage : Package
     {
         /// <summary>
@@ -103,6 +106,20 @@ namespace BrightScript
             UIThread.EnsureService(this);
 
             base.Initialize();
+
+            AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+        }
+
+        private System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var parts = args.Name.Split(',');
+            var file = Path.Combine(dir, parts[0] + ".dll");
+
+            if (!File.Exists(file))
+                file = Path.ChangeExtension(file, ".exe");
+
+            return Assembly.LoadFrom(file);
         }
 
         #endregion

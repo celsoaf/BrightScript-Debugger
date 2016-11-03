@@ -9,6 +9,8 @@ namespace BrightScript.Debugger.Services.Parser
         void Start(int port);
         void Stop();
 
+        void ProcessLog(LogModel log);
+
         int Port { get; }
 
         event Action<List<string>> CurrentFunctionProcessed;

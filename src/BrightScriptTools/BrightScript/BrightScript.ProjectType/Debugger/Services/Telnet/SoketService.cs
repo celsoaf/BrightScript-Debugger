@@ -12,6 +12,7 @@ namespace BrightScript.Debugger.Services.Telnet
         private Socket _client;
         private volatile bool _running = false;
         private string _ip;
+        private Thread _thread;
 
         public async Task<bool> Connect(string ip, int port)
         {
@@ -27,7 +28,8 @@ namespace BrightScript.Debugger.Services.Telnet
                 _client.Connect(remoteEP);
                 _running = true;
 
-                Task.Factory.StartNew(Run, TaskCreationOptions.LongRunning);
+                _thread = new Thread(Run);
+                _thread.Start();
 
                 return _client.Connected;
             }

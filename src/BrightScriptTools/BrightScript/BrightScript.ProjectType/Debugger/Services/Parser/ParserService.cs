@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using BrightScript.Debugger.Models;
 using BrightScript.Debugger.Services.Parser.Utils;
+using BrightScriptDebug.Compiler;
 
 namespace BrightScript.Debugger.Services.Parser
 {
@@ -13,8 +14,9 @@ namespace BrightScript.Debugger.Services.Parser
         private volatile bool _running = false;
         private PipeStream _stream;
         private StreamWriter _writer;
-        private CancellationTokenSource _cancellationToken;
-
+        private Thread _thread;
+        private Scanner _scanner;
+        private BrightScriptDebug.Compiler.Parser _parser;
 
         public void Start(int port)
         {
@@ -25,53 +27,61 @@ namespace BrightScript.Debugger.Services.Parser
                 _running = true;
                 _stream = new PipeStream();
                 _writer = new StreamWriter(_stream);
-                _cancellationToken = new CancellationTokenSource();
 
-                Task.Factory.StartNew(() =>
+                _thread = new Thread(Run);
+                _thread.Start();
+            }
+        }
+
+        private void Run()
+        {
+            while (_running)
+            {
+                try
                 {
-                    while (_running)
+                    // parse input args, and open input file
+                    _scanner = new TelnetScanner(_stream);
+                    _scanner.ErrorPorcessed += PublishError;
+
+                    while (_running && !_scanner.Restart)
                     {
-                        // parse input args, and open input file
-                        var scanner = new TelnetScanner(_stream);
-                        scanner.ErrorPorcessed += PublishError;
-
-                        while (_running && !scanner.Restart)
+                        if (_stream.Length > 0)
                         {
-                            if (_stream.Length > 0)
+                            _parser = new BrightScriptDebug.Compiler.Parser(_scanner);
+
+                            _parser.BacktraceProcessed += ParserOnBacktraceProcessed;
+                            _parser.VariablesProcessed += ParserOnVariablesProcessed;
+                            _parser.DebugPorcessed += ParserOnDebugPorcessed;
+                            _parser.AppCloseProcessed += ParserOnAppCloseProcessed;
+                            _parser.AppOpenProcessed += ParserOnAppOpenProcessed;
+                            _parser.CurrentFunctionProcessed += ParserOnCurrentFunctionProcessed;
+
+                            try
                             {
-                                var parser = new BrightScriptDebug.Compiler.Parser(scanner);
-
-                                parser.BacktraceProcessed += ParserOnBacktraceProcessed;
-                                parser.VariablesProcessed += ParserOnVariablesProcessed;
-                                parser.DebugPorcessed += ParserOnDebugPorcessed;
-                                parser.AppCloseProcessed += ParserOnAppCloseProcessed;
-                                parser.AppOpenProcessed += ParserOnAppOpenProcessed;
-                                parser.CurrentFunctionProcessed += ParserOnCurrentFunctionProcessed;
-
-                                try
-                                {
-                                    parser.Parse();
-                                }
-                                catch (Exception ex)
-                                {
-                                    Console.WriteLine(ex.Message);
-                                }
-                                parser.BacktraceProcessed -= ParserOnBacktraceProcessed;
-                                parser.VariablesProcessed -= ParserOnVariablesProcessed;
-                                parser.DebugPorcessed -= ParserOnDebugPorcessed;
-                                parser.AppCloseProcessed -= ParserOnAppCloseProcessed;
-                                parser.AppOpenProcessed -= ParserOnAppOpenProcessed;
-                                parser.CurrentFunctionProcessed -= ParserOnCurrentFunctionProcessed;
+                                _parser.Parse();
                             }
-
-                            Task.Delay(100).Wait();
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                            _parser.BacktraceProcessed -= ParserOnBacktraceProcessed;
+                            _parser.VariablesProcessed -= ParserOnVariablesProcessed;
+                            _parser.DebugPorcessed -= ParserOnDebugPorcessed;
+                            _parser.AppCloseProcessed -= ParserOnAppCloseProcessed;
+                            _parser.AppOpenProcessed -= ParserOnAppOpenProcessed;
+                            _parser.CurrentFunctionProcessed -= ParserOnCurrentFunctionProcessed;
                         }
 
-                        if (_running && scanner.Restart)
-                            Console.WriteLine("Restart Scanner {0}", port);
+                        Thread.Sleep(100);
                     }
 
-                }, _cancellationToken.Token);
+                    if (_running && _scanner.Restart)
+                        Console.WriteLine("Restart Scanner {0}", Port);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
             }
         }
 
@@ -110,7 +120,7 @@ namespace BrightScript.Debugger.Services.Parser
             //_eventAggregator.GetEvent<DebugEvent>().Publish(false);
         }
 
-        private void ProcessLog(LogModel log)
+        public void ProcessLog(LogModel log)
         {
             if (log.Port == Port)
             {
@@ -124,7 +134,6 @@ namespace BrightScript.Debugger.Services.Parser
             if (_running)
             {
                 _running = false;
-                _cancellationToken.Cancel(true);
                 _stream.Dispose();
                 _stream = null;
             }

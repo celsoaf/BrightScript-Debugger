@@ -410,6 +410,10 @@ namespace BrightScript.Debugger.Core
         public virtual void Terminate()
         {
             _parserService.Stop();
+            _parserService.AppCloseProcessed -= ParserServiceOnAppCloseProcessed;
+            _parserService.DebugPorcessed -= ParserServiceOnDebugPorcessed;
+            _parserService.BacktraceProcessed -= ParserServiceOnBacktraceProcessed;
+            _parserService.ErrorProcessed -= ParserServiceOnErrorProcessed;
             _transport.Disconnect();
         }
 

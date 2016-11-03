@@ -27,6 +27,11 @@ namespace BrightScript.Debugger.Services.Parser
                 _running = true;
                 _stream = new PipeStream();
                 _writer = new StreamWriter(_stream);
+                _writer.AutoFlush = true;
+                _writer.WriteLine("");
+                // parse input args, and open input file
+                _scanner = new TelnetScanner(_stream);
+                _scanner.ErrorPorcessed += PublishError;
 
                 _thread = new Thread(Run);
                 _thread.Start();
@@ -39,10 +44,6 @@ namespace BrightScript.Debugger.Services.Parser
             {
                 try
                 {
-                    // parse input args, and open input file
-                    _scanner = new TelnetScanner(_stream);
-                    _scanner.ErrorPorcessed += PublishError;
-
                     while (_running)
                     {
                         if (_stream.Length > 0)

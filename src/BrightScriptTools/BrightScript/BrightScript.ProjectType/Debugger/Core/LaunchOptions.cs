@@ -290,7 +290,7 @@ namespace BrightScript.Debugger.Core
 
             try
             {
-                launchOptions = new TcpLaunchOptions(hostName, port, false);
+                launchOptions = new TcpLaunchOptions(hostName, port);
             }
             catch (XmlException e)
             {
@@ -503,7 +503,7 @@ namespace BrightScript.Debugger.Core
 
     public sealed class TcpLaunchOptions : LaunchOptions
     {
-        public TcpLaunchOptions(string hostname, int port, bool secure)
+        public TcpLaunchOptions(string hostname, int port)
         {
             if (string.IsNullOrEmpty(hostname))
             {
@@ -516,13 +516,11 @@ namespace BrightScript.Debugger.Core
 
             this.Hostname = hostname;
             this.Port = port;
-            this.Secure = secure;
             this.ServerCertificateValidationCallback = null;
         }
 
         public string Hostname { get; private set; }
         public int Port { get; private set; }
-        public bool Secure { get; private set; }
         public RemoteCertificateValidationCallback ServerCertificateValidationCallback { get; set; }
     }
 }

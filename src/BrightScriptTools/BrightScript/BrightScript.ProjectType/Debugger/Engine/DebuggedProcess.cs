@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using BrightScript.Debugger.AD7;
 using BrightScript.Debugger.Core;
 using BrightScript.Debugger.Core.CommandFactories;
-using BrightScript.Debugger.Core.Transports;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
 
@@ -42,7 +41,7 @@ namespace BrightScript.Debugger.Engine
         private ReadOnlyCollection<RegisterGroup> _registerGroups;
         private bool _needTerminalReset;
 
-        public DebuggedProcess(LaunchOptions launchOptions, ISampleEngineCallback callback, WorkerThread worker, BreakpointManager bpman, AD7Engine engine)
+        public DebuggedProcess(TcpLaunchOptions launchOptions, ISampleEngineCallback callback, WorkerThread worker, BreakpointManager bpman, AD7Engine engine)
             : base(launchOptions, engine.Logger)
         {
             uint processExitCode = 0;
@@ -83,7 +82,7 @@ namespace BrightScript.Debugger.Engine
                 }
             };
 
-            this.Init(new TcpTransport(), _launchOptions);
+            this.Init(_launchOptions);
 
             MIDebugCommandDispatcher.AddProcess(this);
 
@@ -684,8 +683,11 @@ namespace BrightScript.Debugger.Engine
             return new Results(ResultClass.done, values);
         }
 
-        public void Terminate()
+        public override void Terminate()
         {
+            base.Terminate();
+            this.CmdTerminate();
+
             // Pretend to kill the process, which will tear down the MI Debugger
             //TODO: Something better than this.
             if (_launchOptions.DeviceAppLauncher != null)

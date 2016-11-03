@@ -440,7 +440,7 @@ namespace BrightScript.Debugger.AD7
             try
             {
                 // Note: LaunchOptions.GetInstance can be an expensive operation and may push a wait message loop
-                LaunchOptions launchOptions = LaunchOptions.GetInstance(exe, args, dir, args.Split('=')[1], 8085, Logger);
+                TcpLaunchOptions launchOptions = (TcpLaunchOptions)LaunchOptions.GetInstance(exe, args, dir, args.Split('=')[1], 8085, Logger);
 
                 // We are being asked to debug a process when we currently aren't debugging anything
                 _pollThread = new WorkerThread(Logger);

@@ -339,9 +339,6 @@
       <DependentUpon>MICoreResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Debugger\Core\Exceptions\MIException.cs" />
-    <Compile Include="Debugger\Core\Transports\ITransport.cs" />
-    <Compile Include="Debugger\Core\Transports\StreamTransport.cs" />
-    <Compile Include="Debugger\Core\Transports\TcpTransport.cs" />
     <Compile Include="Debugger\Engine\BreakpointManager.cs" />
     <Compile Include="Debugger\Engine\Breakpoints.cs" />
     <Compile Include="Debugger\Engine\DebuggedProcess.cs" />

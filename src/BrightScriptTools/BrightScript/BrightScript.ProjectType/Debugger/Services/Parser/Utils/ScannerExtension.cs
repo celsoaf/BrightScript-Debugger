@@ -4,7 +4,7 @@ namespace BrightScriptDebug.Compiler
 {
     public partial class Scanner
     {
-        public event Action ErrorPorcessed;
+        public event Action<string> ErrorPorcessed;
 
         //public bool Restart { get; set; }
 
@@ -12,9 +12,11 @@ namespace BrightScriptDebug.Compiler
         {
             base.yyerror(format, args);
 
-            Console.WriteLine("Line {0} - Col {1} - {2}", tokLin, tokCol, format);
+            var msg = $"Line {tokLin} - Col {tokCol} - {format}";
 
-            ErrorPorcessed?.Invoke();
+            Console.WriteLine(msg);
+
+            ErrorPorcessed?.Invoke(msg);
 
             //if (tokELin > 1000)
             //    Restart = true;

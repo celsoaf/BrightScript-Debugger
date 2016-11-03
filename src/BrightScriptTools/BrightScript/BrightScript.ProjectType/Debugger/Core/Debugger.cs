@@ -352,12 +352,18 @@ namespace BrightScript.Debugger.Core
             _parserService.AppCloseProcessed += ParserServiceOnAppCloseProcessed;
             _parserService.DebugPorcessed += ParserServiceOnDebugPorcessed;
             _parserService.BacktraceProcessed += ParserServiceOnBacktraceProcessed;
+            _parserService.ErrorProcessed += ParserServiceOnErrorProcessed;
             _parserService.Start(((TcpLaunchOptions)options).Port);
 
             _transport = new SoketService();
             _transport.Log += TransportOnLog;
             _transport.Close += TransportOnClose;
             _transport.Connect(options.Hostname, options.Port);
+        }
+
+        private void ParserServiceOnErrorProcessed(string error)
+        {
+            LiveLogger.WriteLine(error);
         }
 
         private void TransportOnClose()

@@ -74,7 +74,6 @@ namespace BrightScript.Debugger.Services.Parser
 
                         Thread.Sleep(100);
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -113,9 +112,9 @@ namespace BrightScript.Debugger.Services.Parser
             BacktraceProcessed?.Invoke(backtraceModels);
         }
 
-        private void PublishError()
+        private void PublishError(string error)
         {
-            //_eventAggregator.GetEvent<DebugEvent>().Publish(false);
+            ErrorProcessed?.Invoke(error);
         }
 
         public void ProcessLog(LogModel log)
@@ -145,5 +144,6 @@ namespace BrightScript.Debugger.Services.Parser
         public event Action DebugPorcessed;
         public event Action AppCloseProcessed;
         public event Action AppOpenProcessed;
+        public event Action<string> ErrorProcessed;
     }
 }

@@ -19,5 +19,6 @@ namespace BrightScript.Debugger.Services.Parser
         event Action DebugPorcessed;
         event Action AppCloseProcessed;
         event Action AppOpenProcessed;
+        event Action<string> ErrorProcessed;
     }
 }

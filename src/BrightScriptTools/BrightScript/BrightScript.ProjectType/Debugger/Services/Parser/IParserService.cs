@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using BrightScript.Debugger.Models;
 
 namespace BrightScript.Debugger.Services.Parser
 {
     public interface IParserService
     {
-        void Start(int port);
+        Task Start(int port);
         void Stop();
 
         void ProcessLog(LogModel log);

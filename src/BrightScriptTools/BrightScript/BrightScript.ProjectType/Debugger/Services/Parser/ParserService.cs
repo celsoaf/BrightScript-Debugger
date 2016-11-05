@@ -19,7 +19,7 @@ namespace BrightScript.Debugger.Services.Parser
         private volatile bool _initialized = false;
         private ManualResetEvent _manualResetEvent = new ManualResetEvent(false);
 
-        public void Start(int port)
+        public async Task Start(int port)
         {
             if (!_running)
             {
@@ -28,11 +28,20 @@ namespace BrightScript.Debugger.Services.Parser
                 _running = true;
                 _stream = new PipeStream();
                 _writer = new StreamWriter(_stream);
-                _writer.WriteLine("");
-                _writer.Flush();
 
                 _thread = new Thread(Run);
                 _thread.Start();
+
+                _writer.WriteLine("");
+                _writer.Flush();
+
+                _manualResetEvent.WaitOne();
+                _manualResetEvent.Reset();
+
+                _writer.WriteLine("");
+                _writer.Flush();
+
+                _manualResetEvent.WaitOne();
             }
         }
 
@@ -45,8 +54,6 @@ namespace BrightScript.Debugger.Services.Parser
                     // parse input args, and open input file
                     var scanner = new TelnetScanner(_stream);
                     scanner.ErrorPorcessed += PublishError;
-
-                    _manualResetEvent.Set();
 
                     while (_running && !scanner.Restart)
                     {
@@ -76,6 +83,9 @@ namespace BrightScript.Debugger.Services.Parser
                             _parser.AppOpenProcessed -= ParserOnAppOpenProcessed;
                             _parser.CurrentFunctionProcessed -= ParserOnCurrentFunctionProcessed;
                         }
+
+                        if (!_initialized)
+                            _manualResetEvent.Set();
 
                         Thread.Sleep(100);
                     }
@@ -132,13 +142,7 @@ namespace BrightScript.Debugger.Services.Parser
                 var msg = log.Message;
                 if (!_initialized)
                 {
-                    _manualResetEvent.WaitOne();
-
                     _initialized = true;
-
-                    _writer.Write("Init");
-                    _writer.Flush();
-                    Thread.Sleep(1000);
 
                     var index = msg.LastIndexOf("------ Running dev '", StringComparison.Ordinal);
                     if (index > 0)

@@ -341,7 +341,7 @@ namespace BrightScript.Debugger.Core
             return processContinued;
         }
 
-        public void Init(TcpLaunchOptions options)
+        public async void Init(TcpLaunchOptions options)
         {
             _lastCommandId = 1000;
             FlushBreakStateData();
@@ -358,7 +358,7 @@ namespace BrightScript.Debugger.Core
             _transport = new SoketService();
             _transport.Log += TransportOnLog;
             _transport.Close += TransportOnClose;
-            _transport.Connect(options.Hostname, options.Port);
+            await _transport.Connect(options.Hostname, options.Port);
         }
 
         private void ParserServiceOnErrorProcessed(string error)

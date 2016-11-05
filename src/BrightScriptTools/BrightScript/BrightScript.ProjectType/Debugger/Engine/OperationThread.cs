@@ -195,12 +195,12 @@ namespace BrightScript.Debugger.Engine
                 throw new ArgumentNullException();
 
             if (_isClosed)
-                throw new ObjectDisposedException("WorkerThread");
+                return;
 
             lock (_postedOperations)
             {
                 if (_isClosed)
-                    throw new ObjectDisposedException("WorkerThread");
+                    return;
 
                 _postedOperations.Enqueue(op);
                 if (_postedOperations.Count == 1)

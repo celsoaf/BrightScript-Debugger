@@ -8,7 +8,7 @@ Library "v30/bslDefender.brs"
 
 function Main()
 
-    app=newSnakeApp()
+	app=newSnakeApp()
     dfDrawMessage(app.screen, app.bitmapset.regions["title-screen"])
     app.screen.swapbuffers()
 	condition = true
@@ -28,7 +28,8 @@ function Main()
 			condition = false
 		end if
     end while
-    
+
+	?"Note: GC - Found 4263 orphaned objects (objects in a circular ref loop)."    
 end function
 
 
@@ -48,6 +49,7 @@ end function
 '
 
 Function newSnakeApp()
+    stop
     app={ }       ' Create a BrightScript roAssociativeArray Component
     app.GameReset=appGameReset
     app.EventLoop=appEventLoop

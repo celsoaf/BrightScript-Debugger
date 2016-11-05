@@ -122,13 +122,6 @@ namespace BrightScript.Debugger.Core
             _miResults = new MIResults(logger);
         }
 
-        protected void SetDebuggerPid(int debuggerPid)
-        {
-            // Used for testing
-            Logger.WriteLine(string.Concat("DebuggerPid=", debuggerPid));
-            _localDebuggerPid = debuggerPid;
-        }
-
         private void RetryBreak(object o)
         {
             lock (_internalBreakActions)

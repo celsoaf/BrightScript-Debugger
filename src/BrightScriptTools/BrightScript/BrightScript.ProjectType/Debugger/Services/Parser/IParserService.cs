@@ -14,12 +14,12 @@ namespace BrightScript.Debugger.Services.Parser
 
         int Port { get; }
 
-        event Action<List<string>> CurrentFunctionProcessed;
-        event Action<List<BacktraceModel>> BacktraceProcessed;
-        event Action<List<VariableModel>> VariablesProcessed;
-        event Action DebugPorcessed;
-        event Action AppCloseProcessed;
-        event Action AppOpenProcessed;
-        event Action<string> ErrorProcessed;
+        event Action<int, List<string>> CurrentFunctionProcessed;
+        event Action<int, List<BacktraceModel>> BacktraceProcessed;
+        event Action<int, List<VariableModel>> VariablesProcessed;
+        event Action<int> DebugPorcessed;
+        event Action<int> AppCloseProcessed;
+        event Action<int> AppOpenProcessed;
+        event Action<int, string> ErrorProcessed;
     }
 }

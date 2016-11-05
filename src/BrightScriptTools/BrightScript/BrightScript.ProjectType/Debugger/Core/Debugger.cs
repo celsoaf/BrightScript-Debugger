@@ -361,7 +361,7 @@ namespace BrightScript.Debugger.Core
             await _transport.Connect(options.Hostname, options.Port);
         }
 
-        private void ParserServiceOnErrorProcessed(string error)
+        private void ParserServiceOnErrorProcessed(int port, string error)
         {
             LiveLogger.WriteLine(error);
         }
@@ -392,17 +392,17 @@ namespace BrightScript.Debugger.Core
             LiveLogger.WriteLine(line);
         }
 
-        private void ParserServiceOnBacktraceProcessed(List<BacktraceModel> backtraceModels)
+        private void ParserServiceOnBacktraceProcessed(int port, List<BacktraceModel> backtraceModels)
         {
             _backtrace = backtraceModels;
         }
 
-        private void ParserServiceOnDebugPorcessed()
+        private void ParserServiceOnDebugPorcessed(int port)
         {
             BreakModeEvent?.Invoke(this, null);
         }
 
-        private void ParserServiceOnAppCloseProcessed()
+        private void ParserServiceOnAppCloseProcessed(int port)
         {
             DebuggerExitEvent?.Invoke(this, null);
         }

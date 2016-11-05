@@ -102,37 +102,37 @@ namespace BrightScript.Debugger.Services.Parser
 
         private void ParserOnCurrentFunctionProcessed(List<string> list)
         {
-            CurrentFunctionProcessed?.Invoke(list);
+            CurrentFunctionProcessed?.Invoke(Port, list);
         }
 
         private void ParserOnAppOpenProcessed()
         {
-            AppOpenProcessed?.Invoke();
+            AppOpenProcessed?.Invoke(Port);
         }
 
         private void ParserOnAppCloseProcessed()
         {
-            AppCloseProcessed?.Invoke();
+            AppCloseProcessed?.Invoke(Port);
         }
 
         private void ParserOnDebugPorcessed()
         {
-            DebugPorcessed?.Invoke();
+            DebugPorcessed?.Invoke(Port);
         }
 
         private void ParserOnVariablesProcessed(List<VariableModel> variableModels)
         {
-            VariablesProcessed?.Invoke(variableModels);
+            VariablesProcessed?.Invoke(Port, variableModels);
         }
 
         private void ParserOnBacktraceProcessed(List<BacktraceModel> backtraceModels)
         {
-            BacktraceProcessed?.Invoke(backtraceModels);
+            BacktraceProcessed?.Invoke(Port, backtraceModels);
         }
 
         private void PublishError(string error)
         {
-            ErrorProcessed?.Invoke(error);
+            ErrorProcessed?.Invoke(Port, error);
         }
 
         public void ProcessLog(LogModel log)
@@ -168,12 +168,12 @@ namespace BrightScript.Debugger.Services.Parser
 
         public int Port { get; private set; }
 
-        public event Action<List<string>> CurrentFunctionProcessed;
-        public event Action<List<BacktraceModel>> BacktraceProcessed;
-        public event Action<List<VariableModel>> VariablesProcessed;
-        public event Action DebugPorcessed;
-        public event Action AppCloseProcessed;
-        public event Action AppOpenProcessed;
-        public event Action<string> ErrorProcessed;
+        public event Action<int, List<string>> CurrentFunctionProcessed;
+        public event Action<int, List<BacktraceModel>> BacktraceProcessed;
+        public event Action<int, List<VariableModel>> VariablesProcessed;
+        public event Action<int> DebugPorcessed;
+        public event Action<int> AppCloseProcessed;
+        public event Action<int> AppOpenProcessed;
+        public event Action<int, string> ErrorProcessed;
     }
 }

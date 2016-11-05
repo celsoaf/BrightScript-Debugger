@@ -25,7 +25,7 @@ namespace BrightScript.Debugger.Engine
         public string Name { get; set; }
     }
 
-    internal class ThreadCache
+    public class ThreadCache
     {
         private List<DebuggedThread> _threadList;
         private Dictionary<int, List<ThreadContext>> _stackFrames;
@@ -294,7 +294,7 @@ namespace BrightScript.Debugger.Engine
                 }
         }
 
-        private DebuggedThread FindThread(int id, out bool bNew)
+        public DebuggedThread FindThread(int id, out bool bNew)
         {
             DebuggedThread newthread;
             bNew = false;
@@ -307,6 +307,12 @@ namespace BrightScript.Debugger.Engine
             _threadList.Add(newthread);
             bNew = true;
             return newthread;
+        }
+
+        public DebuggedThread FindThread(int id)
+        {
+            bool bnew;
+            return FindThread(id, out bnew);
         }
     }
 }

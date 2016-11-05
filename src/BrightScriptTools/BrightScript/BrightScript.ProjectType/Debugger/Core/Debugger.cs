@@ -58,6 +58,8 @@ namespace BrightScript.Debugger.Core
         public CommandLock CommandLock { get { return _commandLock; } }
         public MICommandFactory MICommandFactory { get; protected set; }
         public Logger Logger { private set; get; }
+        public ThreadCache ThreadCache { get; protected set; }
+
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes")]
         protected readonly TcpLaunchOptions _launchOptions;
@@ -388,11 +390,18 @@ namespace BrightScript.Debugger.Core
         private void ParserServiceOnBacktraceProcessed(int port, List<BacktraceModel> backtraceModels)
         {
             _backtrace = backtraceModels;
+
+            var thread = ThreadCache.FindThread(port);
         }
 
         private void ParserServiceOnDebugPorcessed(int port)
         {
-            BreakModeEvent?.Invoke(this, null);
+            List<NamedResultValue> values = new List<NamedResultValue>();
+            values.Add(new NamedResultValue("reason", new ConstValue("signal-received")));
+            //values.Add(new NamedResultValue("frame", newFrame));
+            values.Add(new NamedResultValue("thread-id", new ConstValue(port.ToString())));
+            var results = new Results(ResultClass.running, values);
+            BreakModeEvent?.Invoke(this, new ResultEventArgs(results));
         }
 
         private void ParserServiceOnAppCloseProcessed(int port)

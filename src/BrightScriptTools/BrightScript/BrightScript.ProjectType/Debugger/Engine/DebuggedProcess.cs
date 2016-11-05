@@ -25,8 +25,7 @@ namespace BrightScript.Debugger.Engine
         public List<IVariableInformation> ActiveVariables { get; private set; }
 
         public SourceLineCache SourceLineCache { get; private set; }
-        public ThreadCache ThreadCache { get; private set; }
-
+        
         //private List<DebuggedModule> _moduleList;
         private ISampleEngineCallback _callback;
         private bool _bLastModuleLoadFailed;
@@ -270,7 +269,7 @@ namespace BrightScript.Debugger.Engine
             ThreadCache.MarkDirty();
             MICommandFactory.DefineCurrentThread(tid);
 
-            DebuggedThread thread = await ThreadCache.GetThread(tid);
+            DebuggedThread thread = ThreadCache.FindThread(tid);
             await ThreadCache.StackFrames(thread);  // prepopulate the break thread in the thread cache
             ThreadContext cxt = await ThreadCache.GetThreadContext(thread);
 

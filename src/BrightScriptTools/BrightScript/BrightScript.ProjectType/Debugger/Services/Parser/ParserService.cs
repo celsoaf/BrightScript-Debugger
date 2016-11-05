@@ -15,9 +15,9 @@ namespace BrightScript.Debugger.Services.Parser
         private PipeStream _stream;
         private StreamWriter _writer;
         private Thread _thread;
-        private Scanner _scanner;
         private BrightScriptDebug.Compiler.Parser _parser;
         private volatile bool _initialized = false;
+        private ManualResetEvent _manualResetEvent = new ManualResetEvent(false);
 
         public void Start(int port)
         {
@@ -28,11 +28,8 @@ namespace BrightScript.Debugger.Services.Parser
                 _running = true;
                 _stream = new PipeStream();
                 _writer = new StreamWriter(_stream);
-                _writer.AutoFlush = true;
                 _writer.WriteLine("");
-                // parse input args, and open input file
-                _scanner = new TelnetScanner(_stream);
-                _scanner.ErrorPorcessed += PublishError;
+                _writer.Flush();
 
                 _thread = new Thread(Run);
                 _thread.Start();
@@ -45,11 +42,17 @@ namespace BrightScript.Debugger.Services.Parser
             {
                 try
                 {
-                    while (_running)
+                    // parse input args, and open input file
+                    var scanner = new TelnetScanner(_stream);
+                    scanner.ErrorPorcessed += PublishError;
+
+                    _manualResetEvent.Set();
+
+                    while (_running && !scanner.Restart)
                     {
                         if (_stream.Length > 0)
                         {
-                            _parser = new BrightScriptDebug.Compiler.Parser(_scanner);
+                            _parser = new BrightScriptDebug.Compiler.Parser(scanner);
 
                             _parser.BacktraceProcessed += ParserOnBacktraceProcessed;
                             _parser.VariablesProcessed += ParserOnVariablesProcessed;
@@ -76,6 +79,9 @@ namespace BrightScript.Debugger.Services.Parser
 
                         Thread.Sleep(100);
                     }
+
+                    if (_running && scanner.Restart)
+                        Console.WriteLine("Restart Scanner {0}", Port);
                 }
                 catch (Exception ex)
                 {
@@ -126,15 +132,20 @@ namespace BrightScript.Debugger.Services.Parser
                 var msg = log.Message;
                 if (!_initialized)
                 {
+                    _manualResetEvent.WaitOne();
+
                     _initialized = true;
+
+                    _writer.Write("Init");
+                    _writer.Flush();
+                    Thread.Sleep(1000);
 
                     var index = msg.LastIndexOf("------ Running dev '", StringComparison.Ordinal);
                     if (index > 0)
                     {
-                        msg = msg.Substring(index);
+                        msg = Environment.NewLine + msg.Substring(index);
                     }
                 }
-
                 _writer.WriteLine(msg);
                 _writer.Flush();
             }

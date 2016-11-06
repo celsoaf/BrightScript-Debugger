@@ -344,6 +344,7 @@ namespace BrightScript.Debugger.Core
             _parserService = new ParserService();
 
             _parserService.AppCloseProcessed += ParserServiceOnAppCloseProcessed;
+            _parserService.AppOpenProcessed += ParserServiceOnAppOpenProcessed;
             _parserService.DebugPorcessed += ParserServiceOnDebugPorcessed;
             _parserService.BacktraceProcessed += ParserServiceOnBacktraceProcessed;
             _parserService.VariablesProcessed += ParserServiceOnVariablesProcessed;
@@ -385,6 +386,16 @@ namespace BrightScript.Debugger.Core
                 op.OnComplete(results, this.MICommandFactory);
             }
         }
+
+        private async void ParserServiceOnAppOpenProcessed(int port)
+        {
+            List<NamedResultValue> values = new List<NamedResultValue>();
+            values.Add(new NamedResultValue("reason", new ConstValue("entry-point-hit")));
+            values.Add(new NamedResultValue("thread-id", new ConstValue(port.ToString())));
+            var results = new Results(ResultClass.running, values);
+            BreakModeEvent?.Invoke(this, new ResultEventArgs(results));
+        }
+
         private void ParserServiceOnErrorProcessed(int port, string error)
         {
             LiveLogger.WriteLine(error);
@@ -441,6 +452,7 @@ namespace BrightScript.Debugger.Core
         {
             _parserService.Stop();
             _parserService.AppCloseProcessed -= ParserServiceOnAppCloseProcessed;
+            _parserService.AppOpenProcessed -= ParserServiceOnAppOpenProcessed;
             _parserService.DebugPorcessed -= ParserServiceOnDebugPorcessed;
             _parserService.BacktraceProcessed -= ParserServiceOnBacktraceProcessed;
             _parserService.VariablesProcessed -= ParserServiceOnVariablesProcessed;

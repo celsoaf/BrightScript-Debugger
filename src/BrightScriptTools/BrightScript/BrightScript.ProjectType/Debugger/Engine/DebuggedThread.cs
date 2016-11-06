@@ -317,7 +317,19 @@ namespace BrightScript.Debugger.Engine
         public DebuggedThread FindThread(int id)
         {
             bool bnew;
-            return FindThread(id, out bnew);
+            var thread = FindThread(id, out bnew);
+
+            if (bnew)
+            {
+                if (_newThreads == null)
+                {
+                    _newThreads = new List<DebuggedThread>();
+                }
+                _newThreads.Add(thread);
+            }
+
+            return thread;
+        }
         internal void SetVariables(int id, List<VariableModel> variables)
         {
             _variables[id] = variables;

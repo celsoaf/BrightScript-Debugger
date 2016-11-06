@@ -346,6 +346,7 @@ namespace BrightScript.Debugger.Core
             _parserService.AppCloseProcessed += ParserServiceOnAppCloseProcessed;
             _parserService.DebugPorcessed += ParserServiceOnDebugPorcessed;
             _parserService.BacktraceProcessed += ParserServiceOnBacktraceProcessed;
+            _parserService.VariablesProcessed += ParserServiceOnVariablesProcessed;
             _parserService.ErrorProcessed += ParserServiceOnErrorProcessed;
             _parserService.Start(((TcpLaunchOptions)options).Port);
 
@@ -355,6 +356,35 @@ namespace BrightScript.Debugger.Core
             await _transport.Connect(options.Hostname, options.Port);
         }
 
+        private void ParserServiceOnVariablesProcessed(int port, List<VariableModel> variableModels)
+        {
+            ThreadCache.SetVariables(port, variableModels);
+
+            var lst = new List<NamedResultValue>();
+            variableModels.ForEach(v =>
+            {
+                var list = new List<NamedResultValue>();
+                list.Add(new NamedResultValue("level", new ConstValue(v.Ident)));
+                list.Add(new NamedResultValue("from", new ConstValue(v.Value)));
+
+                lst.Add(new NamedResultValue("frame", new TupleValue(list)));
+            });
+
+            var stack = new ResultListValue(new List<NamedResultValue>(lst));
+
+            List<NamedResultValue> values = new List<NamedResultValue>();
+            values.Add(new NamedResultValue("reason", new ConstValue("signal-received")));
+            values.Add(new NamedResultValue("stack", stack));
+            values.Add(new NamedResultValue("thread-id", new ConstValue(port.ToString())));
+            var results = new Results(ResultClass.running, values);
+
+            var op = _waitingOperations.FirstOrDefault(o => o.Command == Enums.DebuggerCommandEnum.var.ToString());
+            if (op != null)
+            {
+                Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
+                op.OnComplete(results, this.MICommandFactory);
+            }
+        }
         private void ParserServiceOnErrorProcessed(int port, string error)
         {
             LiveLogger.WriteLine(error);
@@ -413,6 +443,7 @@ namespace BrightScript.Debugger.Core
             _parserService.AppCloseProcessed -= ParserServiceOnAppCloseProcessed;
             _parserService.DebugPorcessed -= ParserServiceOnDebugPorcessed;
             _parserService.BacktraceProcessed -= ParserServiceOnBacktraceProcessed;
+            _parserService.VariablesProcessed -= ParserServiceOnVariablesProcessed;
             _parserService.ErrorProcessed -= ParserServiceOnErrorProcessed;
             _transport.Disconnect();
         }

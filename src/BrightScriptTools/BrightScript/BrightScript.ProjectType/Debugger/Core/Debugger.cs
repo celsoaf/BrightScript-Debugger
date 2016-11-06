@@ -459,11 +459,22 @@ namespace BrightScript.Debugger.Core
             }
         }
 
-        private void ParserServiceOnDebugPorcessed(int port)
+        private async void ParserServiceOnDebugPorcessed(int port)
         {
             List<NamedResultValue> values = new List<NamedResultValue>();
-            values.Add(new NamedResultValue("reason", new ConstValue("signal-received")));
-            //values.Add(new NamedResultValue("frame", newFrame));
+            values.Add(new NamedResultValue("reason", new ConstValue("breakpoint-hit")));
+            values.Add(new NamedResultValue("bkptno", new ConstValue("<EMBEDDED>")));
+
+            var tctx = await ThreadCache.GetThreadContext(ThreadCache.FindThread(port));
+            var list = new List<NamedResultValue>();
+            list.Add(new NamedResultValue("level", new ConstValue(tctx.Level.ToString())));
+            list.Add(new NamedResultValue("from", new ConstValue(tctx.From)));
+            list.Add(new NamedResultValue("file", new ConstValue(tctx.TextPosition.FileName)));
+            list.Add(new NamedResultValue("fullname", new ConstValue(tctx.TextPosition.FileName)));
+            list.Add(new NamedResultValue("line", new ConstValue((tctx.TextPosition.BeginPosition.dwLine + 1).ToString())));
+            list.Add(new NamedResultValue("func", new ConstValue(tctx.Function)));
+
+            values.Add(new NamedResultValue("frame", new TupleValue(list)));
             values.Add(new NamedResultValue("thread-id", new ConstValue(port.ToString())));
             var results = new Results(ResultClass.running, values);
             BreakModeEvent?.Invoke(this, new ResultEventArgs(results));

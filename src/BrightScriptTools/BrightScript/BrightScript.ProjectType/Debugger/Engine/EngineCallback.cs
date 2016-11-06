@@ -160,11 +160,7 @@ namespace BrightScript.Debugger.Engine
         {
             // This will get called when the entrypoint breakpoint is fired because the engine sends a thread start event
             // for the main thread of the application.
-            if (_engine.DebuggedProcess != null)
-            {
-                Debug.Assert(_engine.DebuggedProcess.WorkerThread.IsPollThread());
-            }
-
+            
             AD7ThreadCreateEvent eventObject = new AD7ThreadCreateEvent();
             Send(eventObject, AD7ThreadCreateEvent.IID, (IDebugThread2)debuggedThread.Client);
         }

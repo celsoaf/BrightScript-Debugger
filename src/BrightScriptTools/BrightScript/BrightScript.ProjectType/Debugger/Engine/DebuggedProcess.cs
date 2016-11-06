@@ -448,14 +448,14 @@ namespace BrightScript.Debugger.Engine
         public async Task Execute(DebuggedThread thread)
         {
             // Should clear stepping state
-            if (_worker.IsPollThread())
-            {
-                CmdContinueAsync();
-            }
-            else
-            {
-                _worker.PostOperation(CmdContinueAsync);
-            }
+            //if (_worker.IsPollThread())
+            //{
+            //    CmdContinueAsync();
+            //}
+            //else
+            //{
+            //    _worker.PostOperation(CmdContinueAsync);
+            //}
         }
 
         public Task Continue(DebuggedThread thread)

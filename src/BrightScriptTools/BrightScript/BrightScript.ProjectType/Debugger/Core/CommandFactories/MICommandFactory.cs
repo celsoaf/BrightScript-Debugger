@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using BrightScript.Debugger.Engine;
+using BrightScript.Debugger.Enums;
 using Microsoft.VisualStudio.Debugger.Interop;
 
 namespace BrightScript.Debugger.Core.CommandFactories
@@ -60,7 +61,7 @@ namespace BrightScript.Debugger.Core.CommandFactories
 
         public async Task<TupleValue[]> StackListFrames(int threadId, uint lowFrameLevel, uint highFrameLevel = 1000)
         {
-            string command = string.Format(@"-stack-list-frames {0} {1}", lowFrameLevel, highFrameLevel);
+            string command = DebuggerCommandEnum.bt.ToString();
             Results results = await ThreadCmdAsync(command, ResultClass.done, threadId);
 
             ListValue list = results.Find<ListValue>("stack");
@@ -82,7 +83,7 @@ namespace BrightScript.Debugger.Core.CommandFactories
 
         public async Task<Results> StackInfoFrame()
         {
-            string command = @"-stack-info-frame";
+            string command = DebuggerCommandEnum.bt.ToString();
             Results results = await _debugger.CmdAsync(command, ResultClass.done);
 
             return results;
@@ -97,7 +98,7 @@ namespace BrightScript.Debugger.Core.CommandFactories
         /// <returns></returns>
         public async Task<ResultValue> StackListLocals(PrintValues printValues, int threadId, uint frameLevel)
         {
-            string cmd = string.Format(@"-stack-list-locals {0}", (int)printValues);
+            string cmd = DebuggerCommandEnum.var.ToString();
 
             Results localsResults = await ThreadFrameCmdAsync(cmd, ResultClass.done, threadId, frameLevel);
             return localsResults.Find("locals");
@@ -113,7 +114,7 @@ namespace BrightScript.Debugger.Core.CommandFactories
         /// <returns>This returns an array of results of frames, which contains a level and an args array. </returns>
         public virtual async Task<TupleValue[]> StackListArguments(PrintValues printValues, int threadId, uint lowFrameLevel, uint hiFrameLevel)
         {
-            string cmd = string.Format(@"-stack-list-arguments {0} {1} {2}", (int)printValues, lowFrameLevel, hiFrameLevel);
+            string cmd = DebuggerCommandEnum.var.ToString();
             Results argumentsResults = await ThreadCmdAsync(cmd, ResultClass.done, threadId);
 
             return argumentsResults.Find<ListValue>("stack-args").IsEmpty()
@@ -146,7 +147,7 @@ namespace BrightScript.Debugger.Core.CommandFactories
         /// <returns>Returns an array of results for variables</returns>
         public async Task<ValueListValue> StackListVariables(PrintValues printValues, int threadId, uint frameLevel)
         {
-            string cmd = string.Format(@"-stack-list-variables {0}", (int)printValues);
+            string cmd = DebuggerCommandEnum.var.ToString();
 
             Results variablesResults = await ThreadFrameCmdAsync(cmd, ResultClass.done, threadId, frameLevel);
             return variablesResults.Find<ValueListValue>("variables");
@@ -158,31 +159,31 @@ namespace BrightScript.Debugger.Core.CommandFactories
 
         public async Task ExecStep(int threadId, ResultClass resultClass = ResultClass.running)
         {
-            string command = "-exec-step";
+            string command = DebuggerCommandEnum.s.ToString();
             await ThreadCmdAsync(command, resultClass, threadId);
         }
 
         public async Task ExecNext(int threadId, ResultClass resultClass = ResultClass.running)
         {
-            string command = "-exec-next";
+            string command = DebuggerCommandEnum.over.ToString();
             await ThreadCmdAsync(command, resultClass, threadId);
         }
 
         public async Task ExecFinish(int threadId, ResultClass resultClass = ResultClass.running)
         {
-            string command = "-exec-finish";
+            string command = DebuggerCommandEnum.c.ToString();
             await ThreadCmdAsync(command, resultClass, threadId);
         }
 
         public async Task ExecStepInstruction(int threadId, ResultClass resultClass = ResultClass.running)
         {
-            string command = "-exec-step-instruction";
+            string command = DebuggerCommandEnum.s.ToString();
             await ThreadCmdAsync(command, resultClass, threadId);
         }
 
         public async Task ExecNextInstruction(int threadId, ResultClass resultClass = ResultClass.running)
         {
-            string command = "-exec-next-instruction";
+            string command = DebuggerCommandEnum.s.ToString();
             await ThreadCmdAsync(command, resultClass, threadId);
         }
 
@@ -191,7 +192,7 @@ namespace BrightScript.Debugger.Core.CommandFactories
         /// </summary>
         public async Task ExecRun()
         {
-            string command = "-exec-run";
+            string command = DebuggerCommandEnum.c.ToString();
             await _debugger.CmdAsync(command, ResultClass.running);
         }
 
@@ -200,7 +201,7 @@ namespace BrightScript.Debugger.Core.CommandFactories
         /// </summary>
         public async Task ExecContinue()
         {
-            string command = "-exec-continue";
+            string command = DebuggerCommandEnum.c.ToString();
             await _debugger.CmdAsync(command, ResultClass.running);
         }
 

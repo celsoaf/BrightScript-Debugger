@@ -72,7 +72,6 @@ namespace BrightScript.Debugger.Core
         private int _localDebuggerPid = -1;
         private IParserService _parserService;
         private ITelnetService _transport;
-        private List<BacktraceModel> _backtrace;
 
         protected bool _connected;
 
@@ -389,7 +388,6 @@ namespace BrightScript.Debugger.Core
 
         private void ParserServiceOnBacktraceProcessed(int port, List<BacktraceModel> backtraceModels)
         {
-            _backtrace = backtraceModels;
 
             var thread = ThreadCache.FindThread(port);
         }

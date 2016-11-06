@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using BrightScript.Debugger.AD7;
+using BrightScript.Debugger.Models;
 
 namespace BrightScript.Debugger.Engine
 {
@@ -30,6 +32,7 @@ namespace BrightScript.Debugger.Engine
         private List<DebuggedThread> _threadList;
         private Dictionary<int, List<ThreadContext>> _stackFrames;
         private Dictionary<int, ThreadContext> _topContext;    // can retrieve the top frame without walking the stack
+        private Dictionary<int, List<VariableModel>> _variables;
         private bool _stateChange;             // indicates that a thread has been created/destroyed since last thread-info
         private bool _full;                    // indicates whether the cache has already been filled via -thread-info
         private ISampleEngineCallback _callback;
@@ -42,6 +45,7 @@ namespace BrightScript.Debugger.Engine
             _threadList = new List<DebuggedThread>();
             _stackFrames = new Dictionary<int, List<ThreadContext>>();
             _topContext = new Dictionary<int, ThreadContext>();
+            _variables = new Dictionary<int, List<VariableModel>>();
             _stateChange = true;
             _callback = callback;
             _debugger = debugger;
@@ -313,6 +317,19 @@ namespace BrightScript.Debugger.Engine
         {
             bool bnew;
             return FindThread(id, out bnew);
+        internal void SetVariables(int id, List<VariableModel> variables)
+        {
+            _variables[id] = variables;
+        }
+
+        internal List<VariableModel> GetVariables(int id)
+        {
+            if (_variables.ContainsKey(id))
+            {
+                return _variables[id];
+            }
+
+            return null;
         }
     }
 }

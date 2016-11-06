@@ -529,7 +529,7 @@ namespace BrightScript.Debugger.Core
 
             lock (_waitingOperations)
             {
-                foreach (var value in _waitingOperations.Values)
+                foreach (var value in _waitingOperations)
                 {
                     value.Abort();
                 }
@@ -658,14 +658,13 @@ namespace BrightScript.Debugger.Core
                 }
             }
         }
-
         public async Task<Results> CmdAsync(string command, ResultClass expectedResultClass)
         {
             await _commandLock.AquireShared();
 
             try
             {
-                return await CmdAsyncInternal(command, expectedResultClass);
+                return await CmdAsyncInternal(8085, command, expectedResultClass);
             }
             finally
             {
@@ -680,12 +679,12 @@ namespace BrightScript.Debugger.Core
                 throw new ArgumentNullException("exclusiveLockToken");
             }
 
-            return CmdAsyncInternal(command, expectedResultClass);
+            return CmdAsyncInternal(8085, command, expectedResultClass);
         }
 
-        private Task<Results> CmdAsyncInternal(string command, ResultClass expectedResultClass)
+        private Task<Results> CmdAsyncInternal(int port, string command, ResultClass expectedResultClass)
         {
-            var waitingOperation = new WaitingOperationDescriptor(command, expectedResultClass);
+            var waitingOperation = new WaitingOperationDescriptor(port, command, expectedResultClass);
             uint id;
 
             lock (_waitingOperations)
@@ -695,12 +694,11 @@ namespace BrightScript.Debugger.Core
                     throw new ObjectDisposedException("Debugger");
                 }
 
-                id = ++_lastCommandId;
-                _waitingOperations.Add(id, waitingOperation);
+                _waitingOperations.Add(waitingOperation);
                 _lastCommandText = command;
             }
 
-            //SendToTransport(id.ToString(CultureInfo.InvariantCulture) + command);
+            SendToTransport(command);
 
             return waitingOperation.Task;
         }
@@ -759,6 +757,7 @@ namespace BrightScript.Debugger.Core
             /// <summary>
             /// Text of the command that we sent to the debugger (ex: '-target-attach 72')
             /// </summary>
+            public readonly int Port;
             public readonly string Command;
             private readonly ResultClass _expectedResultClass;
             private readonly TaskCompletionSource<Results> _completionSource = new TaskCompletionSource<Results>();
@@ -769,9 +768,10 @@ namespace BrightScript.Debugger.Core
             /// </summary>
             public bool EchoReceived { get; set; }
 
-            public WaitingOperationDescriptor(string command, ResultClass expectedResultClass)
+            public WaitingOperationDescriptor(int port, string command, ResultClass expectedResultClass)
             {
-                this.Command = command;
+                Port = port;
+                Command = command;
                 _expectedResultClass = expectedResultClass;
                 StartTime = DateTime.Now;
             }
@@ -802,7 +802,7 @@ namespace BrightScript.Debugger.Core
             }
         }
 
-        private readonly Dictionary<uint, WaitingOperationDescriptor> _waitingOperations = new Dictionary<uint, WaitingOperationDescriptor>();
+        private readonly List<WaitingOperationDescriptor> _waitingOperations = new List<WaitingOperationDescriptor>();
 
         public void ProcessStdOutLine(string line)
         {

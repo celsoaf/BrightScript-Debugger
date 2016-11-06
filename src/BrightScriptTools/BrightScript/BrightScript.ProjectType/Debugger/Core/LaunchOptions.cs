@@ -266,7 +266,7 @@ namespace BrightScript.Debugger.Core
             }
         }
 
-        private LaunchCompleteCommand _launchCompleteCommand;
+        private LaunchCompleteCommand _launchCompleteCommand = LaunchCompleteCommand.None;
 
         public LaunchCompleteCommand LaunchCompleteCommand
         {

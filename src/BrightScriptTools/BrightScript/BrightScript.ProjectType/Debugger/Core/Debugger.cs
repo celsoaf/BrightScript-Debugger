@@ -97,7 +97,6 @@ namespace BrightScript.Debugger.Core
         /// The last command we sent over the transport. This includes both the command name and arguments.
         /// </summary>
         private string _lastCommandText;
-        private uint _lastCommandId;
         private bool _isClosed;
 
         /// <summary>
@@ -337,7 +336,6 @@ namespace BrightScript.Debugger.Core
 
         public async void Init(TcpLaunchOptions options)
         {
-            _lastCommandId = 1000;
             FlushBreakStateData();
 
 

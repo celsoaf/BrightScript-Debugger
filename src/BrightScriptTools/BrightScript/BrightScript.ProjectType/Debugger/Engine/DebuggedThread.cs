@@ -330,6 +330,20 @@ namespace BrightScript.Debugger.Engine
 
             return thread;
         }
+
+        internal void SetThreadStack(int id, Results results)
+        {
+            var bt = results.Find("stack") as ResultListValue;
+
+            var stack = new List<ThreadContext>();
+            foreach (var frame in bt.FindAll<TupleValue>("frame"))
+            {
+                stack.Add(CreateContext(frame));
+            }
+            _stackFrames[id] = stack;
+            _topContext[id] = stack.FirstOrDefault();
+        }
+
         internal void SetVariables(int id, List<VariableModel> variables)
         {
             _variables[id] = variables;

@@ -299,6 +299,12 @@ namespace Microsoft.MIDebugEngine
     internal sealed class AD7ThreadCreateEvent : AD7AsynchronousEvent, IDebugThreadCreateEvent2
     {
         public const string IID = "2090CCFC-70C5-491D-A5E8-BAD2DD9EE3EA";
+
+        internal static void Send(AD7Engine engine)
+        {
+            AD7ThreadCreateEvent eventObject = new AD7ThreadCreateEvent();
+            engine.Callback.Send(eventObject, IID, engine, null);
+        }
     }
 
     // This interface is sent by the debug engine (DE) to the session debug manager (SDM) when a thread has exited.
@@ -332,6 +338,12 @@ namespace Microsoft.MIDebugEngine
         public AD7LoadCompleteEvent()
         {
         }
+
+        internal static void Send(AD7Engine engine)
+        {
+            AD7LoadCompleteEvent eventObject = new AD7LoadCompleteEvent();
+            engine.Callback.Send(eventObject, IID, engine, null);
+        }
     }
 
     internal sealed class AD7EntryPointEvent : AD7StoppingEvent, IDebugEntryPointEvent2
@@ -340,6 +352,12 @@ namespace Microsoft.MIDebugEngine
 
         public AD7EntryPointEvent()
         {
+        }
+
+        internal static void Send(AD7Engine engine)
+        {
+            AD7EntryPointEvent eventObject = new AD7EntryPointEvent();
+            engine.Callback.Send(eventObject, IID, engine, null);
         }
     }
 

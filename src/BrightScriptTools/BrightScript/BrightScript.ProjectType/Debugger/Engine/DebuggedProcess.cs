@@ -81,7 +81,7 @@ namespace BrightScript.Debugger.Engine
                 }
             };
 
-            this.Init(_launchOptions);
+            //this.Init(_launchOptions);
 
             MIDebugCommandDispatcher.AddProcess(this);
 
@@ -559,10 +559,7 @@ namespace BrightScript.Debugger.Engine
 
         private void FireDeviceAppLauncherResume()
         {
-            if (_launchOptions.DeviceAppLauncher != null)
-            {
-                _launchOptions.DeviceAppLauncher.OnResume();
-            }
+            Init(_launchOptions);
         }
 
         /// <summary>

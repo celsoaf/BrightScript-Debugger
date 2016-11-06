@@ -427,8 +427,36 @@ namespace BrightScript.Debugger.Core
 
         private void ParserServiceOnBacktraceProcessed(int port, List<BacktraceModel> backtraceModels)
         {
+            var lst = new List<NamedResultValue>();
+            backtraceModels.ForEach(f =>
+            {
+                var list = new List<NamedResultValue>();
+                list.Add(new NamedResultValue("level", new ConstValue(f.Position.ToString())));
+                list.Add(new NamedResultValue("from", new ConstValue(f.File)));
+                list.Add(new NamedResultValue("file", new ConstValue(f.File.Substring(4))));
+                list.Add(new NamedResultValue("fullname", new ConstValue(f.File.Substring(4))));
+                list.Add(new NamedResultValue("line", new ConstValue(f.Line.ToString())));
+                list.Add(new NamedResultValue("func", new ConstValue(f.Function)));
 
-            var thread = ThreadCache.FindThread(port);
+                lst.Add(new NamedResultValue("frame", new TupleValue(list)));
+            });
+
+            var stack = new ResultListValue(new List<NamedResultValue>(lst));
+
+            List<NamedResultValue> values = new List<NamedResultValue>();
+            values.Add(new NamedResultValue("reason", new ConstValue("signal-received")));
+            values.Add(new NamedResultValue("stack", stack));
+            values.Add(new NamedResultValue("thread-id", new ConstValue(port.ToString())));
+            var results = new Results(ResultClass.running, values);
+
+            ThreadCache.SetThreadStack(port, results);
+
+            var op = _waitingOperations.FirstOrDefault(o => o.Command == Enums.DebuggerCommandEnum.bt.ToString());
+            if (op != null)
+            {
+                Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
+                op.OnComplete(results, this.MICommandFactory);
+            }
         }
 
         private void ParserServiceOnDebugPorcessed(int port)

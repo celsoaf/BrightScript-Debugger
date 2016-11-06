@@ -38,30 +38,6 @@ namespace BrightScript.Debugger.Core.CommandFactories
             commandFactory.Radix = 10;
             return commandFactory;
         }
-
-        public static string SpanNextAddr(string line, out ulong addr)
-        {
-            addr = 0;
-            char[] endOfNum = { ' ', '\t', '\"' };
-            line = line.Trim();
-            if (!line.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-            {
-                return null;
-            }
-            int peoNum = line.IndexOfAny(endOfNum);
-            string num = line.Substring(0, peoNum);
-            try
-            {
-                addr = Convert.ToUInt64(num, 16);
-            }
-            catch
-            {
-                return null;
-            }
-            line = line.Substring(peoNum);
-            return line;
-        }
-
         #region Stack Manipulation
 
         public virtual void DefineCurrentThread(int threadId)

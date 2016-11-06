@@ -432,75 +432,6 @@ namespace BrightScript.Debugger.Engine
         {
             return unixPath.Replace('/', '\\');
         }
-        private async Task CheckModules()
-        {
-            // NOTE: The version of GDB that comes in the Android SDK doesn't support -file-list-shared-library
-            // so we need to use the console command
-            //string results = await MICommandFactory.GetSharedLibrary();
-            string results = await ConsoleCmdAsync("info sharedlibrary");
-
-            using (StringReader stringReader = new StringReader(results))
-            {
-                while (true)
-                {
-                    string line = stringReader.ReadLine();
-                    if (line == null)
-                    {
-                        break;
-                    }
-
-                    ulong startAddr = 0;
-                    ulong endAddr = 0;
-                    if (line.StartsWith("From")) // header line, ignore
-                    {
-                        continue;
-                    }
-                    else if (line.StartsWith("0x"))  // module with load address
-                    {
-                        // line format: 0x<hex start addr>  0x<hex end addr>  [ Yes | No ]  <filename>
-                        line = MICommandFactory.SpanNextAddr(line, out startAddr);
-                        if (line == null)
-                        {
-                            continue;
-                        }
-                        line = MICommandFactory.SpanNextAddr(line, out endAddr);
-                        if (line == null || endAddr < startAddr)
-                        {
-                            continue;
-                        }
-                    }
-                    line = line.Trim();
-                    bool symbolsLoaded;
-                    if (line.StartsWith("Yes"))
-                    {
-                        symbolsLoaded = true;
-                        line = line.Substring(3);
-                    }
-                    else if (line.StartsWith("No"))
-                    {
-                        symbolsLoaded = false;
-                        line = line.Substring(2);
-                    }
-                    else
-                    {
-                        continue;
-                    }
-                    line = line.Trim();
-                    line = line.TrimEnd(new char[] { '"', '\n' });
-                    //var module = FindModule(line);
-                    //if (module == null)
-                    //{
-                    //    module = new DebuggedModule(line, line, startAddr, endAddr - startAddr, symbolsLoaded, line, _loadOrder++);
-                    //    lock (_moduleList)
-                    //    {
-                    //        _moduleList.Add(module);
-                    //    }
-
-                    //    _callback.OnModuleLoad(module);
-                    //}
-                }
-            }
-        }
 
         // this is called on any thread, so we need to dispatch the command via
         // the Worker thread, to end up in DispatchCommand
@@ -605,7 +536,6 @@ namespace BrightScript.Debugger.Engine
 
             if (_initialBreakArgs != null)
             {
-                await CheckModules();
                 _libraryLoaded.Clear();
                 await HandleBreakModeEvent(_initialBreakArgs);
                 _initialBreakArgs = null;

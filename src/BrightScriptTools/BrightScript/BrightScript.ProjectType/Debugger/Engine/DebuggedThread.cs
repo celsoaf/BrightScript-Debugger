@@ -55,10 +55,10 @@ namespace BrightScript.Debugger.Engine
 
         internal async Task<DebuggedThread[]> GetThreads()
         {
-            if (_stateChange) // if new threads 
-            {
-                await CollectThreadsInfo(0);
-            }
+            //if (_stateChange) // if new threads 
+            //{
+            //    await CollectThreadsInfo(0);
+            //}
             lock (_threadList)
             {
                 return _threadList.ToArray();
@@ -176,6 +176,7 @@ namespace BrightScript.Debugger.Engine
 
             return new ThreadContext(pc, textPosition, func, level, from);
         }
+
         private async Task<ThreadContext> CollectThreadsInfo(int cxtThreadId)
         {
             ThreadContext ret = null;

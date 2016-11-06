@@ -331,7 +331,7 @@ namespace BrightScript.Debugger.Core.CommandFactories
 
         public virtual async Task Terminate()
         {
-            string command = "-exec-abort";
+            string command = DebuggerCommandEnum.exit.ToString();
             await _debugger.CmdAsync(command, ResultClass.None);
         }
 

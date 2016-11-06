@@ -702,36 +702,20 @@ namespace BrightScript.Debugger.Engine
         //NOTE: eval is not called
         public async Task<List<ArgumentList>> GetParameterInfoOnly(AD7Thread thread, bool values, bool types, uint low, uint high)
         {
-            var frames = await MICommandFactory.StackListArguments(values || types ? PrintValues.SimpleValues : PrintValues.NoValues, thread.Id, low, high);
+            //var frames = await MICommandFactory.StackListArguments(values || types ? PrintValues.SimpleValues : PrintValues.NoValues, thread.Id, low, high);
+            var variables = ThreadCache.GetVariables(thread.Id);
             List<ArgumentList> parameters = new List<ArgumentList>();
 
-            foreach (var f in frames)
+            int level = 0;
+            List<SimpleVariableInformation> args = new List<SimpleVariableInformation>();
+            if (variables != null)
             {
-                int level = f.FindInt("level");
-                ListValue argList = null;
-                f.TryFind<ListValue>("args", out argList);
-                List<SimpleVariableInformation> args = new List<SimpleVariableInformation>();
-                if (argList != null)
+                foreach (var vm in variables)
                 {
-                    if (argList is ValueListValue) // a tuple for each arg
-                    {
-                        foreach (var arg in ((ValueListValue)argList).Content)
-                        {
-                            args.Add(new SimpleVariableInformation(arg.FindString("name"), /*isParam*/ true, arg.TryFindString("value"), arg.TryFindString("type")));
-                        }
-                    }
-                    else
-                    {
-                        // simple arg name list
-                        string[] names = ((ResultListValue)argList).FindAllStrings("name");
-                        foreach (var n in names)
-                        {
-                            args.Add(new SimpleVariableInformation(n, /*isParam*/ true, null, null));
-                        }
-                    }
+                    args.Add(new SimpleVariableInformation(vm.Ident, true, vm.Value));
                 }
-                parameters.Add(new ArgumentList(level, args));
             }
+            parameters.Add(new ArgumentList(level, args));
 
             return parameters;
         }

@@ -361,8 +361,6 @@
     <Compile Include="Debugger\Services\Parser\Utils\PipeStream.cs" />
     <Compile Include="Debugger\Services\Parser\Utils\ScannerExtension.cs" />
     <Compile Include="Debugger\Services\Parser\Utils\TelnetScanner.cs" />
-    <Compile Include="Debugger\Services\Telnet\ITelnetService.cs" />
-    <Compile Include="Debugger\Services\Telnet\SoketService.cs" />
     <Compile Include="Debugger\Structures.cs" />
     <Compile Include="Debugger\Variables.cs" />
     <Compile Include="Loggger\LiveLogger.cs" />

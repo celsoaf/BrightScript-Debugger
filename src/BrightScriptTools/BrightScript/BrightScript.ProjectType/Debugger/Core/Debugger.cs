@@ -355,6 +355,9 @@ namespace BrightScript.Debugger.Core
             //_transport.Log += TransportOnLog;
             //_transport.Close += TransportOnClose;
             //await _transport.Connect(options.Hostname, options.Port);
+            _transport = new TcpTransport();
+            _transport.Init(this,_launchOptions, Logger);
+        }
         }
 
         private void ParserServiceOnVariablesProcessed(int port, List<VariableModel> variableModels)

@@ -7,10 +7,11 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using BrightScript.Debugger.Core.CommandFactories;
+using BrightScript.Debugger.Core.Transports;
 using BrightScript.Debugger.Engine;
+using BrightScript.Debugger.Enums;
 using BrightScript.Debugger.Models;
 using BrightScript.Debugger.Services.Parser;
-using BrightScript.Debugger.Services.Telnet;
 using BrightScript.Loggger;
 
 namespace BrightScript.Debugger.Core
@@ -23,7 +24,7 @@ namespace BrightScript.Debugger.Core
         Exited
     };
 
-    public class Debugger
+    public class Debugger : ITransportCallback
     {
         public event EventHandler BreakModeEvent;
         public event EventHandler RunModeEvent;
@@ -71,7 +72,8 @@ namespace BrightScript.Debugger.Core
         private LinkedList<string> _initialErrors = new LinkedList<string>();
         private int _localDebuggerPid = -1;
         private IParserService _parserService;
-        private ITelnetService _transport;
+        //private ITelnetService _transport;
+        private ITransport _transport;
 
         protected bool _connected;
 
@@ -347,12 +349,12 @@ namespace BrightScript.Debugger.Core
             _parserService.BacktraceProcessed += ParserServiceOnBacktraceProcessed;
             _parserService.VariablesProcessed += ParserServiceOnVariablesProcessed;
             _parserService.ErrorProcessed += ParserServiceOnErrorProcessed;
-            _parserService.Start(((TcpLaunchOptions)options).Port);
+            await _parserService.Start(((TcpLaunchOptions)options).Port);
 
-            _transport = new SoketService();
-            _transport.Log += TransportOnLog;
-            _transport.Close += TransportOnClose;
-            await _transport.Connect(options.Hostname, options.Port);
+            //_transport = new SoketService();
+            //_transport.Log += TransportOnLog;
+            //_transport.Close += TransportOnClose;
+            //await _transport.Connect(options.Hostname, options.Port);
         }
 
         private void ParserServiceOnVariablesProcessed(int port, List<VariableModel> variableModels)
@@ -420,7 +422,8 @@ namespace BrightScript.Debugger.Core
 
             ScheduleStdOutProcessing(line);
 
-            _parserService.ProcessLog(new LogModel(_transport.Port, line));
+            //_parserService.ProcessLog(new LogModel(_transport.Port, line));
+            _parserService.ProcessLog(new LogModel(8085, line));
 
             LiveLogger.WriteLine(line);
         }
@@ -494,7 +497,9 @@ namespace BrightScript.Debugger.Core
             _parserService.BacktraceProcessed -= ParserServiceOnBacktraceProcessed;
             _parserService.VariablesProcessed -= ParserServiceOnVariablesProcessed;
             _parserService.ErrorProcessed -= ParserServiceOnErrorProcessed;
-            _transport.Disconnect();
+            _parserService.StepPorcessed -= ParserServiceOnStepPorcessed;
+            //_transport.Disconnect();
+            _transport.Close();
         }
 
         public async Task WaitForConsoleDebuggerInitialize(CancellationToken token)
@@ -522,10 +527,11 @@ namespace BrightScript.Debugger.Core
         private void Close()
         {
             _isClosed = true;
-            _transport.Disconnect();
+            //_transport.Disconnect();
+            _transport.Close();
 
-            _transport.Log -= TransportOnLog;
-            _transport.Close -= TransportOnClose;
+            //_transport.Log -= TransportOnLog;
+            //_transport.Close -= TransportOnClose;
 
             lock (_waitingOperations)
             {
@@ -703,6 +709,28 @@ namespace BrightScript.Debugger.Core
             return waitingOperation.Task;
         }
 
+        public void OnStdOutLine(string line)
+        {
+            if (_initializationLog != null)
+            {
+                lock (_waitingOperations)
+                {
+                    // check again now that the lock is aquired
+                    if (_initializationLog != null)
+                    {
+                        _initializationLog.AddLast(line);
+                    }
+                }
+            }
+
+            ScheduleStdOutProcessing(line);
+        }
+
+        public void OnStdErrorLine(string line)
+        {
+            OnStdOutLine(line);
+        }
+
         public void OnDebuggerProcessExit(/*OPTIONAL*/ string exitCode)
         {
             // GDB has exited. Cleanup. Only let one thread perform the cleanup
@@ -739,6 +767,16 @@ namespace BrightScript.Debugger.Core
                     }
                 }
             }
+        }
+
+        public void AppendToInitializationLog(string line)
+        {
+            OnStdOutLine(line);
+        }
+
+        public void LogText(string line)
+        {
+            OnStdOutLine(line);
         }
 
         // inherited classes can override this for thread marshalling etc
@@ -810,6 +848,8 @@ namespace BrightScript.Debugger.Core
             {
                 return;
             }
+
+            _parserService.ProcessLog(new LogModel(8085, line));
         }
 
         private void OnResult(string cmd, string token)

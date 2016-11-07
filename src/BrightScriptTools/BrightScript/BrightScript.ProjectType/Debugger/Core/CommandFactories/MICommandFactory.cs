@@ -171,7 +171,7 @@ namespace BrightScript.Debugger.Core.CommandFactories
 
         public async Task ExecFinish(int threadId, ResultClass resultClass = ResultClass.running)
         {
-            string command = DebuggerCommandEnum.c.ToString();
+            string command = DebuggerCommandEnum.@out.ToString();
             await ThreadCmdAsync(command, resultClass, threadId);
         }
 

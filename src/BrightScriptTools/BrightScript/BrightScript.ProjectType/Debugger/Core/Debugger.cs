@@ -403,7 +403,7 @@ namespace BrightScript.Debugger.Core
 
         private void TransportOnClose()
         {
-            OnDebuggerProcessExit("0");
+            //OnDebuggerProcessExit("0");
         }
 
         private void TransportOnLog(string line)

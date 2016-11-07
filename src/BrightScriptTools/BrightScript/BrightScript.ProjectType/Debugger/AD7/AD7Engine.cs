@@ -448,7 +448,7 @@ namespace BrightScript.Debugger.AD7
 
                 using (cancellationTokenSource)
                 {
-                    _pollThread.RunOperation(ResourceStrings.InitializingDebugger, cancellationTokenSource, () =>
+                    _pollThread.RunOperation(ResourceStrings.InitializingDebugger, cancellationTokenSource, (EventWaitHandle waitLoop) =>
                     {
                         try
                         {
@@ -466,7 +466,7 @@ namespace BrightScript.Debugger.AD7
 
                         _pollThread.PostedOperationErrorEvent += _debuggedProcess.OnPostedOperationError;
 
-                        return _debuggedProcess.Initialize(cancellationTokenSource.Token);
+                        return _debuggedProcess.Initialize(waitLoop, cancellationTokenSource.Token);
                     });
                 }
 

@@ -373,7 +373,7 @@ namespace BrightScript.Debugger.Core
             if (op != null)
             {
                 Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
-                op.OnComplete(null, this.MICommandFactory);
+                op.OnComplete(new Results(ResultClass.running), this.MICommandFactory);
             }
         }
 

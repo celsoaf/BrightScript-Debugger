@@ -348,6 +348,7 @@ namespace BrightScript.Debugger.Core
             _parserService.DebugPorcessed += ParserServiceOnDebugPorcessed;
             _parserService.BacktraceProcessed += ParserServiceOnBacktraceProcessed;
             _parserService.VariablesProcessed += ParserServiceOnVariablesProcessed;
+            _parserService.StepPorcessed += ParserServiceOnStepPorcessed;
             _parserService.ErrorProcessed += ParserServiceOnErrorProcessed;
             await _parserService.Start(((TcpLaunchOptions)options).Port);
 
@@ -355,9 +356,25 @@ namespace BrightScript.Debugger.Core
             //_transport.Log += TransportOnLog;
             //_transport.Close += TransportOnClose;
             //await _transport.Connect(options.Hostname, options.Port);
+
             _transport = new TcpTransport();
             _transport.Init(this,_launchOptions, Logger);
         }
+
+        private void ParserServiceOnStepPorcessed(int port)
+        {
+            var steps = new string[]
+            {
+                DebuggerCommandEnum.s.ToString(), 
+                DebuggerCommandEnum.over.ToString(), 
+                DebuggerCommandEnum.@out.ToString()
+            };
+            var op = _waitingOperations.FirstOrDefault(o => steps.Contains(o.Command));
+            if (op != null)
+            {
+                Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
+                op.OnComplete(null, this.MICommandFactory);
+            }
         }
 
         private void ParserServiceOnVariablesProcessed(int port, List<VariableModel> variableModels)

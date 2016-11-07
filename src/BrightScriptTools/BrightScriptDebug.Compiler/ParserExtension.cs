@@ -105,6 +105,11 @@ namespace BrightScriptDebug.Compiler
             } while (curr != last || curr != (int)Tokens.Eol);
         }
 
+        public void ProcessStepResponse()
+        {
+            Console.WriteLine(@"ProcessSetpResponse");
+        }
+
         public void ProcessDebug()
         {
             Console.WriteLine(@"Debug");

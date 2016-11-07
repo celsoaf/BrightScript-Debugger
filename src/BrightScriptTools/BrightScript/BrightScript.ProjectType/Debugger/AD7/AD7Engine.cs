@@ -583,9 +583,9 @@ namespace BrightScript.Debugger.AD7
         // breakmode. 
         public int CauseBreak()
         {
-            _pollThread.RunOperation(() => _debuggedProcess.CmdBreak());
+            //_pollThread.RunOperation(() => _debuggedProcess.CmdBreak());
 
-            return VSConstants.S_OK;
+            return VSConstants.E_NOTIMPL;
         }
 
         // Continue is called from the SDM when it wants execution to continue in the debugee

@@ -45,6 +45,7 @@ DebugElement
 	| VariablesStatment
 	| DebuggerStatment
 	| AppCloseStatement
+	| StepStatement
 	;
 
 CompilingStatment
@@ -85,6 +86,10 @@ DebuggerStatment
 
 AppCloseStatement
 	: dgNote Eol { ProcessAppClose(); }
+	;
+	
+StepStatement
+	:	dgCodeLine Eol { ProcessStepResponse(); }
 	; 
 
 ErrorStatment

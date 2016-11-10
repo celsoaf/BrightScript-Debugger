@@ -10,7 +10,7 @@ namespace BrightScript.Debugger.Engine
 {
     public delegate void Operation();
     public delegate Task AsyncOperation();
-    public delegate Task AsyncProgressOperation();
+    internal delegate Task AsyncProgressOperation(EventWaitHandle waitLoop);
 
 
     /// <summary>
@@ -91,9 +91,7 @@ namespace BrightScript.Debugger.Engine
             if (op == null)
                 throw new ArgumentNullException();
 
-            //SetOperationInternal(op);
-
-            op.Invoke();
+            SetOperationInternal(op);
         }
 
         /// <summary>
@@ -106,9 +104,7 @@ namespace BrightScript.Debugger.Engine
             if (op == null)
                 throw new ArgumentNullException();
 
-            //SetOperationInternal(op);
-
-            op.Invoke().Wait();
+            SetOperationInternal(op);
         }
 
         public void RunOperation(string text, CancellationTokenSource canTokenSource, AsyncProgressOperation op)
@@ -116,9 +112,7 @@ namespace BrightScript.Debugger.Engine
             if (op == null)
                 throw new ArgumentNullException();
 
-            //SetOperationInternalWithProgress(op, text, canTokenSource);
-
-            op.Invoke().Wait();
+            SetOperationInternalWithProgress(op, text, canTokenSource);
         }
 
 
@@ -195,12 +189,12 @@ namespace BrightScript.Debugger.Engine
                 throw new ArgumentNullException();
 
             if (_isClosed)
-                return;
+                throw new ObjectDisposedException("WorkerThread");
 
             lock (_postedOperations)
             {
                 if (_isClosed)
-                    return;
+                    throw new ObjectDisposedException("WorkerThread");
 
                 _postedOperations.Enqueue(op);
                 if (_postedOperations.Count == 1)
@@ -244,6 +238,8 @@ namespace BrightScript.Debugger.Engine
 
         private bool TrySetOperationInternalWithProgress(AsyncProgressOperation op, string text, CancellationTokenSource canTokenSource)
         {
+            ManualResetEvent mre = new ManualResetEvent(false);
+
             lock (_eventLock)
             {
                 if (_isClosed)
@@ -253,12 +249,14 @@ namespace BrightScript.Debugger.Engine
                 {
                     _runningOpCompleteEvent.Reset();
 
-                    OperationDescriptor runningOp = new OperationDescriptor(new AsyncOperation(() => { return op(); }));
+                    OperationDescriptor runningOp = new OperationDescriptor(new AsyncOperation(() => { return op(mre); }));
                     _runningOp = runningOp;
 
                     _opSet.Set();
 
-                    Debug.Assert(runningOp.IsComplete, "Why isn't the running op complete?");
+                    mre.WaitOne();
+
+                    //Debug.Assert(runningOp.IsComplete, "Why isn't the running op complete?");
 
                     if (runningOp.ExceptionDispatchInfo != null)
                     {

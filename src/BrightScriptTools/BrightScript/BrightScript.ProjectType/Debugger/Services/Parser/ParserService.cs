@@ -67,6 +67,7 @@ namespace BrightScript.Debugger.Services.Parser
                             _parser.AppCloseProcessed += ParserOnAppCloseProcessed;
                             _parser.AppOpenProcessed += ParserOnAppOpenProcessed;
                             _parser.CurrentFunctionProcessed += ParserOnCurrentFunctionProcessed;
+                            _parser.StepPorcessed += ParserOnStepPorcessed;
 
                             try
                             {
@@ -82,6 +83,7 @@ namespace BrightScript.Debugger.Services.Parser
                             _parser.AppCloseProcessed -= ParserOnAppCloseProcessed;
                             _parser.AppOpenProcessed -= ParserOnAppOpenProcessed;
                             _parser.CurrentFunctionProcessed -= ParserOnCurrentFunctionProcessed;
+                            _parser.StepPorcessed += ParserOnStepPorcessed;
                         }
 
                         if (!_initialized)
@@ -98,6 +100,11 @@ namespace BrightScript.Debugger.Services.Parser
                     Console.WriteLine(ex.Message);
                 }
             }
+        }
+
+        private void ParserOnStepPorcessed()
+        {
+            StepPorcessed?.Invoke(Port);
         }
 
         private void ParserOnCurrentFunctionProcessed(List<string> list)
@@ -171,6 +178,7 @@ namespace BrightScript.Debugger.Services.Parser
         public event Action<int, List<string>> CurrentFunctionProcessed;
         public event Action<int, List<BacktraceModel>> BacktraceProcessed;
         public event Action<int, List<VariableModel>> VariablesProcessed;
+        public event Action<int> StepPorcessed;
         public event Action<int> DebugPorcessed;
         public event Action<int> AppCloseProcessed;
         public event Action<int> AppOpenProcessed;

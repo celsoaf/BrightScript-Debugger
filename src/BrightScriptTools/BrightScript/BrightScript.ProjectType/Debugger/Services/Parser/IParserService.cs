@@ -17,6 +17,7 @@ namespace BrightScript.Debugger.Services.Parser
         event Action<int, List<string>> CurrentFunctionProcessed;
         event Action<int, List<BacktraceModel>> BacktraceProcessed;
         event Action<int, List<VariableModel>> VariablesProcessed;
+        event Action<int> StepPorcessed;
         event Action<int> DebugPorcessed;
         event Action<int> AppCloseProcessed;
         event Action<int> AppOpenProcessed;

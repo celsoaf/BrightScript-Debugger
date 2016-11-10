@@ -155,6 +155,15 @@ namespace BrightScriptDebug.Compiler
             VariablesProcessed?.Invoke(dic);
         }
 
+        public event Action StepPorcessed;
+
+        public void ProcessStepResponse()
+        {
+            Console.WriteLine(@"ProcessSetpResponse");
+
+            StepPorcessed?.Invoke();
+        }
+
         public event Action DebugPorcessed;
 
         public void ProcessDebug()

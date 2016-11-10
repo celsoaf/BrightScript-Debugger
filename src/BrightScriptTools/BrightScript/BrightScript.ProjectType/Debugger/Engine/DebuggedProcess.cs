@@ -210,7 +210,7 @@ namespace BrightScript.Debugger.Engine
             BreakChangeEvent += _breakpointManager.BreakpointModified;
         }
 
-        public async Task Initialize(CancellationToken token)
+        public async Task Initialize(EventWaitHandle waitLoop, CancellationToken token)
         {
             bool success = false;
             int total = 1;
@@ -230,6 +230,8 @@ namespace BrightScript.Debugger.Engine
                     Terminate();
                 }
             }
+
+            waitLoop.Set();
             token.ThrowIfCancellationRequested();
         }
 

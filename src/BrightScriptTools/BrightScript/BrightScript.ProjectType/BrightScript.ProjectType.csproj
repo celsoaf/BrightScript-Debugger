@@ -327,6 +327,8 @@
       <DependentUpon>MICoreResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Debugger\Core\Exceptions\MIException.cs" />
+    <Compile Include="Debugger\Core\Transports\ITransport.cs" />
+    <Compile Include="Debugger\Core\Transports\TcpTransport.cs" />
     <Compile Include="Debugger\Engine\BreakpointManager.cs" />
     <Compile Include="Debugger\Engine\Breakpoints.cs" />
     <Compile Include="Debugger\Engine\DebuggedProcess.cs" />
@@ -359,8 +361,6 @@
     <Compile Include="Debugger\Services\Parser\Utils\PipeStream.cs" />
     <Compile Include="Debugger\Services\Parser\Utils\ScannerExtension.cs" />
     <Compile Include="Debugger\Services\Parser\Utils\TelnetScanner.cs" />
-    <Compile Include="Debugger\Services\Telnet\ITelnetService.cs" />
-    <Compile Include="Debugger\Services\Telnet\SoketService.cs" />
     <Compile Include="Debugger\Structures.cs" />
     <Compile Include="Debugger\Variables.cs" />
     <Compile Include="Loggger\LiveLogger.cs" />

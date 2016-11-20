@@ -284,10 +284,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\BrightScriptDebug.GPlex\SpecFiles\Scanner.cs">
-      <Link>Debugger\Services\Parser\Utils\Scanner.cs</Link>
+      <Link>Debugger\Services\Parser\Scanner.cs</Link>
     </Compile>
     <Compile Include="..\..\BrightScriptDebug.Gppg\SpecFiles\Parser.cs">
-      <Link>Debugger\Services\Parser\Utils\Parser.cs</Link>
+      <Link>Debugger\Services\Parser\Parser.cs</Link>
     </Compile>
     <Compile Include="BrightScriptDebuggerLaunchProvider.cs" />
     <Compile Include="BrightScriptPackage.cs" />
@@ -355,12 +355,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceStrings.resx</DependentUpon>
     </Compile>
-    <Compile Include="Debugger\Services\Parser\IParserService.cs" />
-    <Compile Include="Debugger\Services\Parser\ParserService.cs" />
-    <Compile Include="Debugger\Services\Parser\Utils\ParserExtension.cs" />
-    <Compile Include="Debugger\Services\Parser\Utils\PipeStream.cs" />
-    <Compile Include="Debugger\Services\Parser\Utils\ScannerExtension.cs" />
-    <Compile Include="Debugger\Services\Parser\Utils\TelnetScanner.cs" />
+    <Compile Include="Debugger\Services\Parser\ParserExtension.cs" />
+    <Compile Include="Debugger\Services\Parser\ScannerExtension.cs" />
+    <Compile Include="Debugger\Services\Parser\TelnetScanner.cs" />
     <Compile Include="Debugger\Structures.cs" />
     <Compile Include="Debugger\Variables.cs" />
     <Compile Include="Loggger\LiveLogger.cs" />

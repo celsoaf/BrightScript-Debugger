@@ -39,13 +39,13 @@ DebugElement
 	| EnterDebugStatment
 	| CompilingStatment
 	| RunningStatment
+	| StepStatement
 	| CurrentFunctionStatment
 	| TraceLineStatment
 	| BacktraceStatment
 	| VariablesStatment
 	| DebuggerStatment
 	| AppCloseStatement
-	| StepStatement
 	;
 
 CompilingStatment
@@ -89,7 +89,7 @@ AppCloseStatement
 	;
 	
 StepStatement
-	:	dgCodeLine Eol { ProcessStepResponse(); }
+	: dgCodeLine Eol { ProcessStepResponse(); }
 	; 
 
 ErrorStatment

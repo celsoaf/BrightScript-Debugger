@@ -4,9 +4,9 @@
 
 // GPPG version 1.0.0.0
 // Machine:  OSTLT0248323
-// DateTime: 07/11/2016 00:42:24
+// DateTime: 07/11/2016 01:56:10
 // UserName: CFE05
-// Input file <SpecFiles\Debugger.y - 07/11/2016 00:42:16>
+// Input file <SpecFiles\Debugger.y - 07/11/2016 01:56:02>
 
 // options: babel conflicts lines diagnose & report gplex conflicts
 
@@ -72,17 +72,17 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
   private static State[] states = new State[63];
   private static string[] nonTerms = new string[] {
       "Program", "$accept", "DebugElements", "DebugElement", "ErrorStatment", 
-      "EnterDebugStatment", "CompilingStatment", "RunningStatment", "CurrentFunctionStatment", 
-      "TraceLineStatment", "BacktraceStatment", "VariablesStatment", "DebuggerStatment", 
-      "AppCloseStatement", "StepStatement", };
+      "EnterDebugStatment", "CompilingStatment", "RunningStatment", "StepStatement", 
+      "CurrentFunctionStatment", "TraceLineStatment", "BacktraceStatment", "VariablesStatment", 
+      "DebuggerStatment", "AppCloseStatement", };
 
   static Parser() {
-    states[0] = new State(new int[]{14,7,37,9,2,11,17,14,19,17,21,31,25,34,28,38,24,51,27,54,29,58,22,61,3,-4},new int[]{-1,1,-3,3,-4,5,-5,8,-6,13,-7,16,-8,29,-9,30,-10,33,-11,50,-12,53,-13,56,-14,57,-15,60});
+    states[0] = new State(new int[]{14,7,37,9,2,11,17,14,19,17,22,31,21,34,25,37,28,41,24,54,27,57,29,61,3,-4},new int[]{-1,1,-3,3,-4,5,-5,8,-6,13,-7,16,-8,29,-9,30,-10,33,-11,36,-12,53,-13,56,-14,59,-15,60});
     states[1] = new State(new int[]{3,2});
     states[2] = new State(-1);
     states[3] = new State(new int[]{3,4});
     states[4] = new State(-2);
-    states[5] = new State(new int[]{14,7,37,9,2,11,17,14,19,17,21,31,25,34,28,38,24,51,27,54,29,58,22,61,3,-4},new int[]{-3,6,-4,5,-5,8,-6,13,-7,16,-8,29,-9,30,-10,33,-11,50,-12,53,-13,56,-14,57,-15,60});
+    states[5] = new State(new int[]{14,7,37,9,2,11,17,14,19,17,22,31,21,34,25,37,28,41,24,54,27,57,29,61,3,-4},new int[]{-3,6,-4,5,-5,8,-6,13,-7,16,-8,29,-9,30,-10,33,-11,36,-12,53,-13,56,-14,59,-15,60});
     states[6] = new State(-3);
     states[7] = new State(-5);
     states[8] = new State(-6);
@@ -109,37 +109,37 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
     states[29] = new State(-9);
     states[30] = new State(-10);
     states[31] = new State(new int[]{14,32});
-    states[32] = new State(-20);
+    states[32] = new State(-30);
     states[33] = new State(-11);
     states[34] = new State(new int[]{14,35});
-    states[35] = new State(new int[]{26,36});
-    states[36] = new State(new int[]{14,37});
-    states[37] = new State(-21);
-    states[38] = new State(new int[]{25,39,24,43,27,45,14,47,29,48});
+    states[35] = new State(-20);
+    states[36] = new State(-12);
+    states[37] = new State(new int[]{14,38});
+    states[38] = new State(new int[]{26,39});
     states[39] = new State(new int[]{14,40});
-    states[40] = new State(new int[]{26,41});
-    states[41] = new State(new int[]{14,42});
-    states[42] = new State(-22);
-    states[43] = new State(new int[]{14,44});
-    states[44] = new State(-24);
-    states[45] = new State(new int[]{14,46});
-    states[46] = new State(-26);
-    states[47] = new State(-27);
+    states[40] = new State(-21);
+    states[41] = new State(new int[]{25,42,24,46,27,48,14,50,29,51});
+    states[42] = new State(new int[]{14,43});
+    states[43] = new State(new int[]{26,44});
+    states[44] = new State(new int[]{14,45});
+    states[45] = new State(-22);
+    states[46] = new State(new int[]{14,47});
+    states[47] = new State(-24);
     states[48] = new State(new int[]{14,49});
-    states[49] = new State(-28);
-    states[50] = new State(-12);
+    states[49] = new State(-26);
+    states[50] = new State(-27);
     states[51] = new State(new int[]{14,52});
-    states[52] = new State(-23);
+    states[52] = new State(-28);
     states[53] = new State(-13);
     states[54] = new State(new int[]{14,55});
-    states[55] = new State(-25);
+    states[55] = new State(-23);
     states[56] = new State(-14);
-    states[57] = new State(-15);
-    states[58] = new State(new int[]{14,59});
-    states[59] = new State(-29);
+    states[57] = new State(new int[]{14,58});
+    states[58] = new State(-25);
+    states[59] = new State(-15);
     states[60] = new State(-16);
     states[61] = new State(new int[]{14,62});
-    states[62] = new State(-30);
+    states[62] = new State(-29);
 
     for (int sNo = 0; sNo < states.Length; sNo++) states[sNo].number = sNo;
 
@@ -162,17 +162,17 @@ public partial class Parser: ShiftReduceParser<int, LexSpan>
     rules[17] = new Rule(-7, new int[]{19,18,31,32,19,14});
     rules[18] = new Rule(-8, new int[]{19,20,31,32,31,19,14});
     rules[19] = new Rule(-6, new int[]{17,14});
-    rules[20] = new Rule(-9, new int[]{21,14});
-    rules[21] = new Rule(-10, new int[]{25,14,26,14});
-    rules[22] = new Rule(-10, new int[]{28,25,14,26,14});
-    rules[23] = new Rule(-11, new int[]{24,14});
-    rules[24] = new Rule(-11, new int[]{28,24,14});
-    rules[25] = new Rule(-12, new int[]{27,14});
-    rules[26] = new Rule(-12, new int[]{28,27,14});
-    rules[27] = new Rule(-13, new int[]{28,14});
-    rules[28] = new Rule(-13, new int[]{28,29,14});
-    rules[29] = new Rule(-14, new int[]{29,14});
-    rules[30] = new Rule(-15, new int[]{22,14});
+    rules[20] = new Rule(-10, new int[]{21,14});
+    rules[21] = new Rule(-11, new int[]{25,14,26,14});
+    rules[22] = new Rule(-11, new int[]{28,25,14,26,14});
+    rules[23] = new Rule(-12, new int[]{24,14});
+    rules[24] = new Rule(-12, new int[]{28,24,14});
+    rules[25] = new Rule(-13, new int[]{27,14});
+    rules[26] = new Rule(-13, new int[]{28,27,14});
+    rules[27] = new Rule(-14, new int[]{28,14});
+    rules[28] = new Rule(-14, new int[]{28,29,14});
+    rules[29] = new Rule(-15, new int[]{29,14});
+    rules[30] = new Rule(-9, new int[]{22,14});
     rules[31] = new Rule(-5, new int[]{37,14});
     rules[32] = new Rule(-5, new int[]{2,14});
   }

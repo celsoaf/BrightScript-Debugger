@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,7 +13,9 @@ using BrightScript.Debugger.Engine;
 using BrightScript.Debugger.Enums;
 using BrightScript.Debugger.Models;
 using BrightScript.Debugger.Services.Parser;
+using BrightScript.Debugger.Services.Parser.Utils;
 using BrightScript.Loggger;
+using Microsoft.VisualStudio.PlatformUI;
 
 namespace BrightScript.Debugger.Core
 {
@@ -71,7 +74,6 @@ namespace BrightScript.Debugger.Core
         private LinkedList<string> _initializationLog = new LinkedList<string>();
         private LinkedList<string> _initialErrors = new LinkedList<string>();
         private int _localDebuggerPid = -1;
-        private IParserService _parserService;
         //private ITelnetService _transport;
         private ITransport _transport;
 
@@ -339,186 +341,12 @@ namespace BrightScript.Debugger.Core
         public async void Init(TcpLaunchOptions options)
         {
             FlushBreakStateData();
-
-
-            _parserService = new ParserService();
-
-            _parserService.AppCloseProcessed += ParserServiceOnAppCloseProcessed;
-            _parserService.AppOpenProcessed += ParserServiceOnAppOpenProcessed;
-            _parserService.DebugPorcessed += ParserServiceOnDebugPorcessed;
-            _parserService.BacktraceProcessed += ParserServiceOnBacktraceProcessed;
-            _parserService.VariablesProcessed += ParserServiceOnVariablesProcessed;
-            _parserService.StepPorcessed += ParserServiceOnStepPorcessed;
-            _parserService.ErrorProcessed += ParserServiceOnErrorProcessed;
-            await _parserService.Start(((TcpLaunchOptions)options).Port);
-
-            //_transport = new SoketService();
-            //_transport.Log += TransportOnLog;
-            //_transport.Close += TransportOnClose;
-            //await _transport.Connect(options.Hostname, options.Port);
-
+            
             _transport = new TcpTransport();
             _transport.Init(this,_launchOptions, Logger);
         }
-
-        private void ParserServiceOnStepPorcessed(int port)
-        {
-            var steps = new string[]
-            {
-                DebuggerCommandEnum.s.ToString(), 
-                DebuggerCommandEnum.over.ToString(), 
-                DebuggerCommandEnum.@out.ToString()
-            };
-            var op = _waitingOperations.FirstOrDefault(o => steps.Contains(o.Command));
-            if (op != null)
-            {
-                Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
-                op.OnComplete(new Results(ResultClass.running), this.MICommandFactory);
-            }
-        }
-
-        private void ParserServiceOnVariablesProcessed(int port, List<VariableModel> variableModels)
-        {
-            ThreadCache.SetVariables(port, variableModels);
-
-            var lst = new List<NamedResultValue>();
-            variableModels.ForEach(v =>
-            {
-                var list = new List<NamedResultValue>();
-                list.Add(new NamedResultValue("level", new ConstValue(v.Ident)));
-                list.Add(new NamedResultValue("from", new ConstValue(v.Value)));
-
-                lst.Add(new NamedResultValue("frame", new TupleValue(list)));
-            });
-
-            var stack = new ResultListValue(new List<NamedResultValue>(lst));
-
-            List<NamedResultValue> values = new List<NamedResultValue>();
-            values.Add(new NamedResultValue("reason", new ConstValue("signal-received")));
-            values.Add(new NamedResultValue("stack", stack));
-            values.Add(new NamedResultValue("thread-id", new ConstValue(port.ToString())));
-            var results = new Results(ResultClass.running, values);
-
-            var op = _waitingOperations.FirstOrDefault(o => o.Command == Enums.DebuggerCommandEnum.var.ToString());
-            if (op != null)
-            {
-                Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
-                op.OnComplete(results, this.MICommandFactory);
-            }
-        }
-
-        private async void ParserServiceOnAppOpenProcessed(int port)
-        {
-            List<NamedResultValue> values = new List<NamedResultValue>();
-            values.Add(new NamedResultValue("reason", new ConstValue("entry-point-hit")));
-            values.Add(new NamedResultValue("thread-id", new ConstValue(port.ToString())));
-            var results = new Results(ResultClass.running, values);
-            BreakModeEvent?.Invoke(this, new ResultEventArgs(results));
-        }
-
-        private void ParserServiceOnErrorProcessed(int port, string error)
-        {
-            LiveLogger.WriteLine(error);
-        }
-
-        private void TransportOnClose()
-        {
-            //OnDebuggerProcessExit("0");
-        }
-
-        private void TransportOnLog(string line)
-        {
-            if (_initializationLog != null)
-            {
-                lock (_waitingOperations)
-                {
-                    // check again now that the lock is aquired
-                    if (_initializationLog != null)
-                    {
-                        _initializationLog.AddLast(line);
-                    }
-                }
-            }
-
-            ScheduleStdOutProcessing(line);
-
-            //_parserService.ProcessLog(new LogModel(_transport.Port, line));
-            _parserService.ProcessLog(new LogModel(8085, line));
-
-            LiveLogger.WriteLine(line);
-        }
-
-        private void ParserServiceOnBacktraceProcessed(int port, List<BacktraceModel> backtraceModels)
-        {
-            var lst = new List<NamedResultValue>();
-            backtraceModels.ForEach(f =>
-            {
-                var list = new List<NamedResultValue>();
-                list.Add(new NamedResultValue("level", new ConstValue(f.Position.ToString())));
-                list.Add(new NamedResultValue("from", new ConstValue(f.File)));
-                list.Add(new NamedResultValue("file", new ConstValue(f.File.Substring(4))));
-                list.Add(new NamedResultValue("fullname", new ConstValue(f.File.Substring(4))));
-                list.Add(new NamedResultValue("line", new ConstValue(f.Line.ToString())));
-                list.Add(new NamedResultValue("func", new ConstValue(f.Function)));
-
-                lst.Add(new NamedResultValue("frame", new TupleValue(list)));
-            });
-
-            var stack = new ResultListValue(new List<NamedResultValue>(lst));
-
-            List<NamedResultValue> values = new List<NamedResultValue>();
-            values.Add(new NamedResultValue("reason", new ConstValue("signal-received")));
-            values.Add(new NamedResultValue("stack", stack));
-            values.Add(new NamedResultValue("thread-id", new ConstValue(port.ToString())));
-            var results = new Results(ResultClass.running, values);
-
-            ThreadCache.SetThreadStack(port, results);
-
-            var op = _waitingOperations.FirstOrDefault(o => o.Command == Enums.DebuggerCommandEnum.bt.ToString());
-            if (op != null)
-            {
-                Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
-                op.OnComplete(results, this.MICommandFactory);
-            }
-        }
-
-        private async void ParserServiceOnDebugPorcessed(int port)
-        {
-            List<NamedResultValue> values = new List<NamedResultValue>();
-            values.Add(new NamedResultValue("reason", new ConstValue("breakpoint-hit")));
-            values.Add(new NamedResultValue("bkptno", new ConstValue("<EMBEDDED>")));
-
-            var tctx = await ThreadCache.GetThreadContext(ThreadCache.FindThread(port));
-            var list = new List<NamedResultValue>();
-            list.Add(new NamedResultValue("level", new ConstValue(tctx.Level.ToString())));
-            list.Add(new NamedResultValue("from", new ConstValue(tctx.From)));
-            list.Add(new NamedResultValue("file", new ConstValue(tctx.TextPosition.FileName)));
-            list.Add(new NamedResultValue("fullname", new ConstValue(tctx.TextPosition.FileName)));
-            list.Add(new NamedResultValue("line", new ConstValue((tctx.TextPosition.BeginPosition.dwLine + 1).ToString())));
-            list.Add(new NamedResultValue("func", new ConstValue(tctx.Function)));
-
-            values.Add(new NamedResultValue("frame", new TupleValue(list)));
-            values.Add(new NamedResultValue("thread-id", new ConstValue(port.ToString())));
-            var results = new Results(ResultClass.running, values);
-            BreakModeEvent?.Invoke(this, new ResultEventArgs(results));
-        }
-
-        private void ParserServiceOnAppCloseProcessed(int port)
-        {
-            DebuggerExitEvent?.Invoke(this, null);
-        }
-
         public virtual void Terminate()
         {
-            _parserService.Stop();
-            _parserService.AppCloseProcessed -= ParserServiceOnAppCloseProcessed;
-            _parserService.AppOpenProcessed -= ParserServiceOnAppOpenProcessed;
-            _parserService.DebugPorcessed -= ParserServiceOnDebugPorcessed;
-            _parserService.BacktraceProcessed -= ParserServiceOnBacktraceProcessed;
-            _parserService.VariablesProcessed -= ParserServiceOnVariablesProcessed;
-            _parserService.ErrorProcessed -= ParserServiceOnErrorProcessed;
-            _parserService.StepPorcessed -= ParserServiceOnStepPorcessed;
-            //_transport.Disconnect();
             _transport.Close();
         }
 
@@ -862,15 +690,199 @@ namespace BrightScript.Debugger.Core
 
         private readonly List<WaitingOperationDescriptor> _waitingOperations = new List<WaitingOperationDescriptor>();
 
+        private volatile bool _initialized = false;
         public void ProcessStdOutLine(string line)
         {
-            if (line.Length == 0)
+            if (line.Length == 0) return;
+            if (!_initialized && !line.Contains("------ Running dev '")) return;
+
+            if (!_initialized)
             {
-                return;
+                var index = line.LastIndexOf("------ Running dev '", StringComparison.Ordinal);
+                if (index > 0)
+                {
+                    line = Environment.NewLine + line.Substring(index);
+                    if (line.Contains("------ Compiling dev '")) return;
+                    _initialized = true;
+                }
             }
 
-            _parserService.ProcessLog(new LogModel(8085, line));
+            try
+            {
+                using (var ms = new MemoryStream())
+                {
+                    using (var sw = new StreamWriter(ms))
+                    {
+                        sw.WriteLine(line);
+                        sw.Flush();
+                        ms.Position = 0;
+
+                        // parse input args, and open input file
+                        var scanner = new TelnetScanner(ms);
+                        scanner.ErrorPorcessed += PublishError;
+
+                        var parser = new BrightScriptDebug.Compiler.Parser(scanner);
+
+                        parser.BacktraceProcessed += ParserOnBacktraceProcessed;
+                        parser.VariablesProcessed += ParserOnVariablesProcessed;
+                        parser.DebugPorcessed += ParserOnDebugPorcessed;
+                        parser.AppCloseProcessed += ParserOnAppCloseProcessed;
+                        parser.AppOpenProcessed += ParserOnAppOpenProcessed;
+                        parser.CurrentFunctionProcessed += ParserOnCurrentFunctionProcessed;
+                        parser.StepPorcessed += ParserOnStepPorcessed;
+
+                        try
+                        {
+                            parser.Parse();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                        parser.BacktraceProcessed -= ParserOnBacktraceProcessed;
+                        parser.VariablesProcessed -= ParserOnVariablesProcessed;
+                        parser.DebugPorcessed -= ParserOnDebugPorcessed;
+                        parser.AppCloseProcessed -= ParserOnAppCloseProcessed;
+                        parser.AppOpenProcessed -= ParserOnAppOpenProcessed;
+                        parser.CurrentFunctionProcessed -= ParserOnCurrentFunctionProcessed;
+                        parser.StepPorcessed += ParserOnStepPorcessed;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
+
+        private void ParserOnCurrentFunctionProcessed(List<string> list)
+        {
+            
+        }
+
+
+        private void ParserOnStepPorcessed()
+        {
+            var steps = new string[]
+            {
+                DebuggerCommandEnum.s.ToString(),
+                DebuggerCommandEnum.over.ToString(),
+                DebuggerCommandEnum.@out.ToString()
+            };
+            var op = _waitingOperations.FirstOrDefault(o => steps.Contains(o.Command));
+            if (op != null)
+            {
+                Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
+                op.OnComplete(new Results(ResultClass.running), this.MICommandFactory);
+            }
+        }
+
+        private void ParserOnVariablesProcessed(List<VariableModel> variableModels)
+        {
+            ThreadCache.SetVariables(8085, variableModels);
+
+            var lst = new List<NamedResultValue>();
+            variableModels.ForEach(v =>
+            {
+                var list = new List<NamedResultValue>();
+                list.Add(new NamedResultValue("level", new ConstValue(v.Ident)));
+                list.Add(new NamedResultValue("from", new ConstValue(v.Value)));
+
+                lst.Add(new NamedResultValue("frame", new TupleValue(list)));
+            });
+
+            var stack = new ResultListValue(new List<NamedResultValue>(lst));
+
+            List<NamedResultValue> values = new List<NamedResultValue>();
+            values.Add(new NamedResultValue("reason", new ConstValue("signal-received")));
+            values.Add(new NamedResultValue("stack", stack));
+            values.Add(new NamedResultValue("thread-id", new ConstValue(8085.ToString())));
+            var results = new Results(ResultClass.running, values);
+
+            var op = _waitingOperations.FirstOrDefault(o => o.Command == Enums.DebuggerCommandEnum.var.ToString());
+            if (op != null)
+            {
+                Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
+                op.OnComplete(results, this.MICommandFactory);
+            }
+        }
+
+        private async void ParserOnAppOpenProcessed()
+        {
+            List<NamedResultValue> values = new List<NamedResultValue>();
+            values.Add(new NamedResultValue("reason", new ConstValue("entry-point-hit")));
+            values.Add(new NamedResultValue("thread-id", new ConstValue(8085.ToString())));
+            var results = new Results(ResultClass.running, values);
+            BreakModeEvent?.Invoke(this, new ResultEventArgs(results));
+        }
+
+        private void PublishError(string error)
+        {
+            LiveLogger.WriteLine(error);
+        }
+
+        private void ParserOnBacktraceProcessed(List<BacktraceModel> backtraceModels)
+        {
+            var lst = new List<NamedResultValue>();
+            backtraceModels.ForEach(f =>
+            {
+                var list = new List<NamedResultValue>();
+                list.Add(new NamedResultValue("level", new ConstValue(f.Position.ToString())));
+                list.Add(new NamedResultValue("from", new ConstValue(f.File)));
+                list.Add(new NamedResultValue("file", new ConstValue(f.File.Substring(4))));
+                list.Add(new NamedResultValue("fullname", new ConstValue(f.File.Substring(4))));
+                list.Add(new NamedResultValue("line", new ConstValue(f.Line.ToString())));
+                list.Add(new NamedResultValue("func", new ConstValue(f.Function)));
+
+                lst.Add(new NamedResultValue("frame", new TupleValue(list)));
+            });
+
+            var stack = new ResultListValue(new List<NamedResultValue>(lst));
+
+            List<NamedResultValue> values = new List<NamedResultValue>();
+            values.Add(new NamedResultValue("reason", new ConstValue("signal-received")));
+            values.Add(new NamedResultValue("stack", stack));
+            values.Add(new NamedResultValue("thread-id", new ConstValue(8085.ToString())));
+            var results = new Results(ResultClass.running, values);
+
+            ThreadCache.SetThreadStack(8085, results);
+
+            var op = _waitingOperations.FirstOrDefault(o => o.Command == Enums.DebuggerCommandEnum.bt.ToString());
+            if (op != null)
+            {
+                Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
+                op.OnComplete(results, this.MICommandFactory);
+            }
+        }
+
+        private async void ParserOnDebugPorcessed()
+        {
+            await CmdAsync(DebuggerCommandEnum.bt.ToString(), ResultClass.running);
+
+            List<NamedResultValue> values = new List<NamedResultValue>();
+            values.Add(new NamedResultValue("reason", new ConstValue("breakpoint-hit")));
+            values.Add(new NamedResultValue("bkptno", new ConstValue("<EMBEDDED>")));
+
+            var tctx = await ThreadCache.GetThreadContext(ThreadCache.FindThread(8085));
+            var list = new List<NamedResultValue>();
+            list.Add(new NamedResultValue("level", new ConstValue(tctx.Level.ToString())));
+            list.Add(new NamedResultValue("from", new ConstValue(tctx.From)));
+            list.Add(new NamedResultValue("file", new ConstValue(tctx.TextPosition.FileName)));
+            list.Add(new NamedResultValue("fullname", new ConstValue(tctx.TextPosition.FileName)));
+            list.Add(new NamedResultValue("line", new ConstValue((tctx.TextPosition.BeginPosition.dwLine + 1).ToString())));
+            list.Add(new NamedResultValue("func", new ConstValue(tctx.Function)));
+
+            values.Add(new NamedResultValue("frame", new TupleValue(list)));
+            values.Add(new NamedResultValue("thread-id", new ConstValue(8085.ToString())));
+            var results = new Results(ResultClass.running, values);
+            BreakModeEvent?.Invoke(this, new ResultEventArgs(results));
+        }
+
+        private void ParserOnAppCloseProcessed()
+        {
+            DebuggerExitEvent?.Invoke(this, null);
+        }
+
 
         private void OnResult(string cmd, string token)
         {

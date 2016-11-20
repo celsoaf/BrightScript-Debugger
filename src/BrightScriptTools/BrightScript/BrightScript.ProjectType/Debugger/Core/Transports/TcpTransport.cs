@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.Security;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -75,19 +76,11 @@ namespace BrightScript.Debugger.Core.Transports
                 while (!_bQuit)
                 {
                     string line = GetLine();
-                    if (line == null)
-                        break;
-
-                    line = line.TrimEnd();
                     Logger?.WriteLine("->" + line);
 
                     try
                     {
-                        if (_filterStdout)
-                        {
-                            line = FilterLine(line);
-                        }
-                        if (!String.IsNullOrWhiteSpace(line) && !line.StartsWith("-", StringComparison.Ordinal))
+                        if (!String.IsNullOrWhiteSpace(line))
                         {
                             _callback.OnStdOutLine(line);
                         }
@@ -156,16 +149,17 @@ namespace BrightScript.Debugger.Core.Transports
                 while(_client.Available == 0)
                     Thread.Sleep(1000);
 
-                if (_client.Available > 0)
+                var sb = new StringBuilder();
+                while (_client.Available > 0)
                 {
                     byte[] buffer = new byte[_client.Available];
                     Task<int> task = _client.GetStream().ReadAsync(buffer, 0, _client.Available, _streamReadCancellationTokenSource.Token);
                     task.Wait(_streamReadCancellationTokenSource.Token);
 
-                    return System.Text.Encoding.Default.GetString(buffer);
+                    sb.Append(Encoding.Default.GetString(buffer));
                 }
 
-                return null;
+                return sb.ToString();
             }
             catch (OperationCanceledException)
             {

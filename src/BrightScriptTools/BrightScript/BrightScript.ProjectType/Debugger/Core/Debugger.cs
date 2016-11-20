@@ -857,6 +857,8 @@ namespace BrightScript.Debugger.Core
 
         private async void ParserOnDebugPorcessed()
         {
+            await CmdAsync(DebuggerCommandEnum.bt.ToString(), ResultClass.running);
+
             List<NamedResultValue> values = new List<NamedResultValue>();
             values.Add(new NamedResultValue("reason", new ConstValue("breakpoint-hit")));
             values.Add(new NamedResultValue("bkptno", new ConstValue("<EMBEDDED>")));

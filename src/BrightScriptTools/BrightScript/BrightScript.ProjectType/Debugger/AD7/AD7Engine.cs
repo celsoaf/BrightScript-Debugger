@@ -580,24 +580,7 @@ namespace BrightScript.Debugger.AD7
         public int Continue(IDebugThread2 pThread)
         {
             // VS Code currently isn't providing a thread Id in certain cases. Work around this by handling null values.
-            AD7Thread thread = pThread as AD7Thread;
-
-            try
-            {
-                if (_pollThread.IsPollThread())
-                {
-                    _debuggedProcess.Continue(thread?.GetDebuggedThread());
-                }
-                else
-                {
-                    _pollThread.RunOperation(() => _debuggedProcess.Continue(thread?.GetDebuggedThread()));
-                }
-            }
-            catch (InvalidCoreDumpOperationException)
-            {
-                return AD7_HRESULT.E_CRASHDUMP_UNSUPPORTED;
-            }
-
+            
             return VSConstants.S_OK;
         }
 

@@ -62,13 +62,6 @@ namespace BrightScript.Debugger.Core.Transports
             writer = new StreamWriter(_client.GetStream());
         }
 
-
-
-        protected virtual string FilterLine(string line)
-        {
-            return line;
-        }
-
         private void TransportLoop()
         {
             try

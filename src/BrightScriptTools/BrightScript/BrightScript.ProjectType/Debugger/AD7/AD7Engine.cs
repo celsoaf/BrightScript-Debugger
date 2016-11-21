@@ -113,11 +113,6 @@ namespace BrightScript.Debugger.AD7
             return EngineUtils.GetAddressDescription(_debuggedProcess, ip);
         }
 
-        public object GetMetric(string metric)
-        {
-            return null;
-        }
-
         #region IDebugEngine2 Members
 
         // Attach the debug engine to a program. 
@@ -196,8 +191,6 @@ namespace BrightScript.Debugger.AD7
             {
                 if (eventObject is AD7ProgramCreateEvent)
                 {
-                    Exception exception = null;
-
                     try
                     {
                         // At this point breakpoints and exception settings have been sent down, so we can resume the target
@@ -208,15 +201,9 @@ namespace BrightScript.Debugger.AD7
                     }
                     catch (Exception e)
                     {
-                        exception = e;
-                        // Return from the catch block so that we can let the exception unwind - the stack can get kind of big
-                    }
-
-                    if (exception != null)
-                    {
                         // If something goes wrong, report the error and then stop debugging. The SDM will drop errors
                         // from ContinueFromSynchronousEvent, so we want to deal with them ourself.
-                        SendStartDebuggingError(exception);
+                        SendStartDebuggingError(e);
                         _debuggedProcess.Terminate();
                     }
 
@@ -476,13 +463,12 @@ namespace BrightScript.Debugger.AD7
             }
             catch (Exception e) when (ExceptionHelper.BeforeCatch(e, Logger, reportOnlyCorrupting: true))
             {
-                exception = e;
-                // Return from the catch block so that we can let the exception unwind - the stack can get kind of big
+                // If we just return the exception as an HRESULT, we will loose our message, so we instead send up an error event, and then
+                // return E_ABORT.
+                SendStartDebuggingError(e);
             }
 
-            // If we just return the exception as an HRESULT, we will loose our message, so we instead send up an error event, and then
-            // return E_ABORT.
-            SendStartDebuggingError(exception);
+            
 
             Dispose();
 

@@ -875,7 +875,8 @@ namespace BrightScript.Debugger.Core
             values.Add(new NamedResultValue("frame", new TupleValue(list)));
             values.Add(new NamedResultValue("thread-id", new ConstValue(8085.ToString())));
             var results = new Results(ResultClass.running, values);
-            BreakModeEvent?.Invoke(this, new ResultEventArgs(results));
+            //BreakModeEvent?.Invoke(this, new ResultEventArgs(results));
+            OnStateChanged("stopped", results);
         }
 
         private void ParserOnAppCloseProcessed()

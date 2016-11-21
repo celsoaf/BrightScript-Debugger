@@ -474,6 +474,8 @@ namespace BrightScript.Debugger.Engine
                     default:
                         throw new NotImplementedException();
                 }
+
+                ThreadCache.MarkDirty();
             }
             else if (unit == enum_STEPUNIT.STEP_INSTRUCTION)
             {

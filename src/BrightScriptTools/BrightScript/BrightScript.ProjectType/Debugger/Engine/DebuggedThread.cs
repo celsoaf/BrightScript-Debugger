@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using BrightScript.Debugger.AD7;
+using BrightScript.Debugger.Enums;
 using BrightScript.Debugger.Models;
 
 namespace BrightScript.Debugger.Engine
@@ -179,100 +180,10 @@ namespace BrightScript.Debugger.Engine
 
         private async Task<ThreadContext> CollectThreadsInfo(int cxtThreadId)
         {
-            ThreadContext ret = null;
-            // set of threads has changed or thread locations have been asked for
-            Results threadsinfo = await _debugger.MICommandFactory.ThreadInfo();
-            if (threadsinfo.ResultClass != ResultClass.done)
-            {
-                Debug.Fail("Failed to get thread info");
-            }
-            else
-            {
-                var tlist = threadsinfo.Find<ValueListValue>("threads");
+            await _debugger.CmdAsync(DebuggerCommandEnum.bt.ToString(), ResultClass.None);
+            //await _debugger.CmdAsync(DebuggerCommandEnum.var.ToString(), ResultClass.None);
 
-                // update our thread list   
-                lock (_threadList)
-                {
-                    foreach (var thread in _threadList)
-                    {
-                        thread.Alive = false;
-                    }
-                    foreach (var t in tlist.Content)
-                    {
-                        int threadId = t.FindInt("id");
-                        string targetId = t.TryFindString("target-id");
-                        string state = t.FindString("state");
-                        TupleValue[] frames = ((TupleValue)t).FindAll<TupleValue>("frame");
-
-                        bool bNew;
-                        DebuggedThread thread = FindThread(threadId, out bNew);
-                        thread.Alive = true;
-                        if (!String.IsNullOrEmpty(targetId))
-                        {
-                            uint tid = 0;
-                            if (System.UInt32.TryParse(targetId, out tid) && tid != 0)
-                            {
-                                thread.TargetId = tid;
-                            }
-                            else if (targetId.StartsWith("Thread") &&
-                                     System.UInt32.TryParse(targetId.Substring("Thread ".Length), out tid) &&
-                                     tid != 0
-                            )
-                            {
-                                thread.TargetId = tid;
-                            }
-                        }
-                        if (t.Contains("name"))
-                        {
-                            thread.Name = t.FindString("name");
-                        }
-                        if (bNew)
-                        {
-                            if (_newThreads == null)
-                            {
-                                _newThreads = new List<DebuggedThread>();
-                            }
-                            _newThreads.Add(thread);
-                        }
-                        var stack = new List<ThreadContext>();
-                        foreach (var frame in frames)
-                        {
-                            stack.Add(CreateContext(frame));
-                        }
-                        if (stack.Count > 0)
-                        {
-                            _topContext[threadId] = stack[0];
-                            if (threadId == cxtThreadId)
-                            {
-                                ret = _topContext[threadId];
-                            }
-                            if (stack.Count > 1)
-                            {
-                                _stackFrames[threadId] = stack;
-                            }
-                        }
-                    }
-                    foreach (var thread in _threadList)
-                    {
-                        if (!thread.Alive)
-                        {
-                            if (_deadThreads == null)
-                            {
-                                _deadThreads = new List<DebuggedThread>();
-                            }
-                            _deadThreads.Add(thread);
-                        }
-                    }
-                    if (_deadThreads != null)
-                        foreach (var dead in _deadThreads)
-                        {
-                            _threadList.Remove(dead);
-                        }
-                    _stateChange = false;
-                    _full = true;
-                }
-            }
-            return ret;
+            return await GetThreadContext(FindThread(cxtThreadId));
         }
 
         internal void SendThreadEvents(object sender, EventArgs e)

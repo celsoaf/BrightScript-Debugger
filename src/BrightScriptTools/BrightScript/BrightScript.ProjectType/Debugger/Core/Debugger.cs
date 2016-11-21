@@ -779,7 +779,7 @@ namespace BrightScript.Debugger.Core
 
         private void ParserOnVariablesProcessed(List<VariableModel> variableModels)
         {
-            ThreadCache.SetVariables(8085, variableModels);
+            //ThreadCache.SetVariables(8085, variableModels);
 
             var lst = new List<NamedResultValue>();
             variableModels.ForEach(v =>
@@ -855,15 +855,19 @@ namespace BrightScript.Debugger.Core
             }
         }
 
+        private bool _collectInfo = false;
         private async void ParserOnDebugPorcessed()
         {
-            await CmdAsync(DebuggerCommandEnum.bt.ToString(), ResultClass.running);
+            if (_collectInfo) return;
+            //await CmdAsync(DebuggerCommandEnum.bt.ToString(), ResultClass.running);
 
             List<NamedResultValue> values = new List<NamedResultValue>();
             values.Add(new NamedResultValue("reason", new ConstValue("breakpoint-hit")));
             values.Add(new NamedResultValue("bkptno", new ConstValue("<EMBEDDED>")));
 
+            _collectInfo = true;
             var tctx = await ThreadCache.GetThreadContext(ThreadCache.FindThread(8085));
+            _collectInfo = false;
             var list = new List<NamedResultValue>();
             list.Add(new NamedResultValue("level", new ConstValue(tctx.Level.ToString())));
             list.Add(new NamedResultValue("from", new ConstValue(tctx.From)));

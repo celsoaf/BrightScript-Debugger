@@ -438,13 +438,13 @@ namespace BrightScript.Debugger.Core
 
         public void CmdContinueAsync()
         {
-            PostCommand("-exec-continue");
+            PostCommand(DebuggerCommandEnum.c.ToString());
         }
 
         public void CmdExitAsync()
         {
             // 'gdb' required for legacy
-            PostCommand("-gdb-exit");
+            PostCommand(DebuggerCommandEnum.exit.ToString());
         }
 
         private string Escape(string str)

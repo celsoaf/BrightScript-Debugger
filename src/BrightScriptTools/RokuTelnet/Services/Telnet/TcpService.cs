@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Prism.Events;
@@ -77,15 +78,17 @@ namespace RokuTelnet.Services.Telnet
                 while (_client.Available == 0)
                     Thread.Sleep(1000);
 
-                if (_client.Available > 0)
+                var sb = new StringBuilder();
+                while (_client.Available > 0)
                 {
                     byte[] buffer = new byte[_client.Available];
                     Task<int> task = _client.GetStream().ReadAsync(buffer, 0, _client.Available);
-
-                    return System.Text.Encoding.Default.GetString(buffer);
+                    task.Wait();
+                    
+                    sb.Append(Encoding.Default.GetString(buffer));
                 }
 
-                return null;
+                return Environment.NewLine + sb;
             }
             catch (OperationCanceledException)
             {

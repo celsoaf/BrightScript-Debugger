@@ -147,7 +147,7 @@ namespace BrightScript.Debugger.Core.Transports
                     sb.Append(Encoding.Default.GetString(buffer));
                 }
 
-                return sb.ToString();
+                return Environment.NewLine + sb.ToString();
             }
             catch (OperationCanceledException)
             {

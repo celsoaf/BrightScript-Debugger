@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using BrightScript.Debugger.AD7;
 using BrightScript.Debugger.Enums;
 using BrightScript.Debugger.Models;
+using BrightScript.Loggger;
 
 namespace BrightScript.Debugger.Engine
 {
@@ -99,7 +100,7 @@ namespace BrightScript.Debugger.Engine
             }
             catch (UnexpectedMIResultException)
             {
-                _debugger.Logger.WriteLine("Stack walk failed on thread: " + thread.TargetId);
+                LiveLogger.WriteLine("Stack walk failed on thread: " + thread.TargetId);
                 _stateChange = true;   // thread may have been deleted. Force a resync
             }
             lock (_threadList)
@@ -154,7 +155,7 @@ namespace BrightScript.Debugger.Engine
             TupleValue[] frameinfo = await _debugger.MICommandFactory.StackListFrames(thread.Id, 0, 1000);
             if (frameinfo == null)
             {
-                _debugger.Logger.WriteLine("Failed to get frame info");
+                LiveLogger.WriteLine("Failed to get frame info");
             }
             else
             {

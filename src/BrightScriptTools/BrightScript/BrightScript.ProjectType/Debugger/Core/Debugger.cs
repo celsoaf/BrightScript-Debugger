@@ -61,7 +61,6 @@ namespace BrightScript.Debugger.Core
         //public bool Is64BitArch { get; private set; }
         public CommandLock CommandLock { get { return _commandLock; } }
         public MICommandFactory MICommandFactory { get; protected set; }
-        public Logger Logger { private set; get; }
         public ThreadCache ThreadCache { get; protected set; }
 
 
@@ -118,12 +117,11 @@ namespace BrightScript.Debugger.Core
         // The key is the thread group, the value is the pid
         private Dictionary<string, int> _debuggeePids;
 
-        public Debugger(TcpLaunchOptions launchOptions, Logger logger)
+        public Debugger(TcpLaunchOptions launchOptions)
         {
             _launchOptions = launchOptions;
             _debuggeePids = new Dictionary<string, int>();
-            Logger = logger;
-            _miResults = new MIResults(logger);
+            _miResults = new MIResults();
         }
 
         private void RetryBreak(object o)
@@ -132,7 +130,7 @@ namespace BrightScript.Debugger.Core
             {
                 if (_waitingToStop && _retryCount < BREAK_RETRY_MAX)
                 {
-                    Logger.WriteLine("Debugger failed to break. Trying again.");
+                    LiveLogger.WriteLine("Debugger failed to break. Trying again.");
                     CmdBreakInternal();
                     _retryCount++;
                 }
@@ -300,7 +298,7 @@ namespace BrightScript.Debugger.Core
                 {
                     await item();
                 }
-                catch (Exception e) when (ExceptionHelper.BeforeCatch(e, Logger, reportOnlyCorrupting: true))
+                catch (Exception e) when (ExceptionHelper.BeforeCatch(e, reportOnlyCorrupting: true))
                 {
                     if (firstException != null)
                     {
@@ -343,7 +341,7 @@ namespace BrightScript.Debugger.Core
             FlushBreakStateData();
             
             _transport = new TcpTransport();
-            _transport.Init(this,_launchOptions, Logger);
+            _transport.Init(this,_launchOptions);
         }
         public virtual void Terminate()
         {
@@ -772,7 +770,7 @@ namespace BrightScript.Debugger.Core
             var op = _waitingOperations.FirstOrDefault(o => steps.Contains(o.Command));
             if (op != null)
             {
-                Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
+                LiveLogger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
                 op.OnComplete(new Results(ResultClass.running), this.MICommandFactory);
             }
         }
@@ -802,7 +800,7 @@ namespace BrightScript.Debugger.Core
             var op = _waitingOperations.FirstOrDefault(o => o.Command == Enums.DebuggerCommandEnum.var.ToString());
             if (op != null)
             {
-                Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
+                LiveLogger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
                 op.OnComplete(results, this.MICommandFactory);
             }
         }
@@ -850,7 +848,7 @@ namespace BrightScript.Debugger.Core
             var op = _waitingOperations.FirstOrDefault(o => o.Command == Enums.DebuggerCommandEnum.bt.ToString());
             if (op != null)
             {
-                Logger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
+                LiveLogger.WriteLine(op.Command + ": elapsed time " + (int)(DateTime.Now - op.StartTime).TotalMilliseconds);
                 op.OnComplete(results, this.MICommandFactory);
             }
         }

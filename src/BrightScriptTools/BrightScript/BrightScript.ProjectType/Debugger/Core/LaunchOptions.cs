@@ -12,6 +12,7 @@ using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using BrightScript.Debugger.Core.CommandFactories;
+using BrightScript.Loggger;
 using Microsoft.Build.Utilities;
 
 namespace BrightScript.Debugger.Core
@@ -278,12 +279,12 @@ namespace BrightScript.Debugger.Core
             }
         }
 
-        public static LaunchOptions GetInstance(string exePath, string args, string dir, string hostName, int port, Logger logger)
+        public static LaunchOptions GetInstance(string exePath, string args, string dir, string hostName, int port)
         {
             if (string.IsNullOrWhiteSpace(exePath))
                 throw new ArgumentNullException("exePath");
 
-            logger?.WriteLine("LaunchOptions {0}:{1}", hostName, port);
+            LiveLogger.WriteLine("LaunchOptions {0}:{1}", hostName, port);
 
             LaunchOptions launchOptions = null;
             object launcherXmlOptions = null;

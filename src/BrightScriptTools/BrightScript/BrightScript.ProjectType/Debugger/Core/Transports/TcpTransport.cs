@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using BrightScript.Loggger;
 
 namespace BrightScript.Debugger.Core.Transports
 {
@@ -22,11 +23,6 @@ namespace BrightScript.Debugger.Core.Transports
         private Object _locker = new object();
         private TcpClient _client;
 
-        protected Logger Logger
-        {
-            get; private set;
-        }
-
         public TcpTransport()
         {
         }
@@ -36,9 +32,8 @@ namespace BrightScript.Debugger.Core.Transports
             return "MI.TcpTransport";
         }
 
-        public virtual void Init(ITransportCallback transportCallback, LaunchOptions options, Logger logger)
+        public virtual void Init(ITransportCallback transportCallback, LaunchOptions options)
         {
-            Logger = logger;
             _callback = transportCallback;
             InitStreams(options, out _reader, out _writer);
             StartThread(GetThreadName());
@@ -69,7 +64,7 @@ namespace BrightScript.Debugger.Core.Transports
                 while (!_bQuit)
                 {
                     string line = GetLine();
-                    Logger?.WriteLine("->" + line);
+                    LiveLogger.WriteLine("->" + line);
 
                     try
                     {
@@ -130,7 +125,7 @@ namespace BrightScript.Debugger.Core.Transports
         }
         protected void Echo(string cmd)
         {
-            Logger?.WriteLine("<-" + cmd);
+            LiveLogger.WriteLine("<-" + cmd);
             _writer.WriteLine(cmd);
             _writer.Flush();
         }

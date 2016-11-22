@@ -2,7 +2,7 @@
 {
     public interface ITransport
     {
-        void Init(ITransportCallback transportCallback, LaunchOptions options, Logger logger);
+        void Init(ITransportCallback transportCallback, LaunchOptions options);
         void Send(string cmd);
         void Close();
         bool IsClosed { get; }

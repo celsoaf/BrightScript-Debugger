@@ -320,7 +320,6 @@
     <Compile Include="Debugger\Core\Exceptions\InvalidLaunchOptionsException.cs" />
     <Compile Include="Debugger\Core\LaunchCommand.cs" />
     <Compile Include="Debugger\Core\LaunchOptions.cs" />
-    <Compile Include="Debugger\Core\Logger.cs" />
     <Compile Include="Debugger\Core\MICoreResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

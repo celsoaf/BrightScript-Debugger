@@ -41,7 +41,7 @@ namespace BrightScript.Debugger.Engine
         private bool _needTerminalReset;
 
         public DebuggedProcess(TcpLaunchOptions launchOptions, ISampleEngineCallback callback, WorkerThread worker, BreakpointManager bpman, AD7Engine engine)
-            : base(launchOptions, engine.Logger)
+            : base(launchOptions)
         {
             uint processExitCode = 0;
             _pendingMessages = new StringBuilder(400);
@@ -163,7 +163,7 @@ namespace BrightScript.Debugger.Engine
                 {
                     await HandleBreakModeEvent(results);
                 }
-                catch (Exception e) when (ExceptionHelper.BeforeCatch(e, Logger, reportOnlyCorrupting: true))
+                catch (Exception e) when (ExceptionHelper.BeforeCatch(e, reportOnlyCorrupting: true))
                 {
                     if (this.ProcessState == ProcessState.Exited)
                     {

@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using BrightScript.Debugger.Core;
+using BrightScript.Loggger;
 
 namespace BrightScript.Debugger.Engine
 {
@@ -592,13 +593,6 @@ namespace BrightScript.Debugger.Engine
 
     public class MIResults
     {
-        private Logger Logger { get; set; }
-
-        public MIResults(Logger logger)
-        {
-            Logger = logger;
-        }
-
         /// <summary>
         /// result-record ==> result-class ( "," result )* 
         /// </summary>
@@ -1022,10 +1016,7 @@ namespace BrightScript.Debugger.Engine
 
         private void ParseError(string message, string input)
         {
-            Debug.Fail(message + ": " + input);
-#if DEBUG
-            Logger?.WriteLine(String.Format(CultureInfo.CurrentCulture, "MI parsing error: {0}: \"{1}\"", message, input));
-#endif
+            LiveLogger.WriteLine(String.Format(CultureInfo.CurrentCulture, "MI parsing error: {0}: \"{1}\"", message, input));
         }
     }
 }

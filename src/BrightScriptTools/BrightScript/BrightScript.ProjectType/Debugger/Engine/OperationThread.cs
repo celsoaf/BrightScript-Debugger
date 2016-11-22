@@ -67,11 +67,8 @@ namespace BrightScript.Debugger.Engine
         private Thread _thread;
         private volatile bool _isClosed;
 
-        public Logger Logger { get; private set; }
-
-        public WorkerThread(Logger logger)
+        public WorkerThread()
         {
-            Logger = logger;
             _opSet = new AutoResetEvent(false);
             _runningOpCompleteEvent = new ManualResetEvent(true);
             _postedOperations = new Queue<Operation>();
@@ -300,7 +297,7 @@ namespace BrightScript.Debugger.Engine
                             {
                                 syncOp();
                             }
-                            catch (Exception opException) when (ExceptionHelper.BeforeCatch(opException, Logger, reportOnlyCorrupting: true))
+                            catch (Exception opException) when (ExceptionHelper.BeforeCatch(opException, reportOnlyCorrupting: true))
                             {
                                 runningOp.ExceptionDispatchInfo = ExceptionDispatchInfo.Capture(opException);
                             }
@@ -313,7 +310,7 @@ namespace BrightScript.Debugger.Engine
                             {
                                 runningOp.Task = asyncOp();
                             }
-                            catch (Exception opException) when (ExceptionHelper.BeforeCatch(opException, Logger, reportOnlyCorrupting: true))
+                            catch (Exception opException) when (ExceptionHelper.BeforeCatch(opException, reportOnlyCorrupting: true))
                             {
                                 runningOp.ExceptionDispatchInfo = ExceptionDispatchInfo.Capture(opException);
                             }
@@ -353,7 +350,7 @@ namespace BrightScript.Debugger.Engine
                         {
                             postedOperation();
                         }
-                        catch (Exception e) when (ExceptionHelper.BeforeCatch(e, Logger, reportOnlyCorrupting: false))
+                        catch (Exception e) when (ExceptionHelper.BeforeCatch(e, reportOnlyCorrupting: false))
                         {
                             if (PostedOperationErrorEvent != null)
                             {

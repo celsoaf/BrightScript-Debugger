@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Runtime.CompilerServices;
 using BrightScript.SharedProject;
 using Microsoft.VisualStudio.Shell;
 
@@ -16,9 +19,11 @@ namespace BrightScript.Loggger
 
         private static volatile LiveLogger _instance;
         private static object _loggerLock = new object();
+        private static DateTime s_initTime;
 
         private LiveLogger()
         {
+            s_initTime = DateTime.Now;
         }
 
         private static LiveLogger Instance
@@ -58,12 +63,48 @@ namespace BrightScript.Loggger
 
         private void LogMessage(string message)
         {
-            Debug.WriteLine(message);
+            string fullLine = String.Format(CultureInfo.CurrentCulture, "({0}) {1}", (int)(DateTime.Now - s_initTime).TotalMilliseconds, message);
+            Debug.WriteLine(fullLine);
 
             var pane = OutputWindowRedirector.Get(ServiceProvider.GlobalProvider, LiveDiagnosticLogPaneGuid, LiveDiagnosticLogPaneName);
             if (pane != null)
             {
-                pane.WriteLine(message);
+                pane.WriteLine(fullLine);
+            }
+        }
+
+        /// <summary>
+        /// If logging is enabled, writes a block of text which may contain newlines to the log
+        /// </summary>
+        /// <param name="prefix">[Optional] Prefix to put on the front of each line</param>
+        /// <param name="textBlock">Block of text to write</param>
+        public static void WriteTextBlock(string prefix, string textBlock)
+        {
+            Instance.WriteTextBlockImpl(prefix, textBlock);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)] // Disable inlining since logging is off by default, and we want to allow the public method to be inlined
+        private void WriteLineImpl(string format, object[] args)
+        {
+            LogMessage(string.Format(CultureInfo.CurrentCulture, format, args));
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining)] // Disable inlining since logging is off by default, and we want to allow the public method to be inlined
+        private void WriteTextBlockImpl(string prefix, string textBlock)
+        {
+            using (var reader = new StringReader(textBlock))
+            {
+                while (true)
+                {
+                    var line = reader.ReadLine();
+                    if (line == null)
+                        break;
+
+                    if (!string.IsNullOrEmpty(prefix))
+                        LogMessage(prefix + line);
+                    else
+                        LogMessage(line);
+                }
             }
         }
     }

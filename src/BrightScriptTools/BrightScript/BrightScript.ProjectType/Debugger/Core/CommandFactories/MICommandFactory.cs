@@ -483,7 +483,7 @@ namespace BrightScript.Debugger.Core.CommandFactories
             Results results = null;
             if (cmd.StartsWith("library-loaded,", StringComparison.Ordinal))
             {
-                MIResults res = new MIResults(_debugger.Logger);
+                MIResults res = new MIResults();
                 results = res.ParseResultList(cmd.Substring(15));
             }
             return results;

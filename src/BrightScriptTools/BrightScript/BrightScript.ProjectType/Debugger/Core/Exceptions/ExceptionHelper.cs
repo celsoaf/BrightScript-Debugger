@@ -1,4 +1,5 @@
 ﻿using System;
+using BrightScript.Loggger;
 
 namespace BrightScript.Debugger.Core
 {
@@ -11,7 +12,7 @@ namespace BrightScript.Debugger.Core
         /// <param name="logger">For logging messages</param>
         /// <param name="reportOnlyCorrupting">If true, only corrupting exceptions are reported</param>
         /// <returns>true</returns>
-        public static bool BeforeCatch(Exception currentException, Logger logger, bool reportOnlyCorrupting)
+        public static bool BeforeCatch(Exception currentException, bool reportOnlyCorrupting)
         {
             if (reportOnlyCorrupting && !IsCorruptingException(currentException))
             {
@@ -20,8 +21,8 @@ namespace BrightScript.Debugger.Core
 
             try
             {
-                logger?.WriteLine("EXCEPTION: " + currentException.GetType());
-                logger?.WriteTextBlock("EXCEPTION: ", currentException.StackTrace);
+                LiveLogger.WriteLine("EXCEPTION: " + currentException.GetType());
+                LiveLogger.WriteTextBlock("EXCEPTION: ", currentException.StackTrace);
             }
             catch
             {

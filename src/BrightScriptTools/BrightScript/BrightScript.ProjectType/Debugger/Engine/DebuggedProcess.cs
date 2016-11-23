@@ -493,10 +493,12 @@ namespace BrightScript.Debugger.Engine
                         throw new NotImplementedException();
                 }
             }
-            else
-            {
-                throw new NotImplementedException();
-            }
+
+            List<NamedResultValue> values = new List<NamedResultValue>();
+            //values.Add(new NamedResultValue("reason", new ConstValue("entry-point-hit")));
+            values.Add(new NamedResultValue("thread-id", new ConstValue(8085.ToString())));
+            var results = new Results(ResultClass.running, values);
+            OnStateChanged("running", results);
         }
 
         //public DebuggedModule ResolveAddress(ulong addr)

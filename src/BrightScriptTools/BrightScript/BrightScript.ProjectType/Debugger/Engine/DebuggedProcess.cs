@@ -457,6 +457,8 @@ namespace BrightScript.Debugger.Engine
 
         public async Task Step(int threadId, enum_STEPKIND kind, enum_STEPUNIT unit)
         {
+            ThreadCache.MarkDirty();
+
             if ((unit == enum_STEPUNIT.STEP_LINE) || (unit == enum_STEPUNIT.STEP_STATEMENT))
             {
                 switch (kind)
@@ -473,8 +475,6 @@ namespace BrightScript.Debugger.Engine
                     default:
                         throw new NotImplementedException();
                 }
-
-                ThreadCache.MarkDirty();
             }
             else if (unit == enum_STEPUNIT.STEP_INSTRUCTION)
             {

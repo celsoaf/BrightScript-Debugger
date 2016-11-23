@@ -140,45 +140,8 @@ namespace BrightScript.Debugger.AD7
                         frameInfo.m_bstrFuncName += string.Format(CultureInfo.CurrentCulture, " Line {0}", _textPosition.BeginPosition.dwLine + 1);
                     }
                 }
-                //else
-                //{
-                //    // No source information, so only return the module name and the instruction pointer.
-                //    if (_functionName != null)
-                //    {
-                //        if (module != null)
-                //        {
-                //            frameInfo.m_bstrFuncName = System.IO.Path.GetFileName(module.Name) + '!' + _functionName;
-                //        }
-                //        else
-                //        {
-                //            frameInfo.m_bstrFuncName = _functionName;
-                //        }
-                //    }
-                //    else if ((dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_FUNCNAME_MODULE) != 0 && module != null)
-                //    {
-                //        frameInfo.m_bstrFuncName = module.Name + '!' + EngineUtils.GetAddressDescription(Engine.DebuggedProcess, ThreadContext.pc.Value);
-                //    }
-                //    else
-                //    {
-                //        frameInfo.m_bstrFuncName = EngineUtils.GetAddressDescription(Engine.DebuggedProcess, ThreadContext.pc.Value);
-                //    }
-                //}
                 frameInfo.m_dwValidFields |= enum_FRAMEINFO_FLAGS.FIF_FUNCNAME;
             }
-
-            //// The debugger is requesting the name of the module for this stack frame.
-            //if ((dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_MODULE) != 0)
-            //{
-            //    if (module != null)
-            //    {
-            //        frameInfo.m_bstrModule = module.Name;
-            //    }
-            //    else
-            //    {
-            //        frameInfo.m_bstrModule = "";
-            //    }
-            //    frameInfo.m_dwValidFields |= enum_FRAMEINFO_FLAGS.FIF_MODULE;
-            //}
 
             // The debugger is requesting the range of memory addresses for this frame.
             // For the sample engine, this is the contents of the frame pointer.
@@ -209,18 +172,6 @@ namespace BrightScript.Debugger.AD7
                 frameInfo.m_fStaleCode = 0;
                 frameInfo.m_dwValidFields |= enum_FRAMEINFO_FLAGS.FIF_STALECODE;
             }
-
-            // The debugger would like a pointer to the IDebugModule2 that contains this stack frame.
-            //if ((dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_DEBUG_MODULEP) != 0)
-            //{
-            //    if (module != null)
-            //    {
-            //        AD7Module ad7Module = (AD7Module)module.Client;
-            //        Debug.Assert(ad7Module != null);
-            //        frameInfo.m_pModule = ad7Module;
-            //        frameInfo.m_dwValidFields |= enum_FRAMEINFO_FLAGS.FIF_DEBUG_MODULEP;
-            //    }
-            //}
 
             if ((dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_FLAGS) != 0)
             {
@@ -343,22 +294,14 @@ namespace BrightScript.Debugger.AD7
 
         private void CreateRegisterContent(enum_DEBUGPROP_INFO_FLAGS dwFields, out uint elementsReturned, out IEnumDebugPropertyInfo2 enumObject)
         {
-            IReadOnlyCollection<RegisterGroup> registerGroups = Engine.DebuggedProcess.GetRegisterGroups();
-
-            elementsReturned = (uint)registerGroups.Count;
+            elementsReturned = 0; //(uint)registerGroups.Count;
             DEBUG_PROPERTY_INFO[] propInfo = new DEBUG_PROPERTY_INFO[elementsReturned];
             Tuple<int, string>[] values = null;
             Engine.DebuggedProcess.WorkerThread.RunOperation(async () =>
             {
                 values = await Engine.DebuggedProcess.GetRegisters(Thread.GetDebuggedThread().Id, ThreadContext.Level);
             });
-            int i = 0;
-            foreach (var grp in registerGroups)
-            {
-                AD7RegGroupProperty regProp = new AD7RegGroupProperty(Engine, dwFields, grp, values);
-                propInfo[i] = regProp.PropertyInfo;
-                i++;
-            }
+            
             enumObject = new AD7PropertyInfoEnum(propInfo);
         }
 

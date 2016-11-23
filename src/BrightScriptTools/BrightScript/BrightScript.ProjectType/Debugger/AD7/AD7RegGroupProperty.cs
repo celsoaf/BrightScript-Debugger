@@ -49,32 +49,7 @@ namespace BrightScript.Debugger.AD7
         public int EnumChildren(enum_DEBUGPROP_INFO_FLAGS dwFields, uint dwRadix, ref Guid guidFilter, enum_DBG_ATTRIB_FLAGS dwAttribFilter, string pszNameFilter, uint dwTimeout, out IEnumDebugPropertyInfo2 ppEnum)
         {
             DEBUG_PROPERTY_INFO[] properties = new DEBUG_PROPERTY_INFO[_group.Count];
-            int i = 0;
-            foreach (var reg in _engine.DebuggedProcess.GetRegisterDescriptions())
-            {
-                if (reg.Group == _group)
-                {
-                    properties[i].dwFields = 0;
-                    if ((dwFields & enum_DEBUGPROP_INFO_FLAGS.DEBUGPROP_INFO_NAME) != 0)
-                    {
-                        properties[i].bstrName = reg.Name;
-                        properties[i].dwFields |= enum_DEBUGPROP_INFO_FLAGS.DEBUGPROP_INFO_NAME;
-                    }
-                    if ((dwFields & enum_DEBUGPROP_INFO_FLAGS.DEBUGPROP_INFO_VALUE) != 0)
-                    {
-                        var desc = Array.Find(_values, (v) => { return v.Item1 == reg.Index; });
-                        properties[i].bstrValue = desc == null ? "??" : desc.Item2;
-                        properties[i].dwFields |= enum_DEBUGPROP_INFO_FLAGS.DEBUGPROP_INFO_VALUE;
-                    }
-                    if ((dwFields & enum_DEBUGPROP_INFO_FLAGS.DEBUGPROP_INFO_ATTRIB) != 0)
-                    {
-                        properties[i].dwAttrib = enum_DBG_ATTRIB_FLAGS.DBG_ATTRIB_VALUE_READONLY;
-                        properties[i].dwFields |= enum_DEBUGPROP_INFO_FLAGS.DEBUGPROP_INFO_ATTRIB;
-                    }
-                    i++;
-                }
-            }
-            Debug.Assert(i == _group.Count, "Failed to find registers in group.");
+            
             ppEnum = new AD7PropertyEnum(properties);
             return VSConstants.S_OK;
         }

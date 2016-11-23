@@ -26,7 +26,6 @@ namespace BrightScript.Debugger.Engine
 
         public SourceLineCache SourceLineCache { get; private set; }
         
-        //private List<DebuggedModule> _moduleList;
         private ISampleEngineCallback _callback;
         private bool _bLastModuleLoadFailed;
         private StringBuilder _pendingMessages;
@@ -796,61 +795,6 @@ namespace BrightScript.Debugger.Engine
                 registerGroups.Add(grp);
             }
             return grp;
-        }
-
-        private void InitializeRegisters()
-        {
-            WorkerThread.RunOperation(async () =>
-            {
-                if (_registers != null)
-                    return; // already initialized
-
-                string[] names = await MICommandFactory.DataListRegisterNames();
-
-                if (_registers != null)
-                    return; // already initialized
-
-                EngineUtils.RegisterNameMap nameMap = EngineUtils.RegisterNameMap.Create(names);
-                List<RegisterDescription> desc = new List<RegisterDescription>();
-                var registerGroups = new List<RegisterGroup>();
-                for (int i = 0; i < names.Length; ++i)
-                {
-                    if (String.IsNullOrEmpty(names[i]))
-                    {
-                        continue;  // ignore the empty names
-                    }
-                    RegisterGroup grp = GetGroupForRegister(registerGroups, names[i], nameMap);
-                    desc.Add(new RegisterDescription(names[i], grp, i));
-                }
-                _registerGroups = registerGroups.AsReadOnly();
-                _registers = desc.AsReadOnly();
-            });
-        }
-
-        public ReadOnlyCollection<RegisterDescription> GetRegisterDescriptions()
-        {
-            // If this is called on the Worker thread it may deadlock
-            Debug.Assert(!_worker.IsPollThread());
-
-            if (_registers == null)
-            {
-                InitializeRegisters();
-            }
-
-            return _registers;
-        }
-
-        public ReadOnlyCollection<RegisterGroup> GetRegisterGroups()
-        {
-            // If this is called on the Worker thread it may deadlock
-            Debug.Assert(!_worker.IsPollThread());
-
-            if (_registerGroups == null)
-            {
-                InitializeRegisters();
-            }
-
-            return _registerGroups;
         }
 
         public async Task<Tuple<int, string>[]> GetRegisters(int threadId, uint level)

@@ -218,7 +218,7 @@ namespace BrightScript.Debugger.AD7
             }
             catch (Exception e)
             {
-                return EngineUtils.UnexpectedException(e);
+                //return EngineUtils.UnexpectedException(e);
             }
 
             return VSConstants.S_OK;

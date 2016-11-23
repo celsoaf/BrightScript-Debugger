@@ -807,11 +807,13 @@ namespace BrightScript.Debugger.Core
 
         private async void ParserOnAppOpenProcessed()
         {
+
             List<NamedResultValue> values = new List<NamedResultValue>();
             values.Add(new NamedResultValue("reason", new ConstValue("entry-point-hit")));
             values.Add(new NamedResultValue("thread-id", new ConstValue(8085.ToString())));
             var results = new Results(ResultClass.running, values);
             BreakModeEvent?.Invoke(this, new ResultEventArgs(results));
+                OnStateChanged("running", results);
         }
 
         private void PublishError(string error)
@@ -853,19 +855,18 @@ namespace BrightScript.Debugger.Core
             }
         }
 
-        private bool _collectInfo = false;
         private async void ParserOnDebugPorcessed()
         {
-            if (_collectInfo) return;
+
+            if (ProcessState == ProcessState.Stopped) return;
             //await CmdAsync(DebuggerCommandEnum.bt.ToString(), ResultClass.running);
 
             List<NamedResultValue> values = new List<NamedResultValue>();
             values.Add(new NamedResultValue("reason", new ConstValue("breakpoint-hit")));
             values.Add(new NamedResultValue("bkptno", new ConstValue("<EMBEDDED>")));
 
-            _collectInfo = true;
             var tctx = await ThreadCache.GetThreadContext(ThreadCache.FindThread(8085));
-            _collectInfo = false;
+
             var list = new List<NamedResultValue>();
             list.Add(new NamedResultValue("level", new ConstValue(tctx.Level.ToString())));
             list.Add(new NamedResultValue("from", new ConstValue(tctx.From)));
@@ -877,39 +878,16 @@ namespace BrightScript.Debugger.Core
             values.Add(new NamedResultValue("frame", new TupleValue(list)));
             values.Add(new NamedResultValue("thread-id", new ConstValue(8085.ToString())));
             var results = new Results(ResultClass.running, values);
+
             //BreakModeEvent?.Invoke(this, new ResultEventArgs(results));
             OnStateChanged("stopped", results);
         }
 
         private void ParserOnAppCloseProcessed()
         {
-            DebuggerExitEvent?.Invoke(this, null);
-        }
-
-
-        private void OnResult(string cmd, string token)
-        {
-            uint id = token != null ? uint.Parse(token, CultureInfo.InvariantCulture) : 0;
-            Results results = _miResults.ParseCommandOutput(cmd);
-
-            if (results.ResultClass == ResultClass.done)
-            {
-                if (EvaluationEvent != null)
-                {
-                    EvaluationEvent(this, new ResultEventArgs(results, id));
-                }
-            }
-            else if (results.ResultClass == ResultClass.error)
-            {
-                if (ErrorEvent != null)
-                {
-                    ErrorEvent(this, new ResultEventArgs(results, id));
-                }
-            }
-            else
-            {
-                OnStateChanged(cmd, "");
-            }
+            //DebuggerExitEvent?.Invoke(this, null);
+            var results = new Results(ResultClass.running, null);
+            OnStateChanged("exit", results);
         }
 
         private void OnDebuggeeOutput(string cmd)

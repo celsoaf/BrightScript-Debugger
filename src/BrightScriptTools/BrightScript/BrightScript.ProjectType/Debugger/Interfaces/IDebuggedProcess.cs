@@ -16,7 +16,7 @@ namespace BrightScript.Debugger.Interfaces
         IWorkerThread WorkerThread { get; }
         IThreadCache ThreadCache { get; }
 
-        Task Initialize(EventWaitHandle waitLoop, CancellationToken token);
+        Task Initialize();
         Task ResumeFromLaunch();
         Task CmdDetach();
         Task<List<ulong>> StartAddressesForLine(string file, uint line);

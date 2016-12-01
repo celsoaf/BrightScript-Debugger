@@ -326,7 +326,7 @@ namespace BrightScript.Debugger.AD7
                     return VSConstants.E_FAIL;
                 }
 
-                _pollThread.RunOperation(() =>  _debuggedProcess.CommandFactory.SetJustMyCode(optJustMyCode));
+                _pollThread.RunOperation(() => _debuggedProcess.CommandFactory.SetJustMyCode(optJustMyCode));
                 return VSConstants.S_OK;
             }
 
@@ -371,18 +371,18 @@ namespace BrightScript.Debugger.AD7
         // in which case Visual Studio uses the IDebugEngineLaunch2::LaunchSuspended method
         // The IDebugEngineLaunch2::ResumeProcess method is called to start the process after the process has been successfully launched in a suspended state.
         int IDebugEngineLaunch2.LaunchSuspended(
-            string pszServer, 
-            IDebugPort2 port, 
-            string exe, 
-            string args, 
+            string pszServer,
+            IDebugPort2 port,
+            string exe,
+            string args,
             string dir,
-            string env, 
-            string options, 
-            enum_LAUNCH_FLAGS launchFlags, 
-            uint hStdInput, 
-            uint hStdOutput, 
-            uint hStdError, 
-            IDebugEventCallback2 ad7Callback, 
+            string env,
+            string options,
+            enum_LAUNCH_FLAGS launchFlags,
+            uint hStdInput,
+            uint hStdOutput,
+            uint hStdError,
+            IDebugEventCallback2 ad7Callback,
             out IDebugProcess2 process)
         {
             Debug.Assert(_pollThread == null);
@@ -394,25 +394,19 @@ namespace BrightScript.Debugger.AD7
 
             _engineCallback = new EngineCallback(this, ad7Callback);
 
-            Exception exception;
-
             try
             {
                 // We are being asked to debug a process when we currently aren't debugging anything
                 _pollThread = new WorkerThread();
-                var cancellationTokenSource = new CancellationTokenSource();
 
-                using (cancellationTokenSource)
-                {
-                    _pollThread.RunOperation(ResourceStrings.InitializingDebugger, cancellationTokenSource, (EventWaitHandle waitLoop) =>
-                    {
-                        _debuggedProcess = new DebuggedProcess(args.Split('=')[1], 8085, _engineCallback, _pollThread, this);
+                _pollThread.RunOperation(() =>
+                 {
+                     _debuggedProcess = new DebuggedProcess(args.Split('=')[1], 8085, _engineCallback, _pollThread, this);
 
-                        _pollThread.PostedOperationErrorEvent += _debuggedProcess.OnPostedOperationError;
+                     _pollThread.PostedOperationErrorEvent += _debuggedProcess.OnPostedOperationError;
 
-                        return _debuggedProcess.Initialize(waitLoop, cancellationTokenSource.Token);
-                    });
-                }
+                     return _debuggedProcess.Initialize();
+                 });
 
                 EngineUtils.RequireOk(port.GetProcess(_debuggedProcess.Id, out process));
 
@@ -424,8 +418,6 @@ namespace BrightScript.Debugger.AD7
                 // return E_ABORT.
                 SendStartDebuggingError(e);
             }
-
-            
 
             Dispose();
 
@@ -537,7 +529,7 @@ namespace BrightScript.Debugger.AD7
         public int Continue(IDebugThread2 pThread)
         {
             // VS Code currently isn't providing a thread Id in certain cases. Work around this by handling null values.
-            
+
             return VSConstants.S_OK;
         }
 

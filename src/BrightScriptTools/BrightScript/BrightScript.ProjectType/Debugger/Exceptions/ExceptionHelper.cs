@@ -1,17 +1,10 @@
 ﻿using System;
 using BrightScript.Loggger;
 
-namespace BrightScript.Debugger.Core
+namespace BrightScript.Debugger.Exceptions
 {
     public static class ExceptionHelper
     {
-        /// <summary>
-        /// Exception filter function used to report exceptions to telemetry. This **ALWAYS** returns 'true'.
-        /// </summary>
-        /// <param name="currentException">The current exception which is about to be caught.</param>
-        /// <param name="logger">For logging messages</param>
-        /// <param name="reportOnlyCorrupting">If true, only corrupting exceptions are reported</param>
-        /// <returns>true</returns>
         public static bool BeforeCatch(Exception currentException, bool reportOnlyCorrupting)
         {
             if (reportOnlyCorrupting && !IsCorruptingException(currentException))
@@ -53,6 +46,5 @@ namespace BrightScript.Debugger.Core
 
             return false;
         }
-
     }
 }

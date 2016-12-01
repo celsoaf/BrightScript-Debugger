@@ -9,9 +9,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using BrightScript.Debugger.AD7.Defenitions;
-using BrightScript.Debugger.Core;
-using BrightScript.Debugger.Core.CommandFactories;
 using BrightScript.Debugger.Engine;
+using BrightScript.Debugger.Exceptions;
+using BrightScript.Debugger.Interfaces;
+using BrightScript.Debugger.Models;
 using BrightScript.Loggger;
 using Microsoft.MIDebugEngine;
 using Microsoft.VisualStudio;
@@ -41,18 +42,15 @@ namespace BrightScript.Debugger.AD7
         public static Guid DebugEngineGuid = new Guid(DebugEngineId);
 
         // used to send events to the debugger. Some examples of these events are thread create, exception thrown, module load.
-        private EngineCallback _engineCallback;
+        private IEngineCallback _engineCallback;
 
         // The sample debug engine is split into two parts: a managed front-end and a mixed-mode back end. DebuggedProcess is the primary
         // object in the back-end. AD7Engine holds a reference to it.
-        private DebuggedProcess _debuggedProcess;
+        private IDebuggedProcess _debuggedProcess;
 
         // This object facilitates calling from this thread into the worker thread of the engine. This is necessary because the Win32 debugging
         // api requires thread affinity to several operations.
-        private WorkerThread _pollThread;
-
-        // This object manages breakpoints in the sample engine.
-        private BreakpointManager _breakpointManager;
+        private IWorkerThread _pollThread;
 
         // A unique identifier for the program being debugged.
         private Guid _ad7ProgramId;
@@ -63,7 +61,6 @@ namespace BrightScript.Debugger.AD7
         {
             LiveLogger.WriteLine("--------------------------------------------------------------------------------");
             LiveLogger.WriteLine("AD7Engine Created ({0})", GetHashCode());
-            _breakpointManager = new BreakpointManager(this);
         }
 
         ~AD7Engine()
@@ -74,12 +71,12 @@ namespace BrightScript.Debugger.AD7
             }
         }
 
-        internal EngineCallback Callback
+        internal IEngineCallback Callback
         {
             get { return _engineCallback; }
         }
 
-        internal DebuggedProcess DebuggedProcess
+        internal IDebuggedProcess DebuggedProcess
         {
             get { return _debuggedProcess; }
         }
@@ -89,26 +86,21 @@ namespace BrightScript.Debugger.AD7
             uint radix;
             if (_settingsCallback != null && _settingsCallback.GetDisplayRadix(out radix) == VSConstants.S_OK)
             {
-                if (radix != _debuggedProcess.MICommandFactory.Radix)
+                if (radix != _debuggedProcess.CommandFactory.Radix)
                 {
                     _debuggedProcess.WorkerThread.RunOperation(async () =>
                     {
-                        await _debuggedProcess.MICommandFactory.SetRadix(radix);
+                        await _debuggedProcess.CommandFactory.SetRadix(radix);
                     });
                 }
             }
-            return _debuggedProcess.MICommandFactory.Radix;
+            return _debuggedProcess.CommandFactory.Radix;
         }
 
         internal bool ProgramCreateEventSent
         {
             get;
             private set;
-        }
-
-        public string GetAddressDescription(ulong ip)
-        {
-            return EngineUtils.GetAddressDescription(_debuggedProcess, ip);
         }
 
         #region IDebugEngine2 Members
@@ -138,12 +130,6 @@ namespace BrightScript.Debugger.AD7
                     _pollThread = new WorkerThread();
 
                     _engineCallback = new EngineCallback(this, ad7Callback);
-
-                    // Complete the win32 attach on the poll thread
-                    _pollThread.RunOperation(new Operation(delegate
-                    {
-                        throw new NotImplementedException();
-                    }));
 
                     _pollThread.PostedOperationErrorEvent += _debuggedProcess.OnPostedOperationError;
                 }
@@ -226,8 +212,8 @@ namespace BrightScript.Debugger.AD7
 
         private void Dispose()
         {
-            WorkerThread pollThread = _pollThread;
-            DebuggedProcess debuggedProcess = _debuggedProcess;
+            IWorkerThread pollThread = _pollThread;
+            IDebuggedProcess debuggedProcess = _debuggedProcess;
 
             _engineCallback = null;
             _debuggedProcess = null;
@@ -265,19 +251,8 @@ namespace BrightScript.Debugger.AD7
         // Called when new bp set by user
         int IDebugEngine2.CreatePendingBreakpoint(IDebugBreakpointRequest2 pBPRequest, out IDebugPendingBreakpoint2 ppPendingBP)
         {
-            Debug.Assert(_breakpointManager != null);
             ppPendingBP = null;
-
-            try
-            {
-                _breakpointManager.CreatePendingBreakpoint(pBPRequest, out ppPendingBP);
-            }
-            catch (Exception e)
-            {
-                return EngineUtils.UnexpectedException(e);
-            }
-
-            return VSConstants.S_OK;
+            return VSConstants.E_NOTIMPL;
         }
 
         // Informs a DE that the program specified has been atypically terminated and that the DE should 
@@ -351,7 +326,7 @@ namespace BrightScript.Debugger.AD7
                     return VSConstants.E_FAIL;
                 }
 
-                _pollThread.RunOperation(new Operation(() => { _debuggedProcess.MICommandFactory.SetJustMyCode(optJustMyCode); }));
+                _pollThread.RunOperation(() =>  _debuggedProcess.CommandFactory.SetJustMyCode(optJustMyCode));
                 return VSConstants.S_OK;
             }
 
@@ -423,9 +398,6 @@ namespace BrightScript.Debugger.AD7
 
             try
             {
-                // Note: LaunchOptions.GetInstance can be an expensive operation and may push a wait message loop
-                TcpLaunchOptions launchOptions = (TcpLaunchOptions)LaunchOptions.GetInstance(exe, args, dir, args.Split('=')[1], 8085);
-
                 // We are being asked to debug a process when we currently aren't debugging anything
                 _pollThread = new WorkerThread();
                 var cancellationTokenSource = new CancellationTokenSource();
@@ -434,19 +406,7 @@ namespace BrightScript.Debugger.AD7
                 {
                     _pollThread.RunOperation(ResourceStrings.InitializingDebugger, cancellationTokenSource, (EventWaitHandle waitLoop) =>
                     {
-                        try
-                        {
-                            _debuggedProcess = new DebuggedProcess(launchOptions, _engineCallback, _pollThread, _breakpointManager, this);
-                        }
-                        finally
-                        {
-                            // If there is an exception from the DebuggeedProcess constructor, it is our responsibility to dispose the DeviceAppLauncher,
-                            // otherwise the DebuggedProcess object takes ownership.
-                            if (_debuggedProcess == null && launchOptions.DeviceAppLauncher != null)
-                            {
-                                launchOptions.DeviceAppLauncher.Dispose();
-                            }
-                        }
+                        _debuggedProcess = new DebuggedProcess(args.Split('=')[1], 8085, _engineCallback, _pollThread, this);
 
                         _pollThread.PostedOperationErrorEvent += _debuggedProcess.OnPostedOperationError;
 
@@ -558,7 +518,7 @@ namespace BrightScript.Debugger.AD7
         // Determines if a debug engine (DE) can detach from the program.
         public int CanDetach()
         {
-            bool canDetach = _debuggedProcess != null && _debuggedProcess.MICommandFactory.CanDetach();
+            bool canDetach = _debuggedProcess != null && _debuggedProcess.CommandFactory.CanDetach();
             return canDetach ? VSConstants.S_OK : VSConstants.S_FALSE;
         }
 
@@ -585,8 +545,6 @@ namespace BrightScript.Debugger.AD7
         // or when one of the Detach commands are executed in the UI.
         public int Detach()
         {
-            _breakpointManager.ClearBoundBreakpoints();
-
             _pollThread.RunOperation(() => _debuggedProcess.CmdDetach());
 
             return VSConstants.E_NOTIMPL;

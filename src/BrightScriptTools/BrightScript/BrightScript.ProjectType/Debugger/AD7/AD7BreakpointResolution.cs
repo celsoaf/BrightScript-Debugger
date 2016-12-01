@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using BrightScript.Debugger.Core;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
 

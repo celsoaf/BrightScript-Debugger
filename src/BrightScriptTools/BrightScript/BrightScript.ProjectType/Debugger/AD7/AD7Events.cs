@@ -2,8 +2,10 @@
 using System.Diagnostics;
 using BrightScript.Debugger;
 using BrightScript.Debugger.AD7;
-using BrightScript.Debugger.Core.CommandFactories;
 using BrightScript.Debugger.Engine;
+using BrightScript.Debugger.Enums;
+using BrightScript.Debugger.Interfaces;
+using BrightScript.Debugger.Models;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
 // This file contains the various event objects that are sent to the debugger from the sample engine via IDebugEventCallback2::Event.
@@ -100,40 +102,6 @@ namespace Microsoft.MIDebugEngine
             engine.Callback.Send(eventObject, IID, engine, null);
         }
     }
-
-
-    //// This interface is sent by the debug engine (DE) to the session debug manager (SDM) when a module is loaded or unloaded.
-    //internal sealed class AD7ModuleLoadEvent : AD7AsynchronousEvent, IDebugModuleLoadEvent2
-    //{
-    //    public const string IID = "989DB083-0D7C-40D1-A9D9-921BF611A4B2";
-
-    //    private readonly AD7Module _module;
-    //    private readonly bool _fLoad;
-
-    //    public AD7ModuleLoadEvent(AD7Module module, bool fLoad)
-    //    {
-    //        _module = module;
-    //        _fLoad = fLoad;
-    //    }
-
-    //    int IDebugModuleLoadEvent2.GetModule(out IDebugModule2 module, ref string debugMessage, ref int fIsLoad)
-    //    {
-    //        module = _module;
-
-    //        if (_fLoad)
-    //        {
-    //            debugMessage = String.Concat("Loaded '", _module.DebuggedModule.Name, "'");
-    //            fIsLoad = 1;
-    //        }
-    //        else
-    //        {
-    //            debugMessage = String.Concat("Unloaded '", _module.DebuggedModule.Name, "'");
-    //            fIsLoad = 0;
-    //        }
-
-    //        return VSConstants.S_OK;
-    //    }
-    //}
 
     // This interface is sent by the debug engine (DE) to the session debug manager (SDM) when a program has run to completion
     // or is otherwise destroyed.
@@ -251,49 +219,49 @@ namespace Microsoft.MIDebugEngine
         }
     }
 
-    internal sealed class AD7BreakpointErrorEvent : AD7AsynchronousEvent, IDebugBreakpointErrorEvent2
-    {
-        public const string IID = "ABB0CA42-F82B-4622-84E4-6903AE90F210";
+    //internal sealed class AD7BreakpointErrorEvent : AD7AsynchronousEvent, IDebugBreakpointErrorEvent2
+    //{
+    //    public const string IID = "ABB0CA42-F82B-4622-84E4-6903AE90F210";
 
-        private AD7ErrorBreakpoint _error;
+    //    private AD7ErrorBreakpoint _error;
 
-        public AD7BreakpointErrorEvent(AD7ErrorBreakpoint error)
-        {
-            _error = error;
-        }
+    //    public AD7BreakpointErrorEvent(AD7ErrorBreakpoint error)
+    //    {
+    //        _error = error;
+    //    }
 
-        public int GetErrorBreakpoint(out IDebugErrorBreakpoint2 ppErrorBP)
-        {
-            ppErrorBP = _error;
-            return VSConstants.S_OK;
-        }
-    }
+    //    public int GetErrorBreakpoint(out IDebugErrorBreakpoint2 ppErrorBP)
+    //    {
+    //        ppErrorBP = _error;
+    //        return VSConstants.S_OK;
+    //    }
+    //}
 
-    internal sealed class AD7BreakpointUnboundEvent : AD7AsynchronousEvent, IDebugBreakpointUnboundEvent2
-    {
-        public const string IID = "78d1db4f-c557-4dc5-a2dd-5369d21b1c8c";
+    //internal sealed class AD7BreakpointUnboundEvent : AD7AsynchronousEvent, IDebugBreakpointUnboundEvent2
+    //{
+    //    public const string IID = "78d1db4f-c557-4dc5-a2dd-5369d21b1c8c";
 
-        private readonly enum_BP_UNBOUND_REASON _reason;
-        private AD7BoundBreakpoint _bp;
+    //    private readonly enum_BP_UNBOUND_REASON _reason;
+    //    private AD7BoundBreakpoint _bp;
 
-        public AD7BreakpointUnboundEvent(AD7BoundBreakpoint bp, enum_BP_UNBOUND_REASON reason)
-        {
-            _reason = reason;
-            _bp = bp;
-        }
+    //    public AD7BreakpointUnboundEvent(AD7BoundBreakpoint bp, enum_BP_UNBOUND_REASON reason)
+    //    {
+    //        _reason = reason;
+    //        _bp = bp;
+    //    }
 
-        public int GetBreakpoint(out IDebugBoundBreakpoint2 ppBP)
-        {
-            ppBP = _bp;
-            return VSConstants.S_OK;
-        }
+    //    public int GetBreakpoint(out IDebugBoundBreakpoint2 ppBP)
+    //    {
+    //        ppBP = _bp;
+    //        return VSConstants.S_OK;
+    //    }
 
-        public int GetReason(enum_BP_UNBOUND_REASON[] pdwUnboundReason)
-        {
-            pdwUnboundReason[0] = _reason;
-            return VSConstants.S_OK;
-        }
-    }
+    //    public int GetReason(enum_BP_UNBOUND_REASON[] pdwUnboundReason)
+    //    {
+    //        pdwUnboundReason[0] = _reason;
+    //        return VSConstants.S_OK;
+    //    }
+    //}
 
     // This interface is sent by the debug engine (DE) to the session debug manager (SDM) when a thread is created in a program being debugged.
     internal sealed class AD7ThreadCreateEvent : AD7AsynchronousEvent, IDebugThreadCreateEvent2
@@ -524,38 +492,38 @@ namespace Microsoft.MIDebugEngine
     //    #endregion
     //}
 
-    // This interface is sent when a pending breakpoint has been bound in the debuggee.
-    internal sealed class AD7BreakpointBoundEvent : AD7AsynchronousEvent, IDebugBreakpointBoundEvent2
-    {
-        public const string IID = "1dddb704-cf99-4b8a-b746-dabb01dd13a0";
+    //// This interface is sent when a pending breakpoint has been bound in the debuggee.
+    //internal sealed class AD7BreakpointBoundEvent : AD7AsynchronousEvent, IDebugBreakpointBoundEvent2
+    //{
+    //    public const string IID = "1dddb704-cf99-4b8a-b746-dabb01dd13a0";
 
-        private AD7PendingBreakpoint _pendingBreakpoint;
-        private AD7BoundBreakpoint _boundBreakpoint;
+    //    private AD7PendingBreakpoint _pendingBreakpoint;
+    //    private AD7BoundBreakpoint _boundBreakpoint;
 
-        public AD7BreakpointBoundEvent(AD7PendingBreakpoint pendingBreakpoint, AD7BoundBreakpoint boundBreakpoint)
-        {
-            _pendingBreakpoint = pendingBreakpoint;
-            _boundBreakpoint = boundBreakpoint;
-        }
+    //    public AD7BreakpointBoundEvent(AD7PendingBreakpoint pendingBreakpoint, AD7BoundBreakpoint boundBreakpoint)
+    //    {
+    //        _pendingBreakpoint = pendingBreakpoint;
+    //        _boundBreakpoint = boundBreakpoint;
+    //    }
 
-        #region IDebugBreakpointBoundEvent2 Members
+    //    #region IDebugBreakpointBoundEvent2 Members
 
-        int IDebugBreakpointBoundEvent2.EnumBoundBreakpoints(out IEnumDebugBoundBreakpoints2 ppEnum)
-        {
-            IDebugBoundBreakpoint2[] boundBreakpoints = new IDebugBoundBreakpoint2[1];
-            boundBreakpoints[0] = _boundBreakpoint;
-            ppEnum = new AD7BoundBreakpointsEnum(boundBreakpoints);
-            return VSConstants.S_OK;
-        }
+    //    int IDebugBreakpointBoundEvent2.EnumBoundBreakpoints(out IEnumDebugBoundBreakpoints2 ppEnum)
+    //    {
+    //        IDebugBoundBreakpoint2[] boundBreakpoints = new IDebugBoundBreakpoint2[1];
+    //        boundBreakpoints[0] = _boundBreakpoint;
+    //        ppEnum = new AD7BoundBreakpointsEnum(boundBreakpoints);
+    //        return VSConstants.S_OK;
+    //    }
 
-        int IDebugBreakpointBoundEvent2.GetPendingBreakpoint(out IDebugPendingBreakpoint2 ppPendingBP)
-        {
-            ppPendingBP = _pendingBreakpoint;
-            return VSConstants.S_OK;
-        }
+    //    int IDebugBreakpointBoundEvent2.GetPendingBreakpoint(out IDebugPendingBreakpoint2 ppPendingBP)
+    //    {
+    //        ppPendingBP = _pendingBreakpoint;
+    //        return VSConstants.S_OK;
+    //    }
 
-        #endregion
-    }
+    //    #endregion
+    //}
 
     // This Event is sent when a breakpoint is hit in the debuggee
     internal sealed class AD7BreakpointEvent : AD7StoppingEvent, IDebugBreakpointEvent2

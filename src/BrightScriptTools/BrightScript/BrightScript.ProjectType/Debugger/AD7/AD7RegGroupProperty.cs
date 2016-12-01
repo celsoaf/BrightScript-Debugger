@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using BrightScript.Debugger.Models;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
 

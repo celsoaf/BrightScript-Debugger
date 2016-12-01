@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using BrightScript.Debugger.AD7.Defenitions;
 using BrightScript.Debugger.Core;
 using BrightScript.Debugger.Engine;
+using BrightScript.Debugger.Exceptions;
+using BrightScript.Debugger.Models;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
 

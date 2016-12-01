@@ -1,5 +1,6 @@
 ﻿using System;
 using BrightScript.Debugger.Engine;
+using BrightScript.Debugger.Exceptions;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
 
@@ -91,35 +92,6 @@ namespace BrightScript.Debugger.AD7
                             result = (_address == compareTo._address);
                             break;
 
-                        case enum_CONTEXT_COMPARE.CONTEXT_SAME_FUNCTION:
-                            if (_address == compareTo._address)
-                            {
-                                result = true;
-                                break;
-                            }
-                            string funcThis = Engine.GetAddressDescription(_address);
-                            if (string.IsNullOrEmpty(funcThis))
-                            {
-                                result = false;
-                                break;
-                            }
-                            string funcCompareTo = Engine.GetAddressDescription(compareTo._address);
-                            result = (funcThis == funcCompareTo);
-                            break;
-
-                        //case enum_CONTEXT_COMPARE.CONTEXT_SAME_MODULE:
-                        //    result = (_address == compareTo._address);
-                        //    if (result == false)
-                        //    {
-                        //        DebuggedModule module = _engine.DebuggedProcess.ResolveAddress(_address);
-
-                        //        if (module != null)
-                        //        {
-                        //            result = module.AddressInModule(compareTo._address);
-                        //        }
-                        //    }
-                        //    break;
-
                         case enum_CONTEXT_COMPARE.CONTEXT_SAME_PROCESS:
                             result = true;
                             break;
@@ -168,28 +140,7 @@ namespace BrightScript.Debugger.AD7
                     //pinfo[0].bstrAddressAbsolute = EngineUtils.AsAddr(_address, _engine.DebuggedProcess.Is64BitArch);
                     pinfo[0].dwFields |= enum_CONTEXT_INFO_FIELDS.CIF_ADDRESSABSOLUTE;
                 }
-                //if ((dwFields & enum_CONTEXT_INFO_FIELDS.CIF_MODULEURL) != 0)
-                //{
-                //    DebuggedModule module = _engine.DebuggedProcess.ResolveAddress(_address);
-                //    if (module != null)
-                //    {
-                //        pinfo[0].bstrModuleUrl = module.Name;
-                //        pinfo[0].dwFields |= enum_CONTEXT_INFO_FIELDS.CIF_MODULEURL;
-                //    }
-                //}
-                if ((dwFields & enum_CONTEXT_INFO_FIELDS.CIF_FUNCTION) != 0)
-                {
-                    if (_functionName == null)
-                    {
-                        _functionName = Engine.GetAddressDescription(_address);
-                    }
-
-                    if (!(string.IsNullOrEmpty(_functionName) || _functionName[0] == '0' /*address*/))
-                    {
-                        pinfo[0].bstrFunction = _functionName;
-                        pinfo[0].dwFields |= enum_CONTEXT_INFO_FIELDS.CIF_FUNCTION;
-                    }
-                }
+                
                 if ((dwFields & enum_CONTEXT_INFO_FIELDS.CIF_FUNCTIONOFFSET) != 0) { }
 
                 return VSConstants.S_OK;

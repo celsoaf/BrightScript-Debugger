@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using BrightScript.Debugger.Core.CommandFactories;
 using BrightScript.Debugger.Engine;
+using BrightScript.Debugger.Exceptions;
+using BrightScript.Debugger.Interfaces;
+using BrightScript.Debugger.Models;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
 
@@ -49,18 +51,6 @@ namespace BrightScript.Debugger.AD7
                     {
                         location = cxt.From + '!';
                     }
-                    //else
-                    //{
-                    //    DebuggedModule module = cxt.FindModule(_engine.DebuggedProcess);
-                    //    if (module != null)
-                    //    {
-                    //        location = module.Name + '!';
-                    //    }
-                    //}
-                }
-                if (cxt.Function == null)
-                {
-                    location += _engine.GetAddressDescription(cxt.pc.Value);
                 }
                 else
                 {
@@ -91,12 +81,6 @@ namespace BrightScript.Debugger.AD7
             if (addr == frame.ThreadContext.pc)
             {
                 return VSConstants.S_OK;
-            }
-            string toFunc = EngineUtils.GetAddressDescription(_engine.DebuggedProcess, addr);
-            string fromFunc = EngineUtils.GetAddressDescription(_engine.DebuggedProcess, frame.ThreadContext.pc.Value);
-            if (toFunc != fromFunc)
-            {
-                return VSConstants.S_FALSE;
             }
             return VSConstants.S_OK;
         }
@@ -129,19 +113,12 @@ namespace BrightScript.Debugger.AD7
                     FilterUnknownFrames(stackFrames);
                     numStackFrames = stackFrames.Count;
                     frameInfoArray = new FRAMEINFO[numStackFrames];
-                    List<ArgumentList> parameters = null;
-
-                    if ((dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_FUNCNAME_ARGS) != 0 && !_engine.DebuggedProcess.MICommandFactory.SupportsFrameFormatting)
-                    {
-                        _engine.DebuggedProcess.WorkerThread.RunOperation(async () => parameters = await _engine.DebuggedProcess.GetParameterInfoOnly(this, (dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_FUNCNAME_ARGS_VALUES) != 0,
-                            (dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_FUNCNAME_ARGS_TYPES) != 0, low, high));
-                    }
-
+                    
                     for (int i = 0; i < numStackFrames; i++)
                     {
-                        var p = parameters != null ? parameters.Find((ArgumentList t) => t.Item1 == stackFrames[i].Level) : null;
+                        //var p = parameters != null ? parameters.Find((ArgumentList t) => t.Item1 == stackFrames[i].Level) : null;
                         AD7StackFrame frame = new AD7StackFrame(_engine, this, stackFrames[i]);
-                        frame.SetFrameInfo(dwFieldSpec, out frameInfoArray[i], p != null ? p.Item2 : null);
+                        frame.SetFrameInfo(dwFieldSpec, out frameInfoArray[i], null);
                     }
                 }
 
@@ -281,18 +258,6 @@ namespace BrightScript.Debugger.AD7
             {
                 return VSConstants.S_FALSE;
             }
-            string toFunc = EngineUtils.GetAddressDescription(_engine.DebuggedProcess, addr);
-            string fromFunc = EngineUtils.GetAddressDescription(_engine.DebuggedProcess, frame.ThreadContext.pc.Value);
-            if (toFunc != fromFunc)
-            {
-                return VSConstants.S_FALSE;
-            }
-            //string result = frame.EvaluateExpression("$pc=" + EngineUtils.AsAddr(addr, _engine.DebuggedProcess.Is64BitArch));
-            //if (result != null)
-            //{
-            //    _engine.DebuggedProcess.ThreadCache.MarkDirty();
-            //    return VSConstants.S_OK;
-            //}
             return VSConstants.S_FALSE;
         }
 

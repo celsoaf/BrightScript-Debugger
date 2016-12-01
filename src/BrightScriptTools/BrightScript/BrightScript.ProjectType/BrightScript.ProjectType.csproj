@@ -263,7 +263,7 @@
   Resources for our new project system
   -->
   <ItemGroup>
-    <EmbeddedResource Include="Debugger\Core\MICoreResources.resx">
+    <EmbeddedResource Include="Debugger\MICoreResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>MICoreResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -291,7 +291,6 @@
     </Compile>
     <Compile Include="BrightScriptDebuggerLaunchProvider.cs" />
     <Compile Include="BrightScriptPackage.cs" />
-    <Compile Include="Debugger\AD7\AD7BoundBreakpoint.cs" />
     <Compile Include="Debugger\AD7\AD7BreakpointResolution.cs" />
     <Compile Include="Debugger\AD7\AD7DisassemblyStream.cs" />
     <Compile Include="Debugger\AD7\AD7DocumentContext.cs" />
@@ -300,7 +299,6 @@
     <Compile Include="Debugger\AD7\AD7Events.cs" />
     <Compile Include="Debugger\AD7\AD7Expression.cs" />
     <Compile Include="Debugger\AD7\AD7MemoryAddress.cs" />
-    <Compile Include="Debugger\AD7\AD7PendingBreakpoint.cs" />
     <Compile Include="Debugger\AD7\AD7ProgramNode.cs" />
     <Compile Include="Debugger\AD7\AD7ProgramProvider.cs" />
     <Compile Include="Debugger\AD7\AD7Property.cs" />
@@ -309,42 +307,40 @@
     <Compile Include="Debugger\AD7\AD7Thread.cs" />
     <Compile Include="Debugger\AD7\Defenitions\AD7Guids.cs" />
     <Compile Include="Debugger\AD7\Defenitions\AD7Hresult.cs" />
-    <Compile Include="Debugger\Commands.cs" />
-    <Compile Include="Debugger\Core\CommandFactories\MICommandFactory.cs" />
-    <Compile Include="Debugger\Core\CommandFactories\RokuMICommandFactory.cs" />
-    <Compile Include="Debugger\Core\CommandLock.cs" />
-    <Compile Include="Debugger\Core\Debugger.cs" />
-    <Compile Include="Debugger\Core\Exceptions\ExceptionHelper.cs" />
-    <Compile Include="Debugger\Core\HostMarshal.cs" />
-    <Compile Include="Debugger\Core\Exceptions\InvalidCoreDumpOperationException.cs" />
-    <Compile Include="Debugger\Core\Exceptions\InvalidLaunchOptionsException.cs" />
-    <Compile Include="Debugger\Core\LaunchCommand.cs" />
-    <Compile Include="Debugger\Core\LaunchOptions.cs" />
-    <Compile Include="Debugger\Core\MICoreResources.Designer.cs">
+    <Compile Include="Debugger\Engine\VariableInformation.cs" />
+    <Compile Include="Debugger\Enums\ExceptionBreakpointState.cs" />
+    <Compile Include="Debugger\Exceptions\InvalidCoreDumpOperationException.cs" />
+    <Compile Include="Debugger\Exceptions\MIDebuggerInitializeFailedException.cs" />
+    <Compile Include="Debugger\Exceptions\UnexpectedMIResultException.cs" />
+    <Compile Include="Debugger\Interfaces\IThreadCache.cs" />
+    <Compile Include="Debugger\Interfaces\IVariableInformation.cs" />
+    <Compile Include="Debugger\MICoreResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MICoreResources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Debugger\Core\Exceptions\MIException.cs" />
-    <Compile Include="Debugger\Core\Transports\ITransport.cs" />
-    <Compile Include="Debugger\Core\Transports\TcpTransport.cs" />
-    <Compile Include="Debugger\Engine\BreakpointManager.cs" />
-    <Compile Include="Debugger\Engine\Breakpoints.cs" />
+    <Compile Include="Debugger\Commands\CommandFactory.cs" />
     <Compile Include="Debugger\Engine\DebuggedProcess.cs" />
-    <Compile Include="Debugger\Engine\DebuggedThread.cs" />
     <Compile Include="Debugger\Engine\EngineCallback.cs" />
     <Compile Include="Debugger\Engine\EngineConstants.cs" />
     <Compile Include="Debugger\Engine\EngineUtils.cs" />
-    <Compile Include="Debugger\Core\MIResults.cs" />
-    <Compile Include="Debugger\Core\Exceptions\LaunchErrorException.cs" />
-    <Compile Include="Debugger\Engine\MITextPosition.cs" />
-    <Compile Include="Debugger\Engine\OperationThread.cs" />
-    <Compile Include="Debugger\Engine\SourceLine.cs" />
+    <Compile Include="Debugger\Engine\WorkerThread.cs" />
     <Compile Include="Debugger\Enums\DebuggerCommandEnum.cs" />
-    <Compile Include="Debugger\Frame.cs" />
-    <Compile Include="Debugger\MIDebugCommandDispatcher.cs" />
+    <Compile Include="Debugger\Exceptions\ExceptionHelper.cs" />
+    <Compile Include="Debugger\Exceptions\MIException.cs" />
+    <Compile Include="Debugger\Interfaces\ICommandFactory.cs" />
+    <Compile Include="Debugger\Interfaces\IDebuggedProcess.cs" />
+    <Compile Include="Debugger\Interfaces\IEngineCallback.cs" />
+    <Compile Include="Debugger\Interfaces\ITransportCallback.cs" />
+    <Compile Include="Debugger\Interfaces\IWorkerThread.cs" />
     <Compile Include="Debugger\Models\BacktraceModel.cs" />
+    <Compile Include="Debugger\Models\DebuggedThread.cs" />
     <Compile Include="Debugger\Models\LogModel.cs" />
+    <Compile Include="Debugger\Models\MITextPosition.cs" />
+    <Compile Include="Debugger\Models\OutputMessage.cs" />
+    <Compile Include="Debugger\Models\RegisterGroup.cs" />
+    <Compile Include="Debugger\Models\SimpleVariableInformation.cs" />
+    <Compile Include="Debugger\Models\ThreadContext.cs" />
     <Compile Include="Debugger\Models\VariableModel.cs" />
     <Compile Include="Debugger\Register\ProvideBsDebugExceptionAttribute.cs" />
     <Compile Include="Debugger\Register\ProvideDebugEngineAttribute.cs" />
@@ -357,8 +353,6 @@
     <Compile Include="Debugger\Services\Parser\ParserExtension.cs" />
     <Compile Include="Debugger\Services\Parser\ScannerExtension.cs" />
     <Compile Include="Debugger\Services\Parser\TelnetScanner.cs" />
-    <Compile Include="Debugger\Structures.cs" />
-    <Compile Include="Debugger\Variables.cs" />
     <Compile Include="Loggger\LiveLogger.cs" />
     <Compile Include="SharedProject\ExceptionExtensions.cs" />
     <Compile Include="SharedProject\OutputWindowRedirector.cs" />

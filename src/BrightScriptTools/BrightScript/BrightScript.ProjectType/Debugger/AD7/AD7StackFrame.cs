@@ -5,6 +5,8 @@ using System.Globalization;
 using System.IO;
 using BrightScript.Debugger.AD7.Defenitions;
 using BrightScript.Debugger.Engine;
+using BrightScript.Debugger.Exceptions;
+using BrightScript.Debugger.Models;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
 
@@ -64,7 +66,7 @@ namespace BrightScript.Debugger.AD7
         public void SetFrameInfo(enum_FRAMEINFO_FLAGS dwFieldSpec, out FRAMEINFO frameInfo)
         {
             List<SimpleVariableInformation> parameters = null;
-            if ((dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_FUNCNAME_ARGS) != 0 && !this.Engine.DebuggedProcess.MICommandFactory.SupportsFrameFormatting)
+            if ((dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_FUNCNAME_ARGS) != 0 && !this.Engine.DebuggedProcess.CommandFactory.SupportsFrameFormatting)
             {
                 Engine.DebuggedProcess.WorkerThread.RunOperation(async () =>
                 {
@@ -97,8 +99,8 @@ namespace BrightScript.Debugger.AD7
                     //}
 
                     frameInfo.m_bstrFuncName += _functionName;
-
-                    if ((dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_FUNCNAME_ARGS) != 0 && !Engine.DebuggedProcess.MICommandFactory.SupportsFrameFormatting)
+                    
+                    if ((dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_FUNCNAME_ARGS) != 0 && !Engine.DebuggedProcess.CommandFactory.SupportsFrameFormatting)
                     {
                         frameInfo.m_bstrFuncName += "(";
                         if (parameters != null && parameters.Count > 0)
@@ -292,25 +294,12 @@ namespace BrightScript.Debugger.AD7
             enumObject = new AD7PropertyInfoEnum(propInfo);
         }
 
-        private void CreateRegisterContent(enum_DEBUGPROP_INFO_FLAGS dwFields, out uint elementsReturned, out IEnumDebugPropertyInfo2 enumObject)
-        {
-            elementsReturned = 0; //(uint)registerGroups.Count;
-            DEBUG_PROPERTY_INFO[] propInfo = new DEBUG_PROPERTY_INFO[elementsReturned];
-            Tuple<int, string>[] values = null;
-            Engine.DebuggedProcess.WorkerThread.RunOperation(async () =>
-            {
-                values = await Engine.DebuggedProcess.GetRegisters(Thread.GetDebuggedThread().Id, ThreadContext.Level);
-            });
-            
-            enumObject = new AD7PropertyInfoEnum(propInfo);
-        }
-
         public string EvaluateExpression(string expr)
         {
             string val = null;
             Engine.DebuggedProcess.WorkerThread.RunOperation(async () =>
             {
-                val = await Engine.DebuggedProcess.MICommandFactory.DataEvaluateExpression(expr, Thread.Id, ThreadContext.Level);
+                val = await Engine.DebuggedProcess.CommandFactory.DataEvaluateExpression(expr, Thread.Id, ThreadContext.Level);
             });
             return val;
         }
@@ -355,11 +344,6 @@ namespace BrightScript.Debugger.AD7
                 else if (guidFilter == AD7Guids.guidFilterArgs)
                 {
                     CreateParameterProperties(dwFields, out elementsReturned, out enumObject);
-                    hr = VSConstants.S_OK;
-                }
-                else if (guidFilter == AD7Guids.guidFilterRegisters)
-                {
-                    CreateRegisterContent(dwFields, out elementsReturned, out enumObject);
                     hr = VSConstants.S_OK;
                 }
                 else
@@ -467,10 +451,6 @@ namespace BrightScript.Debugger.AD7
                 if (_functionName != null)
                 {
                     name = _functionName;
-                }
-                else
-                {
-                    name = EngineUtils.GetAddressDescription(Engine.DebuggedProcess, ThreadContext.pc.Value);
                 }
 
                 return VSConstants.S_OK;

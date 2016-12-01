@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using BrightScript.Debugger.Engine;
+using BrightScript.Debugger.Interfaces;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Debugger.Interop;
 

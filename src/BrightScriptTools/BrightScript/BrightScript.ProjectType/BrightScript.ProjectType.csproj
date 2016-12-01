@@ -312,6 +312,7 @@
     <Compile Include="Debugger\Exceptions\InvalidCoreDumpOperationException.cs" />
     <Compile Include="Debugger\Exceptions\MIDebuggerInitializeFailedException.cs" />
     <Compile Include="Debugger\Exceptions\UnexpectedMIResultException.cs" />
+    <Compile Include="Debugger\Interfaces\IOperation.cs" />
     <Compile Include="Debugger\Interfaces\IThreadCache.cs" />
     <Compile Include="Debugger\Interfaces\IVariableInformation.cs" />
     <Compile Include="Debugger\MICoreResources.Designer.cs">
@@ -333,6 +334,7 @@
     <Compile Include="Debugger\Interfaces\IEngineCallback.cs" />
     <Compile Include="Debugger\Interfaces\ITransportCallback.cs" />
     <Compile Include="Debugger\Interfaces\IWorkerThread.cs" />
+    <Compile Include="Debugger\Models\AsyncOperation.cs" />
     <Compile Include="Debugger\Models\BacktraceModel.cs" />
     <Compile Include="Debugger\Models\DebuggedThread.cs" />
     <Compile Include="Debugger\Models\LogModel.cs" />
@@ -342,6 +344,7 @@
     <Compile Include="Debugger\Models\SimpleVariableInformation.cs" />
     <Compile Include="Debugger\Models\ThreadContext.cs" />
     <Compile Include="Debugger\Models\VariableModel.cs" />
+    <Compile Include="Debugger\Models\SyncOperation.cs" />
     <Compile Include="Debugger\Register\ProvideBsDebugExceptionAttribute.cs" />
     <Compile Include="Debugger\Register\ProvideDebugEngineAttribute.cs" />
     <Compile Include="Debugger\Register\ProvideDebugExceptionAttribute.cs" />

@@ -10,7 +10,6 @@ namespace BrightScript.Debugger.Interfaces
 
         void Close();
         void RunOperation(Func<Task> op);
-        //void RunOperation(Action op);
-        void RunOperation(string text, CancellationTokenSource canTokenSource, Func<EventWaitHandle, Task> op);
+        void PostOperation(Func<Task> op);
     }
 }

@@ -332,7 +332,6 @@
     <Compile Include="Debugger\Interfaces\ICommandFactory.cs" />
     <Compile Include="Debugger\Interfaces\IDebuggedProcess.cs" />
     <Compile Include="Debugger\Interfaces\IEngineCallback.cs" />
-    <Compile Include="Debugger\Interfaces\ITransportCallback.cs" />
     <Compile Include="Debugger\Interfaces\IWorkerThread.cs" />
     <Compile Include="Debugger\Models\AsyncOperation.cs" />
     <Compile Include="Debugger\Models\BacktraceModel.cs" />
@@ -356,6 +355,9 @@
     <Compile Include="Debugger\Services\Parser\ParserExtension.cs" />
     <Compile Include="Debugger\Services\Parser\ScannerExtension.cs" />
     <Compile Include="Debugger\Services\Parser\TelnetScanner.cs" />
+    <Compile Include="Debugger\Transport\ITransport.cs" />
+    <Compile Include="Debugger\Transport\ITransportCallback.cs" />
+    <Compile Include="Debugger\Transport\TcpTransport.cs" />
     <Compile Include="Loggger\LiveLogger.cs" />
     <Compile Include="SharedProject\ExceptionExtensions.cs" />
     <Compile Include="SharedProject\OutputWindowRedirector.cs" />

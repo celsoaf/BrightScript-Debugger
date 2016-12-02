@@ -3,19 +3,28 @@ using BrightScript.Debugger.Interfaces;
 
 namespace BrightScript.Debugger.Commands
 {
-    public class CommandFactory : ICommandFactory
+    internal class CommandFactory : ICommandFactory
     {
-        public uint Radix { get; }
+        private IDebuggedProcess _debugger;
+
+        public CommandFactory(IDebuggedProcess debugger)
+        {
+            _debugger = debugger;
+        }
+
+        public uint Radix { get; private set; }
         public bool SupportsFrameFormatting { get; }
 
         public Task<bool> SetRadix(uint radix)
         {
-            throw new System.NotImplementedException();
+            Radix = radix;
+
+            return Task.FromResult<bool>(true);
         }
 
         public Task<bool> SetJustMyCode(bool enabled)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult<bool>(true);
         }
 
         public Task<string> DataEvaluateExpression(string expr, int threadId, uint frame)
@@ -25,7 +34,7 @@ namespace BrightScript.Debugger.Commands
 
         public bool CanDetach()
         {
-            throw new System.NotImplementedException();
+            return true;
         }
     }
 }

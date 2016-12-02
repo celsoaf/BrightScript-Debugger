@@ -1,4 +1,5 @@
-﻿using BrightScript.Debugger.AD7;
+﻿using System;
+using BrightScript.Debugger.AD7;
 using BrightScript.Debugger.Interfaces;
 using Microsoft.VisualStudio.Debugger.Interop;
 
@@ -27,7 +28,11 @@ namespace BrightScript.Debugger.Engine
 
         public void Send(IDebugEvent2 eventObject, string iidEvent, IDebugProgram2 program, IDebugThread2 thread)
         {
-            throw new System.NotImplementedException();
+            uint attributes;
+            Guid riidEvent = new Guid(iidEvent);
+
+            EngineUtils.RequireOk(eventObject.GetAttributes(out attributes));
+            EngineUtils.RequireOk(_eventCallback.Event(_engine, null, program, thread, eventObject, ref riidEvent, attributes));
         }
 
         public void Send(IDebugEvent2 eventObject, string iidEvent, IDebugThread2 thread)

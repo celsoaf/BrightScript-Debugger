@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BrightScript.Debugger.AD7;
 using BrightScript.Debugger.Engine;
 using BrightScript.Debugger.Models;
+using BrightScript.Debugger.Transport;
 using Microsoft.VisualStudio.Debugger.Interop;
 
 namespace BrightScript.Debugger.Interfaces

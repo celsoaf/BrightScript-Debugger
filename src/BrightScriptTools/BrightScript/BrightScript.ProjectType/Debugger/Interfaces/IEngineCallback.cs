@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.Debugger.Interop;
+﻿using BrightScript.Debugger.Models;
+using Microsoft.VisualStudio.Debugger.Interop;
 
 namespace BrightScript.Debugger.Interfaces
 {
@@ -11,5 +12,8 @@ namespace BrightScript.Debugger.Interfaces
         void Send(IDebugEvent2 eventObject, string iidEvent, IDebugThread2 thread);
 
         void OnExpressionEvaluationComplete(IVariableInformation var, IDebugProperty2 prop = null);
+
+        void OnThreadStart(DebuggedThread thread);
+        void OnThreadExit(DebuggedThread thread, uint exitCode);
     }
 }

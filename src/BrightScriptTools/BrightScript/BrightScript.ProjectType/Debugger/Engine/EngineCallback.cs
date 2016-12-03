@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
 using BrightScript.Debugger.AD7;
 using BrightScript.Debugger.Interfaces;
+using BrightScript.Debugger.Models;
 using Microsoft.MIDebugEngine;
 using Microsoft.VisualStudio.Debugger.Interop;
 
@@ -53,6 +55,29 @@ namespace BrightScript.Debugger.Engine
         public void OnExpressionEvaluationComplete(IVariableInformation var, IDebugProperty2 prop = null)
         {
             throw new System.NotImplementedException();
+        }
+
+        public void OnThreadExit(DebuggedThread debuggedThread, uint exitCode)
+        {
+            Debug.Assert(_engine.DebuggedProcess.WorkerThread.IsPollThread());
+
+            AD7Thread ad7Thread = (AD7Thread)debuggedThread.Client;
+            Debug.Assert(ad7Thread != null);
+
+            AD7ThreadDestroyEvent eventObject = new AD7ThreadDestroyEvent(exitCode);
+
+            Send(eventObject, AD7ThreadDestroyEvent.IID, ad7Thread);
+        }
+
+        public void OnThreadStart(DebuggedThread debuggedThread)
+        {
+            Debug.Assert(_engine.DebuggedProcess.WorkerThread.IsPollThread());
+
+            // This will get called when the entrypoint breakpoint is fired because the engine sends a thread start event
+            // for the main thread of the application.
+
+            AD7ThreadCreateEvent eventObject = new AD7ThreadCreateEvent();
+            Send(eventObject, AD7ThreadCreateEvent.IID, (IDebugThread2)debuggedThread.Client);
         }
     }
 }

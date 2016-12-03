@@ -1,6 +1,7 @@
 ﻿using System;
 using BrightScript.Debugger.AD7;
 using BrightScript.Debugger.Interfaces;
+using Microsoft.MIDebugEngine;
 using Microsoft.VisualStudio.Debugger.Interop;
 
 namespace BrightScript.Debugger.Engine
@@ -23,7 +24,16 @@ namespace BrightScript.Debugger.Engine
 
         public void OnProcessExit(uint exitCode)
         {
-            throw new System.NotImplementedException();
+            AD7ProgramDestroyEvent eventObject = new AD7ProgramDestroyEvent(exitCode);
+
+            try
+            {
+                Send(eventObject, AD7ProgramDestroyEvent.IID, null);
+            }
+            catch (InvalidOperationException)
+            {
+                // If debugging has already stopped, this can throw
+            }
         }
 
         public void Send(IDebugEvent2 eventObject, string iidEvent, IDebugProgram2 program, IDebugThread2 thread)

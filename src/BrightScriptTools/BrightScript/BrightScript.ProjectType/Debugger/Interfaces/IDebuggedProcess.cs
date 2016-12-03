@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.Debugger.Interop;
 
 namespace BrightScript.Debugger.Interfaces
 {
-    internal interface IDebuggedProcess : ITransportCallback
+    internal interface IDebuggedProcess
     {
         AD_PROCESS_ID Id { get; }
         ICommandFactory CommandFactory { get; }

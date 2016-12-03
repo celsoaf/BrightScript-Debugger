@@ -5,11 +5,11 @@ namespace BrightScript.Debugger.Commands
 {
     internal class CommandFactory : ICommandFactory
     {
-        private IDebuggedProcess _debugger;
+        private readonly IRokuController _rokuController;
 
-        public CommandFactory(IDebuggedProcess debugger)
+        public CommandFactory(IRokuController rokuController)
         {
-            _debugger = debugger;
+            _rokuController = rokuController;
         }
 
         public uint Radix { get; private set; }

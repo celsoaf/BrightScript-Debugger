@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.IO.Pipes;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
@@ -401,7 +402,8 @@ namespace BrightScript.Debugger.AD7
 
                 _pollThread.RunOperation(() =>
                  {
-                     _debuggedProcess = new DebuggedProcess(args.Split('=')[1], 8085, _engineCallback, _pollThread, this);
+                     var endpoint = new IPEndPoint(IPAddress.Parse(args.Split('=')[1]), 8085);
+                     _debuggedProcess = new DebuggedProcess(endpoint, _engineCallback, _pollThread, this);
 
                      _pollThread.PostedOperationErrorEvent += _debuggedProcess.OnPostedOperationError;
 

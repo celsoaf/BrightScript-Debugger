@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
@@ -11,8 +12,7 @@ namespace BrightScript.Debugger.Transport
 {
     public class TcpTransport : ITransport
     {
-        private string _ip;
-        private int _port;
+        private IPEndPoint _endPoint;
         private ITransportCallback _callback;
         private Thread _thread;
         private CancellationTokenSource _streamReadCancellationTokenSource = new CancellationTokenSource();
@@ -22,10 +22,9 @@ namespace BrightScript.Debugger.Transport
         private bool _bQuit;
         private Object _locker = new object();
 
-        public void Init(string ip, int port, ITransportCallback transportCallback)
+        public void Init(IPEndPoint endPoint, ITransportCallback transportCallback)
         {
-            _ip = ip;
-            _port = port;
+            _endPoint = endPoint;
             _callback = transportCallback;
 
             InitStreams();
@@ -35,7 +34,7 @@ namespace BrightScript.Debugger.Transport
         private void InitStreams()
         {
             _client = new TcpClient();
-            _client.Connect(_ip, _port);
+            _client.Connect(_endPoint);
 
 
             _reader = new StreamReader(_client.GetStream());

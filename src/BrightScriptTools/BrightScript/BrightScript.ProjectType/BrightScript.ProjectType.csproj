@@ -307,12 +307,15 @@
     <Compile Include="Debugger\AD7\AD7Thread.cs" />
     <Compile Include="Debugger\AD7\Defenitions\AD7Guids.cs" />
     <Compile Include="Debugger\AD7\Defenitions\AD7Hresult.cs" />
+    <Compile Include="Debugger\Engine\RokuController.cs" />
     <Compile Include="Debugger\Engine\VariableInformation.cs" />
     <Compile Include="Debugger\Enums\ExceptionBreakpointState.cs" />
+    <Compile Include="Debugger\Enums\ProcessState.cs" />
     <Compile Include="Debugger\Exceptions\InvalidCoreDumpOperationException.cs" />
     <Compile Include="Debugger\Exceptions\MIDebuggerInitializeFailedException.cs" />
     <Compile Include="Debugger\Exceptions\UnexpectedMIResultException.cs" />
     <Compile Include="Debugger\Interfaces\IOperation.cs" />
+    <Compile Include="Debugger\Interfaces\IRokuController.cs" />
     <Compile Include="Debugger\Interfaces\IThreadCache.cs" />
     <Compile Include="Debugger\Interfaces\IVariableInformation.cs" />
     <Compile Include="Debugger\MICoreResources.Designer.cs">

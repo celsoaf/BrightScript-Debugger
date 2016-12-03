@@ -1,33 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using BrightScript.Debugger.AD7;
 using BrightScript.Debugger.Commands;
+using BrightScript.Debugger.Enums;
 using BrightScript.Debugger.Interfaces;
 using BrightScript.Debugger.Models;
 using BrightScript.Debugger.Transport;
+using Microsoft.MIDebugEngine;
 using Microsoft.VisualStudio.Debugger.Interop;
+#pragma warning disable 1998
 
 namespace BrightScript.Debugger.Engine
 {
-    internal class DebuggedProcess : IDebuggedProcess, ITransportCallback
+    internal class DebuggedProcess : IDebuggedProcess
     {
-        private readonly string _ip;
-        private readonly int _port;
-        private readonly IEngineCallback _engineCallback;
-        private bool _connected;
-        private ITransport _transport;
+        public ProcessState ProcessState { get; private set; }
 
-        public DebuggedProcess(string ip, int port, IEngineCallback engineCallback, IWorkerThread workerThread, AD7Engine engine)
+        private readonly IEngineCallback _engineCallback;
+        private readonly IRokuController _rokuController;
+        private bool _connected;
+
+        public DebuggedProcess(IPEndPoint endPoint, IEngineCallback engineCallback, IWorkerThread workerThread, AD7Engine engine)
         {
-            _ip = ip;
-            _port = port;
             _engineCallback = engineCallback;
             WorkerThread = workerThread;
             Engine = engine;
 
-            CommandFactory = new CommandFactory(this);
+            ProcessState = ProcessState.NotConnected;
+
+            _rokuController = new RokuController(endPoint);
+            _rokuController.OnOutput += _rokuController_OnOutput;
+            CommandFactory = new CommandFactory(_rokuController);
 
             // we do NOT have real Win32 process IDs, so we use a guid
             AD_PROCESS_ID pid = new AD_PROCESS_ID();
@@ -69,19 +75,13 @@ namespace BrightScript.Debugger.Engine
 
         public async Task ResumeFromLaunch()
         {
-            Connect();
+            _rokuController.Connect();
             _connected = true;
-        }
-
-        private void Connect()
-        {
-            _transport = new TcpTransport();
-            _transport.Init(_ip, _port, this);
         }
 
         public async Task CmdDetach()
         {
-            throw new NotImplementedException();
+            Close();
         }
 
         public async Task<List<ulong>> StartAddressesForLine(string file, uint line)
@@ -96,22 +96,17 @@ namespace BrightScript.Debugger.Engine
 
         public void Terminate()
         {
-            _transport.Close();
+            Close();
         }
 
         public void Close()
         {
-            _transport.Close();
+            _rokuController.Close();
         }
 
-        public void OnStdOutLine(string line)
+        private void _rokuController_OnOutput(string obj)
         {
-            throw new NotImplementedException();
-        }
-
-        public void OnDebuggerProcessExit(string exitCode)
-        {
-            throw new NotImplementedException();
+            WorkerThread.PostOperation(async () => AD7OutputDebugStringEvent.Send(Engine, obj));
         }
     }
 }

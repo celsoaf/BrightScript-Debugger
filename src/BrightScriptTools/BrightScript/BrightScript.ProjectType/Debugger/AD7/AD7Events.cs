@@ -451,6 +451,12 @@ namespace Microsoft.MIDebugEngine
             _str = str;
         }
 
+        public static void Send(AD7Engine engine, string str)
+        {
+            AD7OutputDebugStringEvent eventObject = new AD7OutputDebugStringEvent(str);
+            engine.Callback.Send(eventObject, IID, null, null);
+        }
+
         #region IDebugOutputStringEvent2 Members
 
         int IDebugOutputStringEvent2.GetString(out string pbstrString)

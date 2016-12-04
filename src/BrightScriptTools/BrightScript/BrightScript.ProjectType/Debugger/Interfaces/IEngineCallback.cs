@@ -1,4 +1,5 @@
-﻿using BrightScript.Debugger.Models;
+﻿using System.Collections.ObjectModel;
+using BrightScript.Debugger.Models;
 using Microsoft.VisualStudio.Debugger.Interop;
 
 namespace BrightScript.Debugger.Interfaces
@@ -16,5 +17,6 @@ namespace BrightScript.Debugger.Interfaces
         void OnThreadStart(DebuggedThread thread);
         void OnThreadExit(DebuggedThread thread, uint exitCode);
         void OnEntryPoint(DebuggedThread thread);
+        void OnBreakpoint(DebuggedThread thread, ReadOnlyCollection<object> clients);
     }
 }

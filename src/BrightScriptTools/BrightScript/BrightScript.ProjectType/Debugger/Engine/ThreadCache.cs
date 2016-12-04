@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BrightScript.Debugger.AD7;
 using BrightScript.Debugger.Interfaces;
 using BrightScript.Debugger.Models;
 
@@ -9,7 +10,8 @@ namespace BrightScript.Debugger.Engine
     internal class ThreadCache : IThreadCache
     {
         private readonly IEngineCallback _engineCallback;
-        private readonly IDebuggedProcess _debuggedProcess;
+        private readonly AD7Engine _engine;
+        private readonly ICommandFactory _commandFactory;
         private List<DebuggedThread> _threadList;
         private Dictionary<int, List<ThreadContext>> _stackFrames;
         private Dictionary<int, ThreadContext> _topContext;    // can retrieve the top frame without walking the stack
@@ -18,10 +20,11 @@ namespace BrightScript.Debugger.Engine
         private List<DebuggedThread> _deadThreads;
         private List<DebuggedThread> _newThreads;
 
-        public ThreadCache(IEngineCallback engineCallback, IDebuggedProcess debuggedProcess)
+        public ThreadCache(IEngineCallback engineCallback, AD7Engine engine, ICommandFactory commandFactory)
         {
             _engineCallback = engineCallback;
-            _debuggedProcess = debuggedProcess;
+            _engine = engine;
+            _commandFactory = commandFactory;
 
             _threadList = new List<DebuggedThread>();
             _stackFrames = new Dictionary<int, List<ThreadContext>>();
@@ -38,7 +41,7 @@ namespace BrightScript.Debugger.Engine
             var thread = _threadList.FirstOrDefault(t => t.Id == id);
             if (thread != null) return thread;
 
-            thread = new DebuggedThread(id, _debuggedProcess.Engine);
+            thread = new DebuggedThread(id, _engine);
             thread.Default = false;
             _threadList.Add(thread);
             if (_newThreads == null)
@@ -54,9 +57,21 @@ namespace BrightScript.Debugger.Engine
             {
                 if (_topContext.ContainsKey(thread.Id))
                     return _topContext[thread.Id];
-
-                return null;
             }
+
+            var frames = await GetStackFrames(thread);
+
+            return frames
+                    .OrderBy(s => s.Level)
+                    .FirstOrDefault();
+        }
+
+        private async Task<List<ThreadContext>> GetStackFrames(DebuggedThread thread)
+        {
+            var frames = await _commandFactory.GetStackTrace();
+
+            SetStackFrames(thread.Id, frames);
+            return frames;
         }
 
         public async Task<List<ThreadContext>> StackFrames(DebuggedThread thread)
@@ -65,9 +80,9 @@ namespace BrightScript.Debugger.Engine
             {
                 if (_stackFrames.ContainsKey(thread.Id))
                     return _stackFrames[thread.Id];
-
-                return null;
             }
+
+            return await GetStackFrames(thread);
         }
 
         public void MarkDirty()

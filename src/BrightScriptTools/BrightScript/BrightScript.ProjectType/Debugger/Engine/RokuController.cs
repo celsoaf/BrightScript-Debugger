@@ -14,16 +14,15 @@ namespace BrightScript.Debugger.Engine
     internal class RokuController : IRokuController
     {
         private readonly IPEndPoint _endPoint;
-        private readonly IThreadCache _threadCache;
         private ITransport _transport;
 
-        public RokuController(IPEndPoint endPoint, IThreadCache threadCache)
+        public RokuController(IPEndPoint endPoint)
         {
             _endPoint = endPoint;
-            _threadCache = threadCache;
         }
 
         public event Action<string> OnOutput;
+        public event Action<List<ThreadContext>> OnBackTrace;
         public event Action<int> BreakModeEvent;
         public event Action RunModeEvent;
         public event Action ProcessExitEvent;
@@ -128,17 +127,14 @@ namespace BrightScript.Debugger.Engine
 
         private void ParserOnBacktraceProcessed(List<BacktraceModel> backtraceModels)
         {
-            _threadCache.SetStackFrames(
-                0, 
-                backtraceModels.Select(f => 
+            OnBackTrace?.Invoke(backtraceModels.Select(f =>
                     new ThreadContext(
                         null,
-                        new MITextPosition(RokuPathToWindowsPath(f.File), (uint) f.Line),
+                        new MITextPosition(RokuPathToWindowsPath(f.File), (uint)f.Line),
                         f.Function,
-                        (uint) f.Position,
+                        (uint)f.Position,
                         null))
-                    .ToList()
-            );
+                    .ToList());
         }
 
         internal static string RokuPathToWindowsPath(string unixPath)

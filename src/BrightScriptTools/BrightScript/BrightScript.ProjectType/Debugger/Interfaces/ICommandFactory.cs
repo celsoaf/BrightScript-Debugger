@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using BrightScript.Debugger.Models;
 
 namespace BrightScript.Debugger.Interfaces
 {
@@ -10,6 +12,13 @@ namespace BrightScript.Debugger.Interfaces
         Task<bool> SetRadix(uint radix);
         Task<bool> SetJustMyCode(bool enabled);
         Task<string> DataEvaluateExpression(string expr, int threadId, uint frame);
+
+        Task ExecStepInto(int threadId);
+        Task ExecStepOver(int threadId);
+        Task ExecStepOut(int threadId);
+        Task ExecContinue(int threadId);
+
+        Task<List<ThreadContext>> GetStackTrace();
 
         bool CanDetach();
     }

@@ -291,6 +291,7 @@
     </Compile>
     <Compile Include="BrightScriptDebuggerLaunchProvider.cs" />
     <Compile Include="BrightScriptPackage.cs" />
+    <Compile Include="Debugger\AD7\AD7BoundBreakpoint.cs" />
     <Compile Include="Debugger\AD7\AD7BreakpointResolution.cs" />
     <Compile Include="Debugger\AD7\AD7DisassemblyStream.cs" />
     <Compile Include="Debugger\AD7\AD7DocumentContext.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,15 +32,16 @@ namespace BrightScript.Debugger.Engine
 
             ProcessState = ProcessState.NotConnected;
 
-            ThreadCache = new ThreadCache(engineCallback, this);
-
-            _rokuController = new RokuController(endPoint, ThreadCache);
+            _rokuController = new RokuController(endPoint);
             _rokuController.OnOutput += RokuControllerOnOutput;
+            _rokuController.OnBackTrace += RokuControllerOnOnBackTrace;
             _rokuController.RunModeEvent += RokuControllerOnRunModeEvent;
             _rokuController.BreakModeEvent += RokuControllerOnBreakModeEvent;
             _rokuController.ProcessExitEvent += RokuControllerOnProcessExitEvent;
 
             CommandFactory = new CommandFactory(_rokuController);
+
+            ThreadCache = new ThreadCache(engineCallback, Engine, CommandFactory);
 
             // we do NOT have real Win32 process IDs, so we use a guid
             AD_PROCESS_ID pid = new AD_PROCESS_ID();
@@ -120,6 +122,11 @@ namespace BrightScript.Debugger.Engine
             WorkerThread.PostOperation(async () => AD7OutputDebugStringEvent.Send(Engine, obj));
         }
 
+        private void RokuControllerOnOnBackTrace(List<ThreadContext> threadContexts)
+        {
+            ThreadCache.SetStackFrames(0, threadContexts);
+        }
+
         private void RokuControllerOnRunModeEvent()
         {
             WorkerThread.PostOperation(async () =>
@@ -133,17 +140,24 @@ namespace BrightScript.Debugger.Engine
                 }
                 else
                     ThreadCache.SendThreadEvents();
+
+                ProcessState = ProcessState.Running;
             });
         }
 
         private void RokuControllerOnBreakModeEvent(int threadId)
         {
-            var thread = ThreadCache.FindThread(threadId);
-            ThreadCache.SendThreadEvents();
+            WorkerThread.PostOperation(async () =>
+            {
+                var thread = ThreadCache.FindThread(threadId);
+                ThreadCache.SendThreadEvents();
 
+                ProcessState = ProcessState.Stopped;
 
+                ThreadContext cxt = await ThreadCache.GetThreadContext(thread);
 
-            ProcessState = ProcessState.Stopped;
+                _engineCallback.OnBreakpoint(thread, new ReadOnlyCollection<object>(new AD7BoundBreakpoint[] { }));
+            });
         }
 
         private void RokuControllerOnProcessExitEvent()

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using BrightScript.Debugger.AD7;
 using BrightScript.Debugger.Interfaces;
@@ -83,9 +84,32 @@ namespace BrightScript.Debugger.Engine
             Send(eventObject, AD7EntryPointEvent.IID, (AD7Thread)thread.Client);
         }
 
+        public void OnBreakpoint(DebuggedThread thread, ReadOnlyCollection<object> clients)
+        {
+            IDebugBoundBreakpoint2[] boundBreakpoints = new IDebugBoundBreakpoint2[clients.Count];
+
+            int i = 0;
+            foreach (object objCurrentBreakpoint in clients)
+            {
+                boundBreakpoints[i] = (IDebugBoundBreakpoint2)objCurrentBreakpoint;
+                i++;
+            }
+
+            // An engine that supports more advanced breakpoint features such as hit counts, conditions and filters
+            // should notify each bound breakpoint that it has been hit and evaluate conditions here.
+            // The sample engine does not support these features.
+
+            AD7BoundBreakpointsEnum boundBreakpointsEnum = new AD7BoundBreakpointsEnum(boundBreakpoints);
+
+            AD7BreakpointEvent eventObject = new AD7BreakpointEvent(boundBreakpointsEnum);
+
+            AD7Thread ad7Thread = (AD7Thread)thread.Client;
+            Send(eventObject, AD7BreakpointEvent.IID, ad7Thread);
+        }
+
         public void OnThreadStart(DebuggedThread debuggedThread)
         {
-            Debug.Assert(_engine.DebuggedProcess.WorkerThread.IsPollThread());
+            //Debug.Assert(_engine.DebuggedProcess.WorkerThread.IsPollThread());
 
             // This will get called when the entrypoint breakpoint is fired because the engine sends a thread start event
             // for the main thread of the application.

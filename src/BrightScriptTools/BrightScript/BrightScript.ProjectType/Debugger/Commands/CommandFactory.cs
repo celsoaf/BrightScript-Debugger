@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using BrightScript.Debugger.Interfaces;
+using BrightScript.Debugger.Models;
 
 namespace BrightScript.Debugger.Commands
 {
@@ -28,6 +30,31 @@ namespace BrightScript.Debugger.Commands
         }
 
         public Task<string> DataEvaluateExpression(string expr, int threadId, uint frame)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task ExecStepInto(int threadId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task ExecStepOver(int threadId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task ExecStepOut(int threadId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task ExecContinue(int threadId)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<List<ThreadContext>> GetStackTrace()
         {
             throw new System.NotImplementedException();
         }

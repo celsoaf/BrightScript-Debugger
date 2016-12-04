@@ -31,8 +31,14 @@ namespace BrightScript.Debugger.Engine
 
             ProcessState = ProcessState.NotConnected;
 
-            _rokuController = new RokuController(endPoint);
-            _rokuController.OnOutput += _rokuController_OnOutput;
+            ThreadCache = new ThreadCache(engineCallback, this);
+
+            _rokuController = new RokuController(endPoint, ThreadCache);
+            _rokuController.OnOutput += RokuControllerOnOutput;
+            _rokuController.RunModeEvent += RokuControllerOnRunModeEvent;
+            _rokuController.BreakModeEvent += RokuControllerOnBreakModeEvent;
+            _rokuController.ProcessExitEvent += RokuControllerOnProcessExitEvent;
+
             CommandFactory = new CommandFactory(_rokuController);
 
             // we do NOT have real Win32 process IDs, so we use a guid
@@ -91,7 +97,9 @@ namespace BrightScript.Debugger.Engine
 
         public async Task Step(int threadId, enum_STEPKIND kind, enum_STEPUNIT unit)
         {
-            throw new NotImplementedException();
+            ThreadCache.MarkDirty();
+
+
         }
 
         public void Terminate()
@@ -102,11 +110,30 @@ namespace BrightScript.Debugger.Engine
         public void Close()
         {
             _rokuController.Close();
+            _rokuController.OnOutput -= RokuControllerOnOutput;
+            _rokuController.RunModeEvent -= RokuControllerOnRunModeEvent;
+            _rokuController.BreakModeEvent -= RokuControllerOnBreakModeEvent;
         }
 
-        private void _rokuController_OnOutput(string obj)
+        private void RokuControllerOnOutput(string obj)
         {
             WorkerThread.PostOperation(async () => AD7OutputDebugStringEvent.Send(Engine, obj));
+        }
+
+        private void RokuControllerOnRunModeEvent()
+        {
+            ProcessState = ProcessState.Running;
+            WorkerThread.PostOperation(async ()=> ThreadCache.SendThreadEvents());
+        }
+
+        private void RokuControllerOnBreakModeEvent()
+        {
+            ProcessState = ProcessState.Stopped;
+        }
+
+        private void RokuControllerOnProcessExitEvent()
+        {
+            ProcessState = ProcessState.Exited;
         }
     }
 }

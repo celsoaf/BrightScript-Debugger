@@ -13,6 +13,7 @@ namespace BrightScript.Debugger.Interfaces
     internal interface IDebuggedProcess
     {
         AD_PROCESS_ID Id { get; }
+        AD7Engine Engine { get; }
         ICommandFactory CommandFactory { get; }
         IWorkerThread WorkerThread { get; }
         IThreadCache ThreadCache { get; }

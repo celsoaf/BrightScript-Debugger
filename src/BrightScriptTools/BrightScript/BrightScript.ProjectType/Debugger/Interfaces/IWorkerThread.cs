@@ -11,5 +11,7 @@ namespace BrightScript.Debugger.Interfaces
         void Close();
         void RunOperation(Func<Task> op);
         void PostOperation(Func<Task> op);
+
+        bool IsPollThread();
     }
 }

@@ -58,5 +58,10 @@ namespace BrightScript.Debugger.Engine
                 }
             }
         }
+
+        public bool IsPollThread()
+        {
+            return Thread.CurrentThread == _thread;
+        }
     }
 }

@@ -182,15 +182,17 @@ namespace BrightScript.Debugger.Engine
 
         private void RokuControllerOnBreakModeEvent(int threadId)
         {
-            if (ProcessState == ProcessState.Running)
-                WorkerThread.PostOperation(async () =>
+            WorkerThread.PostOperation(async () =>
                 {
-                    var thread = ThreadCache.FindThread(threadId);
-                    ThreadCache.SendThreadEvents();
+                    if (ProcessState == ProcessState.Running)
+                    {
+                        var thread = ThreadCache.FindThread(threadId);
+                        ThreadCache.SendThreadEvents();
 
-                    ProcessState = ProcessState.Stopped;
+                        ProcessState = ProcessState.Stopped;
 
-                    _engineCallback.OnBreakpoint(thread, new ReadOnlyCollection<object>(new AD7BoundBreakpoint[] { }));
+                        _engineCallback.OnBreakpoint(thread, new ReadOnlyCollection<object>(new AD7BoundBreakpoint[] { }));
+                    }
                 });
         }
 

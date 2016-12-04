@@ -57,7 +57,7 @@ namespace BrightScript.Debugger.Commands
 
         public async Task<List<ThreadContext>> GetStackTrace()
         {
-            throw new System.NotImplementedException();
+            return await _rokuController.CmdAsync<List<ThreadContext>>(new CommandModel(CommandType.Backtrace, DebuggerCommandEnum.bt));
         }
 
         public bool CanDetach()

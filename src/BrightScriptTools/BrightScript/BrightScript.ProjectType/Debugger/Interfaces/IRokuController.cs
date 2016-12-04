@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using BrightScript.Debugger.Models;
 using BrightScript.Debugger.Transport;
 
@@ -16,5 +17,7 @@ namespace BrightScript.Debugger.Interfaces
 
         void Connect();
         void Close();
+
+        Task<Res> CmdAsync<Res>(CommandModel cmd) where Res : class;
     }
 }

@@ -58,7 +58,7 @@ namespace BrightScript.Debugger.Engine
 
         public async Task Execute(DebuggedThread thread)
         {
-            throw new NotImplementedException();
+            await CommandFactory.ExecContinue(thread.Id);
         }
 
         public async Task<List<SimpleVariableInformation>> GetParameterInfoOnly(AD7Thread thread, ThreadContext ctx)
@@ -101,7 +101,42 @@ namespace BrightScript.Debugger.Engine
         {
             ThreadCache.MarkDirty();
 
+            if ((unit == enum_STEPUNIT.STEP_LINE) || (unit == enum_STEPUNIT.STEP_STATEMENT))
+            {
+                switch (kind)
+                {
+                    case enum_STEPKIND.STEP_INTO:
+                        await CommandFactory.ExecStepInto(threadId);
+                        break;
+                    case enum_STEPKIND.STEP_OVER:
+                        await CommandFactory.ExecStepOver(threadId);
+                        break;
+                    case enum_STEPKIND.STEP_OUT:
+                        await CommandFactory.ExecStepOut(threadId);
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+            else if (unit == enum_STEPUNIT.STEP_INSTRUCTION)
+            {
+                switch (kind)
+                {
+                    case enum_STEPKIND.STEP_INTO:
+                        await CommandFactory.ExecStepInto(threadId);
+                        break;
+                    case enum_STEPKIND.STEP_OVER:
+                        await CommandFactory.ExecStepOver(threadId);
+                        break;
+                    case enum_STEPKIND.STEP_OUT:
+                        await CommandFactory.ExecStepOut(threadId);
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
 
+            RokuControllerOnRunModeEvent();
         }
 
         public void Terminate()
@@ -147,17 +182,16 @@ namespace BrightScript.Debugger.Engine
 
         private void RokuControllerOnBreakModeEvent(int threadId)
         {
-            WorkerThread.PostOperation(async () =>
-            {
-                var thread = ThreadCache.FindThread(threadId);
-                ThreadCache.SendThreadEvents();
+            if (ProcessState == ProcessState.Running)
+                WorkerThread.PostOperation(async () =>
+                {
+                    var thread = ThreadCache.FindThread(threadId);
+                    ThreadCache.SendThreadEvents();
 
-                ProcessState = ProcessState.Stopped;
+                    ProcessState = ProcessState.Stopped;
 
-                ThreadContext cxt = await ThreadCache.GetThreadContext(thread);
-
-                _engineCallback.OnBreakpoint(thread, new ReadOnlyCollection<object>(new AD7BoundBreakpoint[] { }));
-            });
+                    _engineCallback.OnBreakpoint(thread, new ReadOnlyCollection<object>(new AD7BoundBreakpoint[] { }));
+                });
         }
 
         private void RokuControllerOnProcessExitEvent()

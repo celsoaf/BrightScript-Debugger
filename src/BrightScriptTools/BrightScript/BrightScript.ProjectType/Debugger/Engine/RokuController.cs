@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
+using BrightScript.Debugger.Enums;
 using BrightScript.Debugger.Interfaces;
 using BrightScript.Debugger.Models;
 using BrightScript.Debugger.Services.Parser.Utils;
@@ -15,6 +18,8 @@ namespace BrightScript.Debugger.Engine
     {
         private readonly IPEndPoint _endPoint;
         private ITransport _transport;
+
+        private ConcurrentBag<CommandModel> _operations = new ConcurrentBag<CommandModel>();
 
         public RokuController(IPEndPoint endPoint)
         {
@@ -36,6 +41,35 @@ namespace BrightScript.Debugger.Engine
         public void Close()
         {
             _transport?.Close();
+        }
+
+        public async Task<Res> CmdAsync<Res>(CommandModel cmd) where Res : class
+        {
+            if (cmd.ResultType != CommandType.NoResult)
+                _operations.Add(cmd);
+
+            _transport.Send($"{cmd.Cmd} {cmd.Arg}");
+
+            if (cmd.ResultType != CommandType.NoResult)
+            {
+                cmd.Wait();
+
+                return cmd.Result as Res;
+            }
+
+            return null;
+        }
+
+        private void DispatchCommands(CommandType type, object result = null)
+        {
+            _operations//.ToList()
+                .Where(c => c.ResultType == type)
+                .ToList()
+                .ForEach(c =>
+                {
+                    c.Result = result;
+                    c.Set();
+                });
         }
 
         private volatile bool _initialized = false;
@@ -112,7 +146,7 @@ namespace BrightScript.Debugger.Engine
 
         private void ParserOnStepPorcessed()
         {
-
+            DispatchCommands(CommandType.Step);
         }
 
         private void ParserOnVariablesProcessed(List<VariableModel> variableModels)
@@ -127,14 +161,18 @@ namespace BrightScript.Debugger.Engine
 
         private void ParserOnBacktraceProcessed(List<BacktraceModel> backtraceModels)
         {
-            OnBackTrace?.Invoke(backtraceModels.Select(f =>
+            var backtrace = backtraceModels.Select(f =>
                     new ThreadContext(
                         null,
                         new MITextPosition(RokuPathToWindowsPath(f.File), (uint)f.Line),
                         f.Function,
                         (uint)f.Position,
                         null))
-                    .ToList());
+                .ToList();
+
+            DispatchCommands(CommandType.Backtrace, backtrace);
+
+            OnBackTrace?.Invoke(backtrace);
         }
 
         internal static string RokuPathToWindowsPath(string unixPath)

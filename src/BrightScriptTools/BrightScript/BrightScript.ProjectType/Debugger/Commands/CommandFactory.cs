@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using BrightScript.Debugger.Enums;
 using BrightScript.Debugger.Interfaces;
 using BrightScript.Debugger.Models;
 
@@ -34,27 +35,27 @@ namespace BrightScript.Debugger.Commands
             throw new System.NotImplementedException();
         }
 
-        public Task ExecStepInto(int threadId)
+        public async Task ExecStepInto(int threadId)
         {
-            throw new System.NotImplementedException();
+            await _rokuController.CmdAsync<object>(new CommandModel(CommandType.Step, DebuggerCommandEnum.s));
         }
 
-        public Task ExecStepOver(int threadId)
+        public async Task ExecStepOver(int threadId)
         {
-            throw new System.NotImplementedException();
+            await _rokuController.CmdAsync<object>(new CommandModel(CommandType.Step, DebuggerCommandEnum.over));
         }
 
-        public Task ExecStepOut(int threadId)
+        public async Task ExecStepOut(int threadId)
         {
-            throw new System.NotImplementedException();
+            await _rokuController.CmdAsync<object>(new CommandModel(CommandType.Step, DebuggerCommandEnum.@out));
         }
 
-        public Task ExecContinue(int threadId)
+        public async Task ExecContinue(int threadId)
         {
-            throw new System.NotImplementedException();
+            await _rokuController.CmdAsync<object>(new CommandModel(CommandType.NoResult, DebuggerCommandEnum.c));
         }
 
-        public Task<List<ThreadContext>> GetStackTrace()
+        public async Task<List<ThreadContext>> GetStackTrace()
         {
             throw new System.NotImplementedException();
         }

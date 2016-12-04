@@ -49,7 +49,14 @@ namespace BrightScript.Debugger.Engine
 
         public void Send(IDebugEvent2 eventObject, string iidEvent, IDebugThread2 thread)
         {
-            throw new System.NotImplementedException();
+            IDebugProgram2 program = _engine;
+            if (!_engine.ProgramCreateEventSent)
+            {
+                // Any events before programe create shouldn't include the program
+                program = null;
+            }
+
+            Send(eventObject, iidEvent, program, thread);
         }
 
         public void OnExpressionEvaluationComplete(IVariableInformation var, IDebugProperty2 prop = null)

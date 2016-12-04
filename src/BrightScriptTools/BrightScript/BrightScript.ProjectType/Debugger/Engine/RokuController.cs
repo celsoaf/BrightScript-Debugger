@@ -133,12 +133,19 @@ namespace BrightScript.Debugger.Engine
                 backtraceModels.Select(f => 
                     new ThreadContext(
                         null,
-                        new MITextPosition(f.File, (uint) f.Line),
+                        new MITextPosition(RokuPathToWindowsPath(f.File), (uint) f.Line),
                         f.Function,
                         (uint) f.Position,
                         null))
                     .ToList()
             );
+        }
+
+        internal static string RokuPathToWindowsPath(string unixPath)
+        {
+            return unixPath
+                        .Replace("pkg:/", "")
+                        .Replace('/', '\\');
         }
 
         private async void ParserOnDebugPorcessed()

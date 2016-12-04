@@ -76,7 +76,7 @@ namespace BrightScript.Debugger.Engine
 
         public async Task Initialize()
         {
-            
+
         }
 
         public async Task ResumeFromLaunch()
@@ -122,12 +122,27 @@ namespace BrightScript.Debugger.Engine
 
         private void RokuControllerOnRunModeEvent()
         {
-            ProcessState = ProcessState.Running;
-            WorkerThread.PostOperation(async ()=> ThreadCache.SendThreadEvents());
+            WorkerThread.PostOperation(async () =>
+            {
+                if (ProcessState == ProcessState.NotConnected)
+                {
+                    var thread = ThreadCache.FindThread(0);
+                    ThreadCache.SendThreadEvents();
+
+                    _engineCallback.OnEntryPoint(thread);
+                }
+                else
+                    ThreadCache.SendThreadEvents();
+            });
         }
 
-        private void RokuControllerOnBreakModeEvent()
+        private void RokuControllerOnBreakModeEvent(int threadId)
         {
+            var thread = ThreadCache.FindThread(threadId);
+            ThreadCache.SendThreadEvents();
+
+
+
             ProcessState = ProcessState.Stopped;
         }
 

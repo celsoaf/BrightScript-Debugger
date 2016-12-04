@@ -24,7 +24,7 @@ namespace BrightScript.Debugger.Engine
         }
 
         public event Action<string> OnOutput;
-        public event Action BreakModeEvent;
+        public event Action<int> BreakModeEvent;
         public event Action RunModeEvent;
         public event Action ProcessExitEvent;
 
@@ -150,9 +150,7 @@ namespace BrightScript.Debugger.Engine
 
         private async void ParserOnDebugPorcessed()
         {
-
-
-            BreakModeEvent?.Invoke();
+            BreakModeEvent?.Invoke(0);
         }
 
         private void ParserOnAppCloseProcessed()

@@ -76,6 +76,13 @@ namespace BrightScript.Debugger.Engine
             Send(eventObject, AD7ThreadDestroyEvent.IID, ad7Thread);
         }
 
+        public void OnEntryPoint(DebuggedThread thread)
+        {
+            AD7EntryPointEvent eventObject = new AD7EntryPointEvent();
+
+            Send(eventObject, AD7EntryPointEvent.IID, (AD7Thread)thread.Client);
+        }
+
         public void OnThreadStart(DebuggedThread debuggedThread)
         {
             Debug.Assert(_engine.DebuggedProcess.WorkerThread.IsPollThread());

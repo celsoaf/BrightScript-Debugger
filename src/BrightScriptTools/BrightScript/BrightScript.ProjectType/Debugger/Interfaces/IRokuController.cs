@@ -6,7 +6,7 @@ namespace BrightScript.Debugger.Interfaces
     public interface IRokuController : ITransportCallback
     {
         event Action<string> OnOutput;
-        event Action BreakModeEvent;
+        event Action<int> BreakModeEvent;
         event Action RunModeEvent;
         event Action ProcessExitEvent;
 

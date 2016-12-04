@@ -15,5 +15,6 @@ namespace BrightScript.Debugger.Interfaces
 
         void OnThreadStart(DebuggedThread thread);
         void OnThreadExit(DebuggedThread thread, uint exitCode);
+        void OnEntryPoint(DebuggedThread thread);
     }
 }

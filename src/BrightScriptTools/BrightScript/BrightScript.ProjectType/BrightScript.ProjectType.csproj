@@ -308,6 +308,7 @@
     <Compile Include="Debugger\AD7\Defenitions\AD7Guids.cs" />
     <Compile Include="Debugger\AD7\Defenitions\AD7Hresult.cs" />
     <Compile Include="Debugger\Engine\RokuController.cs" />
+    <Compile Include="Debugger\Engine\ThreadCache.cs" />
     <Compile Include="Debugger\Engine\VariableInformation.cs" />
     <Compile Include="Debugger\Enums\ExceptionBreakpointState.cs" />
     <Compile Include="Debugger\Enums\ProcessState.cs" />

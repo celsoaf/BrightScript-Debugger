@@ -216,6 +216,8 @@ namespace BrightScript.Debugger.AD7
             IWorkerThread pollThread = _pollThread;
             IDebuggedProcess debuggedProcess = _debuggedProcess;
 
+
+            _engineCallback?.Close();
             _engineCallback = null;
             _debuggedProcess = null;
             _pollThread = null;

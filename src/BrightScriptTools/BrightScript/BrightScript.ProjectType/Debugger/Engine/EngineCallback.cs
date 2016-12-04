@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading;
 using BrightScript.Debugger.AD7;
 using BrightScript.Debugger.Interfaces;
 using BrightScript.Debugger.Models;
@@ -14,10 +16,62 @@ namespace BrightScript.Debugger.Engine
         private readonly IDebugEventCallback2 _eventCallback;
         private readonly AD7Engine _engine;
 
+        private class EventModel
+        {
+            private AutoResetEvent _waitHandle = new AutoResetEvent(false);
+
+            public EventModel(IDebugEvent2 eventObject, string iidEvent, IDebugProgram2 program, IDebugThread2 thread)
+            {
+                EventObject = eventObject;
+                IidEvent = iidEvent;
+                Program = program;
+                Thread = thread;
+            }
+
+            public IDebugEvent2 EventObject { get; }
+            public string IidEvent { get; }
+            public IDebugProgram2 Program { get; }
+            public IDebugThread2 Thread { get; }
+
+            public void Wait()
+            {
+                _waitHandle.WaitOne();
+            }
+
+            public void Set()
+            {
+                _waitHandle.Set();
+            }
+        }
+
+        private ConcurrentQueue<EventModel> _operations = new ConcurrentQueue<EventModel>();
+        private Thread _thread;
+        private volatile bool _isClosed;
+
         public EngineCallback(AD7Engine engine, IDebugEventCallback2 ad7Callback)
         {
             _engine = engine;
             _eventCallback = ad7Callback;
+
+            _thread = new Thread(Run);
+            _thread.Name = "MIDebugger.EngineCallback";
+            _thread.Start();
+        }
+
+        private void Run()
+        {
+            while (!_isClosed)
+            {
+                EventModel em;
+                if (_operations.TryDequeue(out em))
+                {
+                    SendInternal(em);
+                }
+                else
+                {
+                   Thread.Sleep(100);
+                }
+            }
         }
 
         public void OnErrorImmediate(string message)
@@ -41,11 +95,22 @@ namespace BrightScript.Debugger.Engine
 
         public void Send(IDebugEvent2 eventObject, string iidEvent, IDebugProgram2 program, IDebugThread2 thread)
         {
-            uint attributes;
-            Guid riidEvent = new Guid(iidEvent);
+            var model = new EventModel(eventObject, iidEvent, program, thread);
 
-            EngineUtils.RequireOk(eventObject.GetAttributes(out attributes));
-            EngineUtils.RequireOk(_eventCallback.Event(_engine, null, program, thread, eventObject, ref riidEvent, attributes));
+            _operations.Enqueue(model);
+
+            model.Wait();
+        }
+
+        private void SendInternal(EventModel model)
+        {
+            uint attributes;
+            Guid riidEvent = new Guid(model.IidEvent);
+
+            EngineUtils.RequireOk(model.EventObject.GetAttributes(out attributes));
+            EngineUtils.RequireOk(_eventCallback.Event(_engine, null, model.Program, model.Thread, model.EventObject, ref riidEvent, attributes));
+
+            model.Set();
         }
 
         public void Send(IDebugEvent2 eventObject, string iidEvent, IDebugThread2 thread)
@@ -109,13 +174,16 @@ namespace BrightScript.Debugger.Engine
 
         public void OnThreadStart(DebuggedThread debuggedThread)
         {
-            //Debug.Assert(_engine.DebuggedProcess.WorkerThread.IsPollThread());
-
             // This will get called when the entrypoint breakpoint is fired because the engine sends a thread start event
             // for the main thread of the application.
 
             AD7ThreadCreateEvent eventObject = new AD7ThreadCreateEvent();
             Send(eventObject, AD7ThreadCreateEvent.IID, (IDebugThread2)debuggedThread.Client);
+        }
+
+        public void Close()
+        {
+            _isClosed = true;
         }
     }
 }

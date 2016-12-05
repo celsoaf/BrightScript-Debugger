@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using BrightScript.Debugger.Engine;
 using BrightScript.Debugger.Models;
 
 namespace BrightScript.Debugger.Interfaces
@@ -19,6 +20,7 @@ namespace BrightScript.Debugger.Interfaces
         Task ExecContinue(int threadId);
 
         Task<List<ThreadContext>> GetStackTrace();
+        Task<List<VariableInformation>> GetVariables();
 
         bool CanDetach();
     }

@@ -8,15 +8,37 @@ namespace BrightScript.Debugger.Engine
 {
     internal class VariableInformation : IVariableInformation
     {
+        private ThreadContext _ctx;
+        private AD7Engine _engine;
+        private AD7Thread _thread;
+        private readonly bool _isParameter;
+        private readonly VariableInformation _parent;
+
         internal VariableInformation(string expr, VariableInformation parent)
         {
-            
+            _parent = parent;
         }
 
 
         internal VariableInformation(string expr, ThreadContext ctx, AD7Engine engine, AD7Thread thread, bool isParameter = false)
         {
-            
+            _ctx = ctx;
+            _engine = engine;
+            _thread = thread;
+            _isParameter = isParameter;
+        }
+
+        public VariableInformation(string name, string value)
+        {
+            Name = name;
+            Value = value;
+        }
+
+        public void SetContext(ThreadContext ctx, AD7Engine engine, AD7Thread thread)
+        {
+            _ctx = ctx;
+            _engine = engine;
+            _thread = thread;
         }
 
         public void Dispose()
@@ -34,9 +56,10 @@ namespace BrightScript.Debugger.Engine
         public uint CountChildren { get; }
         public bool IsChild { get; set; }
         public enum_DBG_ATTRIB_FLAGS Access { get; }
+
         public string FullName()
         {
-            throw new System.NotImplementedException();
+            return Name;
         }
 
         public bool IsStringType { get; }

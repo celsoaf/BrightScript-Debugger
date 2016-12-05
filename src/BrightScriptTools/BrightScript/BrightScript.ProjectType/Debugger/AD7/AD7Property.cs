@@ -65,7 +65,7 @@ namespace BrightScript.Debugger.AD7
 
             if ((dwFields & enum_DEBUGPROP_INFO_FLAGS.DEBUGPROP_INFO_VALUE) != 0)
             {
-                //propertyInfo.bstrValue = _engine.DebuggedProcess.Natvis.FormatDisplayString(variable);
+                propertyInfo.bstrValue = variable.Value;
                 propertyInfo.dwFields |= enum_DEBUGPROP_INFO_FLAGS.DEBUGPROP_INFO_VALUE;
             }
 

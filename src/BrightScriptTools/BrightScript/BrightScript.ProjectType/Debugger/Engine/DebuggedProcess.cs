@@ -68,7 +68,11 @@ namespace BrightScript.Debugger.Engine
 
         public async Task<List<VariableInformation>> GetLocalsAndParameters(AD7Thread thread, ThreadContext ctx)
         {
-            throw new NotImplementedException();
+            var vars = await CommandFactory.GetVariables();
+
+            vars.ForEach(v=> v.SetContext(ctx, Engine, thread));
+
+            return vars;
         }
 
         public void OnPostedOperationError(object sender, Exception e)
@@ -136,7 +140,8 @@ namespace BrightScript.Debugger.Engine
                 }
             }
 
-            RokuControllerOnRunModeEvent();
+            //RokuControllerOnRunModeEvent();
+            ProcessState = ProcessState.Running;
         }
 
         public void Terminate()

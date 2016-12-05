@@ -21,9 +21,17 @@ namespace BrightScript.Debugger.Engine
 
         private ConcurrentBag<CommandModel> _operations = new ConcurrentBag<CommandModel>();
 
+        private readonly Dictionary<DebuggerCommandEnum, string> _injectStrings;
+        private DebuggerCommandEnum? _lasCommand;
+
         public RokuController(IPEndPoint endPoint)
         {
             _endPoint = endPoint;
+
+            _injectStrings = new Dictionary<DebuggerCommandEnum, string>();
+            //_injectStrings.Add(DebuggerCommandEnum.bt, "Backtrace: ");
+            _injectStrings.Add(DebuggerCommandEnum.var, "Local Variables: ");
+            _injectStrings.Add(DebuggerCommandEnum.list, "Current Function: ");
         }
 
         public event Action<string> OnOutput;
@@ -49,6 +57,7 @@ namespace BrightScript.Debugger.Engine
                 _operations.Add(cmd);
 
             _transport.Send($"{cmd.Cmd} {cmd.Arg}");
+            _lasCommand = cmd.Cmd;
 
             if (cmd.ResultType != CommandType.NoResult)
             {
@@ -87,6 +96,14 @@ namespace BrightScript.Debugger.Engine
                     if (line.Contains("------ Compiling dev '")) return;
                     _initialized = true;
                 }
+            }
+
+            if (_lasCommand.HasValue)
+            {
+                if (_injectStrings.ContainsKey(_lasCommand.Value))
+                    line = _injectStrings[_lasCommand.Value] + Environment.NewLine + line;
+
+                _lasCommand = null;
             }
 
             OnOutput?.Invoke(line);
@@ -151,7 +168,11 @@ namespace BrightScript.Debugger.Engine
 
         private void ParserOnVariablesProcessed(List<VariableModel> variableModels)
         {
+            var vars = variableModels.Select(v =>
+                    new VariableInformation(v.Ident, v.Value))
+                .ToList();
 
+            DispatchCommands(CommandType.Variables, vars);
         }
 
         private async void ParserOnAppOpenProcessed()

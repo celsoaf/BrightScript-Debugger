@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using BrightScript.Debugger.Engine;
 using BrightScript.Debugger.Enums;
 using BrightScript.Debugger.Interfaces;
 using BrightScript.Debugger.Models;
@@ -58,6 +59,11 @@ namespace BrightScript.Debugger.Commands
         public async Task<List<ThreadContext>> GetStackTrace()
         {
             return await _rokuController.CmdAsync<List<ThreadContext>>(new CommandModel(CommandType.Backtrace, DebuggerCommandEnum.bt));
+        }
+
+        public async Task<List<VariableInformation>> GetVariables()
+        {
+            return await _rokuController.CmdAsync<List<VariableInformation>>(new CommandModel(CommandType.Variables, DebuggerCommandEnum.var));
         }
 
         public bool CanDetach()

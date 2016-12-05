@@ -5,6 +5,7 @@
         NoResult = 0,
         Step = 1,
         Backtrace = 2,
-        Variables = 3
+        Variables = 3, 
+        Print = 4
     }
 }

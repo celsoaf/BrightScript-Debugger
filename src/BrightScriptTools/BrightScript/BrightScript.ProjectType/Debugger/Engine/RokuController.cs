@@ -103,10 +103,13 @@ namespace BrightScript.Debugger.Engine
                 if (_injectStrings.ContainsKey(_lasCommand.Value))
                     line = _injectStrings[_lasCommand.Value] + Environment.NewLine + line;
 
+
                 _lasCommand = null;
             }
 
             OnOutput?.Invoke(line);
+
+            DispatchPrint(line);
 
             try
             {
@@ -156,6 +159,18 @@ namespace BrightScript.Debugger.Engine
             }
         }
 
+        private void DispatchPrint(string line)
+        {
+            var debug = "Brightscript Debugger>";
+            var value = line;
+            if (value.Contains(debug))
+                value = value.Remove(value.LastIndexOf(debug));
+
+            value = value.Trim();
+
+            DispatchCommands(CommandType.Print, value);
+        }
+
         private void ParserOnCurrentFunctionProcessed(List<string> list)
         {
 
@@ -169,7 +184,7 @@ namespace BrightScript.Debugger.Engine
         private void ParserOnVariablesProcessed(List<VariableModel> variableModels)
         {
             var vars = variableModels.Select(v =>
-                    new VariableInformation(v.Ident, v.Value))
+                    new SimpleVariableInformation(v.Ident, false, v.Value))
                 .ToList();
 
             DispatchCommands(CommandType.Variables, vars);

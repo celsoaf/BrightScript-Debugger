@@ -20,7 +20,9 @@ namespace BrightScript.Debugger.Interfaces
         Task ExecContinue(int threadId);
 
         Task<List<ThreadContext>> GetStackTrace();
-        Task<List<VariableInformation>> GetVariables();
+        Task<List<SimpleVariableInformation>> GetVariables();
+
+        Task<string> Print(string ident);
 
         bool CanDetach();
     }

@@ -61,9 +61,14 @@ namespace BrightScript.Debugger.Commands
             return await _rokuController.CmdAsync<List<ThreadContext>>(new CommandModel(CommandType.Backtrace, DebuggerCommandEnum.bt));
         }
 
-        public async Task<List<VariableInformation>> GetVariables()
+        public async Task<List<SimpleVariableInformation>> GetVariables()
         {
-            return await _rokuController.CmdAsync<List<VariableInformation>>(new CommandModel(CommandType.Variables, DebuggerCommandEnum.var));
+            return await _rokuController.CmdAsync<List<SimpleVariableInformation>>(new CommandModel(CommandType.Variables, DebuggerCommandEnum.var));
+        }
+
+        public async Task<string> Print(string ident)
+        {
+            return await _rokuController.CmdAsync<string>(new CommandModel(CommandType.Print, DebuggerCommandEnum.p, ident));
         }
 
         public bool CanDetach()

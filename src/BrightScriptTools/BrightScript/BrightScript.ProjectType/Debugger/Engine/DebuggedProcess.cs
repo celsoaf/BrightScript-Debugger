@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -70,9 +71,13 @@ namespace BrightScript.Debugger.Engine
         {
             var vars = await CommandFactory.GetVariables();
 
-            vars.ForEach(v=> v.SetContext(ctx, Engine, thread));
+            var res = new List<VariableInformation>();
+            foreach (var variable in vars)
+            {
+                res.Add(await variable.CreateMIDebuggerVariable(ctx,Engine, thread));
+            }
 
-            return vars;
+            return res;
         }
 
         public void OnPostedOperationError(object sender, Exception e)

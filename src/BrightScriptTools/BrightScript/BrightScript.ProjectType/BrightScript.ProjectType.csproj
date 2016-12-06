@@ -313,6 +313,7 @@
     <Compile Include="Debugger\Engine\VariableInformation.cs" />
     <Compile Include="Debugger\Enums\CommandResult.cs" />
     <Compile Include="Debugger\Enums\ExceptionBreakpointState.cs" />
+    <Compile Include="Debugger\Enums\NodeType.cs" />
     <Compile Include="Debugger\Enums\ProcessState.cs" />
     <Compile Include="Debugger\Exceptions\InvalidCoreDumpOperationException.cs" />
     <Compile Include="Debugger\Exceptions\MIDebuggerInitializeFailedException.cs" />

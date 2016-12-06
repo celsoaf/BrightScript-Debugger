@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using BrightScript.Debugger.AD7;
+using BrightScript.Debugger.Enums;
 using BrightScript.Debugger.Interfaces;
 using BrightScript.Debugger.Models;
 using Microsoft.VisualStudio.Debugger.Interop;
@@ -9,93 +12,150 @@ namespace BrightScript.Debugger.Engine
 {
     internal class VariableInformation : IVariableInformation
     {
-        private ThreadContext _ctx;
+        private static Dictionary<string, NodeType> mapper = new Dictionary<string, NodeType>()
+        {
+            { "<Component: roAssociativeArray> =", NodeType.Field }   
+        };
+
+        private string _internalName;  // the MI debugger's private name for this value
         private AD7Engine _engine;
-        private AD7Thread _thread;
-        private readonly bool _isParameter;
-        private readonly VariableInformation _parent;
+        private DebuggedProcess _debuggedProcess;
+        private ThreadContext _ctx;
+        private bool _attribsFetched;
+        private bool _isReadonly;
+        private string _format;
+        private string _strippedName;  // "Name" stripped of format specifiers
+        private IVariableInformation _parent;
+        private string _fullname;
+
+        public string Name { get; private set; }
+        public string Value { get; private set; }
+        public string TypeName { get; private set; }
+        public bool IsParameter { get; private set; }
+        public List<IVariableInformation> Children { get;  } = new List<IVariableInformation>();
+        public AD7Thread Client { get; private set; }
+        public bool Error { get; private set; }
+        public uint CountChildren { get { return (uint)Children.Count; } }
+        public bool IsChild { get; set; }
+        public enum_DBG_ATTRIB_FLAGS Access { get; private set; }
+        public bool IsVisualized { get { return _parent == null ? false : _parent.IsVisualized; } }
+        public enum_DEBUGPROP_INFO_FLAGS PropertyInfoFlags { get; set; }
+
+        public NodeType VariableNodeType { get; private set; }
 
         internal VariableInformation(string expr, VariableInformation parent)
         {
-            ProcessExp(expr);
+            Name = expr;
             _parent = parent;
-        }
-
-        private void ProcessExp(string expr)
-        {
-            if (expr.Contains("="))
-            {
-                var parts = expr.Split('=');
-                Name = parts[0];
-                Value = parts[1];
-            }
-            else
-            {
-                Name = expr;
-            }
         }
 
 
         internal VariableInformation(string expr, ThreadContext ctx, AD7Engine engine, AD7Thread thread, bool isParameter = false)
         {
-            ProcessExp(expr);
+            Name = expr;
             _ctx = ctx;
             _engine = engine;
-            _thread = thread;
-            _isParameter = isParameter;
+            Client = thread;
+            IsParameter = isParameter;
         }
 
         public void Dispose()
         {
-            throw new System.NotImplementedException();
+            
         }
-
-        public string Name { get; private set; }
-        public string Value { get; private set; }
-        public string TypeName { get; }
-        public bool IsParameter { get; }
-        public IVariableInformation[] Children { get; }
-        public AD7Thread Client { get; }
-        public bool Error { get; }
-        public uint CountChildren { get; }
-        public bool IsChild { get; set; }
-        public enum_DBG_ATTRIB_FLAGS Access { get; }
 
         public string FullName()
         {
+            if (_parent != null)
+                return _parent.FullName() + "." + Name;
             return Name;
         }
 
         public bool IsStringType { get; }
         public void EnsureChildren()
         {
-            //throw new System.NotImplementedException();
-            Console.WriteLine();
+            if ((CountChildren != 0) && (Children == null))
+            {
+                Task task = FetchChildren();
+                task.Wait();
+            }
+        }
+
+        private Task FetchChildren()
+        {
+            // Note: I am not sure if it is actually useful to run the evaluation code off of the poll thread (will GDB actually handle other commands at the same time)
+            // but this seems like one place where we might want to to, so I am allowing it
+            return Task.Run((Func<Task>)InternalFetchChildren);
+        }
+
+        private async Task InternalFetchChildren()
+        {
+
         }
 
         public void AsyncEval(IDebugEventCallback2 pExprCallback)
         {
-            //throw new System.NotImplementedException();
-            Console.WriteLine();
+            IEngineCallback engineCallback;
+            if (pExprCallback != null)
+            {
+                engineCallback = new EngineCallback(_engine, pExprCallback);
+            }
+            else
+            {
+                engineCallback = _engine.Callback;
+            }
+
+            Task evalTask = Task.Run(async () =>
+            {
+                await Eval();
+            });
+
+            Action<Task> onComplete = (Task t) =>
+            {
+                engineCallback.OnExpressionEvaluationComplete(this);
+            };
+            evalTask.ContinueWith(onComplete, TaskContinuationOptions.ExecuteSynchronously);
         }
 
         public void AsyncError(IDebugEventCallback2 pExprCallback, IDebugProperty2 error)
         {
-            //throw new System.NotImplementedException();
-            Console.WriteLine();
+            AsyncErrorImpl(pExprCallback != null ? new EngineCallback(_engine, pExprCallback) : _engine.Callback, this, error);
+        }
+
+        public static void AsyncErrorImpl(IEngineCallback engineCallback, IVariableInformation var, IDebugProperty2 error)
+        {
+            Task.Run(() =>
+            {
+                engineCallback.OnExpressionEvaluationComplete(var, error);
+            });
         }
 
         public void SyncEval(enum_EVALFLAGS dwFlags = (enum_EVALFLAGS) 0)
         {
-            //throw new System.NotImplementedException();
-            Console.WriteLine();
+            Task eval = Task.Run(async () =>
+            {
+                await Eval(dwFlags);
+            });
+            eval.Wait();
         }
 
         public ThreadContext ThreadContext { get; }
         public IVariableInformation FindChildByName(string name)
         {
-            //throw new System.NotImplementedException();
-            return null;
+            EnsureChildren();
+            if (CountChildren == 0)
+            {
+                return null;
+            }
+            Debug.Assert(Children != null, "Failed to find children");
+            IVariableInformation var = Children.Find(c => c.Name == name);
+            if (var != null)
+            {
+                return var;
+            }
+            VariableInformation baseChild = null;
+            //var = Array.Find(Children, (c) => c.VariableNodeType == NodeType.BaseClass && (baseChild = c.FindChildByName(name)) != null);
+            return baseChild;
         }
 
         public string EvalDependentExpression(string expr)
@@ -103,9 +163,6 @@ namespace BrightScript.Debugger.Engine
             //throw new System.NotImplementedException();
             return null;
         }
-
-        public bool IsVisualized { get; }
-        public enum_DEBUGPROP_INFO_FLAGS PropertyInfoFlags { get; set; }
         public void Assign(string expression)
         {
             //throw new System.NotImplementedException();
@@ -114,7 +171,36 @@ namespace BrightScript.Debugger.Engine
 
         public async Task Eval(enum_EVALFLAGS dwFlags = (enum_EVALFLAGS) 0)
         {
-            Value = await _engine.DebuggedProcess.CommandFactory.Print(Name);
+            var val = await _engine.DebuggedProcess.CommandFactory.Print(FullName());
+
+            foreach (var node in mapper)
+            {
+                if (val.StartsWith(node.Key))
+                {
+                    VariableNodeType = node.Value;
+
+                    val = val.Replace(node.Key, "").Trim();
+                }
+            }
+
+            Value = val;
+
+            switch (VariableNodeType)
+            {
+                case NodeType.Field:
+                    var parts = val.Split(new char[] {'\n', '\r'});
+                    foreach (var part in parts)
+                    {
+                        if (part.Contains(":"))
+                        {
+                            var vals = part.Split(':');
+                            Children.Add(new VariableInformation(vals[0].Trim(), this));
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

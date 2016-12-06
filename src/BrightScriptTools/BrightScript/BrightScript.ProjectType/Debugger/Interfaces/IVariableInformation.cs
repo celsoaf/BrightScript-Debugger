@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BrightScript.Debugger.AD7;
+using BrightScript.Debugger.Enums;
 using BrightScript.Debugger.Models;
 using Microsoft.VisualStudio.Debugger.Interop;
 
@@ -12,7 +14,7 @@ namespace BrightScript.Debugger.Interfaces
         string Value { get; }
         string TypeName { get; }
         bool IsParameter { get; }
-        IVariableInformation[] Children { get; } // children are never synthetic
+        List<IVariableInformation> Children { get; } // children are never synthetic
         AD7Thread Client { get; }
         bool Error { get; }
         uint CountChildren { get; }
@@ -25,6 +27,8 @@ namespace BrightScript.Debugger.Interfaces
         void AsyncError(IDebugEventCallback2 pExprCallback, IDebugProperty2 error);
         void SyncEval(enum_EVALFLAGS dwFlags = 0);
         ThreadContext ThreadContext { get; }
+
+        NodeType VariableNodeType { get; }
         IVariableInformation FindChildByName(string name);
         string EvalDependentExpression(string expr);
         bool IsVisualized { get; }

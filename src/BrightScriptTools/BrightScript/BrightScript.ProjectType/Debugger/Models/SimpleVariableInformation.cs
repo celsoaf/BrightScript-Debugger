@@ -21,11 +21,7 @@ namespace BrightScript.Debugger.Models
 
         internal async Task<VariableInformation> CreateMIDebuggerVariable(ThreadContext ctx, AD7Engine engine, AD7Thread thread)
         {
-            var exp = Name;
-            if (!string.IsNullOrWhiteSpace(Value))
-                exp += $"={Value}";
-
-            VariableInformation vi = new VariableInformation(exp, ctx, engine, thread, IsParameter);
+            VariableInformation vi = new VariableInformation(Name, ctx, engine, thread, IsParameter);
             await vi.Eval();
             return vi;
         }

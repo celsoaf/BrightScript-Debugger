@@ -99,7 +99,8 @@ namespace BrightScript.Debugger.Engine
 
         public void OnExpressionEvaluationComplete(IVariableInformation var, IDebugProperty2 prop = null)
         {
-            throw new System.NotImplementedException();
+            AD7ExpressionCompleteEvent eventObject = new AD7ExpressionCompleteEvent(_engine, var, prop);
+            Send(eventObject, AD7ExpressionCompleteEvent.IID, var.Client);
         }
 
         public void OnThreadExit(DebuggedThread debuggedThread, uint exitCode)

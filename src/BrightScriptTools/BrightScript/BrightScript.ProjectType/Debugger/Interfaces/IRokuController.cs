@@ -10,6 +10,7 @@ namespace BrightScript.Debugger.Interfaces
     {
         event Action<string> OnOutput;
         event Action<List<ThreadContext>> OnBackTrace;
+        event Action<List<SimpleVariableInformation>> OnVariables;
 
         event Action<int> BreakModeEvent;
         event Action RunModeEvent;

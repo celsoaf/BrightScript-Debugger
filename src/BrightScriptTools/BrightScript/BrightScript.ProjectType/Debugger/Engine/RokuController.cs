@@ -36,6 +36,7 @@ namespace BrightScript.Debugger.Engine
 
         public event Action<string> OnOutput;
         public event Action<List<ThreadContext>> OnBackTrace;
+        public event Action<List<SimpleVariableInformation>> OnVariables;
         public event Action<int> BreakModeEvent;
         public event Action RunModeEvent;
         public event Action ProcessExitEvent;
@@ -186,6 +187,8 @@ namespace BrightScript.Debugger.Engine
             var vars = variableModels.Select(v =>
                     new SimpleVariableInformation(v.Ident, false, v.Value))
                 .ToList();
+
+            OnVariables?.Invoke(vars);
 
             DispatchCommands(CommandType.Variables, vars);
         }

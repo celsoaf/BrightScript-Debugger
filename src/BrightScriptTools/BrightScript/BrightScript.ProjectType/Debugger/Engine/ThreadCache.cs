@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BrightScript.Debugger.AD7;
@@ -15,7 +16,7 @@ namespace BrightScript.Debugger.Engine
         private List<DebuggedThread> _threadList;
         private Dictionary<int, List<ThreadContext>> _stackFrames;
         private Dictionary<int, ThreadContext> _topContext;    // can retrieve the top frame without walking the stack
-
+        private Dictionary<int, List<SimpleVariableInformation>> _variables = new Dictionary<int, List<SimpleVariableInformation>>();
 
         private List<DebuggedThread> _deadThreads;
         private List<DebuggedThread> _newThreads;
@@ -91,6 +92,7 @@ namespace BrightScript.Debugger.Engine
             {
                 _topContext.Clear();
                 _stackFrames.Clear();
+                _variables.Clear();
             }
         }
 
@@ -127,6 +129,23 @@ namespace BrightScript.Debugger.Engine
                                     .OrderBy(s => s.Level)
                                     .FirstOrDefault();
             }
+        }
+
+        public void SetVariables(int id, List<SimpleVariableInformation> variables)
+        {
+            lock (_threadList)
+            {
+                _variables[id] = variables;
+            }
+        }
+
+        public SimpleVariableInformation GetVariable(int id, string name)
+        {
+            lock (_threadList)
+                if (_variables.ContainsKey(id))
+                    return _variables[id].FirstOrDefault(v => v.Name == name);
+
+            return null;
         }
     }
 }

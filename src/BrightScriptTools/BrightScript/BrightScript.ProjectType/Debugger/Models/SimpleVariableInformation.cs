@@ -4,14 +4,14 @@ using BrightScript.Debugger.Engine;
 
 namespace BrightScript.Debugger.Models
 {
-    internal class SimpleVariableInformation
+    public class SimpleVariableInformation
     {
         public string Name { get; private set; }
         public string Value { get; private set; }
         public string TypeName { get; private set; }
         public bool IsParameter { get; private set; }
 
-        internal SimpleVariableInformation(string name, bool isParam = false, string value = null, string type = null)
+        public SimpleVariableInformation(string name, bool isParam = false, string value = null, string type = null)
         {
             Name = name;
             Value = value;

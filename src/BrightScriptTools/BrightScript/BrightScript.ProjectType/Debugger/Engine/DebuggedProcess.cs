@@ -36,6 +36,7 @@ namespace BrightScript.Debugger.Engine
             _rokuController = new RokuController(endPoint);
             _rokuController.OnOutput += RokuControllerOnOutput;
             _rokuController.OnBackTrace += RokuControllerOnOnBackTrace;
+            _rokuController.OnVariables += RokuControllerOnOnVariables;
             _rokuController.RunModeEvent += RokuControllerOnRunModeEvent;
             _rokuController.BreakModeEvent += RokuControllerOnBreakModeEvent;
             _rokuController.ProcessExitEvent += RokuControllerOnProcessExitEvent;
@@ -173,6 +174,11 @@ namespace BrightScript.Debugger.Engine
         private void RokuControllerOnOnBackTrace(List<ThreadContext> threadContexts)
         {
             ThreadCache.SetStackFrames(0, threadContexts);
+        }
+
+        private void RokuControllerOnOnVariables(List<SimpleVariableInformation> simpleVariableInformations)
+        {
+            ThreadCache.SetVariables(0, simpleVariableInformations);
         }
 
         private void RokuControllerOnRunModeEvent()

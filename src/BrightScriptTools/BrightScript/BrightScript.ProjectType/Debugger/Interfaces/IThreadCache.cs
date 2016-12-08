@@ -16,5 +16,7 @@ namespace BrightScript.Debugger.Interfaces
         void SendThreadEvents();
 
         void SetStackFrames(int id, List<ThreadContext> frames);
+        void SetVariables(int id, List<SimpleVariableInformation> variables);
+        SimpleVariableInformation GetVariable(int id, string name);
     }
 }

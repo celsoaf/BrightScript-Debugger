@@ -45,11 +45,6 @@ namespace BrightScript.Debugger.AD7
             _textPosition = threadContext.TextPosition;
             _functionName = threadContext.Function;
 
-            if (threadContext.pc.HasValue)
-            {
-                _codeCxt = new AD7MemoryAddress(this.Engine, threadContext.pc.Value, _functionName);
-            }
-
             if (_textPosition != null)
             {
                 _documentCxt = new AD7DocumentContext(_textPosition, _codeCxt);
@@ -102,7 +97,7 @@ namespace BrightScript.Debugger.AD7
                     
                     if ((dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_FUNCNAME_ARGS) != 0 && !Engine.DebuggedProcess.CommandFactory.SupportsFrameFormatting)
                     {
-                        frameInfo.m_bstrFuncName += "(";
+                        //frameInfo.m_bstrFuncName += "(";
                         if (parameters != null && parameters.Count > 0)
                         {
                             for (int i = 0; i < parameters.Count; i++)
@@ -134,12 +129,12 @@ namespace BrightScript.Debugger.AD7
                                 }
                             }
                         }
-                        frameInfo.m_bstrFuncName += ")";
+                        //frameInfo.m_bstrFuncName += ")";
                     }
 
                     if ((dwFieldSpec & enum_FRAMEINFO_FLAGS.FIF_FUNCNAME_LINES) != 0)
                     {
-                        frameInfo.m_bstrFuncName += string.Format(CultureInfo.CurrentCulture, " Line {0}", _textPosition.BeginPosition.dwLine + 1);
+                        frameInfo.m_bstrFuncName += string.Format(CultureInfo.CurrentCulture, " - Line {0}", _textPosition.BeginPosition.dwLine + 1);
                     }
                 }
                 frameInfo.m_dwValidFields |= enum_FRAMEINFO_FLAGS.FIF_FUNCNAME;

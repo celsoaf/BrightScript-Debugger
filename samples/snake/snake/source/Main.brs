@@ -49,12 +49,11 @@ end function
 '
 
 Function newSnakeApp()
-    stop
     app={ }       ' Create a BrightScript roAssociativeArray Component
     app.GameReset=appGameReset
     app.EventLoop=appEventLoop
     app.GameOver=appGameOver
-
+	stop
     app.screen=CreateObject("roScreen", true)  ' true := use double buffer
     if type(app.screen)<>"roScreen" 
         print "Unable to create roscreen."
@@ -308,7 +307,7 @@ Function snkMakeLonger(app)
 End Function
 
 Function snkTurn(app, newdx, newdy)
-
+	stop
     if newdx=m.dx and newdy=m.dy 
 		return false   ' already heading this way
 	end if

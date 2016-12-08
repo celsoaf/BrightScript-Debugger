@@ -60,6 +60,7 @@ namespace BrightScript.Debugger.Engine
         public async Task Execute(DebuggedThread thread)
         {
             await CommandFactory.ExecContinue(thread.Id);
+            ProcessState = ProcessState.Running;
         }
 
         public async Task<List<SimpleVariableInformation>> GetParameterInfoOnly(AD7Thread thread, ThreadContext ctx)

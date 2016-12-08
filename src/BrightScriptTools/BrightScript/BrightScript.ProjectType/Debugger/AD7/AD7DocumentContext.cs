@@ -78,21 +78,10 @@ namespace BrightScript.Debugger.AD7
 
             string fileExtension = _textPosition.GetFileExtension();
 
-            if (fileExtension.Equals(".cs", StringComparison.OrdinalIgnoreCase))
+            if (fileExtension.Equals(".brs", StringComparison.OrdinalIgnoreCase))
             {
-                pbstrLanguage = "C#";
-                pguidLanguage = AD7Guids.guidLanguageCs;
-            }
-            // NOTE: Use a case sensitive comparison, since '.C' can be used for C++ on unix
-            else if (fileExtension == ".c")
-            {
-                pbstrLanguage = "C";
-                pguidLanguage = AD7Guids.guidLanguageC;
-            }
-            else
-            {
-                pbstrLanguage = "C++";
-                pguidLanguage = AD7Guids.guidLanguageCpp;
+                pbstrLanguage = BrightScriptPackage.DefaultNamespace;
+                pguidLanguage = AD7Guids.guidLanguageBrs;
             }
 
             return VSConstants.S_OK;

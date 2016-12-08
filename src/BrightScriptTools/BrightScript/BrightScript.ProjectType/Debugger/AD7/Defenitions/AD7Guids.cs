@@ -60,5 +60,11 @@ namespace BrightScript.Debugger.AD7.Defenitions
         {
             get { return s_guidLanguageC; }
         }
+
+        static private Guid s_guidLanguageBrs = new Guid("3B28DF9F-33DC-4429-821A-66E4CDAEBC28");
+        static public Guid guidLanguageBrs
+        {
+            get { return s_guidLanguageBrs; }
+        }
     }
 }

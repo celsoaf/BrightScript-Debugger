@@ -59,6 +59,8 @@ namespace BrightScript.Debugger.Engine
 
         public async Task Execute(DebuggedThread thread)
         {
+            ThreadCache.MarkDirty();
+
             await CommandFactory.ExecContinue(thread.Id);
             ProcessState = ProcessState.Running;
         }

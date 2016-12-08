@@ -170,7 +170,13 @@ namespace BrightScript.Debugger.Engine
 
         public async Task Eval(enum_EVALFLAGS dwFlags = (enum_EVALFLAGS) 0)
         {
-            var val = await _engine.DebuggedProcess.CommandFactory.Print(FullName());
+            var variable = _engine.DebuggedProcess.ThreadCache.GetVariable(Client.Id, Name);
+
+            var val = String.Empty;
+            if (variable != null && !variable.Value.Contains("roAssociativeArray"))
+                val = variable.Value;
+            else
+                val = await _engine.DebuggedProcess.CommandFactory.Print(FullName());
 
             foreach (var node in mapper)
             {

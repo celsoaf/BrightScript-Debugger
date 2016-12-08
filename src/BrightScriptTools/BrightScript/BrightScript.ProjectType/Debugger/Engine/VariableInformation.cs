@@ -47,6 +47,9 @@ namespace BrightScript.Debugger.Engine
         {
             Name = expr;
             _parent = parent;
+            _ctx = parent._ctx;
+            _engine = parent._engine;
+            Client = parent.Client;
         }
 
 
@@ -74,23 +77,19 @@ namespace BrightScript.Debugger.Engine
         public bool IsStringType { get; }
         public void EnsureChildren()
         {
-            if ((CountChildren != 0) && (Children == null))
+            if (CountChildren != 0)
             {
                 Task task = FetchChildren();
                 task.Wait();
             }
         }
 
-        private Task FetchChildren()
+        private async Task FetchChildren()
         {
-            // Note: I am not sure if it is actually useful to run the evaluation code off of the poll thread (will GDB actually handle other commands at the same time)
-            // but this seems like one place where we might want to to, so I am allowing it
-            return Task.Run((Func<Task>)InternalFetchChildren);
-        }
-
-        private async Task InternalFetchChildren()
-        {
-
+            foreach (var variableInformation in Children)
+            {
+                await variableInformation.Eval();
+            }   
         }
 
         public void AsyncEval(IDebugEventCallback2 pExprCallback)

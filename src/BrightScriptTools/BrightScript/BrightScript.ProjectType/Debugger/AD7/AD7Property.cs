@@ -118,22 +118,13 @@ namespace BrightScript.Debugger.AD7
 
             if (_variableInformation.CountChildren != 0)
             {
-                try
+                DEBUG_PROPERTY_INFO[] properties = new DEBUG_PROPERTY_INFO[_variableInformation.Children.Count];
+                for (int i = 0; i < _variableInformation.Children.Count; i++)
                 {
-                    //_engine.DebuggedProcess.Natvis.WaitDialog.ShowWaitDialog(_variableInformation.Name);
-                    //var children = _engine.DebuggedProcess.Natvis.Expand(_variableInformation);
-                    //DEBUG_PROPERTY_INFO[] properties = new DEBUG_PROPERTY_INFO[children.Length];
-                    //for (int i = 0; i < children.Length; i++)
-                    //{
-                    //    properties[i] = (new AD7Property(_engine, children[i])).ConstructDebugPropertyInfo(dwFields);
-                    //}
-                    //ppEnum = new AD7PropertyEnum(properties);
-                    return VSConstants.S_OK;
+                    properties[i] = (new AD7Property(_engine, _variableInformation.Children[i])).ConstructDebugPropertyInfo(dwFields);
                 }
-                finally
-                {
-                    //_engine.DebuggedProcess.Natvis.WaitDialog.EndWaitDialog();
-                }
+                ppEnum = new AD7PropertyEnum(properties);
+                return VSConstants.S_OK;
             }
 
             return VSConstants.S_FALSE;

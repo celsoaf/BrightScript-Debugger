@@ -67,7 +67,7 @@ namespace BrightScript.Debugger.AD7
             ppResult = null;
             if ((dwFlags & enum_EVALFLAGS.EVAL_NOSIDEEFFECTS) != 0 && _var.IsVisualized)
             {
-                IVariableInformation variable = null; // _engine.DebuggedProcess.Natvis.Cache.Lookup(_var);
+                IVariableInformation variable = _var;
                 if (variable == null)
                 {
                     ppResult = new AD7ErrorProperty(_var.Name, ResourceStrings.NoSideEffectsVisualizerMessage);

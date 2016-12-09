@@ -57,7 +57,10 @@ namespace BrightScript.Debugger.Engine
             if (cmd.ResultType != CommandType.NoResult)
                 _operations.Add(cmd);
 
-            _transport.Send($"{cmd.Cmd} {cmd.Arg}");
+            if(cmd.Cmd != DebuggerCommandEnum.custom)
+                _transport.Send($"{cmd.Cmd} {cmd.Arg}");
+            else
+                _transport.Send(cmd.Arg);
             _lasCommand = cmd.Cmd;
 
             if (cmd.ResultType != CommandType.NoResult)
@@ -110,7 +113,7 @@ namespace BrightScript.Debugger.Engine
 
             OnOutput?.Invoke(line);
 
-            DispatchPrint(line);
+            DispatchGeneric(line);
 
             try
             {
@@ -160,7 +163,7 @@ namespace BrightScript.Debugger.Engine
             }
         }
 
-        private void DispatchPrint(string line)
+        private void DispatchGeneric(string line)
         {
             var debug = "Brightscript Debugger>";
             var value = line;
@@ -170,6 +173,7 @@ namespace BrightScript.Debugger.Engine
             value = value.Trim();
 
             DispatchCommands(CommandType.Print, value);
+            DispatchCommands(CommandType.Command, value);
         }
 
         private void ParserOnCurrentFunctionProcessed(List<string> list)

@@ -58,6 +58,9 @@
         u,
         // Summary:
         //     Print local variables and their types/values
-        var
+        var,
+        // Summary:
+        //     Costum command
+        custom
     }
 }

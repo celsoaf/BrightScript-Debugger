@@ -6,6 +6,7 @@
         Step = 1,
         Backtrace = 2,
         Variables = 3, 
-        Print = 4
+        Print = 4,
+        Command = 5
     }
 }

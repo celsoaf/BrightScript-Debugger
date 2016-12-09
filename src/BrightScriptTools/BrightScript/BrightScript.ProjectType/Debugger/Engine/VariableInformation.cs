@@ -164,8 +164,7 @@ namespace BrightScript.Debugger.Engine
         }
         public void Assign(string expression)
         {
-            //throw new System.NotImplementedException();
-            Console.WriteLine();
+            _engine.DebuggedProcess.CommandFactory.ExecCommand($"{FullName()}={expression}");
         }
 
         public async Task Eval(enum_EVALFLAGS dwFlags = (enum_EVALFLAGS) 0)

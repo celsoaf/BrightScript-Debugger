@@ -71,6 +71,11 @@ namespace BrightScript.Debugger.Commands
             return await _rokuController.CmdAsync<string>(new CommandModel(CommandType.Print, DebuggerCommandEnum.p, ident));
         }
 
+        public async Task<string> ExecCommand(string command)
+        {
+            return await _rokuController.CmdAsync<string>(new CommandModel(CommandType.Command, DebuggerCommandEnum.custom, command));
+        }
+
         public bool CanDetach()
         {
             return true;

@@ -24,6 +24,8 @@ namespace BrightScript.Debugger.Interfaces
 
         Task<string> Print(string ident);
 
+        Task<string> ExecCommand(string command);
+
         bool CanDetach();
     }
 }

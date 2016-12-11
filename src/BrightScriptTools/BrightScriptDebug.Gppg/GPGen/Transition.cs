@@ -5,7 +5,7 @@
 
 using System.Collections.Generic;
 
-namespace BrightScriptTools.Gppg.GPGen
+namespace BrightScriptDebug.Gppg.GPGen
 {
 	internal class Transition
 	{

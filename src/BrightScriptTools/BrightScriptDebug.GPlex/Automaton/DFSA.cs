@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex.Parser;
 
-namespace BrightScriptTools.GPlex.Automaton
+namespace BrightScriptDebug.GPlex.Automaton
 {
     /// <summary>
     /// Represents a SET of DFSA. There is a separate DFSA 
@@ -1169,7 +1169,7 @@ namespace BrightScriptTools.GPlex.Automaton
                             else if (selector == "usingDcl")
                             {
                                 if (!myTask.EmbedBuffers)
-                                    sWrtr.WriteLine("using BrightScriptTools.GPlex;");
+                                    sWrtr.WriteLine("using BrightScriptDebug.GPlex;");
 
                                 foreach (LexSpan s in myTask.aast.usingStrs)
                                 {

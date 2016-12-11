@@ -157,6 +157,7 @@
     <Compile Include="Events\BacktraceEvent.cs" />
     <Compile Include="Events\BusyHideEvent.cs" />
     <Compile Include="Events\BusyShowEvent.cs" />
+    <Compile Include="Events\ClearLogsEvent.cs" />
     <Compile Include="Events\CommandEvent.cs" />
     <Compile Include="Events\ConnectEvent.cs" />
     <Compile Include="Events\DebugEvent.cs" />
@@ -200,9 +201,7 @@
     <Compile Include="Services\Screenshot\ScreenshotService.cs" />
     <Compile Include="Services\Telnet\ITelnetService.cs" />
     <Compile Include="Services\Telnet\SoketService.cs" />
-    <Compile Include="Services\Telnet\Utils\RokuStringParser.cs" />
-    <Compile Include="Services\Telnet\Utils\RokuReceiverFilter.cs" />
-    <Compile Include="Services\Telnet\Utils\TerminatorReceiveFilter .cs" />
+    <Compile Include="Services\Telnet\TcpService.cs" />
     <Compile Include="Utils\AutoScrollingListView.cs" />
     <Compile Include="Utils\DigestHttpWebRequest.cs" />
     <Compile Include="Utils\MultipartFormData.cs" />
@@ -405,16 +404,6 @@
     <Resource Include="Resources\remove.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BrightScriptDebug.GPlex\BrightScriptDebug.GPlex.csproj">
-      <Project>{f9e856de-8322-4556-8c5d-d9ed9dbbe894}</Project>
-      <Name>BrightScriptDebug.GPlex</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BrightScriptDebug.Gppg\BrightScriptDebug.Gppg.csproj">
-      <Project>{8e6c1395-5abd-416a-9721-28aa5cc45263}</Project>
-      <Name>BrightScriptDebug.Gppg</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\document.png" />
     <Resource Include="Resources\property-blue.png" />
   </ItemGroup>
@@ -450,6 +439,22 @@
     <Resource Include="Resources\stepin.png" />
     <Resource Include="Resources\stepout.png" />
     <Resource Include="Resources\stepover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\clearLog.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\clearLogs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BrightScriptDebug.GPlex\BrightScriptDebug.GPlex.csproj">
+      <Project>{ab14173e-328a-44d9-a15e-1b39e0e30c0d}</Project>
+      <Name>BrightScriptDebug.GPlex</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BrightScriptDebug.Gppg\BrightScriptDebug.Gppg.csproj">
+      <Project>{c107259d-908a-4164-a6bc-56ea5c09c38d}</Project>
+      <Name>BrightScriptDebug.Gppg</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

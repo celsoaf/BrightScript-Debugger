@@ -4,9 +4,9 @@
 
 using System;
 using System.Globalization;
-using BrightScriptTools.Gppg.GPGen.Parser;
+using BrightScriptDebug.Gppg.GPGen.Parser;
 
-namespace BrightScriptTools.Gppg.GPGen.Lexers
+namespace BrightScriptDebug.Gppg.GPGen.Lexers
 {
     internal sealed partial class Scanner : ScanBase
     {

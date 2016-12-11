@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BrightScriptTools.GPlex;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex;
+using BrightScriptDebug.GPlex.Parser;
 using RokuTelnet.Models;
 
 namespace BrightScriptDebug.Compiler
@@ -151,6 +151,11 @@ namespace BrightScriptDebug.Compiler
             } while (curr != last || curr != (int)Tokens.Eol);
 
             VariablesProcessed?.Invoke(dic);
+        }
+
+        public void ProcessStepResponse()
+        {
+            Console.WriteLine(@"ProcessSetpResponse");
         }
 
         public event Action DebugPorcessed;

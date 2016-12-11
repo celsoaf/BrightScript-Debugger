@@ -59,6 +59,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0" Margin="0" 
@@ -93,6 +94,11 @@
 				        IsEnabled="{Binding Connected}"
                         ToolTip="Launch App">
                     <Image Source="../../Resources/launch.png" Width="24" Height="24"/>
+                </Button>
+                <Button Grid.Column="5" Margin="0" 
+                        Command="{Binding ClearLogsCommand}"
+                        ToolTip="Clear all logs">
+                    <Image Source="../../Resources/clearLogs.png" Width="24" Height="24"/>
                 </Button>
             </Grid>
         </ToolBar>

@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BrightScriptTools.GPlex.Automaton;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex.Automaton;
+using BrightScriptDebug.GPlex.Parser;
 
-namespace BrightScriptTools.GPlex
+namespace BrightScriptDebug.GPlex
 {
     static class Program
     {

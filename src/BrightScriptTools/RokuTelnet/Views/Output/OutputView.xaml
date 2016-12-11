@@ -31,15 +31,23 @@
                 <KeyBinding Key="Down" Command="{Binding DownCommand}"/>
             </controls:RichTextViewer.InputBindings>
         </controls:RichTextViewer>
-
-        <TextBox Grid.Row="1" Text="{Binding Command, UpdateSourceTrigger=PropertyChanged}" 
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button Command="{Binding ClearCommand}"><Image Source="../../Resources/clearLog.png"/></Button>
+            
+            <TextBox Grid.Column="1" Text="{Binding Command, UpdateSourceTrigger=PropertyChanged}" 
                  Background="Black" Foreground="White" FontFamily="Consolas" Name="InputBlock" BorderBrush="{x:Null}" SelectionBrush="{x:Null}"
                  IsEnabled="{Binding Connected}">
-            <TextBox.InputBindings>
-                <KeyBinding Key="Enter" Command="{Binding EnterCommand}"/>
-                <KeyBinding Key="Up" Command="{Binding UpCommand}"/>
-                <KeyBinding Key="Down" Command="{Binding DownCommand}"/>
-            </TextBox.InputBindings>
-        </TextBox>
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Enter" Command="{Binding EnterCommand}"/>
+                    <KeyBinding Key="Up" Command="{Binding UpCommand}"/>
+                    <KeyBinding Key="Down" Command="{Binding DownCommand}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+        </Grid>
     </Grid>
 </UserControl>

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using BrightScriptTools.GPlex;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex;
+using BrightScriptDebug.GPlex.Parser;
 
 namespace BrightScriptDebug.Compiler
 {
@@ -103,6 +103,11 @@ namespace BrightScriptDebug.Compiler
                 else
                     value += " " + ((Scanner)Scanner).yytext;
             } while (curr != last || curr != (int)Tokens.Eol);
+        }
+
+        public void ProcessStepResponse()
+        {
+            Console.WriteLine(@"ProcessSetpResponse");
         }
 
         public void ProcessDebug()

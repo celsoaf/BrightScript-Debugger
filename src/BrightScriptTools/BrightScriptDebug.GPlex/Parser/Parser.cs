@@ -14,7 +14,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace BrightScriptTools.GPlex.Parser
+namespace BrightScriptDebug.GPlex.Parser
 {
 internal enum Tokens {error=2,EOF=3,csKeyword=4,csIdent=5,csNumber=6,
     csLitstr=7,csVerbstr=8,csLitchr=9,csOp=10,csBar=11,csDot=12,

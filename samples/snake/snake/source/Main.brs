@@ -8,7 +8,7 @@ Library "v30/bslDefender.brs"
 
 function Main()
 
-    app=newSnakeApp()
+	app=newSnakeApp()
     dfDrawMessage(app.screen, app.bitmapset.regions["title-screen"])
     app.screen.swapbuffers()
 	condition = true
@@ -28,7 +28,8 @@ function Main()
 			condition = false
 		end if
     end while
-    
+
+	?"Note: GC - Found 4263 orphaned objects (objects in a circular ref loop)."    
 end function
 
 
@@ -52,7 +53,7 @@ Function newSnakeApp()
     app.GameReset=appGameReset
     app.EventLoop=appEventLoop
     app.GameOver=appGameOver
-
+	stop
     app.screen=CreateObject("roScreen", true)  ' true := use double buffer
     if type(app.screen)<>"roScreen" 
         print "Unable to create roscreen."
@@ -306,7 +307,7 @@ Function snkMakeLonger(app)
 End Function
 
 Function snkTurn(app, newdx, newdy)
-
+	stop
     if newdx=m.dx and newdy=m.dy 
 		return false   ' already heading this way
 	end if

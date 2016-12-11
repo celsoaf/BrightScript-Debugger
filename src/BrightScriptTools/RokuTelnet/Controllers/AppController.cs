@@ -117,17 +117,12 @@ namespace RokuTelnet.Controllers
             _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip =>
             {
                 _ip = ip;
-                Task.Delay(1000).Wait();
-                Connect(ip, 8085).Wait();
-                Connect(ip, 8089).Wait();
-                Connect(ip, 8090).Wait();
-                Connect(ip, 8091).Wait();
-                Connect(ip, 8092).Wait();
-                Connect(ip, 8093).Wait();
-                Connect(ip, 8080).Wait();
 
                 var args = JsonConvert.SerializeObject(new { ip = ip });
                 _remoteService.SetArgs(args);
+
+                Task.Delay(1000).Wait();
+                Connect(ip, 8085).Wait();
             }, ThreadOption.BackgroundThread);
 
             _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj =>

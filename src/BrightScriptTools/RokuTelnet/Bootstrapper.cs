@@ -81,7 +81,8 @@ namespace RokuTelnet
             Container.RegisterType<IScreenshotView, ScreenshotView>();
             Container.RegisterType<IScreenshotViewModel, ScreenshotViewModel>();
 
-            Container.RegisterType<ITelnetService, SoketService>();
+            //Container.RegisterType<ITelnetService, SoketService>();
+            Container.RegisterType<ITelnetService, TcpService>();
             Container.RegisterType<IParserService, ParserService>();
             Container.RegisterType<IRemoteService, RemoteService>();
             Container.RegisterType<IDeployService, DeployService>();

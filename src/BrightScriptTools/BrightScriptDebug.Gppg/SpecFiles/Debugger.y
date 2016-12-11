@@ -2,8 +2,8 @@
 %output=..\..\SpecFiles\Parser.cs
  
 %using System.Collections;
-%using BrightScriptTools.GPlex;
-%using BrightScriptTools.GPlex.Parser;
+%using BrightScriptDebug.GPlex;
+%using BrightScriptDebug.GPlex.Parser;
 
 %namespace BrightScriptDebug.Compiler
 
@@ -39,6 +39,7 @@ DebugElement
 	| EnterDebugStatment
 	| CompilingStatment
 	| RunningStatment
+	| StepStatement
 	| CurrentFunctionStatment
 	| TraceLineStatment
 	| BacktraceStatment
@@ -85,6 +86,10 @@ DebuggerStatment
 
 AppCloseStatement
 	: dgNote Eol { ProcessAppClose(); }
+	;
+	
+StepStatement
+	: dgCodeLine Eol { ProcessStepResponse(); }
 	; 
 
 ErrorStatment

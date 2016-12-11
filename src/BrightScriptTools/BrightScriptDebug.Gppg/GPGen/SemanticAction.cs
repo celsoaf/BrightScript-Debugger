@@ -5,9 +5,9 @@
 
 using System;
 using System.Text;
-using BrightScriptTools.Gppg.GPGen.Parser;
+using BrightScriptDebug.Gppg.GPGen.Parser;
 
-namespace BrightScriptTools.Gppg.GPGen
+namespace BrightScriptDebug.Gppg.GPGen
 {
     internal class SemanticAction
     {

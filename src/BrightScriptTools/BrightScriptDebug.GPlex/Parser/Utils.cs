@@ -11,7 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.Serialization;
 
-namespace BrightScriptTools.GPlex.Parser
+namespace BrightScriptDebug.GPlex.Parser
 {
 
     /// <summary>

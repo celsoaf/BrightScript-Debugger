@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace BrightScriptTools.GPlex.Automaton
+namespace BrightScriptDebug.GPlex.Automaton
 {
     internal class PartitionBlock
     {

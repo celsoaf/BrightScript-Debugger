@@ -3,7 +3,7 @@
 // (see accompanying GPPGcopyright.rtf)
 
 
-namespace BrightScriptTools.Gppg.GPGen
+namespace BrightScriptDebug.Gppg.GPGen
 {
 	internal abstract class ParserAction
 	{

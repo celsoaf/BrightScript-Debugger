@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using BrightScriptTools.Gppg.GPGen.Parser;
+using BrightScriptDebug.Gppg.GPGen.Parser;
 
-namespace BrightScriptTools.Gppg.GPGen
+namespace BrightScriptDebug.Gppg.GPGen
 {
     internal class CodeGenerator
     {
@@ -225,7 +225,7 @@ namespace BrightScriptTools.Gppg.GPGen
             Console.WriteLine("using System.CodeDom.Compiler;");
             Console.WriteLine("using System.Globalization;");
             Console.WriteLine("using System.Text;");
-            Console.WriteLine("using BrightScriptTools.Gppg.GPGen;");
+            Console.WriteLine("using BrightScriptDebug.Gppg.GPGen;");
             foreach (string s in grammar.usingList)
                 Console.WriteLine("using " + s + ";");
             Console.WriteLine();

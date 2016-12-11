@@ -6,7 +6,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BrightScriptTools.Gppg.GPGen
+namespace BrightScriptDebug.Gppg.GPGen
 {
 	internal class AutomatonState
 	{

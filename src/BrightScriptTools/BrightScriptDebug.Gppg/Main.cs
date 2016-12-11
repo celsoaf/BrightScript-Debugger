@@ -8,13 +8,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using BrightScriptTools.Gppg.GPGen;
-using BrightScriptTools.Gppg.GPGen.Lexers;
-using BrightScriptTools.Gppg.GPGen.Parser;
-using Parser = BrightScriptTools.Gppg.GPGen.Parser.Parser;
+using BrightScriptDebug.Gppg.GPGen;
+using BrightScriptDebug.Gppg.GPGen.Lexers;
+using BrightScriptDebug.Gppg.GPGen.Parser;
+using Parser = BrightScriptDebug.Gppg.GPGen.Parser.Parser;
 
 [assembly: CLSCompliant( true )]
-namespace BrightScriptTools.Gppg {
+namespace BrightScriptDebug.Gppg {
     class GPCG {
         // Main return codes
         const int MC_OK = 0;
@@ -44,14 +44,14 @@ namespace BrightScriptTools.Gppg {
         public static string LinesFilename;
 
         private static int Main( string[] args ) {
-            args = new[] { "/report", "/verbose", "/conﬂicts", "/babel", "SpecFiles\\Debugger.y" };
+            args = new[] { "/report", "/verbose", "/conflicts", "/babel", "SpecFiles\\Debugger.y" };
             Stream inputFile = null;
 
             Grammar grammar = null;
             ErrorHandler handler = new ErrorHandler();
             string inputFileInfo = null;  // Filename plus revision time.
             Scanner scanner = null;
-            Parser parser = null;
+            GPGen.Parser.Parser parser = null;
             Assembly assm = Assembly.GetExecutingAssembly();
             object info = Attribute.GetCustomAttribute( assm, typeof( AssemblyFileVersionAttribute ) );
             versionInfo = ((AssemblyFileVersionAttribute)info).Version;
@@ -84,7 +84,7 @@ namespace BrightScriptTools.Gppg {
                 scanner = new Scanner( inputFile );
                 scanner.SetHandler( handler );
 
-                parser = new Parser( filename, inputFileInfo, scanner, handler );
+                parser = new GPGen.Parser.Parser( filename, inputFileInfo, scanner, handler );
                 // 
                 // If the parse is successful, then process the grammar.
                 // Otherwise just report the errors that have been listed.

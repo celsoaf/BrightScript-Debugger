@@ -5,9 +5,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using BrightScriptTools.GPlex.Automaton;
+using BrightScriptDebug.GPlex.Automaton;
 
-namespace BrightScriptTools.GPlex.Parser
+namespace BrightScriptDebug.GPlex.Parser
 {
     /// <summary>
     /// Partition is the class that represents a 

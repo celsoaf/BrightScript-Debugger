@@ -10,16 +10,16 @@
 -->
 <Rule
 	Name="BrightScriptDebugger"
-	DisplayName="BrightScriptDebugger Debugger"
+	DisplayName="BrightScript Debugger"
 	PageTemplate="debugger"
-	Description="BrightScriptDebugger Debugger options"
+	Description="BrightScript Debugger options"
 	xmlns="http://schemas.microsoft.com/build/2009/properties">
     <Rule.DataSource>
         <DataSource Persistence="UserFileWithXamlDefaults" />
     </Rule.DataSource>
 
     <StringProperty Name="BrightScriptDebuggerCommand" DisplayName="Command"
-                Default="$(TargetPath)"
+                Default="$(TargetPath)\$(MSBuildProjectName).zip"
                 Description="The debug command to execute.">
         <StringProperty.ValueEditors>
             <ValueEditor EditorType="DefaultFindFullPathPropertyEditor" DisplayName="&lt;regsvr32.exe&gt;">
@@ -36,8 +36,10 @@
         </StringProperty.ValueEditors>
     </StringProperty>
 
-    <StringProperty Name="BrightScriptDebuggerCommandArguments" DisplayName="Command Arguments"
-                Description="The command line arguments to pass to the application.">
+    <StringProperty Name="BrightScriptDebuggerCommandArguments" 
+                    DisplayName="Command Arguments"
+                    Default="IP=$(BoxIP)"
+                    Description="The command line arguments to pass to the application.">
         <Argument Property="BrightScriptDebuggerCommand" />
     </StringProperty>
     <StringProperty Name="BrightScriptDebuggerWorkingDirectory" DisplayName="Working Directory"

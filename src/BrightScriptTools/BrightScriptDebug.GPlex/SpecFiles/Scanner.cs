@@ -6,9 +6,9 @@
 //
 //  GPLEX Version:  1.0.0.0
 //  Machine:  OSTLT0248323
-//  DateTime: 12/10/2016 10:10:02
+//  DateTime: 27/10/2016 23:53:34
 //  UserName: CFE05
-//  GPLEX input file <SpecFiles\Debugger.lex - 04/09/2016 21:24:39>
+//  GPLEX input file <SpecFiles\Debugger.lex - 27/10/2016 23:41:19>
 //  GPLEX frame file <embedded resource>
 //
 //  Option settings: unicode, verbose, parser, stack, minimize
@@ -34,9 +34,9 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Diagnostics.CodeAnalysis;
 
-using BrightScriptTools.GPlex;
+using BrightScriptDebug.GPlex;
 using System.Collections;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex.Parser;
 
 namespace BrightScriptDebug.Compiler
 {   

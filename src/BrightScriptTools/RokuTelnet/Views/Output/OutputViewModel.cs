@@ -79,8 +79,11 @@ namespace RokuTelnet.Views.Output
                 View.SetFocus();
             }, () => Connected);
 
+            ClearCommand = new DelegateCommand(()=> Logs = String.Empty);
+
             _eventAggregator.GetEvent<ConnectEvent>().Subscribe(ip => Connected = true);
             _eventAggregator.GetEvent<DisconnectEvent>().Subscribe(obj => Connected = false);
+            _eventAggregator.GetEvent<ClearLogsEvent>().Subscribe(obj => ClearCommand.Execute());
         }
 
         public IOutputView View { get; set; }
@@ -106,6 +109,7 @@ namespace RokuTelnet.Views.Output
         public DelegateCommand EnterCommand { get; set; }
         public DelegateCommand UpCommand { get; set; }
         public DelegateCommand DownCommand { get; set; }
+        public DelegateCommand ClearCommand { get; set; }
 
         public bool Connected
         {

@@ -6,9 +6,9 @@
 //  kjg 08 September 2008 2006
 //
 
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex.Parser;
 
-namespace BrightScriptTools.GPlex.Lexer
+namespace BrightScriptDebug.GPlex.Lexer
 {
     internal partial class Scanner
     {

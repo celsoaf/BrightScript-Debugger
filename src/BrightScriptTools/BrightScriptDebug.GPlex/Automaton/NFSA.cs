@@ -5,9 +5,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using BrightScriptTools.GPlex.Parser;
+using BrightScriptDebug.GPlex.Automaton;
+using BrightScriptDebug.GPlex.Parser;
 
-namespace BrightScriptTools.GPlex.Automaton
+namespace BrightScriptDebug.GPlex.Automaton
 {
     class NFSA
     {

@@ -14,7 +14,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace BrightScriptTools.Gppg.GPGen.Parser
+namespace BrightScriptDebug.Gppg.GPGen.Parser
 {
 internal enum Token {
     error=127,EOF=128,codeStart=129,codeEnd=130,ident=131,anchoredSymbol=132,

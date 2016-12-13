@@ -53,6 +53,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Enums\EventKey.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToolWindowsPackage.cs" />
     <Compile Include="Windows\Remote\RemoteToolWindow.cs" />
@@ -177,7 +178,19 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\asterisk.png" />
+    <Resource Include="Resources\back.png" />
+    <Resource Include="Resources\down.png" />
+    <Resource Include="Resources\fastforward.png" />
+    <Resource Include="Resources\home.png" />
+    <Resource Include="Resources\left.png" />
+    <Resource Include="Resources\ok.png" />
+    <Resource Include="Resources\playpause.png" />
+    <Resource Include="Resources\replay.png" />
+    <Resource Include="Resources\rewind.png" />
+    <Resource Include="Resources\right.png" />
     <Content Include="Resources\ToolWindowsPackage.ico" />
+    <Resource Include="Resources\up.png" />
     <Content Include="Windows\Remote\Resources\RemoteToolWindowCommand.png" />
     <VSCTCompile Include="Windows\Remote\ToolWindowsPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>

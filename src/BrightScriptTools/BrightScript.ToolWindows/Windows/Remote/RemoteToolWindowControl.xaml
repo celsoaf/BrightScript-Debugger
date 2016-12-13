@@ -3,15 +3,118 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:enums="clr-namespace:BrightScript.ToolWindows.Enums"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              Name="RokuRemoteToolWindow">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="5"/>
+            <!--<Setter Property="Focusable" Value="False"/>-->
+            <Setter Property="Opacity" Value="0.9"/>
+        </Style>
+    </UserControl.Resources>
+    <UserControl.InputBindings>
+        <KeyBinding Key="Down" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Down}"/>
+        <KeyBinding Key="Up" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Up}"/>
+        <KeyBinding Key="Left" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Left}"/>
+        <KeyBinding Key="Right" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Right}"/>
+
+        <KeyBinding Key="Enter" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Select}"/>
+        <KeyBinding Key="Back" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Back}"/>
+    </UserControl.InputBindings>
     <Grid>
-        <StackPanel Orientation="Vertical">
-            <TextBlock Margin="10" HorizontalAlignment="Center">RemoteToolWindow</TextBlock>
-            <Button Content="Click me!" Click="button1_Click" Width="120" Height="80" Name="button1"/>
-        </StackPanel>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Column="0" Grid.Row="0"
+			Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Back}">
+            <Image Source="../../Resources/back.png"/>
+        </Button>
+
+        <Button Grid.Column="2" Grid.Row="0"
+			Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Home}">
+            <Image Source="../../Resources/home.png"/>
+        </Button>
+
+        <Button Grid.Column="1" Grid.Row="1" ToolTip="Press Up Arrow"
+			Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Up}">
+            <Image Source="../../Resources/up.png"/>
+        </Button>
+
+        <Button Grid.Column="0" Grid.Row="2" ToolTip="Press Left Arrow"
+			Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Left}">
+            <Image Source="../../Resources/left.png"/>
+        </Button>
+
+        <Button Grid.Column="1" Grid.Row="2" ToolTip="Press Enter"
+			Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Select}">
+            <Image Source="../../Resources/ok.png"/>
+        </Button>
+
+        <Button Grid.Column="2" Grid.Row="2" ToolTip="Press Right Arrow"
+			Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Right}">
+            <Image Source="../../Resources/right.png"/>
+        </Button>
+
+        <Button Grid.Column="1" Grid.Row="3" ToolTip="Press Down Arrow"
+			Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Down}">
+            <Image Source="../../Resources/down.png"/>
+        </Button>
+
+        <Button Grid.Column="0" Grid.Row="4"
+			Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.InstantReplay}">
+            <Image Source="../../Resources/replay.png"/>
+        </Button>
+
+        <Button Grid.Column="2" Grid.Row="4"
+			Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Info}">
+            <Image Source="../../Resources/asterisk.png"/>
+        </Button>
+
+        <Button Grid.Column="0" Grid.Row="5"
+			Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Rev}">
+            <Image Source="../../Resources/rewind.png"/>
+        </Button>
+
+        <Button Grid.Column="1" Grid.Row="5"
+			Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Play}">
+            <Image Source="../../Resources/playpause.png"/>
+        </Button>
+
+        <Button Grid.Column="2" Grid.Row="5"
+			Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Fwd}">
+            <Image Source="../../Resources/fastforward.png"/>
+        </Button>
+
+        <TextBox Grid.Row="6" Grid.ColumnSpan="3" Margin="5" FontSize="16" 
+                 Text="{Binding Input, UpdateSourceTrigger=PropertyChanged}"
+                 IsEnabled="{Binding Connected}" Name="Input">
+            <TextBox.InputBindings>
+                <KeyBinding Key="Back" Command="{Binding BackspaceCommand}"/>
+
+                <KeyBinding Key="Down" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Down}"/>
+                <KeyBinding Key="Up" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Up}"/>
+                <KeyBinding Key="Left" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Left}"/>
+                <KeyBinding Key="Right" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Right}"/>
+
+                <KeyBinding Key="Enter" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Select}"/>
+                <KeyBinding Key="Back" Modifiers="Control" Command="{Binding SendCommand}" CommandParameter="{x:Static enums:EventKey.Back}"/>
+            </TextBox.InputBindings>
+        </TextBox>
     </Grid>
 </UserControl>

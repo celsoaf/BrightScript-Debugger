@@ -39,6 +39,8 @@ namespace BrightScript.ToolWindows
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [Guid(ToolWindowsPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideToolWindow(typeof(Windows.Remote.RemoteToolWindow), Style = VsDockStyle.Tabbed, Window = "3ae79031-e1bc-11d0-8f78-00a0c9110057")]
     public sealed class ToolWindowsPackage : Package
     {
         /// <summary>
@@ -66,6 +68,7 @@ namespace BrightScript.ToolWindows
         protected override void Initialize()
         {
             base.Initialize();
+            BrightScript.ToolWindows.Windows.Remote.RemoteToolWindowCommand.Initialize(this);
         }
 
         #endregion

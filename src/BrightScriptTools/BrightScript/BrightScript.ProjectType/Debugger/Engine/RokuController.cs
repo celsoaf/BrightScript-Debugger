@@ -57,10 +57,16 @@ namespace BrightScript.Debugger.Engine
             if (cmd.ResultType != CommandType.NoResult)
                 _operations.Add(cmd);
 
-            if(cmd.Cmd != DebuggerCommandEnum.custom)
+            if (cmd.Cmd != DebuggerCommandEnum.custom)
+            {
                 _transport.Send($"{cmd.Cmd} {cmd.Arg}");
+                OnOutput?.Invoke($"<--{cmd.Cmd} {cmd.Arg}");
+            }
             else
+            {
                 _transport.Send(cmd.Arg);
+                OnOutput?.Invoke($"<--{cmd.Arg}");
+            }
             _lasCommand = cmd.Cmd;
 
             if (cmd.ResultType != CommandType.NoResult)

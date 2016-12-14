@@ -1,7 +1,10 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using BrightScript.ToolWindows.Services.Screenshot;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
@@ -37,7 +40,13 @@ namespace BrightScript.ToolWindows.Windows.Screenshot
                 Running = false;
             }, () => Running);
 
-            _screenshotService.OnImageArrived += img => Image = CreateBitmapSourceFromGdiBitmap(img as Bitmap);
+            _screenshotService.OnImageArrived += img =>
+            {
+                ((UserControl)this.View).Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    Image = CreateBitmapSourceFromGdiBitmap(img as Bitmap);
+                }));
+            };
         }
 
         public IScreenshotView View { get; set; }

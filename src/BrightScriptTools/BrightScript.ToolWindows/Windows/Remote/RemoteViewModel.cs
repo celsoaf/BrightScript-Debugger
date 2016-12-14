@@ -88,10 +88,13 @@ namespace BrightScript.ToolWindows.Windows.Remote
             if (projects.Count > 0)
             {
                 Project project = projects.Item(1);
-                foreach (Property property in project.Properties)
+                if (project != null && project.Properties != null)
                 {
-                    if (property.Name == "BoxIP" && property.Value != null)
-                        return property.Value.ToString();
+                    foreach (Property property in project.Properties)
+                    {
+                        if (property.Name == "BoxIP" && property.Value != null)
+                            return property.Value.ToString();
+                    }
                 }
             }
 

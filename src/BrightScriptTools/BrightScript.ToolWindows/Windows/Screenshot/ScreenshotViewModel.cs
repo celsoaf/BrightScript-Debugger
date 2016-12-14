@@ -112,21 +112,24 @@ namespace BrightScript.ToolWindows.Windows.Screenshot
             {
                 var res = new Config();
                 Project project = projects.Item(1);
-                foreach (Property property in project.Properties)
+                if (project != null && project.Properties != null)
                 {
-                    if (property.Name == "BoxIP" && property.Value != null)
-                        res.IP = property.Value.ToString();
+                    foreach (Property property in project.Properties)
+                    {
+                        if (property.Name == "BoxIP" && property.Value != null)
+                            res.IP = property.Value.ToString();
 
-                    if (property.Name == "UserName" && property.Value != null)
-                        res.User = property.Value.ToString();
+                        if (property.Name == "UserName" && property.Value != null)
+                            res.User = property.Value.ToString();
 
-                    if (property.Name == "Password" && property.Value != null)
-                        res.Pass = property.Value.ToString();
+                        if (property.Name == "Password" && property.Value != null)
+                            res.Pass = property.Value.ToString();
+                    }
                 }
 
                 return res;
             }
-
+        
             return null;
         }
     }

@@ -11,6 +11,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using BrightScript.ToolWindows.Windows.Remote;
+using BrightScript.ToolWindows.Windows.Screenshot;
 using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
@@ -41,8 +42,9 @@ namespace BrightScript.ToolWindows
     [Guid(ToolWindowsPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideToolWindow(typeof(Windows.Remote.RemoteToolWindow), Style = VsDockStyle.Tabbed, Window = ToolWindowGuids80.SolutionExplorer)]
+    [ProvideToolWindow(typeof(RemoteToolWindow), Style = VsDockStyle.Tabbed, Window = ToolWindowGuids80.SolutionExplorer)]
     [ProvideToolWindowVisibility(typeof(RemoteToolWindow), VSConstants.UICONTEXT.SolutionExistsAndFullyLoaded_string)]
+    [ProvideToolWindow(typeof(ScreenshotToolWindow), Style = VsDockStyle.Tabbed, Window = ToolWindowGuids80.Locals)]
     public sealed class ToolWindowsPackage : Package
     {
         /// <summary>
@@ -71,6 +73,7 @@ namespace BrightScript.ToolWindows
         {
             base.Initialize();
             BrightScript.ToolWindows.Windows.Remote.RemoteToolWindowCommand.Initialize(this);
+            BrightScript.ToolWindows.Windows.Screenshot.ScreenshotToolWindowCommand.Initialize(this);
         }
 
         #endregion

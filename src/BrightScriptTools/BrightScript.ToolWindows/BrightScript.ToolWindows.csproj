@@ -72,6 +72,14 @@
       <DependentUpon>RemoteView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Remote\RemoteViewModel.cs" />
+    <Compile Include="Windows\Screenshot\IScreenshotView.cs" />
+    <Compile Include="Windows\Screenshot\IScreenshotViewModel.cs" />
+    <Compile Include="Windows\Screenshot\ScreenshotToolWindow.cs" />
+    <Compile Include="Windows\Screenshot\ScreenshotToolWindowCommand.cs" />
+    <Compile Include="Windows\Screenshot\ScreenshotView.xaml.cs">
+      <DependentUpon>ScreenshotView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Screenshot\ScreenshotViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -210,6 +218,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\ScreenshotToolWindowCommand.png" />
     <Resource Include="Resources\asterisk.png" />
     <Resource Include="Resources\back.png" />
     <Resource Include="Resources\down.png" />
@@ -223,8 +232,8 @@
     <Resource Include="Resources\right.png" />
     <Content Include="Resources\ToolWindowsPackage.ico" />
     <Resource Include="Resources\up.png" />
-    <Content Include="Windows\Remote\Resources\RemoteToolWindowCommand.png" />
-    <VSCTCompile Include="Windows\Remote\ToolWindowsPackage.vsct">
+    <Content Include="Resources\RemoteToolWindowCommand.png" />
+    <VSCTCompile Include="ToolWindowsPackage.vsct">
       <ResourceName>Menus.ctmenu</ResourceName>
     </VSCTCompile>
   </ItemGroup>
@@ -239,10 +248,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\Screenshot\ScreenshotView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Windows\Screenshot\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

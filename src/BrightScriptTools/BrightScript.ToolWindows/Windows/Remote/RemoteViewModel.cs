@@ -1,10 +1,12 @@
-﻿using System.Threading.Tasks;
-using System.Linq;
+﻿using System.Linq;
 using BrightScript.ToolWindows.Enums;
 using BrightScript.ToolWindows.Models;
 using BrightScript.ToolWindows.Services.Remote;
+using EnvDTE;
 using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.VisualStudio.Shell;
 using Prism.Commands;
+using Task = System.Threading.Tasks.Task;
 
 namespace BrightScript.ToolWindows.Windows.Remote
 {
@@ -17,18 +19,19 @@ namespace BrightScript.ToolWindows.Windows.Remote
         public RemoteViewModel(IRemoteView view, IRemoteService remoteService)
         {
             _remoteService = remoteService;
+
             View = view;
             View.DataContext = this;
 
             SendCommand = new DelegateCommand<EventKey?>(cmd =>
             {
                 if(cmd.HasValue)
-                    _remoteService.SendAsync(new EventModel(EventType.KeyPress, cmd.Value));
+                    _remoteService.SendAsync(GetIp(), new EventModel(EventType.KeyPress, cmd.Value));
             }, cmd => Connected);
 
             BackspaceCommand = new DelegateCommand(() =>
             {
-                _remoteService.SendAsync(new EventModel(EventType.KeyPress, EventKey.Backspace));
+                _remoteService.SendAsync(GetIp(), new EventModel(EventType.KeyPress, EventKey.Backspace));
             }, () => Connected);
 
             Connected = true;
@@ -71,10 +74,28 @@ namespace BrightScript.ToolWindows.Windows.Remote
             {
                 value.ForEach(c =>
                 {
-                    _remoteService.Send(new EventModel(EventType.KeyPress, EventKey.Lit_, c.ToString()));
+                    _remoteService.Send(GetIp(), new EventModel(EventType.KeyPress, EventKey.Lit_, c.ToString()));
                     Task.Delay(100).Wait();
                 });
             });
+        }
+
+        private string GetIp()
+        {
+            var dte = (DTE)Package.GetGlobalService(typeof(DTE));
+
+            Projects projects = dte.Solution.Projects;
+            if (projects.Count > 0)
+            {
+                Project project = projects.Item(1);
+                foreach (Property property in project.Properties)
+                {
+                    if (property.Name == "BoxIP" && property.Value != null)
+                        return property.Value.ToString();
+                }
+            }
+
+            return null;
         }
     }
 }

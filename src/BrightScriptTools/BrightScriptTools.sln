@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScriptDebug.GPlex", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScriptDebug.Gppg", "BrightScriptDebug.Gppg\BrightScriptDebug.Gppg.csproj", "{C107259D-908A-4164-A6BC-56EA5C09C38D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScript.ToolWindows", "BrightScript.ToolWindows\BrightScript.ToolWindows.csproj", "{BDFC470C-A031-43BB-895B-B7CC2E489200}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,10 @@ Global
 		{C107259D-908A-4164-A6BC-56EA5C09C38D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C107259D-908A-4164-A6BC-56EA5C09C38D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C107259D-908A-4164-A6BC-56EA5C09C38D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BDFC470C-A031-43BB-895B-B7CC2E489200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BDFC470C-A031-43BB-895B-B7CC2E489200}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BDFC470C-A031-43BB-895B-B7CC2E489200}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BDFC470C-A031-43BB-895B-B7CC2E489200}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -102,5 +108,6 @@ Global
 		{A0E89F8E-0B70-4CF8-AEB2-E9313B3C8005} = {56C55D84-E0CE-4BD7-ABB6-0CAE37FE3B03}
 		{AB14173E-328A-44D9-A15E-1B39E0E30C0D} = {21C516E6-8CBC-4E58-9ED3-88DD41817303}
 		{C107259D-908A-4164-A6BC-56EA5C09C38D} = {21C516E6-8CBC-4E58-9ED3-88DD41817303}
+		{BDFC470C-A031-43BB-895B-B7CC2E489200} = {56C55D84-E0CE-4BD7-ABB6-0CAE37FE3B03}
 	EndGlobalSection
 EndGlobal

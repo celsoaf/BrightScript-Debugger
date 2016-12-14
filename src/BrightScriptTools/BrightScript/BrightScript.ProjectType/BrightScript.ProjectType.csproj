@@ -233,6 +233,12 @@
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3bPkgdefProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
+    <ProjectReference Include="..\..\BrightScript.ToolWindows\BrightScript.ToolWindows.csproj">
+      <Project>{BDFC470C-A031-43BB-895B-B7CC2E489200}</Project>
+      <Name>BrightScript.ToolWindows</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3bPkgdefProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
     <ProjectReference Include="..\..\BrightScriptDebug.Compiler\BrightScriptDebug.Compiler.csproj">
       <Project>{53e771e5-fde0-43ce-ac69-6d1a1b62d835}</Project>
       <Name>BrightScriptDebug.Compiler</Name>

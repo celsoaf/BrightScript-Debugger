@@ -57,6 +57,7 @@
     <StartArguments>/rootsuffix Exp</StartArguments>
     <CopyVsixExtensionFiles>False</CopyVsixExtensionFiles>
     <DeployExtension>False</DeployExtension>
+    <CreateVsixContainer>False</CreateVsixContainer>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>

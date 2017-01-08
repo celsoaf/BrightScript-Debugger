@@ -1,8 +1,15 @@
 ﻿'///////////////////////////////////////////////////////////////
 '//
-'//  $copyright: Copyright (C) 2016 BSKYB
+'//  $copyright: Copyright (C) 2016 
 '//
 '///////////////////////////////////////////////////////////////
+
+'
+' newSnakeApp() is regular Function of module scope.
+' The object container is a BrightScript Component of type roAssocitiveArray (AA).   
+' The AA is used to hold member data and member functions.
+'
+
 function SnakeApp() as Object
 	this = {
 

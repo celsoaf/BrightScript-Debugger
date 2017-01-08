@@ -1,4 +1,13 @@
-﻿
+﻿'///////////////////////////////////////////////////////////////
+'//
+'//  $copyright: Copyright (C) 2016 
+'//
+'///////////////////////////////////////////////////////////////
+
+'
+' construct a new snake BrightScript object
+'
+
 function Snake(app, x, y) as Object
 	this = {
 
@@ -20,7 +29,7 @@ function Snake(app, x, y) as Object
 '----------------------------------------
 
 		Turn : Function(app, newdx, newdy) 
-			'stop
+			stop
 			if newdx = m.dx and newdy = m.dy 
 				return false   ' already heading this way
 			end if

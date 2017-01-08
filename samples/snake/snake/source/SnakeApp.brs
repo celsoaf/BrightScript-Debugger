@@ -4,7 +4,7 @@
 '//
 '///////////////////////////////////////////////////////////////
 function SnakeApp() as Object
-	app = {
+	this = {
 
 '----------------------------------------
 ' Properties
@@ -46,7 +46,7 @@ function SnakeApp() as Object
 
 			m.compositor.NewSprite(0, 0, m.bitmapset.Regions.Background).SetMemberFlags(0)
 
-			m.snake=newSnake(m, m.StartX, m.StartY)
+			m.snake = Snake(m, m.StartX, m.StartY)
     
 			m.compositor.Draw()
 		end Function
@@ -118,7 +118,7 @@ function SnakeApp() as Object
 			end while
 		end Function
 
-		GameOver: Function() As Void
+		GameOver: Function() As Boolean
 			codes = bslUniversalControlEventCodes()
 
 			m.compositor.DrawAll()
@@ -165,7 +165,7 @@ function SnakeApp() as Object
 			m.GameOverSound = CreateObject("roAudioResource", "pkg:/snake_assets/cartoon008.wav")
 		end Function
 	}
-	app.init()
+	this.init()
 
-	return app
+	return this
 end function

@@ -1,6 +1,6 @@
 ﻿
 function Snake(app, x, y) as Object
-	snake = {
+	this = {
 
 '----------------------------------------
 ' Properties
@@ -10,6 +10,7 @@ function Snake(app, x, y) as Object
 		x: x
 		y: y
 		tail: Invalid
+		tongue: Invalid
 
 		dx : 1      ' default snake direction
 		dy : 0      ' default snake direction
@@ -19,7 +20,7 @@ function Snake(app, x, y) as Object
 '----------------------------------------
 
 		Turn : Function(app, newdx, newdy) 
-			stop
+			'stop
 			if newdx = m.dx and newdy = m.dy 
 				return false   ' already heading this way
 			end if
@@ -161,19 +162,19 @@ function Snake(app, x, y) as Object
 		init: Function() As Void
 			m.tongue = m.app.compositor.NewAnimatedSprite(m.x, m.y, m.app.bitmapset.animations[m.DirectionName( 1, 0, "tongue-")] )
 			head = m.app.compositor.NewSprite(m.x - m.app.cellwidth, m.y, m.app.bitmapset.regions[m.RegionName( 1, 0, "head-")] )
-			body = m.app.compositor.NewSprite(x - 2 * m.app.cellwidth, y, m.app.bitmapset.regions[m.RegionName( 1, 0, "body-")] )
-			m.tail = m.app.compositor.NewSprite(x - 3 * m.app.cellwidth, y, m.app.bitmapset.regions[m.RegionName( 1, 0, "butt-")] )
+			body = m.app.compositor.NewSprite(m.x - 2 * m.app.cellwidth, m.y, m.app.bitmapset.regions[m.RegionName( 1, 0, "body-")] )
+			m.tail = m.app.compositor.NewSprite(m.x - 3 * m.app.cellwidth, m.y, m.app.bitmapset.regions[m.RegionName( 1, 0, "butt-")] )
 
 			m.tail.SetData( {dx: 1, dy: 0, next: body, previous: invalid} )
-			body.SetData( {dx: 1, dy: 0, next: head, previous: snake.tail} )
-			head.SetData( {dx: 1, dy: 0, next: snake.tongue, previous: body} )
-			snake.tongue.SetData( {dx: 1, dy: 0, next: invalid, previous: head} )
+			body.SetData( {dx: 1, dy: 0, next: head, previous: m.tail} )
+			head.SetData( {dx: 1, dy: 0, next: m.tongue, previous: body} )
+			m.tongue.SetData( {dx: 1, dy: 0, next: invalid, previous: head} )
 
-			snake.tongue.SetmemberFlags(0)
+			m.tongue.SetmemberFlags(0)
 		end Function
 	}
 
-	snake.init()
+	this.init()
 
-	return snake
+	return this
 end function

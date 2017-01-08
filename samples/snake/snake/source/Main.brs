@@ -8,7 +8,7 @@ Library "v30/bslDefender.brs"
 
 function Main()
 
-	app=newSnakeApp()
+	app = SnakeApp()
     dfDrawMessage(app.screen, app.bitmapset.regions["title-screen"])
     app.screen.swapbuffers()
 	condition = true

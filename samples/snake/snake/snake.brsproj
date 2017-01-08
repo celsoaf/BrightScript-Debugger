@@ -22,6 +22,8 @@
     <brsCompile Include="source\Main.brs">
       <SubType>Code</SubType>
     </brsCompile>
+    <brsCompile Include="source\Snake.brs" />
+    <brsCompile Include="source\SnakeApp.brs" />
   </ItemGroup>
   <ItemGroup>
     <manifest Include="app.manifest" />

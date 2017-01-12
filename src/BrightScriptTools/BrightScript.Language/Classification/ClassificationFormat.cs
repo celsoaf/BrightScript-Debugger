@@ -62,5 +62,27 @@ namespace BrightScript.Language.Classification
         }
     }
 
+    /// <summary>
+    /// Defines the editor format for the bsFuncs classification type. Text is colored Orange
+    /// </summary>
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = "Ltr")]
+    [Name("Ltr")]
+    //this should be visible to the end user
+    [UserVisible(false)]
+    //set the priority to be after the default classifiers
+    [Order(Before = Priority.Default)]
+    internal sealed class BsLiteral : ClassificationFormatDefinition
+    {
+        /// <summary>
+        /// Defines the visual format for the "period" classification type
+        /// </summary>
+        public BsLiteral()
+        {
+            DisplayName = "Ltr"; //human readable version of the name
+            ForegroundColor = Colors.Salmon;
+        }
+    }
+
     #endregion //Format definition
 }

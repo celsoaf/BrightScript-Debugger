@@ -33,6 +33,13 @@ namespace BrightScript.Language.Classification
         [Name("Typs")]
         internal static ClassificationTypeDefinition bsTyps = null;
 
+        /// <summary>
+        /// Defines the "bsTyps" classification type.
+        /// </summary>
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name("Ltr")]
+        internal static ClassificationTypeDefinition bsLtr = null;
+
         #endregion
     }
 }

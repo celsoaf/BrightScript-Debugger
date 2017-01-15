@@ -38,7 +38,7 @@ namespace BrightScript.Language.Classification
 
             _bsTypes[TokenTypes.Cmnt] = standardClassifications.Comment;
             _bsTypes[TokenTypes.Keyword] = standardClassifications.Keyword;
-            _bsTypes[TokenTypes.Literal] = standardClassifications.Literal;
+            //_bsTypes[TokenTypes.Literal] = standardClassifications.Literal;
             _bsTypes[TokenTypes.Opr] = standardClassifications.Operator;
             _bsTypes[TokenTypes.Number] = standardClassifications.NumberLiteral;
             _bsTypes[TokenTypes.Str] = standardClassifications.StringLiteral;
@@ -46,6 +46,7 @@ namespace BrightScript.Language.Classification
 
             _bsTypes[TokenTypes.Funcs] = typeService.GetClassificationType("Funcs");
             _bsTypes[TokenTypes.Typs] = typeService.GetClassificationType("Typs");
+            _bsTypes[TokenTypes.Literal] = typeService.GetClassificationType("Ltr");
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged

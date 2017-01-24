@@ -35,8 +35,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScriptDebug.Gppg", "B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScript.ToolWindows", "BrightScript.ToolWindows\BrightScript.ToolWindows.csproj", "{BDFC470C-A031-43BB-895B-B7CC2E489200}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BrightScript.Wizards", "BrightScript.Wizards\BrightScript.Wizards.csproj", "{DC1D294D-757D-4792-BBE2-A265D767632E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,10 +93,6 @@ Global
 		{BDFC470C-A031-43BB-895B-B7CC2E489200}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDFC470C-A031-43BB-895B-B7CC2E489200}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDFC470C-A031-43BB-895B-B7CC2E489200}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DC1D294D-757D-4792-BBE2-A265D767632E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DC1D294D-757D-4792-BBE2-A265D767632E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DC1D294D-757D-4792-BBE2-A265D767632E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DC1D294D-757D-4792-BBE2-A265D767632E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,6 +109,5 @@ Global
 		{AB14173E-328A-44D9-A15E-1B39E0E30C0D} = {21C516E6-8CBC-4E58-9ED3-88DD41817303}
 		{C107259D-908A-4164-A6BC-56EA5C09C38D} = {21C516E6-8CBC-4E58-9ED3-88DD41817303}
 		{BDFC470C-A031-43BB-895B-B7CC2E489200} = {56C55D84-E0CE-4BD7-ABB6-0CAE37FE3B03}
-		{DC1D294D-757D-4792-BBE2-A265D767632E} = {56C55D84-E0CE-4BD7-ABB6-0CAE37FE3B03}
 	EndGlobalSection
 EndGlobal

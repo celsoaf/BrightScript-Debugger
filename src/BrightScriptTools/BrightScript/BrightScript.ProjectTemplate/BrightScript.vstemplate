@@ -27,8 +27,4 @@
       <ProjectItem OpenInEditor="false" ReplaceParameters="true">images\icon\Roku-side-sd.png</ProjectItem>
     </Project>
   </TemplateContent>
-  <WizardExtension>
-    <Assembly>BrightScript.Wizards, Version=1.0.0.0, Culture=Neutral, PublicKeyToken=9be6e469bc4921f1</Assembly>
-    <FullClassName>BrightScript.Wizards.ImportWizard</FullClassName>
-  </WizardExtension>
 </VSTemplate>

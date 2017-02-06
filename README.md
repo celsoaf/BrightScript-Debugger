@@ -1,3 +1,5 @@
+![Logo](https://github.com/celsoaf/BrightScript-Debugger/blob/master/doc/Logo.png)
+
 # BrightScript-Debugger
 
 BrigthScript is a programming language based on JavaScript and Visual Basic, created by Roku. Roku is a company who produces and commercializes devices that are used to watch movies and television. These devices are usually connected to a TV and are commonly known as TV boxes. BrightScript is the language on which applications for their boxes are developed. 

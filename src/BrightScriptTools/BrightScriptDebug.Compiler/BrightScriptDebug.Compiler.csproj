@@ -85,6 +85,9 @@
 copy /Y "$(ProjectDir)TestData\TestColor.brs" "$(TargetDir)TestData\TestColor.brs"
 copy /Y "$(ProjectDir)TestData\TestParser.brs" "$(TargetDir)TestData\TestParser.brs"</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>if not exist "$(TargetDir)TestData" mkdir "$(TargetDir)TestData"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

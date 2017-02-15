@@ -97,6 +97,9 @@
     <PostBuildEvent>copy /Y "$(ProjectDir)\SpecFiles\BrightScriptColor.lex" "$(TargetDir)\SpecFiles\BrightScriptColor.lex"
 copy /Y "$(ProjectDir)\SpecFiles\BrightScriptLexer.lex" "$(TargetDir)\SpecFiles\BrightScriptLexer.lex"</PostBuildEvent>
   </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>if not exist "$(TargetDir)\SpecFiles" mkdir "$(TargetDir)\SpecFiles"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -5,11 +5,13 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using BrightScript.Debugger.AD7;
@@ -41,6 +43,8 @@ namespace BrightScript
     /// </para>
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = true)]
+    // VSConstants.UICONTEXT_NoSolution
+    [ProvideAutoLoad("ADFC4E64-0397-11D1-9F4E-00A0C911004F")]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [Guid(BrightScriptPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
@@ -108,6 +112,41 @@ namespace BrightScript
             base.Initialize();
 
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
+
+            System.Threading.Tasks.Task.Factory.StartNew(CopyProjectFiles);
+        }
+
+        private void CopyProjectFiles()
+        {
+            var dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var assembly = Assembly.LoadFile(Path.Combine(dir, "BrightScript.BuildSystem.dll"));
+            var appData = Environment.GetEnvironmentVariable("LocalAppData");
+            appData += @"\CustomProjectSystems\BrightScript";
+            var appDataRules = Path.Combine(appData, "Rules");
+            if (!Directory.Exists(appDataRules))
+                Directory.CreateDirectory(appDataRules);
+
+            var mapper = new Dictionary<string, string>
+            {
+                { "DeployedBuildSystem", appData },
+                { "Rules", appDataRules }
+            };
+
+            foreach (var name in assembly.GetManifestResourceNames())
+            {
+                var parts = name.Split('.');
+                var folder = parts[2];
+                var file = String.Join(".", parts.Skip(3));
+
+                if (mapper.ContainsKey(folder))
+                {
+                    var filePath = Path.Combine(mapper[folder], file);
+                    if (!File.Exists(filePath))
+                        using (var s = assembly.GetManifestResourceStream(name))
+                            using (var f = File.Create(filePath))
+                                s.CopyTo(f);
+                }
+            }
         }
 
         private System.Reflection.Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
@@ -118,7 +157,7 @@ namespace BrightScript
 
             if (!File.Exists(file))
                 file = Path.ChangeExtension(file, ".exe");
-            if(File.Exists(file))
+            if (File.Exists(file))
                 return Assembly.LoadFrom(file);
 
             return null;

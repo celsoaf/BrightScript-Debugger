@@ -214,6 +214,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\BrightScript.BuildSystem\BrightScript.BuildSystem.csproj">
+      <Project>{10e2f6c5-d99f-4fca-8415-050a8eb65d75}</Project>
+      <Name>BrightScript.BuildSystem</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
     <ProjectReference Include="..\..\BrightScript.BuildTasks\BrightScript.BuildTasks.csproj">
       <Project>{a0e89f8e-0b70-4cf8-aeb2-e9313b3c8005}</Project>
       <Name>BrightScript.BuildTasks</Name>

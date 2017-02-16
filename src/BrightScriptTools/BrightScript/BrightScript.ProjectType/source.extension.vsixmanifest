@@ -23,5 +23,6 @@
     <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="BrightScript.BuildTasks" Path="|BrightScript.BuildTasks|" AssemblyName="|BrightScript.BuildTasks;AssemblyName|" />
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
     <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="BrightScript.ToolWindows" Path="|BrightScript.ToolWindows;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="BrightScript.BuildSystem" Path="|BrightScript.BuildSystem|" AssemblyName="|BrightScript.BuildSystem;AssemblyName|" />
   </Assets>
 </PackageManifest>
